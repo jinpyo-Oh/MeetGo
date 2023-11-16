@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:tx="http://www.springframework.org/schema/cache"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- DB 연결 설정  -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource"
+							id="basicDataSource" 
+							destroy-method="close">
+		<!-- 어느 DB에 접속할건지 설정 -->
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="SPRING" />
+		<property name="password" value="SPRING" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+							id="sqlSessionFactory">
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<!-- classpath: : src/main/resources/ 폴더로부터 시작하는 경로를 지칭 -->
+		<property name="dataSource" ref="basicDataSource" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>
+	<!-- DB 연결 설정 끝 -->
+
+	<!-- Transaction 처리를 위한 Benn 등록 -->
+	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
+		<property name="dataSource" ref="basicDataSource" />
+	</bean>
+
+	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
+		<property name="defaultEncoding" value=""/> <!-- 인코딩 설정 -->
+		<property name="maxUploadSize" value="10485760"/> <!-- 파일 총 용량 설정 -->
+	</bean>
+</beans>
