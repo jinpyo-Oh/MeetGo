@@ -11,7 +11,7 @@
 			height: 100%;
 		}
         .content {
-            width: 1200px;
+            width: 1200px ;
             margin: 0 auto;
             font-family: 'Noto Sans KR', sans-serif;
         }
