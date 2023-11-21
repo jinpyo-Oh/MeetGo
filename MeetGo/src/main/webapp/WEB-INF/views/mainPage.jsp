@@ -92,6 +92,9 @@
         .portfolio-img-text p, .portfolio-img-text h4{
 			margin: 5px;
 		}
+        .portfolio-img-text h4 {
+			font-size: 16px;
+		}
 		.portfolio-info {
 			width: 250px;
 			margin: 10px auto 0 auto;

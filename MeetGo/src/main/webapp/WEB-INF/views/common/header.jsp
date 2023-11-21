@@ -103,7 +103,7 @@
         margin-top: 8px;
     }
     .input-group {
-        width: 240px;
+        width: 300px;
         height: 40px;
         padding: 0 12px;
         display: flex;
@@ -135,6 +135,27 @@
     }
     .right-section button:hover {
         background-color: #1673d1;
+    }
+    .meetgo-btn {
+        background-color: white;
+        font-family: 'Noto Sans KR', sans-serif;
+        border: 2px solid #2A8FF7;
+        color: #2A8FF7;
+        margin: 5px;
+        border-radius: 0.4em;
+        box-sizing: border-box;
+    }
+    .meetgo-btn:hover {
+        background-color: #2A8FF7;
+        border : 2px solid #1673d1;
+        box-sizing: border-box;
+        color: white;
+    }
+    .w-100 {
+        width: 100%;
+    }
+    .w-50{
+        width: 50%;
     }
 </style>
 <body>
