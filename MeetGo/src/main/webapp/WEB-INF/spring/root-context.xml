@@ -25,6 +25,23 @@
 	</bean>
 	<!-- DB 연결 설정 끝 -->
 
+	<!-- 이메일 전송 관련한 빈 등록 -->
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="25"/> <!-- 기본적으로 SMTP는 25를 사용한다 -->
+		<property name="username" value="meetgo1220@gmail.com"/>
+		<property name="password" value="xxqt fpsr spyj kknk"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop> <!-- smtp 이용해서 메일 보내기 -->
+				<prop key="mail.smtp.auth">true</prop> <!-- 메일을 보내는걸 true -->
+				<prop key="mail.smtp.starttls.enable">true</prop> <!-- 암호화 과정을 거쳐서 메일을 보냄 -->
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+			</props>
+		</property>
+	</bean>
+
 	<!-- Transaction 처리를 위한 Benn 등록 -->
 	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
 		<property name="dataSource" ref="basicDataSource" />
