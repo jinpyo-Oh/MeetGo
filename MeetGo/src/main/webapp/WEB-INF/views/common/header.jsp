@@ -44,7 +44,7 @@
     }
     .global-header {
         width: 100%;
-        height: 72px;   
+        height: 72px;
     }
     .global-navigation-bar {
         width: 1200px;
@@ -62,7 +62,7 @@
         width: 330px;
         height: 70%;
         display: flex;
-        align-items: center;    
+        align-items: center;
         flex: 1;
     }
     .nav-list {
@@ -71,7 +71,7 @@
         font-size: 18px;
     }
     .logo{
-        align-items: center;    
+        align-items: center;
         height: 100%;
     }
     .logo>a {
@@ -83,7 +83,7 @@
         margin-left: 20px   ;
     }
     .nav-list li:nth-child(n+2) a {
-        margin-left: 15px; 
+        margin-left: 15px;
     }
     .center-section{
         flex: 1;
@@ -146,10 +146,10 @@
         box-sizing: border-box;
     }
     .meetgo-btn:hover {
-        background-color: #2A8FF7;
+        background-color: #adbfce;
         border : 2px solid #1673d1;
         box-sizing: border-box;
-        color: white;
+        color: black;
     }
     .w-100 {
         width: 100%;
@@ -192,19 +192,24 @@
             <div class="right-section">
                 <nav class="nav-list">
                     <c:choose>
-                        <c:when test="">
-                        
+                        <c:when test="${!empty sessionScope.loginUser}">
+                            <li>
+                                <a>로그인</a>
+                            </li>
+                            <li>
+                                <a>회원가입</a>
+                            </li>
                         </c:when>
                         <c:otherwise>
-                        
+                            <li>
+                                <a>채팅</a>
+                            </li>
+                            <li>
+                                <a>프로필</a>
+                            </li>
                         </c:otherwise>
                     </c:choose>
-                    <li>
-                        <a>로그인</a>
-                    </li>
-                    <li>
-                        <a>회원가입</a>
-                    </li>
+                    
                 </nav>
             </div>
         </div>
@@ -216,11 +221,11 @@
 
         inputField.addEventListener("focus", function() {
             searchBar.style.backgroundColor = "white";
-            searchBar.style.border = "1px solid #1673d1"; 
+            searchBar.style.border = "1px solid #1673d1";
         });
 
         inputField.addEventListener("blur", function() {
-            searchBar.style.backgroundColor = "#f4f4f4"; 
+            searchBar.style.backgroundColor = "#f4f4f4";
             searchBar.style.border = "none";
         });
     </script>
