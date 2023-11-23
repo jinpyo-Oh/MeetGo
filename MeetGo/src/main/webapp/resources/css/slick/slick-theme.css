@@ -36,7 +36,7 @@
 
     cursor: pointer;
 
-    color: transparent;
+    color: black;
     border: none;
     outline: none;
     background: transparent;
@@ -66,12 +66,12 @@
 .slick-prev:before,
 .slick-next:before
 {
-    font-family: 'slick';
+    font-family: "Noto Sans KR", serif;
     font-size: 20px;
     line-height: 1;
 
     opacity: .75;
-    color: white;
+    color: black!important;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -177,7 +177,7 @@
 }
 .slick-dots li button:before
 {
-    font-family: 'slick';
+    font-family: 'Noto Sans KR';
     font-size: 6px;
     line-height: 20px;
 
