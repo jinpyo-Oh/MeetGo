@@ -12,4 +12,9 @@ public class ChatController {
         model.addAttribute("type", type);
         return "chat/chat";
     }
+
+    @GetMapping(value = "/estimate.ct")
+    public String estimateForm(){
+        return "chat/estimate";
+    }
 }

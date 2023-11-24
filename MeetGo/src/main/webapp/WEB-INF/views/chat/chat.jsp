@@ -320,7 +320,7 @@
         .p-sender {
             left: 30px;
         }
-		.info-img-area, .info-pofol {
+		.info-img-area, .info-pofol, .review-img-area {
             margin: auto;
             align-items: center;
             text-align: center;
@@ -499,6 +499,11 @@
 				</div>
 				
 				<div class="chat-bubble">
+					<img class="receiver" src="https://cdn.9oodnews.com/news/photo/202103/4534_6671_5932.jpg">
+					<p class="chat-createAt p-receiver">1:45 PM</p>
+				</div>
+				
+				<div class="chat-bubble">
 					<div class="chat-estimate receiver">
 						<h5 class="est-title">견적서</h5>
 						<p class="est-content">
@@ -517,11 +522,63 @@
 						</table>
 						<hr>
 						<div class="est-button">
-							<button class="meetgo-btn disable-btn" style="width: 270px">고수 프로필 보기</button>
-							<div style="display: flex">
-								<button class="meetgo-btn w-50 disable-btn">견적서 확정</button>
-								<button class="meetgo-btn w-50 disable-btn">견적서 거절</button>
-							</div>
+							<p>취소된 견적서 입니다.</p>
+						</div>
+					</div>
+					<p class="chat-createAt p-receiver">1:45 PM</p>
+				</div>
+				
+				<div class="chat-bubble">
+					<p class="sender">25,000원 원합니다</p>
+					<p class="chat-createAt p-sender">1:45 PM</p>
+				</div>
+				
+				<div class="chat-bubble">
+					<div class="chat-estimate receiver">
+						<h5 class="est-title">견적서</h5>
+						<p class="est-content">
+							이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
+						</p>
+						<hr>
+						<table>
+							<tr>
+								<td>서비스</td>
+								<td>반려견 산책</td>
+							</tr>
+							<tr>
+								<th>예상 금액</th>
+								<td>총 30,000 원</td>
+							</tr>
+						</table>
+						<hr>
+						<div class="est-button">
+							<button class="meetgo-btn disable-btn" style="width: 270px">견적서 취소</button>
+						</div>
+					</div>
+					<p class="chat-createAt p-receiver">1:45 PM</p>
+				</div>
+				
+				<div class="chat-bubble">
+					<div class="chat-estimate receiver">
+						<h5 class="est-title">견적서</h5>
+						<p class="est-content">
+							이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
+						</p>
+						<hr>
+						<table>
+							<tr>
+								<td>서비스</td>
+								<td>반려견 산책</td>
+							</tr>
+							<tr>
+								<th>예상 금액</th>
+								<td>총 25,000 원</td>
+							</tr>
+						</table>
+						<hr>
+						<div class="est-button">
+							<p>확정된 견적서 입니다.</p>
+							<button class="meetgo-btn disable-btn" style="width: 270px">견적 목록</button>
 						</div>
 					</div>
 					<p class="chat-createAt p-receiver">1:45 PM</p>
@@ -599,66 +656,106 @@
 					<img class="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">
 					<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">
 					<div class="info-profile-more-list">
-						<div>고수 상세 조회</div>
+						<div>회원 상세 조회</div>
 						<div></div>
 					</div>
 					<h3>김세정</h3>
 					<table>
 						<tr>
-							<td width="30%">지역</td>
-							<td width="70%" >대전 중구</td>
+							<td width="40%">지역</td>
+							<td width="60%" >대전 중구</td>
 						</tr>
 						<tr>
-							<td>리뷰</td>
-							<td>☆ 4.8</td>
+							<td>믿고 횟수</td>
+							<td>15 회</td>
 						</tr>
 						<tr>
-							<td>경력</td>
-							<td>4년</td>
+							<td>서비스</td>
+							<td>반려견 산책</td>
 						</tr>
 					</table>
 					<hr style="border : 1px solid lightgray; width: 80%;">
 				</div>
 				<div class="info-detail">
-					<div class="info-service">
-						<h5 style="margin-left: 20px">제공 서비스</h5>
-						<div class="info-service-list">
-							<button class="meetgo-btn">보컬 트레이닝</button>
-							<button class="meetgo-btn">웹 개발</button>
-							<button class="meetgo-btn">앱 개발</button>
-						</div>
-					</div>
-					<h5 style="margin-left: 20px">소개 이미지</h5>
-					<div class="info-img-area">
-						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
-						
+					<h5 style="margin-left: 20px">리뷰 목록</h5>
+					<div class="review-img-area">
+						<div style="width: 100px!important;"><img class="info-img" src="https://news.nateimg.co.kr/orgImg/xs/2020/04/09/1586412414197720.jpg"></div>
+						<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNDAg/MDAxNjE0MDY5MTYxNzE1.ID-uK_t73wGeNH9TGMIeWKJZsQq9KDg_nySZdlKTLBQg.eOm-EdEw-i_NbPvPA5qdAOeLpwlhqEu5PMVGu5DqXr8g.JPEG/4-2.jpg?type=w1200"></div>
+						<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNzQg/MDAxNjE0MDY5MTk5NDk2.RuWcBaRHnRUgGHlf-PHJAfsE54JjUD3DheHMskaeGsUg.wETZ4LxUQwZ6n6UErBz_2QqIATZk6sDvtx5bdlew304g.JPEG/5-3.jpg?type=w1200"></div>
 					</div>
 					<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 					<script>
-                        $('.info-img-area').slick({
-                            slidesToShow: 2,
-                            slidesToScroll: 2,
-                        });
-					</script>
-					
-					<h5 style="margin-left: 20px">포트폴리오</h5>
-					<div class="info-pofol">
-						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
-					</div>
-					<script>
-                        $('.info-pofol').slick({
+                        $('.review-img-area').slick({
                             slidesToShow: 2,
                             slidesToScroll: 2,
                         });
 					</script>
 					
 				</div>
+<%--				<div class="info-profile">--%>
+<%--					<img class="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">--%>
+<%--					<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">--%>
+<%--					<div class="info-profile-more-list">--%>
+<%--						<div>고수 상세 조회</div>--%>
+<%--						<div></div>--%>
+<%--					</div>--%>
+<%--					<h3>김세정</h3>--%>
+<%--					<table>--%>
+<%--						<tr>--%>
+<%--							<td width="30%">지역</td>--%>
+<%--							<td width="70%" >대전 중구</td>--%>
+<%--						</tr>--%>
+<%--						<tr>--%>
+<%--							<td>리뷰</td>--%>
+<%--							<td>☆ 4.8</td>--%>
+<%--						</tr>--%>
+<%--						<tr>--%>
+<%--							<td>경력</td>--%>
+<%--							<td>4년</td>--%>
+<%--						</tr>--%>
+<%--					</table>--%>
+<%--					<hr style="border : 1px solid lightgray; width: 80%;">--%>
+<%--				</div>--%>
+<%--				<div class="info-detail">--%>
+<%--					<div class="info-service">--%>
+<%--						<h5 style="margin-left: 20px">제공 서비스</h5>--%>
+<%--						<div class="info-service-list">--%>
+<%--							<button class="meetgo-btn">보컬 트레이닝</button>--%>
+<%--							<button class="meetgo-btn">웹 개발</button>--%>
+<%--							<button class="meetgo-btn">앱 개발</button>--%>
+<%--						</div>--%>
+<%--					</div>--%>
+<%--					<h5 style="margin-left: 20px">소개 이미지</h5>--%>
+<%--					<div class="info-img-area">--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
+<%--						--%>
+<%--					</div>--%>
+<%--					<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>--%>
+<%--					<script>--%>
+<%--                        $('.info-img-area').slick({--%>
+<%--                            slidesToShow: 2,--%>
+<%--                            slidesToScroll: 2,--%>
+<%--                        });--%>
+<%--					</script>--%>
+<%--					--%>
+<%--					<h5 style="margin-left: 20px">포트폴리오</h5>--%>
+<%--					<div class="info-pofol">--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>--%>
+<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
+<%--					</div>--%>
+<%--					<script>--%>
+<%--                        $('.info-pofol').slick({--%>
+<%--                            slidesToShow: 2,--%>
+<%--                            slidesToScroll: 2,--%>
+<%--                        });--%>
+<%--					</script>--%>
+<%--					--%>
+<%--				</div>--%>
 			</div>
 		</div>
 		<div>
