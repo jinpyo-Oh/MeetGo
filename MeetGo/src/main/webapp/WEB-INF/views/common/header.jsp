@@ -192,7 +192,7 @@
             <div class="right-section">
                 <nav class="nav-list">
                     <c:choose>
-                        <c:when test="${!empty sessionScope.loginUser}">
+                        <c:when test="${empty sessionScope.loginUser}">
                             <li>
                                 <a>로그인</a>
                             </li>
