@@ -9,10 +9,14 @@
 	</settings>
 
 	<typeAliases>
+		<typeAlias type="com.kh.meetgo.chat.model.vo.Chatroom" alias="chatroom" />
+		<typeAlias type="com.kh.meetgo.chat.model.vo.Chat" alias="chat" />
+		<typeAlias type="com.kh.meetgo.chat.model.dto.ChatListDto" alias="chatListDto" />
 	</typeAliases>
+	
 
 	<mappers>
-
+		<mapper resource="/mappers/chat-mapper.xml" />
 	</mappers>
 </configuration>
 

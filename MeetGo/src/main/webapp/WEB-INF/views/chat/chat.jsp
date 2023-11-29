@@ -1,3 +1,4 @@
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -8,355 +9,8 @@
 	
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-
+	<link href="<%=request.getContextPath()%>/resources/css/chat/chat.css" rel="stylesheet" type="text/css">
 	
-	<style>
-        html {
-            text-align: center;
-            justify-content: center;
-        }
-        .chat-content {
-            width: 1200px;
-            height: 800px;
-            margin: 50px auto;
-            display: flex;
-            border: 1px solid lightgray;
-        }
-        .left-box {
-            width: 300px;
-            height: 100%;
-            box-sizing: border-box;
-        }
-        .left-box-input-search {
-            height: 10%;
-            border-bottom: 1px solid lightgray;
-            border-right: 1px solid lightgray;
-            display: flex;
-			cursor: pointer;
-			
-        }
-        .view-type {
-            width: 80%;
-            height: 100%;
-            font-size: 25px;
-            display: flex;
-            text-align: center;
-            align-items : center;
-        }
-        .chat-search-input {
-            width: 80%;
-            display: inline-block;
-            align-items: center;
-        }
-        .chat-search-input b{
-			height: 30%;
-			font-size: 15px;
-		}
-        .chat-search-input input {
-            margin: auto;
-			width: 100%;
-            height: 70%;
-            border: none;
-            border-top: 1px solid lightgray;
-        }
-        #type-search {
-            position: absolute;
-            background-color: white;
-            width: 240px;
-            box-sizing: border-box;
-            border: 1px solid lightgray;
-        }
-        #type-search a{
-            width: 230px;
-            height: 50px;
-            margin: 5px;
-            font-size: 20px;
-            text-align: center;
-            display: block;
-            line-height: 50px;
-            border-radius: 10px;
-        }
-        .chat-search {
-            display: flex;
-            width: 20%;
-            text-align: center;
-            align-items : center;
-            border-left: 1px solid #f4f4f4;
-			cursor: pointer;
-        }
-        .chat-search img {
-            margin: 10px auto;
-            width: 30px;
-        }
-        #type-collapse {
-            position: absolute;
-            background-color: white;
-            width: 240px;
-            box-sizing: border-box;
-            border: 1px solid #f4f4f4;
-        }
-        #type-collapse a{
-            width: 230px;
-            height: 50px;
-            margin: 5px;
-            font-size: 20px;
-            text-align: center;
-            display: block;
-            line-height: 50px;
-            border-radius: 10px;
-        }
-
-        .left-box-chatList {
-            height: 90%;
-            box-sizing: border-box;
-            background-color: #e8e8e8;
-        }
-        .chat-card{
-            width: 100%;
-            height: 100px;
-            border-bottom: 1px solid #f4f4f4;
-            box-sizing: border-box;
-            display: flex;
-        }
-        .chat-card-img {
-            width: 80px;
-            height: 100px;
-        }
-        .chat-card-info {
-            padding: 10px;
-        }
-        .chat-card-info p {
-            margin-bottom: 5px;
-        }
-        .chat-card-info p:last-child {
-            color: gray;
-        }
-        .chat-card img {
-            width: 60px;
-            height: 60px;
-            margin: 20px 10px;
-            border-radius: 40px;
-        }
-        .right-box {
-            width: 900px;
-            height: 100%;
-            box-sizing: border-box;
-        }
-
-        .chat-area {
-            width: 650px;
-            height: 100%;
-            border-left: 1px solid #fdfdfd;
-            border-right: 1px solid #fdfdfd;
-            background-color: #fdfdfd;
-            overflow:auto;
-        }
-        .chat-area::-webkit-scrollbar {
-            width: 10px;
-        }
-        .chat-area::-webkit-scrollbar-thumb {
-            background-color: #808080;
-            border-radius: 10px;
-            background-clip: padding-box;
-            border: 2px solid transparent;
-        }
-        .chat-area::-webkit-scrollbar-track {
-            background-color: #fdfdfd;
-            border-radius: 10px;
-            box-shadow: inset 0px 0px 5px white;
-        }
-
-        .right-box-info {
-            width: 250px;
-            height: 100%;
-            padding-top: 20px;
-            border-left: 1px solid lightgray;
-			background-color: #f4f4f4;
-        }
-        .chat-input-box {
-            display: inline-block;
-            width: 900px;
-            border-top: 1px solid lightgray;
-            box-sizing: border-box;
-            height: 15%;
-        }
-        #chat-textarea{
-            width: 100%;
-            height: 65px;
-            border: none;
-            resize: none;
-            padding: 10px;
-            border-bottom: 1px solid lightgray;
-
-        }
-        .chat-input-box button{
-            width: 150px;
-            height: 40px;
-            margin-top: 5px;
-            margin-right: 10px;
-            border-radius: 0.8em;
-            color: #2A8FF7;
-        }
-        .select {
-            background-color: white;
-            border-right: none;
-        }
-        .input-icon {
-            float: left;
-            margin-left: 30px;
-        }
-        .input-icon img {
-            width: 25px;
-            height: 25px;
-            float: left;
-        }
-
-        .chat-bubble {
-            width: 100%;
-            display: inline-block;
-            align-items: flex-end;
-            color: black;
-            position: relative;
-        }
-
-        .chat-bubble p {
-            display: inline-block;
-            border : none;
-            border-radius: .4em;
-            max-width: 500px;
-            padding: 5px 10px;
-            margin: 20px;
-        }
-        .chat-bubble img {
-            max-width: 300px;
-            max-height: 300px;
-            margin: 20px;
-            border-radius: .4em;
-            border : none;
-        }
-        .chat-estimate {
-            width: 300px;
-            padding: 10px 10px;
-            margin: 20px 5px 20px 20px;
-            border-radius: .4em;
-            text-align: left;
-            box-sizing: border-box;
-            border: 1px solid #f4f4f4;
-            background-color: white;
-        }
-        .chat-estimate hr{
-            background-color: lightgray;
-            border: 0;
-            height: 1px;
-        }
-        .est-content {
-            margin: 0 !important;
-            color: black;
-        }
-        .chat-estimate table {
-            width: 100%;
-            margin: auto;
-        }
-        .chat-estimate table tr > td:last-child {
-            float: right;
-			width: 60%;
-        }
-        .sender {
-            background-color: #f5f5f5;
-            float: left;
-        }
-        .receiver {
-            background-color: #f5f5f5;
-            float: right;
-        }
-
-        .input-button {
-            float: right;
-            margin-right: 30px;
-        }
-        .info-profile {
-            text-align: center;
-            align-items: center;
-        }
-        .info-profile-img{
-            width: 120px;
-            height: 120px;
-            border-radius: 60px;
-        }
-        .info-profile table {
-            width: 80%;
-            margin: auto;
-        }
-        .info-service-list {
-			margin: auto;
-			text-align: center;
-		}
-        .info-profile-more {
-            width: 30px;
-            height: 30px;
-            position: absolute;
-            margin-left: 25px;
-        }
-        .info-profile-more:hover {
-            background-color: lightgray;
-            border-radius: 15px;
-        }
-        .est-button {
-            width: 100%;
-            padding: 0;
-            margin: 0;
-        }
-        .chat-createAt {
-            position: absolute;
-            bottom: 0;
-            padding: 0 !important;
-            margin:40px 0 0 0 !important;
-            font-size: 0.9em;
-        }
-        .p-receiver {
-            right: 30px;
-        }
-        .p-sender {
-            left: 30px;
-        }
-		.info-img-area, .info-pofol, .review-img-area {
-            margin: auto;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-			height: 100px;
-			padding: 0 30px;
-		}
-		
-		.info-img {
-            width: 80px;
-            height: 80px;
-            object-fit:cover;
-			margin: auto;
-        }
-        .slick-slide{
-			width: 80px;
-		}
-        .slick-arrow {
-            z-index: 10;
-            width: 75px;
-            height: 75px;
-			top: 40px;
-        }
-		.slick-prev {
-		}
-        .slick-prev:before,
-        .slick-next:before
-        {
-            color: black;
-        }
-		.display-none {
-			display: none;
-		}
-		.disable-btn {
-            pointer-events : none;
-		}
-	</style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -424,223 +78,103 @@
             });
 		</script>
 		
-		
 		<div class="left-box-chatList">
-			<div class="chat-card">
-				<div class="chat-card-img">
-					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU">
+			<c:forEach var="b" items="${requestScope.chatroomList}">
+				<div class="chat-card">
+					<input type="hidden" class="chatroomNo" value="${b.chatroom.chatroomNo}">
+					<div class="chat-card-img">
+						<img src="${b.userProfile}">
+					</div>
+					<div class="chat-card-info">
+						<p>${b.userName}</p>
+						<p>마지막 채팅 불러오기</p>
+					</div>
 				</div>
-				<div class="chat-card-info">
-					<p>해원</p>
-					<p>현재 작업이 불가능합니다. 죄송합니다.</p>
-				</div>
-			</div>
-			<div class="chat-card">
-				<div class="chat-card-img">
-					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU">
-				</div>
-				<div class="chat-card-info">
-					<p>해원</p>
-					<p>현재 작업이 불가능합니다. 죄송합니다.</p>
-				</div>
-			</div>
-			<div class="chat-card select">
-				<div class="chat-card-img">
-					<img src="https://image-notepet.akamaized.net/seimage/20220808/c925af35fb1f498e067d15b185efb608.jpg">
-				</div>
-				<div class="chat-card-info">
-					<p>정채연</p>
-					<p></p>
-				</div>
-			</div>
-			<div class="chat-card">
-				<div class="chat-card-img">
-					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">
-				</div>
-				<div class="chat-card-info">
-					<p>김세정</p>
-					<p>현재 작업이 불가능합니다. 죄송합니다.</p>
-				</div>
-			</div>
-			<div class="chat-card">
-				<div class="chat-card-img">
-					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU">
-				</div>
-				<div class="chat-card-info">
-					<p>해원</p>
-					<p>현재 작업이 불가능합니다. 죄송합니다.</p>
-				</div>
-			</div>
+			</c:forEach>
 		</div>
+		<script>
+			let chatroomNo;
+            $(function () {
+                $('.chat-card').click(function () {
+                    $('.chat-card').removeClass('select');
+                    $(this).addClass('select');
+                    $('.chat-area').empty();
+                    chatroomNo = $(this).find('.chatroomNo').val();
+					$.ajax({
+						url : "chatlist",
+						data : {
+                            chatroomNo : chatroomNo
+						},
+                        async:false,
+						dataType:"json",
+						success:function (data){
+                            console.log(data);
+                            for (let i = 0; i < data.length; i++) {
+								CheckLR(data[i]);
+                            }
+						},
+						error : function (){
+                            console.log("채팅방 목록 불러오기 에러");
+						}
+					})
+
+                    connect();
+                    scrollToBottom();
+                    
+                    console.log("enterRoom")
+                });
+            });
+            function CheckLR(data){
+                const lr = (data.sender == ${sessionScope.loginUser.userNo}) ? "receiver" : "sender";
+                appendChat(lr, data);
+			}
+            function appendChat(lr, data) {
+                let chat = "";
+                if (data.type === 'M') {
+                    chat = '<div class="chat-bubble">'
+								+ '<p class="'+lr+'">' + data.content +'</p>'
+								+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
+							+ '</div>';
+                } else if (data.type === 'P') {
+                    chat = '<div class="chat-bubble">'
+							+ '<img class="'+lr+'" src="'+data.content+'">'
+							+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
+                        + '</div>';
+                } else if (data.type === 'E') {
+                    // <div class="chat-bubble">
+                    //     <div class="chat-estimate receiver">
+                    //         <h5 class="est-title">견적서</h5>
+                    //         <p class="est-content">
+                    //             이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
+                    //         </p>
+                    //         <hr>
+                    //             <table>
+                    //                 <tr>
+                    //                     <td>서비스</td>
+                    //                     <td>반려견 산책</td>
+                    //                 </tr>
+                    //                 <tr>
+                    //                     <th>예상 금액</th>
+                    //                     <td>총 30,000 원</td>
+                    //                 </tr>
+                    //             </table>
+                    //             <hr>
+                    //                 <div class="est-button">
+                    //                     <p>취소된 견적서 입니다.</p>
+                    //                 </div>
+                    //     </div>
+                    //     <p class="chat-createAt p-receiver">1:45 PM</p>
+                    // </div>
+                }
+                $('.chat-area').append(chat);
+                scrollToBottom();
+            }
+		</script>
 	</div>
 	<div class="right-box">
 		<div style="display: flex; height: 85%">
-			
-			<div class="chat-area" id="chatArea">
-				<div class="chat-bubble">
-					<p class="sender">안녕하세요. 강아지 산책 문의 드립니다.</p>
-					<p class="chat-createAt p-sender">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<img class="receiver" src="https://image-notepet.akamaized.net/seimage/20220808/c925af35fb1f498e067d15b185efb608.jpg">
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-
-				<div class="chat-bubble">
-					<p class="receiver">지역이 어디신가요.</p>
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<p class="sender">신길역 1번 출구 앞입니다. 아침 9시부터 12시 까지 해주셨으면 하는데 견적 부탁드립니다.</p>
-					<p class="chat-createAt p-sender">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<img class="receiver" src="https://cdn.9oodnews.com/news/photo/202103/4534_6671_5932.jpg">
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<div class="chat-estimate receiver">
-						<h5 class="est-title">견적서</h5>
-						<p class="est-content">
-							이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
-						</p>
-						<hr>
-						<table>
-							<tr>
-								<td>서비스</td>
-								<td>반려견 산책</td>
-							</tr>
-							<tr>
-								<th>예상 금액</th>
-								<td>총 30,000 원</td>
-							</tr>
-						</table>
-						<hr>
-						<div class="est-button">
-							<p>취소된 견적서 입니다.</p>
-						</div>
-					</div>
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<p class="sender">25,000원 원합니다</p>
-					<p class="chat-createAt p-sender">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<div class="chat-estimate receiver">
-						<h5 class="est-title">견적서</h5>
-						<p class="est-content">
-							이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
-						</p>
-						<hr>
-						<table>
-							<tr>
-								<td>서비스</td>
-								<td>반려견 산책</td>
-							</tr>
-							<tr>
-								<th>예상 금액</th>
-								<td>총 30,000 원</td>
-							</tr>
-						</table>
-						<hr>
-						<div class="est-button">
-							<button class="meetgo-btn disable-btn" style="width: 270px">견적서 취소</button>
-						</div>
-					</div>
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<div class="chat-estimate receiver">
-						<h5 class="est-title">견적서</h5>
-						<p class="est-content">
-							이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
-						</p>
-						<hr>
-						<table>
-							<tr>
-								<td>서비스</td>
-								<td>반려견 산책</td>
-							</tr>
-							<tr>
-								<th>예상 금액</th>
-								<td>총 25,000 원</td>
-							</tr>
-						</table>
-						<hr>
-						<div class="est-button">
-							<p>확정된 견적서 입니다.</p>
-							<button class="meetgo-btn disable-btn" style="width: 270px">견적 목록</button>
-						</div>
-					</div>
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
+			<div class="chat-area" id="chatArea"> <!-- 채팅 들어가는 영역 -->
 			</div>
-<!--
-			<div class="chat-area" id="chatArea">
-				<div class="chat-bubble">
-					<p class="sender">내 이야기들 속에 가장 밝게 빛났던 순간<br>
-						나의 하루는 매일 빠르게 지나가 버렸고<br>
-						그 어떤 것도 내겐 두려울 게 없었던 시간<br>
-						어느 순간 놓쳐버린 그때의 나<br>
-						어두운 밤 하늘로 숨은 너를 찾아<br>
-						구름 사이 보랏빛 길을 걷다 보면<br>
-						어둠 마지막에야 너와 마주할 수 있을까<br>
-						어느 순간 놓쳐버린 그때의 나
-					</p>
-					<p class="chat-createAt p-sender">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<p class="receiver">현재 작업이 불가능합니다. 죄송합니다.</p>
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-				
-				<div class="chat-bubble">
-					<img class="receiver" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQELo03zaT2oC9ZCjFo-WSJu15L8oxBwMzydpM4f8IeJXSO-tqKlp9QJf67olGlruaJSSo&usqp=CAU">
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-				<div class="chat-bubble">
-					<img class="receiver" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPq_ZQrNax6GHEkbvI6dPvk9cuEBRcycE4HlVQFWGt303nWIZUiCtufEZchSKsPEV49so&usqp=CAU">
-					<p class="chat-createAt p-receiver">1:45 PM</p>
-				</div>
-				<div class="chat-bubble">
-					<div class="chat-estimate sender">
-						<h5 class="est-title">견적서</h5>
-						<p class="est-content">
-							이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
-						</p>
-						<hr>
-						<table>
-							<tr>
-								<td>서비스</td>
-								<td>원룸/소형 이사</td>
-							</tr>
-							<tr>
-								<th>예상 금액</th>
-								<td>총 350,000 원</td>
-							</tr>
-						</table>
-						<hr>
-						<div class="est-button">
-							<button class="meetgo-btn" style="width: 270px">고수 프로필 보기</button>
-							<div style="display: flex">
-								<button class="meetgo-btn w-50">견적서 확정</button>
-								<button class="meetgo-btn w-50">견적서 거절</button>
-							</div>
-						</div>
-					</div>
-					<p class="chat-createAt p-sender">1:45 PM</p>
-				</div>
-			</div>
--->
 			<script>
                 function scrollToBottom() {
                     var chatArea = document.getElementById('chatArea');
@@ -767,11 +301,59 @@
 						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/report-icon.png" alt="">신고</button>
 					</div>
 					<div class="input-button">
-						<button class="meetgo-btn">전송</button>
+						<button onclick="sendMessage()" class="meetgo-btn">전송</button>
 						<button class="meetgo-btn">채팅방 나가기</button>
 					</div>
 				</div>
 			</div>
+			<script>
+                let websocket; // 전역변수 선언
+                function connect(){
+                    let url = "ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chat.do";
+                    websocket = new WebSocket(url);
+                    //웹 소켓에 이벤트가 발생했을 때 호출될 함수 등록
+                    websocket.onopen = onOpen;
+                    websocket.onmessage = onMessage;
+                }
+
+                //웹 소켓에 연결되었을 때 호출될 함수
+                function onOpen() {
+                    const data = {
+                        "chatroomNo" : chatroomNo,
+                        "sender" : ${sessionScope.loginUser.userNo},
+                        "type" : 'M',
+                        "content"   : "ENTER_CHAT",
+                        "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                    };
+                    let jsonData = JSON.stringify(data);
+                    websocket.send(jsonData);
+                    console.log(websocket);
+                }
+
+                // * 1 메시지 전송
+                function sendMessage(){
+                    let message = $('#chat-textarea').val();
+                    const data = {
+                        "chatroomNo" : chatroomNo,
+						"sender" : ${sessionScope.loginUser.userNo},
+						"type" : 'M',
+                        "content"   : message,
+						"createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                    };
+                    console.log(data);
+                    CheckLR(data);
+                    let jsonData = JSON.stringify(data);
+                    $('#chat-textarea').val('');
+                    websocket.send(jsonData);
+                }
+
+                // * 2 메세지 수신
+                function onMessage(evt) {
+                
+                }
+			
+			
+			</script>
 		</div>
 	
 	</div>
