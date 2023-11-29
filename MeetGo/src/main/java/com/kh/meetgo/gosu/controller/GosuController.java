@@ -12,4 +12,10 @@ public class GosuController {
 		return "gosu/gosuEnrollForm";
 	}
 	
+	// 고수찾기 페이지로 이동
+	@RequestMapping("searchMain.go")
+	public String sendToSearchMain() {
+		return "gosuSearch/searchMain";
+	}	
+	
 }

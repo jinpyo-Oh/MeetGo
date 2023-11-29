@@ -19,6 +19,9 @@
      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
      <!-- Latest compiled JavaScript -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+     
+    <!-- 부트스트랩 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
 </head>
 <style>
@@ -236,7 +239,7 @@
                         <a>공지사항</a>
                     </li>
                     <li>
-                        <a>고수찾기</a>
+                        <a href="searchMain.go">고수찾기</a>
                     </li>
                     <li>
                         <a>커뮤니티</a>
