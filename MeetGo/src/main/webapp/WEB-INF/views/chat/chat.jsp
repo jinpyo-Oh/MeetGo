@@ -301,8 +301,9 @@
 				<label for="chat-textarea"></label>
 				<textarea id="chat-textarea" maxlength="180" placeholder="메세지를 입력해 주세요."></textarea>
 				<div>
-					<div class="input-icon" >
-						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
+					<div class="input-icon">
+						<input type="file" id="chat-file" name="file" style="display: none">
+						<button class="meetgo-btn" id="chat-file-upload"><img  src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
 						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/report-icon.png" alt="">신고</button>
 					</div>
 					<div class="input-button">
@@ -311,6 +312,12 @@
 					</div>
 				</div>
 			</div>
+			<script>
+				$('#chat-file-upload').click(function (e){
+                    console.log("ㅇㅅㅇ");
+                    $('#chat-file').click();
+				});
+			</script>
 			<script>
                 let websocket; // 전역변수 선언
                 function connect(){

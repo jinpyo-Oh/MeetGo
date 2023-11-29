@@ -78,9 +78,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         }
         // 채팅 일시
         else {
-//            String text = new Gson().toJson(chat);
+//          String text = new Gson().toJson(chat);
             String text = chat.getChatNo()+","+chat.getContent()+","+chat.getSender()+","+chat.getType()+","+chat.getCreateAt()+","+chat.getChatroomNo();
-//            System.out.println("text = " + text);
+//          System.out.println("text = " + text);
             TextMessage textMessage = new TextMessage(text);
             System.out.println("textMessage = " + textMessage);
             System.out.println("roomList = " + roomList);

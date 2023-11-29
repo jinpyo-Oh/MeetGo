@@ -103,7 +103,7 @@
         margin-top: 8px;
     }
     .input-group {
-        width: 240px;
+        width: 300px;
         height: 40px;
         padding: 0 12px;
         display: flex;
@@ -200,19 +200,11 @@
 							<li>
 							    <a href="EnrollForm.me">회원가입</a>
 							</li>
-							
-							<button>
-							    <a>고수가입</a>
-							</button>
-							
 						</c:when>
-					
 						<c:otherwise>
-							<!-- 로그인 후 -->
-							<li><a>받은 견적</a></li>
-							<li><a>채팅</a></li>
-							
-							<a href="logout.me">로그아웃</a>
+							<li><a>견적 목록</a></li>
+							<li><a href="chat.ct">채팅</a></li>
+							<li><a href="logout.me">로그아웃</a></li>
 						</c:otherwise>
 					</c:choose>
                 </nav>
