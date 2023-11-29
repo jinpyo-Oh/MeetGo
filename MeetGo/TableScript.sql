@@ -40,7 +40,7 @@ CREATE TABLE MEMBER
     USER_NO          NUMBER PRIMARY KEY,                                   -- 유저 번호
     USER_NAME        VARCHAR2(30)                                NOT NULL, -- 이름
     USER_ID          VARCHAR2(30) UNIQUE                         NOT NULL, -- 아이디
-    USER_PWD         VARCHAR2(30)                                NOT NULL, -- 비밀번호
+    USER_PWD         VARCHAR2(1000)                                NOT NULL, -- 비밀번호
     USER_NICKNAME    VARCHAR2(30) UNIQUE                         NOT NULL, -- 닉네임
     USER_GENDER      CHAR(1) CHECK ( USER_GENDER IN ('M', 'F') ) NOT NULL, -- 성별 (M:남, F:여)
     USER_EMAIL       VARCHAR2(30) UNIQUE                         NOT NULL, -- 이메일 (인증 필요)

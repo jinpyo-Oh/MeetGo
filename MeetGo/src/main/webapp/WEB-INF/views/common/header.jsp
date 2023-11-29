@@ -267,7 +267,7 @@
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li><a>견적 목록</a></li>
+							<li><a href="estimate.me">견적 목록</a></li>
 							<li><a href="chat.ct">채팅</a></li>
 							<li>
 								<div class="menu-userInfo" data-toggle="collapse" data-target="#user-info-collapse">
