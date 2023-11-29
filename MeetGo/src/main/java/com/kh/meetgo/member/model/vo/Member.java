@@ -12,15 +12,29 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Member {
-	private String userId;   //	USER_ID	VARCHAR2(30 BYTE)
-	private String userPwd;  //	USER_PWD	VARCHAR2(100 BYTE)
-	private String userName; //	USER_NAME	VARCHAR2(15 BYTE)
-	private String email;	 //	EMAIL	VARCHAR2(100 BYTE)
-	private String gender;   //	GENDER	VARCHAR2(1 BYTE)
-	private String age;		 //	AGE	NUMBER
-	private String phone;	
-	private String address;
-	private Date enrollDate; 
-	private Date modifyDate;
-	private String status;
+	private int userNo;
+	private String userName;
+	private String userId;
+	private String userPwd;
+	private String userNickName;
+	private String userGender;
+	private String userEmail;
+	private String userPhone;
+	private String userProFile;
+	private Date createDate;
+	private Date lastAccessDate;
+	private int userStatus;
+	
+	/*USER_NO	NUMBER	No		1	
+	USER_NAME	VARCHAR2(30 BYTE)	No		2	
+	USER_ID	VARCHAR2(30 BYTE)	No		3	
+	USER_PWD	VARCHAR2(30 BYTE)	No		4	
+	USER_NICKNAME	VARCHAR2(30 BYTE)	No		5	
+	USER_GENDER	CHAR(1 BYTE)	No		6	
+	USER_EMAIL	VARCHAR2(30 BYTE)	No		7	
+	USER_PHONE	VARCHAR2(20 BYTE)	No		8	
+	USER_PROFILE	VARCHAR2(1000 BYTE)	Yes		9	
+	CREATE_DATE	DATE	Yes	SYSDATE	10	
+	LAST_ACCESS_DATE	DATE	Yes	SYSDATE	11	
+	USER_STATUS	NUMBER	Yes		12	*/
 }

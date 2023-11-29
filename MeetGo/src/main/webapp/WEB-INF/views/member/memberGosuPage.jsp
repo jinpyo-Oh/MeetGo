@@ -6,6 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고수페이지</title>
+        <!-- JavaScript -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+    
+    <!-- jQuery 라이브러리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
+
     <style>
         .gosu-page {
             width: 720px;
@@ -266,6 +278,77 @@
             color: #737373;
             margin-top: 0.25rem;
         }
+        .modal{
+            position:absolute;
+            display:none;
+            
+            justify-content: center;
+            top:0;
+            left:0;
+
+            width:100%;
+            height:100%;
+
+            
+
+            background-color: rgba(0,0,0,0.4);
+        }
+        .main_service_modal{
+            position:absolute;
+            top:50%;  
+        
+
+            width:400px; 
+            height:600px; 
+
+            padding:40px;  
+
+            text-align: center;
+
+            background-color: rgb(255,255,255);
+            border-radius:10px;
+            box-shadow:0 2px 3px 0 rgba(34,36,38,0.15);
+
+            transform:translateY(-50%);
+            
+        }
+        .main_service_modal_body{
+            
+            height: 95%;
+        }
+        .modal_title {
+            border-bottom: 0.1rem solid darkgray;
+            text-align: center;
+            font-size: 20px;
+        }
+        .modal_btn {
+            float: left;
+        }
+        .modal_btn_info {
+            background-color: aquamarine;
+            color:white;
+            border-radius: 30px;
+            border-style: none;
+            padding:  10px 20px;
+            }
+        .modal-footer {
+            
+            border-top: 0.1rem solid darkgray;
+        }
+        .modal_footer_btn{
+            background-color: aquamarine;
+            padding: 10px 160px;
+            margin-top: 9px;
+            border-style: none;
+            border-radius: 5px;
+        }
+        .modal_delect_btn{
+            color: gray;
+            border-style: none;
+            background-color: white;
+            margin-top: 20px;
+            float: left;
+        }
     
 
             
@@ -336,10 +419,30 @@
                 <div class="hading">
                     <h2>대표서비스</h2>
                     <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
+                        <div class="modal">
+                            <div class="main_service_modal">
+                                <div class="main_service_modal_body">
+                                    <div class="modal_title">
+                                        대표서비스
+                                    </div>
+                                    <h2>고수님의 대표 서비스를 선택해</h2>
+                                        <div class="modal_btn">
+                                                <button class="modal_btn_info">편의점 심부름</button>
+                                                <div>
+                                                    <button class="modal_delect_btn">대표서비스 삭제</button>
+                                                </div>
+                                            </div>
+                                    </div>
+                                <div class="modal-footer">
+                                    <button class="modal_footer_btn">등록하기</button>
+                                </div>
                             </div>
+                        </div>
+                        <div class="type">
+                            <button class="update" onclick="openMainServiceModal()" style="border-style: none; background-color: white; cursor: pointer;">
+                                수정
+                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -699,6 +802,28 @@
    
     </div>
     <jsp:include page="../common/footer.jsp"/>
+    <script>
+   function openMainServiceModal() {
+        var modal = document.querySelector('.modal');
+        modal.style.display = 'flex';
+    }
+
+    // 메인 서비스 모달을 닫기 위한 함수
+    function closeMainServiceModal() {
+        var modal = document.querySelector('.modal');
+        modal.style.display = 'none';
+    }
+
+    // 문서를 클릭했을 때 모달 외부를 클릭하면 모달을 닫기 위한 이벤트 리스너 추가
+    document.addEventListener('click', function (event) {
+        var modal = document.querySelector('.modal');
+        if (event.target === modal) {
+            closeMainServiceModal();
+        }
+    });
+       
+
+    </script>
 
 </body>
 </html>

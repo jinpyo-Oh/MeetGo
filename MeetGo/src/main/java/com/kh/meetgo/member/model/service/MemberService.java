@@ -20,6 +20,7 @@ public interface MemberService {
 	// 아이디중복체크 서비스 (select)
 	int idCheck(String checkId);
 	
+	
 }
 
 
