@@ -15,6 +15,7 @@
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
+<jsp:include page="estimateForm.jsp"/>
 
 <div class="chat-content">
 	<div class="left-box">
@@ -303,7 +304,8 @@
 				<div>
 					<div class="input-icon">
 						<input type="file" id="chat-file" name="file" style="display: none">
-						<button class="meetgo-btn" id="chat-file-upload"><img  src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
+						<button class="meetgo-btn" id="chat-file-upload"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
+						<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
 						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/report-icon.png" alt="">신고</button>
 					</div>
 					<div class="input-button">
@@ -313,9 +315,15 @@
 				</div>
 			</div>
 			<script>
-				$('#chat-file-upload').click(function (e){
+
+                $('#chat-file-upload').click(function (e){
                     $('#chat-file').click();
 				});
+                $('#chat-estimate-button').click(function () {
+                    $('#modalWrap').css("display","block");
+                });
+
+           
 			</script>
 			<script>
                 let websocket; // 전역변수 선언
@@ -351,36 +359,31 @@
                         "content"   : message,
 						"createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
                     };
-                    console.log(data);
-                    CheckLR(data);
                     let jsonData = JSON.stringify(data);
                     $('#chat-textarea').val('');
                     websocket.send(jsonData);
                 }
 
                 // * 2 메세지 수신
-                function onMessage(evt) {
-                    let receive = evt.data.split(",");
+                function onMessage(e) {
+                    let obj = JSON.parse(e.data);
                     let data = {
-                        "chatroomNo" : receive[5],
-                        "sender" : receive[2],
-                        "type" : receive[3],
-                        "content"   : receive[1],
-                        "createAt" : receive[4]
+                        "chatroomNo" : obj.chatroomNo,
+						"sender" : obj.sender,
+						"type" : obj.type,
+						"content"   : obj.content,
+						"createAt" : obj.createAt
 					}
                     CheckLR(data);
                 }
-			
-			
+				
+
+                
+                
 			</script>
 		</div>
-	
 	</div>
-	
-
 </div>
-
-
 
 </body>
 </html>

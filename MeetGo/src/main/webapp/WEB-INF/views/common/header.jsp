@@ -53,7 +53,7 @@
         display: flex;
         align-items: center;
         background-color: white;
-        z-index: 99;
+        z-index: 50;
         left: 50%;
         transform: translate(-50%, 0);
         top : 0;
