@@ -44,7 +44,7 @@
     }
     .global-header {
         width: 100%;
-        height: 72px;   
+        height: 72px;
     }
     .global-navigation-bar {
         width: 1200px;
@@ -62,7 +62,7 @@
         width: 330px;
         height: 70%;
         display: flex;
-        align-items: center;    
+        align-items: center;
         flex: 1;
     }
     .nav-list {
@@ -71,7 +71,7 @@
         font-size: 18px;
     }
     .logo{
-        align-items: center;    
+        align-items: center;
         height: 100%;
     }
     .logo>a {
@@ -83,7 +83,7 @@
         margin-left: 20px   ;
     }
     .nav-list li:nth-child(n+2) a {
-        margin-left: 15px; 
+        margin-left: 15px;
     }
     .center-section{
         flex: 1;
@@ -135,7 +135,28 @@
     }
     .right-section button:hover {
         background-color: #1673d1;
+    }.meetgo-btn {
+         background-color: white;
+         font-family: 'Noto Sans KR', sans-serif;
+         border: 2px solid #2A8FF7;
+         color: #2A8FF7;
+         margin: 5px;
+         border-radius: 0.4em;
+         box-sizing: border-box;
+     }
+    .meetgo-btn:hover {
+        background-color: #adbfce;
+        border : 2px solid #1673d1;
+        box-sizing: border-box;
+        color: black;
     }
+    .w-100 {
+        width: 100%;
+    }
+    .w-50{
+        width: 50%;
+    }
+	
 </style>
 <body>
     <header class="global-header">

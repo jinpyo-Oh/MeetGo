@@ -64,6 +64,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
             sessionList.put(session, chatroom.getChatroomNo());
             // RoomList에 추가
             roomList.put(chatroom.getChatroomNo(), sessionTwo);
+            System.out.println("sessionTwo = " + sessionList);
+            System.out.println("roomList = " + roomList);
             System.out.println("채팅방 생성");
         }
         // 채팅방 세션 목록에 채팅방 o, 처음 들어옴, DB에 채팅방 있음
@@ -76,7 +78,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         }
         // 채팅 일시
         else {
-            String text = new Gson().toJson(chat);
+//            String text = new Gson().toJson(chat);
+            String text = chat.getChatNo()+","+chat.getContent()+","+chat.getSender()+","+chat.getType()+","+chat.getCreateAt()+","+chat.getChatroomNo();
+//            System.out.println("text = " + text);
             TextMessage textMessage = new TextMessage(text);
             System.out.println("textMessage = " + textMessage);
             System.out.println("roomList = " + roomList);

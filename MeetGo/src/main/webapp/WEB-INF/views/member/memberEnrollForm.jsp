@@ -164,9 +164,9 @@
 	     
 	
 	        <p class="name1">이름*</p>
-	        <input class="name" type="text" name="userName"id="userName" placeholder="이름(실명)을 입력해주세요." required>
+	        <input class="name" type="text" name="userName" id="userName" placeholder="이름(실명)을 입력해주세요." required>
 	          <p class="name1">닉네임*</p>
-	        <input class="name" type="text" name="userNickName"id="userNickname" placeholder="별명을 입력해주세요." required>
+	        <input class="name" type="text" name="userNickname" id="userNickname" placeholder="별명을 입력해주세요." required>
 	        
 	        <p class="name1">성별*</p>
 	        <div class="select">

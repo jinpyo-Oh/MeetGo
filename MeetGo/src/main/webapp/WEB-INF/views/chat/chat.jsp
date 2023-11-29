@@ -1,5 +1,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 	<title>채팅</title>
@@ -126,21 +127,23 @@
             });
             function CheckLR(data){
                 const lr = (data.sender == ${sessionScope.loginUser.userNo}) ? "receiver" : "sender";
+                console.log(lr);
                 appendChat(lr, data);
 			}
             function appendChat(lr, data) {
                 let chat = "";
-                if (data.type === 'M') {
+                if (data.type == 'M') {
+                    console.log("되나?");
                     chat = '<div class="chat-bubble">'
 								+ '<p class="'+lr+'">' + data.content +'</p>'
 								+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
 							+ '</div>';
-                } else if (data.type === 'P') {
+                } else if (data.type == 'P') {
                     chat = '<div class="chat-bubble">'
 							+ '<img class="'+lr+'" src="'+data.content+'">'
 							+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
                         + '</div>';
-                } else if (data.type === 'E') {
+                } else if (data.type == 'E') {
                     // <div class="chat-bubble">
                     //     <div class="chat-estimate receiver">
                     //         <h5 class="est-title">견적서</h5>
@@ -165,7 +168,9 @@
                     //     </div>
                     //     <p class="chat-createAt p-receiver">1:45 PM</p>
                     // </div>
-                }
+                } else {
+                    console.log("채팅 타입 인식 실패")
+				}
                 $('.chat-area').append(chat);
                 scrollToBottom();
             }
@@ -349,7 +354,15 @@
 
                 // * 2 메세지 수신
                 function onMessage(evt) {
-                
+                    let receive = evt.data.split(",");
+                    let data = {
+                        "chatroomNo" : receive[5],
+                        "sender" : receive[2],
+                        "type" : receive[3],
+                        "content"   : receive[1],
+                        "createAt" : receive[4]
+					}
+                    CheckLR(data);
                 }
 			
 			

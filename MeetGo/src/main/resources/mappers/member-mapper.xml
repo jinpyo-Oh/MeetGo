@@ -9,7 +9,7 @@
 		<result column="USER_ID" property="userId" />
 		<result column="USER_PWD" property="userPwd" />
 		<result column="USER_EMAIL" property="userEmail" />
-		<result column="USER_NICKNAME" property="userNickName" />
+		<result column="USER_NICKNAME" property="userNickname" />
 		<result column="USER_GENDER" property="userGender" />
 		<result column="USER_PHONE" property="userPhone" />
 		<result column="USER_PROFILE" property="userProFile" />
@@ -42,7 +42,7 @@
 					#{userId},
 					#{userPwd},
 					#{userName},
-					#{userNickName},
+					#{userNickname},
 					#{userEmail},			
 					#{userGender},
 					#{userPhone},
