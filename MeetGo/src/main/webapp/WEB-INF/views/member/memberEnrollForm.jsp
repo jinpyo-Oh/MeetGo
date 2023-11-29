@@ -143,58 +143,56 @@
 <body>
     <jsp:include page="../common/header.jsp" />
 
-    <form action="insert.me" method"post">
+    <form action="insert.me" method="post">
         <div class="main">
-        <h1>회원가입</h1>
-        <h3>믿고회원이 되어 다양한 혜택을 경험해보세요!!</h3>
-        
-        
-
-        <p class="name1">아이디*</p>
-        <input class="name" type="text" align="center" placeholder="아이디를 입력해주세요." required>
-
-        <p class="name1">비밀번호*</p>
-        <input class="pass" type="password" placeholder="영문+숫자 조합 8자리 이상 입력해주세요." required>
-
-        <p class="name1">비밀번호 확인*</p>
-        <input class="pass" type="password" placeholder="비밀번호재입력" required>
-
-        <p class="name1">이름*</p>
-        <input class="name" type="text" placeholder="이름(실명)을 입력해주세요." required>
-        <p class="name1">성별*</p>
-        <div class="select">
-        <input type="radio" id="select" name="shop" required><label for="select">남자</label>
-        <input type="radio" id="select2" name="shop" required><label for="select2">여자</label>
-        </div>
-        <p class="name1">주소*</p>
-        <input class="name" type="text" placeholder="주소를 입력해주세요." required>
-        <input class="name" type="text" placeholder="상세주소" required>
-
-        <p class="name1">전화번호</p>
-        <input class="name" type="text" placeholder="전화번호 입력('-'제외 11자리 입력)">
-
-        <p class="name1">이메일*</p>
-        <input class="awqs" type="text" placeholder="이메일주소" id="email-id" required>@
-        <input class="awqss" type="text" id="manualEmailInput" required>
-        <select class="awqs" id="manualEmail" required>
-            <option id="emailDomain" value="" disabled selected>선택</option>
-            <option value="meetgo.com">meetgo.com</option>
-            <option value="naver.com">naver.com</option>
-            <option value="gmail.com">gmail.com</option>
-            <option value="직접입력">직접입력</option>
-        </select>
-
-        <p class="name1">생년월일</p>
-        <form>
-            <p><input type="date" class="awq"></p>
-           
-          </form>
-        <div class="tq">
-        <button type="submit" class="wqq">가입완료</button>
-        <button class="wqq1">가입취소</button>
-        </div>
-        <a class="ee" href="" style="color:#737373;">고수로 가입하시나요?</a>
-    </div>
+	        <h1>회원가입</h1>
+	        <h3>믿고회원이 되어 다양한 혜택을 경험해보세요!!</h3>
+	        
+	        
+	
+	        <p class="name1">아이디*</p>
+	        <input class="name" name="userId" type="text" id="userId" align="center" placeholder="아이디를 입력해주세요." required> 
+	        <div id="checkResult" style="font-size : 0.8em; display : none;">
+	         </div>
+	
+	        <p class="name1">비밀번호*</p>
+	        <input class="pass" type="password" name="userPwd" id="userPwd" placeholder="영문+숫자 조합 8자리 이상 입력해주세요." required>
+	  		
+	
+	        <p class="name1">비밀번호 확인*</p>
+	        <input class="pass" type="password" name="" id="checkPwd" placeholder="비밀번호재입력" required>
+	     
+	
+	        <p class="name1">이름*</p>
+	        <input class="name" type="text" name="userName"id="userName" placeholder="이름(실명)을 입력해주세요." required>
+	          <p class="name1">닉네임*</p>
+	        <input class="name" type="text" name="userNickName"id="userNickname" placeholder="별명을 입력해주세요." required>
+	        
+	        <p class="name1">성별*</p>
+	        <div class="select">
+	        <input type="radio" id="select" name="userGender" value="M"required><label for="select">남자</label>
+	        <input type="radio" id="select2" name="userGender" value="F" required><label for="select2">여자</label>
+	        </div>
+	        <p class="name1">전화번호</p>
+	        <input class="name" type="text" id="phone" name="userPhone" placeholder="전화번호 입력('-'제외 11자리 입력)">
+	
+	        <p class="name1">이메일*</p>
+	        <input class="awqs" type="text" placeholder="이메일주소" id="email-id" name="userEmail" required>@
+	        <input class="awqss" type="text" id="manualEmailInput"  required>
+	        <select class="awqs" id="manualEmail" name="domain" required>
+	            <option id="emailDomain" value="" disabled selected>선택</option>
+	            <option value="meetgo.com">meetgo.com</option>
+	            <option value="naver.com">naver.com</option>
+	            <option value="gmail.com">gmail.com</option>
+	            <option value="직접입력">직접입력</option>
+	        </select>
+	
+	        <div class="tq">
+	        <button type="submit" class="wqq">가입완료</button>
+	        <button class="wqq1">가입취소</button>
+	        </div>
+	        <a class="ee" href="" style="color:#737373;">고수로 가입하시나요?</a>
+    	</div>
 </form>
 
 <script>
@@ -223,6 +221,68 @@
             }
         });
     });
+     $(function() {
+ 		
+ 		// 아이디를 입력받는 input 요소 객체를 변수에 담아두기
+ 		// (jQuery 방식으로 선택해서 담을 것)
+ 		// => 관례 상 변수명 앞에 $ 를 붙임
+ 		let $idInput = $(".main input[name=userId]");
+ 		
+ 		$idInput.keyup(function() {
+ 			// 단, 우선 최소 5글자 이상으로 입력되어 있을 경우에만
+ 			console.log($idInput);
+ 			// ajax 를 요청해서 중복체크를 하도록 해보자
+ 			if($idInput.val().length >= 5) {
+ 				
+ 				// 중복 체크 요청 보내기
+ 				$.ajax({
+ 					url : "idCheck.me",
+ 					type : "get",
+ 					data : {checkId : $idInput.val()},
+ 					success : function(result) {
+ 						
+ 						// console.log(result);
+ 						
+ 						if(result == "NNNNN") { // 사용 불가능
+ 							
+ 							// 빨간색 메세지 출력
+ 							$("#checkResult").show();
+ 							$("#checkResult").css("color", "red").text("중복된 아이디가 존재합니다. 다시 입력해 주세요.");
+ 							
+ 							// 회원가입 버튼 비활성화
+ 							$(".main button[type=submit]").attr("disabled", true);
+ 							
+ 						} else { // 사용 가능
+ 							
+ 							// 초록색 메세지 출력
+ 							$("#checkResult").show();
+ 							$("#checkResult").css("color", "green").text("사용 가능한 아이디입니다!");
+ 						
+ 							// 회원가입 버튼 활성화
+ 							$(".main button[type=submit]").attr("disabled", false);
+ 							
+ 						}
+ 					},
+ 					error : function() {
+ 						console.log("아이디 중복 체크용 ajax 통신 실패!");
+ 					}
+ 				});
+ 				
+ 			} else { // 5글자 미만일 때
+ 				
+ 				// 회원가입버튼 비활성화
+ 				$(".main button[type=submit]").attr("disabled", true);
+ 			
+ 				// 메세지 숨기기
+ 				$("#checkResult").hide();
+ 			}
+ 		});
+ 		
+ 	});
+
+     
+     
+     
 </script>
 </body>
 </html>

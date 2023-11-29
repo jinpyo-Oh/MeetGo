@@ -29,4 +29,12 @@ public class MemberDao {
     public int idCheck(SqlSessionTemplate sqlSession, String checkId) {
         return sqlSession.selectOne("memberMapper.idCheck", checkId);
     }
+    public int updateEmailPassword(SqlSessionTemplate sqlSession, String email) {
+    	return sqlSession.selectOne("memberMapper.updateEmailPassword",email);
+    }
+
+	/*
+	 * public int pwdCheck(SqlSessionTemplate sqlSession, String checkPwd) { return
+	 * sqlSession.selectOne("memberMapper.pwdCheck", checkPwd); }
+	 */
 }

@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.meetgo.member.model.service.MemberService;
@@ -26,7 +27,10 @@ public class MemberController {
 	
 	
 	
-	
+	@RequestMapping(value="checknumber.me") 
+	public String checkNumber() {
+		return "member/memberChecknumber";
+	}
 	
 	@RequestMapping("loginform.me")
 	public String loginform() {		
@@ -56,6 +60,10 @@ public class MemberController {
 	@RequestMapping("FindPassword.me")
 	public String memberFindPassword() {
 		return "member/memberFindPassword";
+	}
+	@RequestMapping("ChangePassword.me")
+	public String memberChangePassword() {
+		return "member/memberChangePassword";
 	}
 	
 	
@@ -105,8 +113,12 @@ public class MemberController {
 	}
 
 	@RequestMapping("insert.me")
-	public String insertMember(Member m, Model model, HttpSession session) {
+	public String insertMember(Member m,String domain, Model model, HttpSession session) {
+		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
+		String email=m.getUserEmail()+"@"+domain;
+		m.setUserEmail(email);
 		m.setUserPwd(bCryptPasswordEncoder.encode(m.getUserPwd()));
+		System.out.println(m);
 		int result = memberService.insertMember(m);
 		if (result > 0) {
 			session.setAttribute("alertMsg", "ㅇㅅㅇ");
@@ -116,7 +128,19 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value = "idCheck.me", produces = "text/html; charset=UTF-8")
+	public String idCheck(String checkId) {
+		
+		int count = memberService.idCheck(checkId);
+		
+	
+		return (count > 0) ? "NNNNN" : "NNNNY";
+	}
+
+	
 }
+
 
 
 

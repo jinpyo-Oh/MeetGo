@@ -2,7 +2,6 @@ package com.kh.meetgo.member.model.service;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.kh.meetgo.member.model.dao.MemberDao;
@@ -67,5 +66,9 @@ public class MemberServiceImpl implements MemberService {
 	public int idCheck(String checkId) {
 		return memberDao.idCheck(sqlSession, checkId);
 	}
+
+
+
+	
 
 }
