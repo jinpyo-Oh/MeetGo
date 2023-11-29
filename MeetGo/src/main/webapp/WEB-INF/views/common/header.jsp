@@ -11,15 +11,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- Latest compiled and minified CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+     <!-- jQuery library -->
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+     <!-- Popper JS -->
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+     <!-- Latest compiled JavaScript -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 <style>
     html, body {
@@ -44,7 +44,7 @@
     }
     .global-header {
         width: 100%;
-        height: 72px;
+        height: 72px;   
     }
     .global-navigation-bar {
         width: 1200px;
@@ -62,7 +62,7 @@
         width: 330px;
         height: 70%;
         display: flex;
-        align-items: center;
+        align-items: center;    
         flex: 1;
     }
     .nav-list {
@@ -71,7 +71,7 @@
         font-size: 18px;
     }
     .logo{
-        align-items: center;
+        align-items: center;    
         height: 100%;
     }
     .logo>a {
@@ -83,7 +83,7 @@
         margin-left: 20px   ;
     }
     .nav-list li:nth-child(n+2) a {
-        margin-left: 15px;
+        margin-left: 15px; 
     }
     .center-section{
         flex: 1;
@@ -103,7 +103,7 @@
         margin-top: 8px;
     }
     .input-group {
-        width: 300px;
+        width: 240px;
         height: 40px;
         padding: 0 12px;
         display: flex;
@@ -135,27 +135,6 @@
     }
     .right-section button:hover {
         background-color: #1673d1;
-    }
-    .meetgo-btn {
-        background-color: white;
-        font-family: 'Noto Sans KR', sans-serif;
-        border: 2px solid #2A8FF7;
-        color: #2A8FF7;
-        margin: 5px;
-        border-radius: 0.4em;
-        box-sizing: border-box;
-    }
-    .meetgo-btn:hover {
-        background-color: #adbfce;
-        border : 2px solid #1673d1;
-        box-sizing: border-box;
-        color: black;
-    }
-    .w-100 {
-        width: 100%;
-    }
-    .w-50{
-        width: 50%;
     }
 </style>
 <body>
@@ -191,25 +170,30 @@
             </div>
             <div class="right-section">
                 <nav class="nav-list">
-                    <c:choose>
-                        <c:when test="${empty sessionScope.loginUser}">
-                            <li>
-                                <a>로그인</a>
-                            </li>
-                            <li>
-                                <a>회원가입</a>
-                            </li>
-                        </c:when>
-                        <c:otherwise>
-                            <li>
-                                <a>채팅</a>
-                            </li>
-                            <li>
-                                <a>프로필</a>
-                            </li>
-                        </c:otherwise>
-                    </c:choose>
-                    
+                  <c:choose>	
+						<c:when test="${ empty sessionScope.loginUser }">
+							<!-- 로그인전 -->
+							<li>
+							    <a href="loginform.me">로그인</a>
+							</li>
+							<li>
+							    <a href="EnrollForm.me">회원가입</a>
+							</li>
+							
+							<button>
+							    <a>고수가입</a>
+							</button>
+							
+						</c:when>
+					
+						<c:otherwise>
+							<!-- 로그인 후 -->
+							<li><a>받은 견적</a></li>
+							<li><a>채팅</a></li>
+							
+							<a href="logout.me">로그아웃</a>
+						</c:otherwise>
+					</c:choose>
                 </nav>
             </div>
         </div>
@@ -221,11 +205,11 @@
 
         inputField.addEventListener("focus", function() {
             searchBar.style.backgroundColor = "white";
-            searchBar.style.border = "1px solid #1673d1";
+            searchBar.style.border = "1px solid #1673d1"; 
         });
 
         inputField.addEventListener("blur", function() {
-            searchBar.style.backgroundColor = "#f4f4f4";
+            searchBar.style.backgroundColor = "#f4f4f4"; 
             searchBar.style.border = "none";
         });
     </script>

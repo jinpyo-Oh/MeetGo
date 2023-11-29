@@ -11,7 +11,7 @@
 			height: 100%;
 		}
         .content {
-            width: 1200px ;
+            width: 1200px;
             margin: 0 auto;
             font-family: 'Noto Sans KR', sans-serif;
         }
@@ -91,9 +91,6 @@
 		}
         .portfolio-img-text p, .portfolio-img-text h4{
 			margin: 5px;
-		}
-        .portfolio-img-text h4 {
-			font-size: 16px;
 		}
 		.portfolio-info {
 			width: 250px;
