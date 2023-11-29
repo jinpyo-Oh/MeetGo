@@ -122,7 +122,6 @@
         display: flex;
         align-items: center;
         float: right;
-        margin-right: 30px;
     }
     .right-section button {
         width: 80px;
@@ -156,7 +155,74 @@
     .w-50{
         width: 50%;
     }
-	
+	.menu-userInfo {
+		width: 100px;
+		height: 72px;
+        margin-left: 25px;
+        display: flex;
+		align-items: center;
+		cursor: pointer;
+	}
+    #user-profile {
+		height: 70%;
+		border-radius: 50%;
+	}
+	#user-collapse {
+		height: 25px;
+		width: 25px;
+		margin-left: 5px;
+	}
+	#user-info-collapse{
+        position: absolute;
+        background-color: white;
+        width: 240px;
+		right: 1%;
+        box-sizing: border-box;
+        border: 1px solid lightgray;
+		padding: 30px;
+		border-radius: 10px;
+		box-shadow: 1px 1px 1px 1px lightgray;
+	}
+    #user-info-collapse hr {
+		margin: 10px;
+	}
+	.user-name {
+		margin-bottom: 30px;
+	}
+	.user-menu {
+		color: #3a3a3a;
+		font-size: 15px;
+        margin-bottom: 30px;
+	}
+    .user-menu div {
+		margin-top: 15px;
+		padding-left: 10px;
+		cursor: pointer;
+	}
+	.user-menu div:hover {
+		background-color: whitesmoke;
+		border-radius: 5px;
+	}
+	.user-button button {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		background-color: transparent;
+		border: none;
+		color: black;
+		font-size: 15px;
+		
+	}
+    .user-button img {
+		width: 15px;
+		height: 15px;
+	}
+    .user-button button:hover {
+		background-color: whitesmoke;
+	}
+    #user-info-collapse ul {
+		padding: 0;
+	}
 </style>
 <body>
     <header class="global-header">
@@ -193,7 +259,6 @@
                 <nav class="nav-list">
                   <c:choose>	
 						<c:when test="${ empty sessionScope.loginUser }">
-							<!-- 로그인전 -->
 							<li>
 							    <a href="loginform.me">로그인</a>
 							</li>
@@ -204,11 +269,66 @@
 						<c:otherwise>
 							<li><a>견적 목록</a></li>
 							<li><a href="chat.ct">채팅</a></li>
-							<li><a href="logout.me">로그아웃</a></li>
+							<li>
+								<div class="menu-userInfo" data-toggle="collapse" data-target="#user-info-collapse">
+									<img id="user-profile" src="${sessionScope.loginUser.userProFile}">
+									<img id="user-collapse" src="<%=request.getContextPath()%>/resources/images/chat/wing-icon.png">
+								</div>
+								<div id="user-info-collapse" class="collapse">
+									<c:choose>
+										<c:when test="${sessionScope.loginUser.userStatus eq 1}">
+											<div class="user-name">
+												<h5>${sessionScope.loginUser.userName} 고객님</h5>
+											</div>
+											<div class="user-menu">
+												<ul>
+													<li><div onclick="window.location.href='myPage.me'">내 정보 조회</div></li>
+													<li><div onclick="window.location.href=''">견적 목록</div></li>
+													<li><div onclick="window.location.href=''">내 리뷰 관리</div></li>
+												</ul>
+											</div>
+											<hr>
+											<div class="user-button">
+												<button><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 고수 전환</button>
+											</div>
+											<hr>
+											<div class="user-button">
+												<button><img style="width: 20px; height: 20px;" src="<%=request.getContextPath()%>\resources\images\common\logout-icon.png">&nbsp;&nbsp; 로그아웃</button>
+											</div>
+										</c:when>
+										<c:when test="${sessionScope.loginUser.userStatus eq 2}">
+											<div class="user-name">
+												<h5>${sessionScope.loginUser.userName} 고수님</h5>
+											</div>
+											<div class="user-menu">
+												<ul>
+													<li><div onclick="window.location.href='myPage.me'">내 정보 조회</div></li>
+													<li><div onclick="window.location.href='gosuPage.me'">고수 프로필 관리</div></li>
+													<li><div onclick="window.location.href=''">견적 목록</div></li>
+												</ul>
+											</div>
+											<hr>
+											<div class="user-button">
+												<button><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 회원 전환</button>
+											</div>
+											<hr>
+											<div class="user-button">
+												<button onclick="location.href='logout.me'"><img style="width: 20px; height: 20px;" src="<%=request.getContextPath()%>\resources\images\common\logout-icon.png">&nbsp;&nbsp; 로그아웃</button>
+											</div>
+										</c:when>
+									</c:choose>
+								</div>
+							</li>
 						</c:otherwise>
 					</c:choose>
                 </nav>
+				<br>
+				
             </div>
+			
+			<script>
+			
+			</script>
         </div>
     </header>
 

@@ -314,7 +314,6 @@
 			</div>
 			<script>
 				$('#chat-file-upload').click(function (e){
-                    console.log("ㅇㅅㅇ");
                     $('#chat-file').click();
 				});
 			</script>

@@ -46,10 +46,24 @@ CREATE TABLE MEMBER
     USER_EMAIL       VARCHAR2(30) UNIQUE                         NOT NULL, -- 이메일 (인증 필요)
     USER_PHONE       VARCHAR2(20)                                NOT NULL, -- 번호
     USER_PROFILE     VARCHAR2(1000)                              NULL,     -- 프로필 이미지
+    ADDRESS          VARCHAR2(100)                               NOT NULL, -- 주소
     CREATE_DATE      DATE DEFAULT SYSDATE,                                 -- 생성일자
     LAST_ACCESS_DATE DATE DEFAULT SYSDATE,                                 -- 최근 접속일
-    USER_STATUS      NUMBER CHECK (USER_STATUS IN (1, 2, 3))     NULL      -- 1: 일반사용자,  2: 고수,  3: 비활성화(탈퇴)
+    USER_STATUS      NUMBER CHECK (USER_STATUS IN (1, 2, 3, 4))  NULL      -- 1: 일반사용자,  2: 고수,  3: 고수 비활성화 4: 회원 탈퇴(비활성화)
 );
+
+CREATE TABLE REPORT
+(
+    REPORT_NO       NUMBER PRIMARY KEY,                          -- 신고 번호
+    REPORTED_USER   NUMBER        NOT NULL,                      -- 신고 받은 사람 번호
+    REPORT_CATEGORY VARCHAR2(200) NOT NULL,                      -- 신고 카테고리
+    REPORT_CONTENT  VARCHAR2(300) NOT NULL,                      -- 신고 내용
+    REPORT_STATUS   NUMBER CHECK ( REPORT_STATUS IN (0, 1, 2) ), -- 신고 상태 0:미확인, 1:처리대기, 2:처리완료
+    REPORT_USER     NUMBER,                                      -- 신고자 번호
+    FOREIGN KEY (REPORT_USER) REFERENCES MEMBER (USER_NO)
+);
+CREATE SEQUENCE SEQ_REPORT_NO NOCACHE;
+
 CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
                     USER_PROFILE, USER_STATUS)
@@ -72,9 +86,8 @@ VALUES (1004, 'USER04', 'USER04', 'USER04', 'USER04', 'M', 'dltkdgus1853@gmail.c
 CREATE TABLE GOSU
 (
     "GOSU_NO"        NUMBER PRIMARY KEY,     -- 고수 번호
-    "ADDRESS"        VARCHAR2(100) NOT NULL, -- 주소
     "INTRODUCTION"   VARCHAR2(255) NOT NULL, -- 소개
-    "EDUCATION"      VARCHAR2(100) NULL,     -- 학력
+    "EDUCATION"      VARCHAR2(100) NOT NULL, -- 학력
     "CAREER"         VARCHAR2(50)  NOT NULL, -- 경력
     "ELABORATE"      VARCHAR2(255) NOT NULL, -- 서비스 상세 설명
     "REGION"         VARCHAR2(100) NOT NULL, -- 지역
@@ -86,6 +99,7 @@ CREATE TABLE GOSU
 INSERT INTO GOSU (GOSU_NO, ADDRESS, INTRODUCTION, EDUCATION, CAREER, ELABORATE, REGION, MOVE_DISTANCE,
                   AVAILABLILTY_TIME, USER_NO)
 VALUES (1004, '서울시 어쩌구', '렛미인트로듀스 마이셀프투유', '초졸', '1년', '서비스 상세 설명입니다.', '서울 어쩌구', '5km', '오전 9시 ~ 오후 2시', 1002);
+
 -- 찜 목록 테이블
 CREATE TABLE "WISH-LIST"
 (
