@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+
+	<!-- Member 테이블 조회 결과에 대한 resultMap -->
+	<resultMap id="memberResultSet" type="member">
+		<result column="USER_NO" property="userNo" />
+		<result column="USER_NAME" property="userName" />
+		<result column="USER_ID" property="userId" />
+		<result column="USER_PWD" property="userPwd" />
+		<result column="USER_EMAIL" property="userEmail" />
+		<result column="USER_NICKNAME" property="userNickname" />
+		<result column="USER_GENDER" property="userGender" />
+		<result column="USER_PHONE" property="userPhone" />
+		<result column="USER_PROFILE" property="userProFile" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="LAST_ACCESS_DATE" property="lastAccessDate" />
+		<result column="USER_STATUS" property="userStatus" />
+		
+	</resultMap>
+	
+
+	<!-- 로그인용 쿼리문 -->
+	<select id="loginMember" parameterType="member" 
+							 resultMap="memberResultSet">
+			SELECT *
+			FROM MEMBER
+			WHERE USER_ID = #{userId}
+			AND USER_STATUS = '1'
+	</select>
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO MEMBER(USER_NO,
+					USER_ID,
+					USER_PWD,
+					USER_NAME,
+					USER_NICKNAME,
+					USER_EMAIL,
+					USER_GENDER,
+					USER_PHONE,
+					USER_STATUS)
+			VALUES (SEQ_MEMBER_NO.NEXTVAL,
+					#{userId},
+					#{userPwd},
+					#{userName},
+					#{userNickname},
+					#{userEmail},			
+					#{userGender},
+					#{userPhone},
+					1)
+	</insert>
+	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER
+		SET USER_NAME = #{userName},
+		EMAIL = #{userEmail},
+		PHONE = #{userPhone},
+		GENDER = #{userGender},
+		MODIFY_DATE = SYSDATE
+		WHERE USER_ID = #{userId}
+	</update>
+	<update id="deleteMember" parameterType="string">
+		UPDATE MEMBER
+		SET STATUS = 'N'
+		WHERE USER_ID = #{userId}
+	</update>
+	<select id="idCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_ID = #{checkId}
+	</select>
+
+
+</mapper>
+
+
+
+

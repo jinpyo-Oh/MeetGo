@@ -15,8 +15,8 @@
             text-decoration: none;
         }
         .profile {
-            width: 68px;
-            height: 68px;
+            width: 75px;
+            height: 75px;
             float: left;
             border-radius: 10px;
             margin-right:10px;
@@ -84,12 +84,14 @@
 	<jsp:include page="../common/header.jsp"/>
 
 <form>
-    <div class="mypage-main">
+    <div class="mypage-main" style="margin-top: 40px;">
         <h1>마이페이지</h1>
+        <br>
+        <br>
         <div class="header">
             <a href=""class="">
                 <img src="https://pbs.twimg.com/media/FRRFdEZaAAACoLr.jpg:large" class="profile">
-                <h2 class="name">김찬영 고객님</h2>
+                <h2 class="name">김찬영 고객님</h2> <br>
                 <p><img src="https://assets.cdn.soomgo.com/icons/icon-mypage-kakaotalk-signin.svg">tomy2213@naver.com</p>
                 <a class="btn" href="mypageInfo.me">계정설정</button>
             </a>
@@ -105,8 +107,8 @@
             <hr>
             <ul>
                 <li class="mypage">고수</li>
-                <a href="">
-                    <li class="mypage-mini">고수 리뷰 보러가기 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
+                <a href="gosuEnrollForm.me">
+                    <li class="mypage-mini">고수 등록하기 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                </a>
             </ul>
             <hr>

@@ -19,6 +19,7 @@ import com.kh.meetgo.member.model.vo.Member;
 public class MemberController {
 	
 	
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
@@ -92,10 +93,10 @@ public class MemberController {
 		boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
 		if (loginUser != null && check) {
 			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("alertMsg", "로그인에 성공했습니다.");
+			session.setAttribute("alertMsg", "濡쒓렇�씤�뿉 �꽦怨듯뻽�뒿�땲�떎.");
 			mv.setViewName("redirect:/");
 		} else {
-			mv.addObject("errorMsg", "로그인 실패");
+			mv.addObject("errorMsg", "濡쒓렇�씤 �떎�뙣");
 			mv.setViewName("common/errorPage");
 		}
 		return mv;
@@ -121,10 +122,10 @@ public class MemberController {
 		System.out.println(m);
 		int result = memberService.insertMember(m);
 		if (result > 0) {
-			session.setAttribute("alertMsg", "ㅇㅅㅇ");
+			session.setAttribute("alertMsg", "�뀋�뀉�뀋");
 			return "redirect:/";
 		} else {
-			model.addAttribute("errorMsg", "회원가입 실패");
+			model.addAttribute("errorMsg", "�쉶�썝媛��엯 �떎�뙣");
 			return "common/errorPage";
 		}
 	}
@@ -138,7 +139,15 @@ public class MemberController {
 		return (count > 0) ? "NNNNN" : "NNNNY";
 	}
 
+	@RequestMapping("estimate.me")
+	public String myEstimate() {
+		return "estimate/myEstimateList";
+	}
 	
+	@RequestMapping("reviewWrite.me")
+	public String reviewWrite() {
+		return "estimate/reviewWrite";
+	}
 }
 
 

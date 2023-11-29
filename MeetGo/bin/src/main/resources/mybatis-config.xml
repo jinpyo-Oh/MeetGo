@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="com.kh.meetgo.chat.model.vo.Chatroom" alias="chatroom" />
+		<typeAlias type="com.kh.meetgo.chat.model.vo.Chat" alias="chat" />
+		<typeAlias type="com.kh.meetgo.chat.model.dto.ChatListDto" alias="chatListDto" />
+		<typeAlias type="com.kh.meetgo.member.model.vo.Member" alias="member"/>
+	</typeAliases>
+	
+
+	<mappers>
+		<mapper resource="/mappers/chat-mapper.xml" />
+		<mapper resource="/mappers/member-mapper.xml"/>
+	</mappers>
+</configuration>
+
+
