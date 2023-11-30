@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -162,15 +164,46 @@ table, th, td {
                     >2023-11-28
                     </td>            
                </tr>
-              
-            </table>  
+                     <tbody>
+                	<c:forEach var="m" items="${ requestScope.list }">
+	                    <tr>
+	                        <td class="mno">${ m.boardNo }</td>
+	                        <td>${ m.boardTitle }</td>
+	                        <td>${ m.boardWriter }</td>
+	                        <td>${ m.createDate }</td>
+	                        
+	                        <td>
+	                        	
+	                        </td>
+	                    </tr>
+	            	</c:forEach>
+                </tbody>
+            </table> 
+             
        </div>
        <div class="gosu_footer">
-         페이징바 글작성버튼
+   		<a href="gosuWrite.go">
+            <button type="submit" class="btn btn-primary">글작성</button>
+        </a>
        </div>
       
     </div>
 	    	<jsp:include page="../../common/footer.jsp"/>
 	
+	
+	<script>
+	$(function() {
+		
+		$("#gosu_content>tbody>tr").click(function() {
+			
+			// let bno = $(this).children().eq(0).text();
+			let mno = $(this).children(".mno").text();
+			
+			// console.log(bno);
+			
+			location.href = "detail.bo?bno=" + bno;
+		});
+	});
+	</script>
 </body>
 </html>

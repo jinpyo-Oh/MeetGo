@@ -242,7 +242,7 @@
                         <a href="searchMain.go">고수찾기</a>
                     </li>
                     <li>
-                        <a>커뮤니티</a>
+                        <a href="gosuList.go">커뮤니티</a>
                     </li>
                 </nav>
             </div>
