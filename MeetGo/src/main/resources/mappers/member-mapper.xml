@@ -68,7 +68,14 @@
 		WHERE USER_ID = #{checkId}
 	</select>
 
-
+	<select id="selectChatUserInfo" parameterType="_int" resultMap="memberResultSet">
+		SELECT USER_NO, USER_NAME, USER_ID, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, LAST_ACCESS_DATE, USER_STATUS
+		FROM MEMBER
+		WHERE USER_NO = (SELECT USER_NO
+		FROM CHATROOM
+		WHERE CHATROOM_NO = #{chatroomNo}
+		)
+	</select>
 </mapper>
 
 

@@ -92,6 +92,12 @@
         .portfolio-img-text p, .portfolio-img-text h4{
 			margin: 5px;
 		}
+        .portfolio-img-text h4 {
+			font-size: 15px;
+		}
+		.portfolio-img-text p {
+			font-size: 13px;
+		}
 		.portfolio-info {
 			width: 250px;
 			margin: 10px auto 0 auto;
@@ -104,7 +110,7 @@
 			margin-right: 15px;
 		}
 		.portfolio-info p{
-			line-height: 50%;
+			line-height: 100%;
 		}
         .tip-card {
             width: 600px;
@@ -299,41 +305,41 @@
 			<div class="main-portfolio">
 				<div class="portfolio-card">
 					<div class="portfolio-img">
-						<img src="https://static.cdn.soomgo.com/upload/portfolio/0c2db666-3ccd-4c23-853c-ff212cb9dd0e.jpg?w=250&h=250&webp=1">
+						<img src="https://i.namu.wiki/i/qk6xHhBTmeQn4DDjNj4Gaa0KrNLmmqpXfsDcwQIUwiWrAq-3bw4CAN9VPKtfuFbRDuGIW-Gk6JIaGnVXijJ9og.webp">
 						<div class="portfolio-img-text">
 							<h4>내가 작업한 모델 포토샵 메이크...</h4>
 							<p>부분/피팅모델 알바</p>
 						</div>
 					</div>
 					<div class="portfolio-info">
-						<img src="https://dmmj3ljielax6.cloudfront.net/upload/profile/d9a51a2f-370a-43fd-b44a-4013552174f0.jpg?h=320&w=320&webp=1">
-						<p>남서연</p>
+						<img src="https://i.namu.wiki/i/qk6xHhBTmeQn4DDjNj4Gaa0KrNLmmqpXfsDcwQIUwiWrAq-3bw4CAN9VPKtfuFbRDuGIW-Gk6JIaGnVXijJ9og.webp">
+						<p>임윤아</p>
 					</div>
 				</div>
 				<div class="portfolio-card">
 					<div class="portfolio-img">
-						<img src="https://static.cdn.soomgo.com/upload/portfolio/0c2db666-3ccd-4c23-853c-ff212cb9dd0e.jpg?w=250&h=250&webp=1">
+						<img src="https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg">
 						<div class="portfolio-img-text">
 							<h4>내가 작업한 모델 포토샵 메이크...</h4>
 							<p>부분/피팅모델 알바</p>
 						</div>
 					</div>
 					<div class="portfolio-info">
-						<img src="https://dmmj3ljielax6.cloudfront.net/upload/profile/d9a51a2f-370a-43fd-b44a-4013552174f0.jpg?h=320&w=320&webp=1">
-						<p>남서연</p>
+						<img src="https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg">
+						<p>예인</p>
 					</div>
 				</div>
 				<div class="portfolio-card">
 					<div class="portfolio-img">
-						<img src="https://static.cdn.soomgo.com/upload/portfolio/0c2db666-3ccd-4c23-853c-ff212cb9dd0e.jpg?w=250&h=250&webp=1">
+						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU">
 						<div class="portfolio-img-text">
 							<h4>내가 작업한 모델 포토샵 메이크...</h4>
 							<p>부분/피팅모델 알바</p>
 						</div>
 					</div>
 					<div class="portfolio-info">
-						<img src="https://dmmj3ljielax6.cloudfront.net/upload/profile/d9a51a2f-370a-43fd-b44a-4013552174f0.jpg?h=320&w=320&webp=1">
-						<p>남서연</p>
+						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU">
+						<p>예원</p>
 					</div>
 				</div>
 				<div class="portfolio-card">

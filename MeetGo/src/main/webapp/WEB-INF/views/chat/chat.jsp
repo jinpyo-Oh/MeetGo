@@ -16,7 +16,6 @@
 <body>
 <jsp:include page="../common/header.jsp"/>
 <jsp:include page="estimateForm.jsp"/>
-
 <div class="chat-content">
 	<div class="left-box">
 		<div class="left-box-input-search" >
@@ -118,6 +117,59 @@
                             console.log("채팅방 목록 불러오기 에러");
 						}
 					})
+					
+					if(${sessionScope.loginUser.userStatus == 2}){ <!-- 로그인 유저가 고수상태이면 회원 정보 붙이기 -->
+                        $.ajax({
+                            url : "chatUserInfo",
+                            data : {
+                                chatroomNo : chatroomNo
+                            },
+                            async:false,
+                            dataType:"json",
+                            success : function (data){
+									let userInfo =
+										'<div className="info-profile">'
+											+'<img className="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">'
+											+'<img className="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">'
+											+'<div className="info-profile-more-list">'
+												+'<div>회원 상세 조회</div>'
+											+'</div>'
+											+'<h3>김세정</h3>'
+											+'<table>'
+												+'<tr>'
+													+'<td width="40%">지역</td>'
+													+'<td></td>'
+												+'</tr>'
+												+'<tr>'
+													+'<td>믿고 횟수</td>'
+													+'<td>15 회</td>'
+												+'</tr>'
+												+'<tr>'
+													+'<td>서비스</td>'
+													+'<td>반려견 산책</td>'
+												+'</tr>'
+											+'</table>'
+											+'<hr style="border : 1px solid lightgray; width: 80%;">'
+										+'</div>'
+										+'<div className="info-detail">'
+											+'<h5 style="margin-left: 20px">리뷰 목록</h5>'
+											+'<div className="review-img-area">'
+												+'<div style="width: 100px!important;"><img class="info-img" src="https://news.nateimg.co.kr/orgImg/xs/2020/04/09/1586412414197720.jpg"></div>'
+												+'<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNDAg/MDAxNjE0MDY5MTYxNzE1.ID-uK_t73wGeNH9TGMIeWKJZsQq9KDg_nySZdlKTLBQg.eOm-EdEw-i_NbPvPA5qdAOeLpwlhqEu5PMVGu5DqXr8g.JPEG/4-2.jpg?type=w1200"></div>'
+												+'<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNzQg/MDAxNjE0MDY5MTk5NDk2.RuWcBaRHnRUgGHlf-PHJAfsE54JjUD3DheHMskaeGsUg.wETZ4LxUQwZ6n6UErBz_2QqIATZk6sDvtx5bdlew304g.JPEG/5-3.jpg?type=w1200"></div>'
+											+'</div>'
+										+'</div>';
+									console.log(userInfo);
+									$('.right-box-info').append(userInfo);
+                            },
+                            error : function () {
+                                alert("오른쪽 회원 정보 조회 실패");
+                            }
+                        })
+                    } else {			<!-- 로그인 유저가 회원 상태면 고수 정보 붙이기 -->
+                    
+                    }
+					
 
                     connect();
                     scrollToBottom();
@@ -125,7 +177,6 @@
             });
             function CheckLR(data){
                 const lr = (data.sender == ${sessionScope.loginUser.userNo}) ? "receiver" : "sender";
-                console.log(lr);
                 appendChat(lr, data);
 			}
             function appendChat(lr, data) {
@@ -187,46 +238,7 @@
 				})
 			</script>
 			<div class="right-box-info">
-				<div class="info-profile">
-					<img class="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">
-					<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">
-					<div class="info-profile-more-list">
-						<div>회원 상세 조회</div>
-						<div></div>
-					</div>
-					<h3>김세정</h3>
-					<table>
-						<tr>
-							<td width="40%">지역</td>
-							<td width="60%" >대전 중구</td>
-						</tr>
-						<tr>
-							<td>믿고 횟수</td>
-							<td>15 회</td>
-						</tr>
-						<tr>
-							<td>서비스</td>
-							<td>반려견 산책</td>
-						</tr>
-					</table>
-					<hr style="border : 1px solid lightgray; width: 80%;">
-				</div>
-				<div class="info-detail">
-					<h5 style="margin-left: 20px">리뷰 목록</h5>
-					<div class="review-img-area">
-						<div style="width: 100px!important;"><img class="info-img" src="https://news.nateimg.co.kr/orgImg/xs/2020/04/09/1586412414197720.jpg"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNDAg/MDAxNjE0MDY5MTYxNzE1.ID-uK_t73wGeNH9TGMIeWKJZsQq9KDg_nySZdlKTLBQg.eOm-EdEw-i_NbPvPA5qdAOeLpwlhqEu5PMVGu5DqXr8g.JPEG/4-2.jpg?type=w1200"></div>
-						<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNzQg/MDAxNjE0MDY5MTk5NDk2.RuWcBaRHnRUgGHlf-PHJAfsE54JjUD3DheHMskaeGsUg.wETZ4LxUQwZ6n6UErBz_2QqIATZk6sDvtx5bdlew304g.JPEG/5-3.jpg?type=w1200"></div>
-					</div>
-					<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-					<script>
-                        $('.review-img-area').slick({
-                            slidesToShow: 2,
-                            slidesToScroll: 2,
-                        });
-					</script>
-					
-				</div>
+			
 <%--				<div class="info-profile">--%>
 <%--					<img class="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">--%>
 <%--					<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">--%>
@@ -268,13 +280,7 @@
 <%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
 <%--						--%>
 <%--					</div>--%>
-<%--					<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>--%>
-<%--					<script>--%>
-<%--                        $('.info-img-area').slick({--%>
-<%--                            slidesToShow: 2,--%>
-<%--                            slidesToScroll: 2,--%>
-<%--                        });--%>
-<%--					</script>--%>
+
 <%--					--%>
 <%--					<h5 style="margin-left: 20px">포트폴리오</h5>--%>
 <%--					<div class="info-pofol">--%>
@@ -283,18 +289,35 @@
 <%--						<div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>--%>
 <%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
 <%--					</div>--%>
-<%--					<script>--%>
-<%--                        $('.info-pofol').slick({--%>
-<%--                            slidesToShow: 2,--%>
-<%--                            slidesToScroll: 2,--%>
-<%--                        });--%>
-<%--					</script>--%>
-<%--					--%>
 <%--				</div>--%>
+			<script>
+			
+			</script>
+			<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+			<script>
+				$('.info-pofol').slick({
+					slidesToShow: 2,
+					slidesToScroll: 2,
+				});
+				$('.review-img-area').slick({
+					slidesToShow: 2,
+					slidesToScroll: 2,
+				});
+                $('.info-img-area').slick({
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                });
+			</script>
 			</div>
 		</div>
 		<div>
-			<div class="chat-input-box">
+			<script>
+				$(function (){
+                    let chatbox = document.getElementsByClassName('chat-input-box');
+                    chatbox.disable = true;
+				})
+			</script>
+			<div class="chat-input-box" >
 				<label for="chat-textarea"></label>
 				<textarea id="chat-textarea" maxlength="180" placeholder="메세지를 입력해 주세요."></textarea>
 				<div>
@@ -305,7 +328,7 @@
 						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/report-icon.png" alt="">신고</button>
 					</div>
 					<div class="input-button">
-						<button onclick="sendMessage()" class="meetgo-btn">전송</button>
+						<button onclick="sendMessage('M')" class="meetgo-btn">전송</button>
 						<button class="meetgo-btn">채팅방 나가기</button>
 					</div>
 				</div>
@@ -326,12 +349,12 @@
                 function connect(){
                     let url = "ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chat.do";
                     websocket = new WebSocket(url);
-                    //웹 소켓에 이벤트가 발생했을 때 호출될 함수 등록
+                    // 웹 소켓에 이벤트가 발생했을 때 호출될 함수 등
                     websocket.onopen = onOpen;
                     websocket.onmessage = onMessage;
                 }
 
-                //웹 소켓에 연결되었을 때 호출될 함수
+                // 웹 소켓에 연결되었을 때 호출될 함수
                 function onOpen() {
                     const data = {
                         "chatroomNo" : chatroomNo,
@@ -346,17 +369,25 @@
                 }
 
                 // * 1 메시지 전송
-                function sendMessage(){
-                    let message = $('#chat-textarea').val();
-                    const data = {
-                        "chatroomNo" : chatroomNo,
-						"sender" : ${sessionScope.loginUser.userNo},
-						"type" : 'M',
-                        "content"   : message,
-						"createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
-                    };
-                    let jsonData = JSON.stringify(data);
-                    $('#chat-textarea').val('');
+                function sendMessage(type){
+                    let jsonData;
+                    if(type == 'M'){
+                        let message = $('#chat-textarea').val();
+                        const data = {
+                            "chatroomNo" : chatroomNo,
+                            "sender" : ${sessionScope.loginUser.userNo},
+                            "type" : 'M',
+                            "content"   : message,
+                            "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                        };
+                        jsonData = JSON.stringify(data);
+                        $('#chat-textarea').val('');
+					} else if (type == 'P') {
+     
+					} else if (type == 'E') {
+                    
+                    }
+                    
                     websocket.send(jsonData);
                 }
 
