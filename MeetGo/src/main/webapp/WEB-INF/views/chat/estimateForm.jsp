@@ -13,7 +13,7 @@
         width: 100%; /* Full width */
         height: 100%; /* Full height */
         background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-        /*display: none;*/
+        display: none;
     }
 
     .estimate_content {
@@ -186,7 +186,14 @@
 			<h1>견적서</h1>
 			<img id="est-cancel" onclick="displayNone()" src="https://cdn.icon-icons.com/icons2/1524/PNG/512/x_106506.png">
 		</div>
-		
+		<h4>서비스 종류</h4>
+		<div class="form__group field">
+			<select id="est-service" name="est-service">
+				<option>반려견 산책</option>
+				<option>보컬 트레이닝</option>
+			</select>
+		</div>
+		<hr>
 		<h4>금액</h4>
 		<div class="form__group field">
 			<input type="text" class="form__field" id="estPrice" name="estPrice" placeholder="Name" oninput="formatNumber()" required>
@@ -256,13 +263,47 @@
 			</div>
 		</div>
 		<div class="est-button">
-			<button class="meetgo-btn" onclick="">작성하기</button>
+			<button class="meetgo-btn" onclick="submitEst()">작성하기</button>
 			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
 		</div>
 	</div>
 </div>
 
 <script>
+	function submitEst(){
+       
+        let estService = $('#est-service').val();
+        let estPrice = $('#estPrice').val();
+        let startDate = $('#startDate').val();
+        let endDate = $('#endDate').val();
+        let estAddress = $('#address').val() + " " + $('#detailAddress').val();
+        let estContent = $('#estContent').val();
+        let estimate = {
+            chatroomNo : chatroomNo,
+            estService : estService,
+            estPrice : estPrice,
+            startDate :  startDate,
+            endDate :  endDate,
+            estAddress :  estAddress,
+            estContent :  estContent,
+            gosuNo : ${sessionScope.loginUser.userNo}
+		}
+        console.log(estimate);
+        $.ajax({
+			url : "submitEst",
+			method : "post",
+			data : {
+                estimate : estimate
+			},
+			success:function (){
+                console.log("견적서 저장 완료");
+                sendMessage('E');
+			},
+			error : function (){
+                console.log("견적서 저장 실패");
+			}
+		});
+	}
     function displayNone() {
         $('#modalWrap').css("display", "none");
     }

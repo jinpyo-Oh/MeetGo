@@ -263,7 +263,7 @@
                   <c:choose>	
 						<c:when test="${ empty sessionScope.loginUser }">
 							<li>
-							    <a href="loginform.me">로그인</a>
+							    <a href="loginForm.me">로그인</a>
 							</li>
 							<li>
 							    <a href="EnrollForm.me">회원가입</a>
@@ -292,7 +292,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 고수 전환</button>
+												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 고수 전환</button>
 											</div>
 											<hr>
 											<div class="user-button">
@@ -312,7 +312,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 회원 전환</button>
+												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 회원 전환</button>
 											</div>
 											<hr>
 											<div class="user-button">

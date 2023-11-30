@@ -15,4 +15,6 @@ public interface ChatService {
     Chatroom selectChatroom(int chatroomNo);
 
     int insertChat(Chat chat);
+
+    Member selectChatUserInfo(String chatroomNo);
 }

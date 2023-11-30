@@ -41,9 +41,19 @@ public class ChatController {
         }
         return new Gson().toJson(chatList);
     }
+    @ResponseBody
+    @GetMapping(value = "/chatUserInfo")
+    public String selectChatUserInfo(String chatroomNo) {
+        System.out.println("chatUserInfo 메서드 진입");
+
+        Member m = chatService.selectChatUserInfo(chatroomNo);
+        System.out.println("m = " + m);
+        return new Gson().toJson(m);
+    }
     @GetMapping(value = "/estimate.ct")
     public String estimateForm(){
         return "chat/estimate";
     }
+
 
 }
