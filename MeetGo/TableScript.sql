@@ -98,9 +98,10 @@ CREATE TABLE GOSU
     "USER_NO"         NUMBER        NOT NULL,
     FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
 );
-INSERT INTO GOSU (GOSU_NO, ADDRESS, INTRODUCTION,EMPLOYEES,BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION, MOVE_DISTANCE,
+INSERT INTO GOSU (GOSU_NO, ADDRESS, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
+                  MOVE_DISTANCE,
                   AVAILABLILTY_TIME, USER_NO)
-VALUES (1004, '서울시 어쩌구', '렛미인트로듀스 마이셀프투유', 1,1,'초졸', '1년', '서비스 상세 설명입니다.', '서울 어쩌구', '5km', '오전 9시 ~ 오후 2시', 1002);
+VALUES (1004, '서울시 어쩌구', '렛미인트로듀스 마이셀프투유', 1, 1, '초졸', '1년', '서비스 상세 설명입니다.', '서울 어쩌구', '5km', '오전 9시 ~ 오후 2시', 1002);
 
 -- 찜 목록 테이블
 CREATE TABLE "WISH-LIST"
@@ -317,6 +318,7 @@ CREATE TABLE ESTIMATE
     "EST_TITLE"         VARCHAR2(90)   NOT NULL,                                  -- 견적서 제목
     "EST_CONTENT"       VARCHAR2(1500) NOT NULL,                                  -- 견적서 내용
     "EST_ADDRESS"       VARCHAR2(300)  NOT NULL,                                  -- 견적서 주소
+    "EST_SERVICE"       VARCHAR2(100)  NOT NULL,                                  -- 서비스 종류
     "START_DATE"        DATE           NOT NULL,                                  -- 서비스 시작일
     "END_DATE"          DATE DEFAULT SYSDATE,                                     -- 서비스 종료일
     "CONFIRMATION_DATE" DATE           NULL,                                      -- 견적 확정일
@@ -325,9 +327,7 @@ CREATE TABLE ESTIMATE
     "tid"               VARCHAR2(30)   NULL,                                      -- 결제 고유 번호
     "GOSU_NO"           NUMBER         NOT NULL,                                  -- 고수 번호
     "USER_NO"           NUMBER         NOT NULL,                                  -- 사용자 번호
-    "CHAT_NO"           NUMBER         NOT NULL,                                  -- 채팅 번호
     FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO),
-    FOREIGN KEY (CHAT_NO) REFERENCES CHAT (CHAT_NO),
     FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
 );
 CREATE SEQUENCE SEQ_ESTIMATE_NO NOCACHE;
