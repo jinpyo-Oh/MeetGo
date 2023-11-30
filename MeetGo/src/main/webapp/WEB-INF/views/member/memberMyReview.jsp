@@ -6,7 +6,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	
+	.review-info{
+        width: 70%;
+	}
+	.review-img {
+		width: 30%;
+	}
+	.review-img img {
+		width: 100%;
+		height: 100%;
+        object-fit: cover;
+	}
+	.aa {
+        width: 950px; height: 250px; background-color: lightgray; display: flex; margin: auto;
+		margin-bottom: 50px;
+	}
 </style>
 </head>
 <body>
@@ -14,7 +28,7 @@
 	
 	<br>
 	
-	<div class="outer" style="width: 80%; height: 800px; margin-top:100px; margin: auto;">
+	<div class="outer" style="width: 80%; min-height: 800px; margin-top:100px; margin: auto;">
 	
 		<br>
 		
@@ -26,30 +40,20 @@
 	
 		<div style="margin: auto; width: 65%;">
 
-	        <div class="aa" style="width: 100%; height: 250px; background-color: lightgray; display: flex;" >
-				
-				<div style="width: 70%;">
-				
+	        <div class="aa" >
+				<div class="review-info" style="">
 					<h2>&nbsp;&nbsp;포트폴리오 꿀팁</h2>
-				  
 					<p>&nbsp;&nbsp;포트폴리오 작성시에는 신중하게 작성하는게 중요하다</p>
-					  
-					&nbsp;&nbsp; &nbsp;&nbsp;<i class="bi bi-eye-fill"></i>&nbsp;&nbsp;                 
-					
-				</div>   
-				
-				<div style="width: 30%;">
+				&nbsp;&nbsp; &nbsp;&nbsp;<i class="bi bi-eye-fill"></i>&nbsp;&nbsp;
+				</div>
+				<div class="review-img" >
 					<img src="<%=request.getContextPath()%>/resources/images/common/KakaoTalk_20231116_105754286.jpg"" id="titleImg" width="170" height="160" >    
 				</div> 
-			</div>      
-
-			  
+			</div>
 
 			
-
+			
 		</div>
-
-
 	</div>
 	<jsp:include page="../common/footer.jsp"/>
 </body>
