@@ -38,7 +38,7 @@
         
         <br>
 	
-		<div style="margin: auto; width: 65%;">
+		<div style="margin: auto;">
 
 	        <div class="aa" >
 				<div class="review-info" style="">

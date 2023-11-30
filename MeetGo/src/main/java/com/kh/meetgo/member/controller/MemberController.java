@@ -28,21 +28,21 @@ public class MemberController {
 	
 	
 	
-	@RequestMapping(value="checknumber.me") 
+	@RequestMapping(value= "checkNumber.me")
 	public String checkNumber() {
 		return "member/memberChecknumber";
 	}
 	
-	@RequestMapping("loginform.me")
-	public String loginform() {		
+	@RequestMapping("loginForm.me")
+	public String loginForm() {
 		//System.out.println("s");
 		return "member/memberLogin";
 	}
-	@RequestMapping("mypage.me")
+	@RequestMapping("myPage.me")
 	public String mypage() {
 		return "member/memberMypage";
 	}
-	@RequestMapping("mypageInfo.me")
+	@RequestMapping("myPageInfo.me")
 	public String mypagemini() {
 		return "member/memberMypagInfo";
 	}
