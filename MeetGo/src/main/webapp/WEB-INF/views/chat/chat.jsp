@@ -110,7 +110,6 @@
                         async:false,
 						dataType:"json",
 						success:function (data){
-                            console.log(data);
                             for (let i = 0; i < data.length; i++) {
 								CheckLR(data[i]);
                             }
@@ -122,8 +121,6 @@
 
                     connect();
                     scrollToBottom();
-                    
-                    console.log("enterRoom")
                 });
             });
             function CheckLR(data){
@@ -134,7 +131,6 @@
             function appendChat(lr, data) {
                 let chat = "";
                 if (data.type == 'M') {
-                    console.log("되나?");
                     chat = '<div class="chat-bubble">'
 								+ '<p class="'+lr+'">' + data.content +'</p>'
 								+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
@@ -145,30 +141,30 @@
 							+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
                         + '</div>';
                 } else if (data.type == 'E') {
-                    // <div class="chat-bubble">
-                    //     <div class="chat-estimate receiver">
-                    //         <h5 class="est-title">견적서</h5>
-                    //         <p class="est-content">
-                    //             이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.
-                    //         </p>
-                    //         <hr>
-                    //             <table>
-                    //                 <tr>
-                    //                     <td>서비스</td>
-                    //                     <td>반려견 산책</td>
-                    //                 </tr>
-                    //                 <tr>
-                    //                     <th>예상 금액</th>
-                    //                     <td>총 30,000 원</td>
-                    //                 </tr>
-                    //             </table>
-                    //             <hr>
-                    //                 <div class="est-button">
-                    //                     <p>취소된 견적서 입니다.</p>
-                    //                 </div>
-                    //     </div>
-                    //     <p class="chat-createAt p-receiver">1:45 PM</p>
-                    // </div>
+                    chat = '<div class="chat-bubble">'
+							+ '<div class="chat-estimate receiver">'
+								+ '<h5 class="est-title">견적서</h5>'
+								+ '<p class="est-content">'
+									+ '이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
+								+ '</p>'
+								+ '<hr>'
+								+ '<table>'
+									+ '<tr>'
+										+ '<td>서비스</td>'
+										+ '<td>반려견 산책</td>'
+									+ '</tr>'
+									+ '<tr>'
+										+ '<th>예상 금액</th>'
+										+ '<td>총 30,000 원</td>'
+									+ '</tr>'
+								+ '</table>'
+								+ '<hr>'
+								+ '<div class="est-button">'
+									+ '<p>취소된 견적서 입니다.</p>'
+								+ '</div>'
+							+ '</div>'
+							+ '<p class="chat-createAt p-receiver">1:45 PM</p>'
+                        + '</div>'
                 } else {
                     console.log("채팅 타입 인식 실패")
 				}

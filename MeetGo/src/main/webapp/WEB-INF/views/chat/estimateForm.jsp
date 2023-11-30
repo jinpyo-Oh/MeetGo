@@ -12,7 +12,6 @@
         top: 0;
         width: 100%; /* Full width */
         height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
         background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
         /*display: none;*/
     }
@@ -26,8 +25,27 @@
         background-color: #fff;
         box-sizing: border-box;
         box-shadow: 5px 5px 20px 5px #313131;
+        overflow: auto; /* Enable scroll if needed */
     }
-
+	#est-cancel{
+		width: 25px;
+		height: 25px;
+        cursor: pointer;
+	}
+    .estimate_content::-webkit-scrollbar {
+        width: 10px;
+    }
+    .estimate_content::-webkit-scrollbar-thumb {
+        background-color: #808080;
+        border-radius: 10px;
+        background-clip: padding-box;
+        border: 2px solid transparent;
+    }
+    .estimate_content::-webkit-scrollbar-track {
+        background-color: #fdfdfd;
+        border-radius: 10px;
+        box-shadow: inset 0px 0px 5px white;
+    }
     .estimate_content p {
         margin: 0;
     }
@@ -43,6 +61,7 @@
     .form__field {
         font-family: inherit;
         width: 100%;
+		height: 50px;
         border: none;
         border-bottom: 2px solid #9b9b9b;
         outline: 0;
@@ -97,17 +116,65 @@
     }
 
     .est-header {
-        width: 100%;
+        width: 95%;
+		margin-left: 5%;
         height: 100px;
         text-align: center;
+		display: flex;
+        justify-content: space-between;
     }
 	#search-addr {
 		width: 30%;
-		height: 40px;
+		height: 50px;
+		margin-top: 20px;
 	}
 	#modalWrap hr {
-		width: 90%;
-		border: 1px solid lightgray;
+        width: 95%;
+        border: 1px solid lightgray;
+		margin-top: 50px;
+    }
+    #modalWrap h4 {
+		margin-top : 30px;
+		margin-left: 5%;
+	}
+	#estContent {
+		resize: none;
+	}
+	.est-button {
+		width: 80%;
+		margin: auto;
+		text-align: center;
+		align-items: center;
+		margin-top: 50px;
+	}
+    .est-button button {
+		width: 40%;
+		box-sizing: border-box;
+		height: 50px;
+	}
+	.contract_user{
+        display: flex;
+		width: 80%;
+		margin: auto;
+		align-items: center;
+	}
+	.est-card {
+		margin: auto;
+	}
+	.est-card-img img {
+		width: 120px;
+		height: 120px;
+		border-radius: 60px;
+	}
+	.est-card-info {
+		text-align: center;
+		color: black;
+		font-size: 20px;
+	}
+	
+	#deal-icon{
+		width: 80px;
+		height: 80px;
 	}
 </style>
 <body>
@@ -116,41 +183,82 @@
 	
 	<div class="estimate_content">
 		<div class="est-header">
-			<h2>견적서</h2>
+			<h1>견적서</h1>
+			<img id="est-cancel" onclick="displayNone()" src="https://cdn.icon-icons.com/icons2/1524/PNG/512/x_106506.png">
 		</div>
 		
+		<h4>금액</h4>
 		<div class="form__group field">
 			<input type="text" class="form__field" id="estPrice" name="estPrice" placeholder="Name" oninput="formatNumber()" required>
 			<label for="estPrice" class="form__label">책정 금액</label>
 		</div>
 		<hr>
+		<h4>계약 날짜</h4>
 		<div class="form__group field">
-			<input type="date" class="form__field" id="startDate" name="startDate">
-			<label for="startDate" class="form__label">계약 이행일</label>
+			<input type="date" class="form__field" id="startDate" name="startDate" required>
+			<label for="startDate" class="form__label"></label>
 		</div>
+		<div class="form__group field">
+			<input type="text" class="form__field" id="endDate" name="endDate" placeholder="Name" required>
+			<label for="endDate"  class="form__label">계약 이행일</label>
+			<p>ex) 계약일로부터 x일</p>
+		</div>
+		
 		<hr>
+		
+		<h4>주소</h4>
 		<div class="form__group field" style="display: flex">
-			<input type="text" class="form__field" id="sample6_address" placeholder="주소" disabled>
-			<label for="sample6_address" class="form__label">주소</label>
+			<input type="text" class="form__field" id="address" placeholder="주소" disabled required>
+			<label for="address" class="form__label">주소</label>
 		</div>
 		<div style="display: flex; width: 80%; margin: auto">
-			<div class="form__group field" style="display: flex">
-				<input type="text" class="form__field" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소" >
-				<label for="sample6_detailAddress" class="form__label">상세주소</label>
+			<div class="form__group field" style="display: flex; margin: auto; text-align: center;align-items: center">
+				<input type="text" class="form__field" id="detailAddress" name="detailAddress" placeholder="상세주소" >
+				<label for="detailAddress" class="form__label">상세주소</label>
 			</div>
 			<input type="button" class="meetgo-btn" id="search-addr" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
 		</div>
 		<hr>
 		
-		
-		
-		
-		<div class="est-button">
-			<button class="meetgo-btn" onclick="displayNone()">작성하기</button>
-			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
-		
+		<h4>상세 설명</h4>
+		<div class="form__group field" >
+			<textarea type="text" class="form__field" id="estContent" name="estContent" placeholder="상세 설명"></textarea>
+			<p>서비스 설명, 수행 지역, 시간 등을 설명해 주세요</p>
 		</div>
-	
+		<script>
+            const DEFAULT_HEIGHT = 5; // textarea 기본 height
+            const $textarea = document.querySelector('#estContent');
+            $textarea.oninput = (event) => {
+                const $target = event.target;
+
+                $target.style.height = 0;
+                $target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px';
+            };
+		</script>
+		<hr>
+		<div class="contract_user">
+			<div class="est-card">
+				<div class="est-card-img">
+					<img src="https://mblogthumb-phinf.pstatic.net/MjAxOTA1MTRfMjA4/MDAxNTU3ODMxODUwNTk1.n1rndszUf2R_V0tChOSZ64vTQ7IBklPuA8cCnKgBS38g.SFeTe0aTlNDz1MwpburhuVDbXJHWcDhIjIk4s7e5JDkg.JPEG.onasis555/cats.jpg?type=w800">
+				</div>
+				<div class="est-card-info">
+					<p>수지 고객님</p>
+				</div>
+			</div>
+			<img id="deal-icon" src="<%=request.getContextPath()%>/resources/images/chat/deal-icon.png">
+			<div class="est-card">
+				<div class="est-card-img">
+					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2nv2D1cgY7TLqc9Sz-doVLhZoMPergR36xbzncThfnYSZaxwwPejTKUOKA&s">
+				</div>
+				<div class="est-card-info">
+					<p>윤아 고수님</p>
+				</div>
+			</div>
+		</div>
+		<div class="est-button">
+			<button class="meetgo-btn" onclick="">작성하기</button>
+			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
+		</div>
 	</div>
 </div>
 
@@ -189,26 +297,15 @@
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 var addr = ''; // 주소 변수
                 var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
                 if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                     addr = data.roadAddress;
                 } else { // 사용자가 지번 주소를 선택했을 경우(J)
                     addr = data.jibunAddress;
                 }
-
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
-                
+                document.getElementById("address").value = addr;
+                document.getElementById("detailAddress").focus();
             }
         }).open();
     }
