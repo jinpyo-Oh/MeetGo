@@ -148,6 +148,11 @@ public class MemberController {
 	public String reviewWrite() {
 		return "estimate/reviewWrite";
 	}
+	
+	@RequestMapping("myReview.me")
+	public String myReview() {
+		return "member/memberMyReview";
+	}
 }
 
 
