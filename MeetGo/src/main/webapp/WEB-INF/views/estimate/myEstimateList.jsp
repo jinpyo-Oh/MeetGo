@@ -81,7 +81,7 @@
 	                <h4><b>완료된 계약</b></h4> 
 	            </span>
 	            <span style="float:right;">
-	            	<a href="" type="button" class="btn btn-success btn-sm">내 리뷰</a>
+	            	<a href="myReview.me" type="button" class="btn btn-success btn-sm">내 리뷰</a>
 	            </span>
 	            
             </div>

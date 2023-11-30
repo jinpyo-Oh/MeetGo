@@ -40,7 +40,7 @@ CREATE TABLE MEMBER
     USER_NO          NUMBER PRIMARY KEY,                                   -- 유저 번호
     USER_NAME        VARCHAR2(30)                                NOT NULL, -- 이름
     USER_ID          VARCHAR2(30) UNIQUE                         NOT NULL, -- 아이디
-    USER_PWD         VARCHAR2(1000)                                NOT NULL, -- 비밀번호
+    USER_PWD         VARCHAR2(1000)                              NOT NULL, -- 비밀번호
     USER_NICKNAME    VARCHAR2(30) UNIQUE                         NOT NULL, -- 닉네임
     USER_GENDER      CHAR(1) CHECK ( USER_GENDER IN ('M', 'F') ) NOT NULL, -- 성별 (M:남, F:여)
     USER_EMAIL       VARCHAR2(30) UNIQUE                         NOT NULL, -- 이메일 (인증 필요)
@@ -85,20 +85,23 @@ VALUES (1004, 'USER04', 'USER04', 'USER04', 'USER04', 'M', 'dltkdgus1853@gmail.c
 -- 고수 테이블
 CREATE TABLE GOSU
 (
-    "GOSU_NO"        NUMBER PRIMARY KEY,     -- 고수 번호
-    "INTRODUCTION"   VARCHAR2(255) NOT NULL, -- 소개
-    "EDUCATION"      VARCHAR2(100) NOT NULL, -- 학력
-    "CAREER"         VARCHAR2(50)  NOT NULL, -- 경력
-    "ELABORATE"      VARCHAR2(255) NOT NULL, -- 서비스 상세 설명
-    "REGION"         VARCHAR2(100) NOT NULL, -- 지역
-    "MOVE_DISTANCE"  VARCHAR2(150) NULL,     -- 이동 가능 거리
-    "AVAILABLE_TIME" VARCHAR2(200) NULL,     -- 이용 가능 시간
-    "USER_NO"        NUMBER        NOT NULL,
+    "GOSU_NO"         NUMBER PRIMARY KEY,                            -- 고수 번호
+    "INTRODUCTION"    VARCHAR2(255) NOT NULL,                        -- 소개
+    "EMPLOYEES"       NUMBER        NOT NULL,                        -- 직원 수
+    "BUSINESS_STATUS" NUMBER CHECK ( BUSINESS_STATUS IN (1, 2, 3) ), -- 일반, 개인, 법인
+    "EDUCATION"       VARCHAR2(100) NOT NULL,                        -- 학력
+    "CAREER"          VARCHAR2(50)  NOT NULL,                        -- 경력
+    "ELABORATE"       VARCHAR2(255) NOT NULL,                        -- 서비스 상세 설명
+    "REGION"          VARCHAR2(100) NOT NULL,                        -- 지역
+    "MOVE_DISTANCE"   VARCHAR2(150) NULL,                            -- 이동 가능 거리
+    "AVAILABLE_TIME"  VARCHAR2(200) NULL,                            -- 이용 가능 시간
+    "USER_NO"         NUMBER        NOT NULL,
     FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
 );
-INSERT INTO GOSU (GOSU_NO, ADDRESS, INTRODUCTION, EDUCATION, CAREER, ELABORATE, REGION, MOVE_DISTANCE,
+INSERT INTO GOSU (GOSU_NO, ADDRESS, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
+                  MOVE_DISTANCE,
                   AVAILABLILTY_TIME, USER_NO)
-VALUES (1004, '서울시 어쩌구', '렛미인트로듀스 마이셀프투유', '초졸', '1년', '서비스 상세 설명입니다.', '서울 어쩌구', '5km', '오전 9시 ~ 오후 2시', 1002);
+VALUES (1004, '서울시 어쩌구', '렛미인트로듀스 마이셀프투유', 1, 1, '초졸', '1년', '서비스 상세 설명입니다.', '서울 어쩌구', '5km', '오전 9시 ~ 오후 2시', 1002);
 
 -- 찜 목록 테이블
 CREATE TABLE "WISH-LIST"
@@ -129,6 +132,8 @@ CREATE TABLE "SERVICE_CATEGORY_BIG"
     "CATEGORY_BIG_NAME" VARCHAR2(50) NOT NULL -- 대분류 이름
 );
 CREATE SEQUENCE SEQ_SERVICE_BIG NOCACHE;
+INSERT INTO SERVICE_CATEGORY_BIG (CATEGORY_BIG_NO, CATEGORY_BIG_NAME)
+VALUES (0, '전체');
 INSERT INTO SERVICE_CATEGORY_BIG (CATEGORY_BIG_NO, CATEGORY_BIG_NAME)
 VALUES (1, '홈/리빙');
 INSERT INTO SERVICE_CATEGORY_BIG (CATEGORY_BIG_NO, CATEGORY_BIG_NAME)
@@ -313,6 +318,7 @@ CREATE TABLE ESTIMATE
     "EST_TITLE"         VARCHAR2(90)   NOT NULL,                                  -- 견적서 제목
     "EST_CONTENT"       VARCHAR2(1500) NOT NULL,                                  -- 견적서 내용
     "EST_ADDRESS"       VARCHAR2(300)  NOT NULL,                                  -- 견적서 주소
+    "EST_SERVICE"       VARCHAR2(100)  NOT NULL,                                  -- 서비스 종류
     "START_DATE"        DATE           NOT NULL,                                  -- 서비스 시작일
     "END_DATE"          DATE DEFAULT SYSDATE,                                     -- 서비스 종료일
     "CONFIRMATION_DATE" DATE           NULL,                                      -- 견적 확정일
@@ -321,9 +327,7 @@ CREATE TABLE ESTIMATE
     "tid"               VARCHAR2(30)   NULL,                                      -- 결제 고유 번호
     "GOSU_NO"           NUMBER         NOT NULL,                                  -- 고수 번호
     "USER_NO"           NUMBER         NOT NULL,                                  -- 사용자 번호
-    "CHAT_NO"           NUMBER         NOT NULL,                                  -- 채팅 번호
     FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO),
-    FOREIGN KEY (CHAT_NO) REFERENCES CHAT (CHAT_NO),
     FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
 );
 CREATE SEQUENCE SEQ_ESTIMATE_NO NOCACHE;

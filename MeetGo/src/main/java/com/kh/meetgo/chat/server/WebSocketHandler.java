@@ -51,9 +51,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         // Json객체 → Java객체
         // 출력값 : [roomId=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
         Chat chat = new ObjectMapper().readValue(msg,Chat.class);
-        System.out.println("chat = " + chat);
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());
-        System.out.println("chatroom = " + chatroom);
 
         // 채팅방 세션 목록에 채팅방 x, 처음 들어옴, DB에 채팅방 있음 => 채팅방 생성
         if (roomList.get(chatroom.getChatroomNo()) == null && chat.getContent().equals("ENTER_CHAT") && chatroom != null){
@@ -64,8 +62,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
             sessionList.put(session, chatroom.getChatroomNo());
             // RoomList에 추가
             roomList.put(chatroom.getChatroomNo(), sessionTwo);
-            System.out.println("sessionTwo = " + sessionList);
-            System.out.println("roomList = " + roomList);
             System.out.println("채팅방 생성");
         }
         // 채팅방 세션 목록에 채팅방 o, 처음 들어옴, DB에 채팅방 있음
@@ -78,8 +74,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         }
         // 채팅 일시
         else {
-//          String text = new Gson().toJson(chat);
-            String text = chat.getChatNo()+","+chat.getContent()+","+chat.getSender()+","+chat.getType()+","+chat.getCreateAt()+","+chat.getChatroomNo();
+          String text = new Gson().toJson(chat);
+//            String text = chat.getChatNo()+","+chat.getContent()+","+chat.getSender()+","+chat.getType()+","+chat.getCreateAt()+","+chat.getChatroomNo();
 //          System.out.println("text = " + text);
             TextMessage textMessage = new TextMessage(text);
             System.out.println("textMessage = " + textMessage);

@@ -28,21 +28,21 @@ public class MemberController {
 	
 	
 	
-	@RequestMapping(value="checknumber.me") 
+	@RequestMapping(value= "checkNumber.me")
 	public String checkNumber() {
 		return "member/memberChecknumber";
 	}
 	
-	@RequestMapping("loginform.me")
-	public String loginform() {		
+	@RequestMapping("loginForm.me")
+	public String loginForm() {
 		//System.out.println("s");
 		return "member/memberLogin";
 	}
-	@RequestMapping("mypage.me")
+	@RequestMapping("myPage.me")
 	public String mypage() {
 		return "member/memberMypage";
 	}
-	@RequestMapping("mypageInfo.me")
+	@RequestMapping("myPageInfo.me")
 	public String mypagemini() {
 		return "member/memberMypagInfo";
 	}
@@ -139,6 +139,24 @@ public class MemberController {
 		return (count > 0) ? "NNNNN" : "NNNNY";
 	}
 
+	@RequestMapping(value = "changeStatus.me", produces = "text/html; charset=UTF-8")
+	public String changeStatus(HttpSession session){
+		Member m = (Member) session.getAttribute("loginUser");
+
+		if(m != null){
+			int userStatus = m.getUserStatus() == 1 ? 2 : 1;
+			m.setUserStatus(userStatus);
+			int result = memberService.changeStatus(m);
+			if(result > 0) {
+				return "redirect:/";
+			}
+			else {
+				return "common/errorPage";
+			}
+		}
+		return "redirect:/";
+	}
+
 	@RequestMapping("estimate.me")
 	public String myEstimate() {
 		return "estimate/myEstimateList";
@@ -147,6 +165,11 @@ public class MemberController {
 	@RequestMapping("reviewWrite.me")
 	public String reviewWrite() {
 		return "estimate/reviewWrite";
+	}
+	
+	@RequestMapping("myReview.me")
+	public String myReview() {
+		return "member/memberMyReview";
 	}
 }
 

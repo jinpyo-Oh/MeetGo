@@ -35,4 +35,9 @@ public class ChatServiceImpl implements ChatService{
     public int insertChat(Chat chat) {
         return chatDao.insertChat(sqlSession, chat);
     }
+
+    @Override
+    public Member selectChatUserInfo(String chatroomNo) {
+        return chatDao.selectChatUserInfo(sqlSession, chatroomNo);
+    }
 }
