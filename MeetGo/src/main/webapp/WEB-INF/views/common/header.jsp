@@ -292,7 +292,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 고수 전환</button>
+												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 고수 전환</button>
 											</div>
 											<hr>
 											<div class="user-button">
@@ -312,7 +312,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 회원 전환</button>
+												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 회원 전환</button>
 											</div>
 											<hr>
 											<div class="user-button">

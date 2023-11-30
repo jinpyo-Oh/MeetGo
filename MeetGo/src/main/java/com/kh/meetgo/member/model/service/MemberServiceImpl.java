@@ -67,8 +67,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.idCheck(sqlSession, checkId);
 	}
 
+	@Override
+	public int changeStatus(Member m) {
+		return memberDao.changeStatus(sqlSession,m);
+	}
 
-
-	
 
 }

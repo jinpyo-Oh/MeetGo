@@ -33,7 +33,11 @@ public class MemberDao {
     	return sqlSession.selectOne("memberMapper.updateEmailPassword",email);
     }
 
-	/*
+    public int changeStatus(SqlSessionTemplate sqlSession, Member m) {
+        return sqlSession.update("memberMapper.changeStatus", m);
+    }
+
+    /*
 	 * public int pwdCheck(SqlSessionTemplate sqlSession, String checkPwd) { return
 	 * sqlSession.selectOne("memberMapper.pwdCheck", checkPwd); }
 	 */

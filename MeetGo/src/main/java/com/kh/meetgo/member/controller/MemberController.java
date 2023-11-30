@@ -139,6 +139,24 @@ public class MemberController {
 		return (count > 0) ? "NNNNN" : "NNNNY";
 	}
 
+	@RequestMapping(value = "changeStatus.me", produces = "text/html; charset=UTF-8")
+	public String changeStatus(HttpSession session){
+		Member m = (Member) session.getAttribute("loginUser");
+
+		if(m != null){
+			int userStatus = m.getUserStatus() == 1 ? 2 : 1;
+			m.setUserStatus(userStatus);
+			int result = memberService.changeStatus(m);
+			if(result > 0) {
+				return "redirect:/";
+			}
+			else {
+				return "common/errorPage";
+			}
+		}
+		return "redirect:/";
+	}
+
 	@RequestMapping("estimate.me")
 	public String myEstimate() {
 		return "estimate/myEstimateList";
