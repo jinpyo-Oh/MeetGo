@@ -263,7 +263,7 @@
                   <c:choose>	
 						<c:when test="${ empty sessionScope.loginUser }">
 							<li>
-							    <a href="loginform.me">로그인</a>
+							    <a href="loginForm.me">로그인</a>
 							</li>
 							<li>
 							    <a href="EnrollForm.me">회원가입</a>
