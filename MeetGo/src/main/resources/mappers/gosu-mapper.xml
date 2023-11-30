@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="gosuMapper">
+
+	<select id="selectOptionResult" parameterType="string" resultType="gosuOpt">
+		SELECT G.GOSU_NO AS "gosu.gosuNo",
+		       G.INTRODUCTION AS "gosu.introduction",
+		       G.REGION AS "gosu.region",
+		       M.USER_PROFILE AS "userProfile",
+		       M.USER_NICKNAME AS "userNickname"
+		FROM GOSU G
+		LEFT JOIN (
+		   SELECT USER_NO, USER_PROFILE, USER_NICKNAME
+		   FROM MEMBER
+		) M ON M.USER_NO = G.GOSU_NO
+		WHERE G.REGION LIKE #{region} || '%'
+	</select>
+</mapper>

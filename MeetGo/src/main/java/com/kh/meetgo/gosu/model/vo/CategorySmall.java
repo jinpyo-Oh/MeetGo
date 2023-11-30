@@ -6,8 +6,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class CategoryBig {
+public class CategorySmall {
+	private int categorySmallNo;
+	private String categorySmallName;
 	private int categoryBigNo;
-	private String categoryBigName;
-	
 }

@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Gosu {
     private int gosuNo;             //    "GOSU_NO"           NUMBER PRIMARY KEY,     -- 고수 번호
     private String address;         //    "ADDRESS"           VARCHAR2(100) NOT NULL, -- 주소

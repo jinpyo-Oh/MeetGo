@@ -13,12 +13,14 @@
 		<typeAlias type="com.kh.meetgo.chat.model.vo.Chat" alias="chat" />
 		<typeAlias type="com.kh.meetgo.chat.model.dto.ChatListDto" alias="chatListDto" />
 		<typeAlias type="com.kh.meetgo.member.model.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.meetgo.gosu.model.dto.GosuOpt" alias="gosuOpt"/>
 	</typeAliases>
 	
 
 	<mappers>
 		<mapper resource="/mappers/chat-mapper.xml" />
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/gosu-mapper.xml"/>
 	</mappers>
 </configuration>
 
