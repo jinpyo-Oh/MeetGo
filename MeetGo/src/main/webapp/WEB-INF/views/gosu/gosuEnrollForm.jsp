@@ -79,47 +79,18 @@
 
         }
 
-        .awqss {
-            width: 25%;
-            padding: 10px;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            height: 50px;
-            box-sizing: border-box;
-            color: #737373;
-            margin-bottom: 10px;
-            background-color: rgb(230, 230, 230);
-        }
-        
         input[type="radio"] {
             width: 20px;
-
         }
+        
         .select {
-        padding: 15px 10px;
+        	padding: 15px 10px;
         }
-        .select input[type=radio]{
-            display: none;
+        
+        label{
+        	margin-bottom: 30px;
         }
-        .select input[type=radio]+label{
-            display: inline-block;
-            cursor: pointer;
-            height: 24px;
-            width: 200px;
-            border: 1px solid #333;
-            line-height: 24px;
-            text-align: center;
-            font-weight:bold;
-            font-size:13px;
-        }
-        .select input[type=radio]+label{
-            background-color: #fff;
-            color: #333;
-        }
-        .select input[type=radio]:checked+label{
-            background-color: #333;
-            color: #fff;
-        }
+        
         .option-select{
             margin-left: 20px;
             border: 2px solid rgba(0, 0, 0, 0.1);
@@ -198,27 +169,40 @@
                 <br><br>
                 
                 <p class="name1">경력 *</p>
-                <textarea class="intro" name="career" id="career" rows="10" style="resize: none; width: 80%; height: 200px;" placeholder="200자 이내로 작성해주세요."></textarea>
+                <textarea class="intro" name="career" id="career" rows="10" style="resize: none; width: 80%; height: 150px;" placeholder="200자 이내로 작성해주세요."></textarea>
                 
                 <br><br>
                 
                 <p class="name1">서비스 설명 *</p>
-                <input class="gosu" type="text" name="explain" id="explain" placeholder="제공 가능한 서비스를 300자 이내로 적어주세요" required>
+                <textarea class="intro" type="text" name="explain" id="explain" style="resize: none; width: 80%; height: 200px;" placeholder="제공 가능한 서비스를 300자 이내로 적어주세요" required></textarea>
                 
+                <br><br>
+                
+                <p class="name1">사업자 등록 여부 *</p>
+                <input type="radio" name="business" id="business1" checked><label for="business1">해당 없음</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="business" id="business2"><label for="business2">개인</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="business" id="business3"><label for="business3">법인</label>
+                
+                <br><br>
+
+                <p class="name1">직원 수 *</p>
+                <input class="gosu" type="number" name="employees" id="employees" placeholder="숫자로만 입력해주세요." required>
+
                 <br><br>
 
                 <p class="name1">학력</p>
                 <input class="gosu" type="text" name="edcuation" id="edcuation" placeholder="최종학력을 입력해주세요. 예) xx고등학교 졸업 / oo대학교 재학">
                 
+
                 <br><br>
                 
                 <p class="name1">출장 가능 지역</p>
-                <input class="gosu" type="text" name="moveDistance" id="moveDistance" placeholder="출장 가능 지역을 구단위로 적어주세요.(최대 100자)" >
+                <input class="gosu" type="text" name="moveDistance" id="moveDistance" placeholder="출장 가능 거리를 적어주세요.예) 5km, 협의 가능, 서울 전체" >
                 
                 <br><br>
                 
                 <p class="name1">연락 가능 시간</p>
-                <input class="gosu" type="text" name="availableTime" id="availableTime" placeholder="연락 가능 시간대를 적어주세요. 예) 09~18시">
+                <input class="gosu" type="text" name="availableTime" id="availableTime" placeholder="연락 가능 시간대를 적어주세요. 예) 09~18">
 	        </div>
                  
             <br><br>
