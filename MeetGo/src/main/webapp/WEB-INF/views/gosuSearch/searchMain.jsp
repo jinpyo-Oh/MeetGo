@@ -258,7 +258,16 @@
         <!-- 페이징바 -->    
         <div align="center" id="pagingBtn-area">
         
-            <button class="pagingBtn" onclick="location.href='searchGosu.go?cpage=${ requestScope.pi.currentPage - 1}'">prev</button>
+        	<!-- 첫 페이지면 이전페이지로 이동 불가 -->
+        	<c:choose> 
+        		<c:when test="${ requestScope.pi.currentPage eq 1 }">
+        			<button class="pagingBtn" disabled style="display:none;">prev</button>
+        		</c:when>
+        		<c:otherwise>
+        			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage - 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">prev</button>
+        		</c:otherwise>
+        	</c:choose>
+            
             
              <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
                     					end="${ requestScope.pi.endPage }"
@@ -266,7 +275,17 @@
 			<button class="pageBtn" onclick="location.href='searchGosu.go?currentPage=${ p }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">${ p }</button>
             </c:forEach>
             
-            <button class="pagingBtn" onclick="location.href='searchGosu.go?cpage=${ requestScope.pi.currentPage + 1}'">next</button>
+            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
+            <c:choose>
+       		<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.endPage }">
+       			<button class="pagingBtn" disabled style="display:none;">next</button>
+       		</c:when>
+       		<c:otherwise>
+       			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage + 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">next</button>
+       		</c:otherwise>
+       		</c:choose>
+            
+            
         </div>
                
  	</div>
