@@ -22,6 +22,7 @@ public class Member {
     private String userPhone;
     private String userProFile;
     private Date createDate;
+    private String address;
     private Date lastAccessDate;
     private int userStatus;
 
