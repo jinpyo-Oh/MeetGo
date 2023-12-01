@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
+import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
 import com.kh.meetgo.gosu.model.service.GosuServiceImpl;
 import com.kh.meetgo.member.model.vo.Gosu;
@@ -97,25 +99,78 @@ public class GosuController {
 	// 고수 지역 선택
 	@ResponseBody
 	@RequestMapping(value = "searchGosu.go", produces = "text/html; charset=UTF-8")
-	public ModelAndView selectOptionResult(String regionMain, String regionSub, String categoryMain, String categorySub
-								   , ModelAndView mv) {
+	public ModelAndView selectOptionResult(String regionMain, String regionSub
+								   , String categoryMain, String categorySub
+								   , ModelAndView mv
+								   , @RequestParam(value = "cpage", defaultValue = "1") int currentPage) {
+		
+		int listCount = 0;
+		PageInfo pi = new PageInfo();
+		
+		int pageLimit = 5;
+		int boardLimit = 10;
 		
 		// 고수의 지역
 		String region = regionMain + " " + regionSub;
 		
-		if(regionSub.equals("전체")) {
-			region = regionMain;
-		}
+		ArrayList<GosuOpt> list = new ArrayList<>();
 		
 		// 고수의 서비스
 		int categoryBigNo = Integer.parseInt(categoryMain);
-		int categorySmallNo = Integer.parseInt(categorySub);
+		int categorySmallNo = Integer.parseInt(categorySub);		
 		
-		ArrayList<GosuOpt> list = gosuService.selectOptionResult(region, categoryBigNo, categorySmallNo);				
-				
-		mv.addObject("list", list).setViewName("gosuSearch/searchMain");
+		if(regionSub.equals("전체") && (categoryBigNo > 0)) { // 지역 전체 선택 | 서비스 선택
+			
+			region = regionMain;
+			
+			listCount = gosuService.selectAllRegionOptionResultCount(region, categoryBigNo, categorySmallNo);
+			
+			pi = Pagination.getPageInfo(listCount, 
+					currentPage, pageLimit, boardLimit);
+			
+			list = gosuService.selectAllRegionOptionResult(region, categoryBigNo, categorySmallNo, pi);	
+			
+			mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
+		} else if(!regionSub.equals("전체") && categoryBigNo > 0) { // 지역 선택 | 서비스 선택
+			
+			listCount = gosuService.selectRegionOptionResultCount(region, categoryBigNo, categorySmallNo);
+			
+			pi = Pagination.getPageInfo(listCount, 
+					currentPage, pageLimit, boardLimit);
+			
+			list = gosuService.selectRegionOptionResult(region, categoryBigNo, categorySmallNo, pi);
+			
+			mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
+		} else if(regionSub.equals("전체") && (categoryBigNo == 0)) { // 지역 전체 선택 | 서비스 전체 선택
+			
+			region = regionMain;
+			
+			listCount = gosuService.selectAllRegionGosuCount(region, categoryBigNo, categorySmallNo);
+			
+			pi = Pagination.getPageInfo(listCount, 
+					currentPage, pageLimit, boardLimit);
+			
+			list = gosuService.selectAllRegionGosu(region, categoryBigNo, categorySmallNo, pi);
+			
+			mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
+
+		} else { // 지역 선택 | 서비스 전체 선택
+			listCount = gosuService.selectRegionGosuCount(region, categoryBigNo, categorySmallNo);
+			
+			pi = Pagination.getPageInfo(listCount, 
+					currentPage, pageLimit, boardLimit);
+			
+			list = gosuService.selectRegionGosu(region, categoryBigNo, categorySmallNo, pi);
+			
+			mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
+			
+		}
+		
+		System.out.println(pi);
 		
 		return mv;
 	}
+	
+	
 	
 }

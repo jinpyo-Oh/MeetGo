@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dao.GosuDao;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
 import com.kh.meetgo.member.model.vo.Gosu;
@@ -18,11 +19,52 @@ public class GosuServiceImpl implements GosuService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	// 고수찾기 검색용 메소드(지역과 카테고리)
+	// 고수 전체 회원수 조회용 메소드
 	@Override
-	public ArrayList<GosuOpt> selectOptionResult(String region, int categoryBigNo, int categorySmallNo){
-			
-		return gosuDao.selectOptionResult(sqlSession, region, categoryBigNo, categorySmallNo);
+	public int selectGosuCount() {
+		return gosuDao.selectGosuCount(sqlSession);
+	}
+	
+	@Override
+	public int selectAllRegionOptionResultCount(String region, int categoryBigNo, int categorySmallNo) {
+		return gosuDao.selectAllRegionOptionResultCount(sqlSession, region, categoryBigNo, categorySmallNo);
+	}
+
+	@Override
+	public int selectRegionOptionResultCount(String region, int categoryBigNo, int categorySmallNo) {
+		return gosuDao.selectRegionOptionResultCount(sqlSession, region, categoryBigNo, categorySmallNo);
+	}
+
+	@Override
+	public int selectAllRegionGosuCount(String region, int categoryBigNo, int categorySmallNo) {
+		return gosuDao.selectAllRegionGosuCount(sqlSession, region, categoryBigNo, categorySmallNo);
+	}
+
+	@Override
+	public int selectRegionGosuCount(String region, int categoryBigNo, int categorySmallNo) {
+		return gosuDao.selectRegionGosuCount(sqlSession, region, categoryBigNo, categorySmallNo);
+	}
+	
+	// 고수찾기 검색용 메소드(지역 전체)
+	@Override
+	public ArrayList<GosuOpt> selectAllRegionOptionResult(String region, int categoryBigNo, int categorySmallNo, PageInfo pi) {		
+		return gosuDao.selectAllRegionOptionResult(sqlSession, region, categoryBigNo, categorySmallNo, pi);
+	}
+
+	// 고수찾기 검색용 메소드
+	@Override
+	public ArrayList<GosuOpt> selectRegionOptionResult(String region, int categoryBigNo, int categorySmallNo, PageInfo pi) {
+		return gosuDao.selectRegionOptionResult(sqlSession, region, categoryBigNo, categorySmallNo, pi);
+	}
+	
+	@Override
+	public ArrayList<GosuOpt> selectAllRegionGosu(String region, int categoryBigNo, int categorySmallNo, PageInfo pi) {
+		return gosuDao.selectAllRegionGosu(sqlSession, region, categoryBigNo, categorySmallNo, pi);
+	}
+
+	@Override
+	public ArrayList<GosuOpt> selectRegionGosu(String region, int categoryBigNo, int categorySmallNo, PageInfo pi) {
+		return gosuDao.selectRegionGosu(sqlSession, region, categoryBigNo, categorySmallNo, pi);
 	}
 	
 	// 고수 등록용 메소드
