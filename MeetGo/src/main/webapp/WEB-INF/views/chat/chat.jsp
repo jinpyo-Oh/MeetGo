@@ -10,7 +10,7 @@
 	
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-	<link href="<%=request.getContextPath()%>/resources/css/chat/chat.css" rel="stylesheet" type="text/css">
+	<link href="<%=request.getContextPath()%>/resources/css/chat/chat.css?after" rel="stylesheet" type="text/css">
 	
 </head>
 <body>
@@ -93,10 +93,13 @@
 				</div>
 			</c:forEach>
 		</div>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 		<script>
 			let chatroomNo;
+            let userNo;
             $(function () {
                 $('.chat-card').click(function () {
+                    $('.right-box-info').empty();
                     $('.chat-card').removeClass('select');
                     $(this).addClass('select');
                     $('.chat-area').empty();
@@ -127,40 +130,41 @@
                             async:false,
                             dataType:"json",
                             success : function (data){
+                                console.log(data);
+                               userNo = data.userNo;
 									let userInfo =
-										'<div className="info-profile">'
-											+'<img className="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">'
-											+'<img className="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">'
-											+'<div className="info-profile-more-list">'
+										'<div class="info-profile">'
+											+'<img class="info-profile-img" src="'+data.userProFile+'">'
+											+'<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">'
+											+'<div clas="info-profile-more-list">'
 												+'<div>회원 상세 조회</div>'
 											+'</div>'
-											+'<h3>김세정</h3>'
+											+'<h3>'+ data.userName +'</h3>'
 											+'<table>'
 												+'<tr>'
 													+'<td width="40%">지역</td>'
-													+'<td></td>'
+													+'<td>'+data.address+'</td>'
 												+'</tr>'
 												+'<tr>'
 													+'<td>믿고 횟수</td>'
 													+'<td>15 회</td>'
 												+'</tr>'
-												+'<tr>'
-													+'<td>서비스</td>'
-													+'<td>반려견 산책</td>'
-												+'</tr>'
 											+'</table>'
 											+'<hr style="border : 1px solid lightgray; width: 80%;">'
 										+'</div>'
-										+'<div className="info-detail">'
+										+'<div class="info-detail">'
 											+'<h5 style="margin-left: 20px">리뷰 목록</h5>'
-											+'<div className="review-img-area">'
+											+'<div class="review-img-area">'
 												+'<div style="width: 100px!important;"><img class="info-img" src="https://news.nateimg.co.kr/orgImg/xs/2020/04/09/1586412414197720.jpg"></div>'
 												+'<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNDAg/MDAxNjE0MDY5MTYxNzE1.ID-uK_t73wGeNH9TGMIeWKJZsQq9KDg_nySZdlKTLBQg.eOm-EdEw-i_NbPvPA5qdAOeLpwlhqEu5PMVGu5DqXr8g.JPEG/4-2.jpg?type=w1200"></div>'
 												+'<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNzQg/MDAxNjE0MDY5MTk5NDk2.RuWcBaRHnRUgGHlf-PHJAfsE54JjUD3DheHMskaeGsUg.wETZ4LxUQwZ6n6UErBz_2QqIATZk6sDvtx5bdlew304g.JPEG/5-3.jpg?type=w1200"></div>'
 											+'</div>'
 										+'</div>';
-									console.log(userInfo);
 									$('.right-box-info').append(userInfo);
+									$('.review-img-area').slick({
+										slidesToShow: 2,
+										slidesToScroll: 2,
+									});
                             },
                             error : function () {
                                 alert("오른쪽 회원 정보 조회 실패");
@@ -169,12 +173,11 @@
                     } else {			<!-- 로그인 유저가 회원 상태면 고수 정보 붙이기 -->
                     
                     }
-					
-
                     connect();
                     scrollToBottom();
                 });
             });
+		
             function CheckLR(data){
                 const lr = (data.sender == ${sessionScope.loginUser.userNo}) ? "receiver" : "sender";
                 appendChat(lr, data);
@@ -290,25 +293,23 @@
 <%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
 <%--					</div>--%>
 <%--				</div>--%>
-			<script>
+
 			
-			</script>
-			<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+			</div>
 			<script>
-				$('.info-pofol').slick({
-					slidesToShow: 2,
-					slidesToScroll: 2,
-				});
-				$('.review-img-area').slick({
-					slidesToShow: 2,
-					slidesToScroll: 2,
-				});
+                $('.info-pofol').slick({
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                });
+                $('.review-img-area').slick({
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                });
                 $('.info-img-area').slick({
                     slidesToShow: 2,
                     slidesToScroll: 2,
                 });
 			</script>
-			</div>
 		</div>
 		<div>
 			<script>

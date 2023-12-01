@@ -4,6 +4,7 @@ import com.kh.meetgo.chat.model.dao.ChatDao;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -39,5 +40,10 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public Member selectChatUserInfo(String chatroomNo) {
         return chatDao.selectChatUserInfo(sqlSession, chatroomNo);
+    }
+
+    @Override
+    public int insertEstimate(Estimate estimate) {
+        return chatDao.insertEstimate(sqlSession,estimate);
     }
 }

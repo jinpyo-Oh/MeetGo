@@ -5,13 +5,12 @@ import com.kh.meetgo.chat.model.dto.ChatListDto;
 import com.kh.meetgo.chat.model.service.ChatService;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
@@ -55,5 +54,13 @@ public class ChatController {
         return "chat/estimate";
     }
 
+    @ResponseBody
+    @PostMapping(value = "/insertEstimate")
+    public String insertEstimate(@RequestBody Estimate estimate){
+        System.out.println(estimate);
+        int result = chatService.insertEstimate(estimate);
+        System.out.println("result = " + result);
+        return "";
+    }
 
 }

@@ -279,6 +279,7 @@ html {
     width: 120px;
     height: 120px;
     border-radius: 60px;
+    object-fit: cover;
 }
 .info-profile table {
     width: 80%;

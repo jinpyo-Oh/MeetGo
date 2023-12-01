@@ -46,7 +46,7 @@ CREATE TABLE MEMBER
     USER_EMAIL       VARCHAR2(30) UNIQUE                         NOT NULL, -- 이메일 (인증 필요)
     USER_PHONE       VARCHAR2(20)                                NOT NULL, -- 번호
     USER_PROFILE     VARCHAR2(1000)                              NULL,     -- 프로필 이미지
-    ADDRESS          VARCHAR2(100)                               NOT NULL, -- 주소
+    ADDRESS          VARCHAR2(100)                               NULL, -- 주소
     CREATE_DATE      DATE DEFAULT SYSDATE,                                 -- 생성일자
     LAST_ACCESS_DATE DATE DEFAULT SYSDATE,                                 -- 최근 접속일
     USER_STATUS      NUMBER CHECK (USER_STATUS IN (1, 2, 3, 4))  NULL      -- 1: 일반사용자,  2: 고수,  3: 고수 비활성화 4: 회원 탈퇴(비활성화)
@@ -66,21 +66,21 @@ CREATE SEQUENCE SEQ_REPORT_NO NOCACHE;
 
 CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE, USER_STATUS)
-VALUES (1001, 'USER01', 'USER01', 'USER01', 'USER01', 'M', 'dltkdgus1850@gmail.com', '01035483929',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', 1);
+                    USER_PROFILE,ADDRESS, USER_STATUS)
+VALUES (1001, '윤아', 'user01', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER01', 'M', 'dltkdgus1850@gmail.com', '01035483929',
+        'https://mblogthumb-phinf.pstatic.net/MjAyMTA2MjJfMjk2/MDAxNjI0MzM1MjAxODcz.Rts7NekerZ35zKgVJtX5n3ZBtQq0n8jSi1Aq6JcU0WEg.7Z3yCyxY9PnCZfBazkvwTLB3BmtHghYBZcEAlt7pEmMg.JPEG.hwoarangx2/img_(3).jpg?type=w800', '서울시 영등포구',1);
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE, USER_STATUS)
-VALUES (1002, 'USER02', 'USER02', 'USER02', 'USER02', 'M', 'dltkdgus1851@gmail.com', '01035483929',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', 1);
+                    USER_PROFILE,ADDRESS, USER_STATUS)
+VALUES (1002, '수지', 'user02', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER02', 'M', 'dltkdgus1851@gmail.com', '01035483929',
+        'https://i.pinimg.com/originals/d0/55/34/d05534b4a66c74ae771a4924d2013567.jpg', '안산시 상록구',1);
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE, USER_STATUS)
-VALUES (1003, 'USER03', 'USER03', 'USER03', 'USER03', 'M', 'dltkdgus1852@gmail.com', '01035483929',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', 1);
+                    USER_PROFILE,ADDRESS, USER_STATUS)
+VALUES (1003, '예인', 'user03', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER03', 'M', 'dltkdgus1852@gmail.com', '01035483929',
+        'https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg', '대전 오정동',1);
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE, USER_STATUS)
-VALUES (1004, 'USER04', 'USER04', 'USER04', 'USER04', 'M', 'dltkdgus1853@gmail.com', '01035483929',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', 1);
+                    USER_PROFILE,ADDRESS, USER_STATUS)
+VALUES (1004, '예은', 'user04', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER04', 'M', 'dltkdgus1853@gmail.com', '01035483929',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', '대전 은행동',1);
 
 -- 고수 테이블
 CREATE TABLE GOSU
@@ -322,7 +322,7 @@ CREATE TABLE ESTIMATE
     "START_DATE"        DATE           NOT NULL,                                  -- 서비스 시작일
     "END_DATE"          DATE DEFAULT SYSDATE,                                     -- 서비스 종료일
     "CONFIRMATION_DATE" DATE           NULL,                                      -- 견적 확정일
-    "EST_PRICE"         NUMBER         NOT NULL,                                  -- 견적 가격
+    "EST_PRICE"         VARCHAR2(200)         NOT NULL,                            -- 견적 가격
     "STATUS"            VARCHAR2(1) CHECK ( STATUS IN ('1', '2', '3', '4', '5')), -- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료
     "tid"               VARCHAR2(30)   NULL,                                      -- 결제 고유 번호
     "GOSU_NO"           NUMBER         NOT NULL,                                  -- 고수 번호

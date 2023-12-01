@@ -3,6 +3,7 @@ package com.kh.meetgo.chat.model.dao;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -30,5 +31,9 @@ public class ChatDao {
     public Member selectChatUserInfo(SqlSessionTemplate sqlSession, String no) {
         int chatroomNo = Integer.parseInt(no);
         return sqlSession.selectOne("memberMapper.selectChatUserInfo", chatroomNo);
+    }
+
+    public int insertEstimate(SqlSessionTemplate sqlSession, Estimate estimate) {
+        return sqlSession.insert("chatMapper.insertEstimate", estimate);
     }
 }

@@ -43,6 +43,10 @@
         INSERT INTO CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO)
         VALUES (SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo})
     </insert>
+    <insert id="insertEstimate" parameterType="com.kh.meetgo.gosu.model.vo.Estimate">
+        INSERT INTO ESTIMATE (EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, START_DATE, END_DATE, CONFIRMATION_DATE, EST_PRICE, STATUS, "tid", GOSU_NO, USER_NO)
+        VALUES (SEQ_ESTIMATE_NO.nextval, "", #{estContent}, #{estAddress}, #{estService}, #{startDate}, #{endDate} , #{confirmationDate}, #{estPrice}, 1, NULL, gosuNo, userNo)
+    </insert>
 </mapper>
 
 

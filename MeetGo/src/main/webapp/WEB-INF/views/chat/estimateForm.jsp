@@ -263,14 +263,14 @@
 			</div>
 		</div>
 		<div class="est-button">
-			<button class="meetgo-btn" onclick="submitEst()">작성하기</button>
+			<button class="meetgo-btn" onclick="insertEstimate()">작성하기</button>
 			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
 		</div>
 	</div>
 </div>
 
 <script>
-	function submitEst(){
+	function insertEstimate(){
        
         let estService = $('#est-service').val();
         let estPrice = $('#estPrice').val();
@@ -278,23 +278,25 @@
         let endDate = $('#endDate').val();
         let estAddress = $('#address').val() + " " + $('#detailAddress').val();
         let estContent = $('#estContent').val();
-        let estimate = {
-            chatroomNo : chatroomNo,
-            estService : estService,
-            estPrice : estPrice,
-            startDate :  startDate,
-            endDate :  endDate,
-            estAddress :  estAddress,
-            estContent :  estContent,
-            gosuNo : ${sessionScope.loginUser.userNo}
-		}
-        console.log(estimate);
+
         $.ajax({
-			url : "submitEst",
+			url : "insertEstimate",
 			method : "post",
-			data : {
-                estimate : estimate
-			},
+            dataType:"json",
+            headers: {
+                "Content-Type":"application/json"  //전달하는 데이터가 JSON형태임을 알려줌
+            },
+			data : JSON.stringify({
+                chatroomNo : chatroomNo,
+                estService : estService,
+                estPrice : estPrice,
+                startDate :  startDate,
+                endDate :  endDate,
+                estAddress :  estAddress,
+                estContent :  estContent,
+                gosuNo : ${sessionScope.loginUser.userNo},
+				userNo : userNo
+			}),
 			success:function (){
                 console.log("견적서 저장 완료");
                 sendMessage('E');
