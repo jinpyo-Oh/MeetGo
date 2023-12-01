@@ -13,7 +13,6 @@ import lombok.ToString;
 @ToString
 public class Gosu {
     private int gosuNo;             //    "GOSU_NO"           NUMBER PRIMARY KEY,     -- 고수 번호
-    private String address;         //    "ADDRESS"           VARCHAR2(100) NOT NULL, -- 주소
     private String introduction;    //    "INTRODUCTION"      VARCHAR2(255) NOT NULL, -- 소개
     private String education;       //    "EDUCATION"         VARCHAR2(100) NULL,     -- 학력
     private String career;          //    "CAREER"            VARCHAR2(50)  NOT NULL, -- 경력
