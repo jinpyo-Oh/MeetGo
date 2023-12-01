@@ -12,6 +12,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Controller
 @NoArgsConstructor
 public class WebSocketHandler extends TextWebSocketHandler {
+    @Autowired
     private ChatService chatService;
     private Map<Integer, ArrayList<WebSocketSession>> roomList = new ConcurrentHashMap<Integer, ArrayList<WebSocketSession>>();
     private Map<WebSocketSession, Integer> sessionList = new ConcurrentHashMap<WebSocketSession, Integer>();
@@ -48,8 +51,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 전달받은 메세지
         String msg = message.getPayload();
-
-        // Json객체 → Java객체
+        // Json객체 → Java객체hgfds.,mn
         // 출력값 : [roomId=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
         Chat chat = new ObjectMapper().readValue(msg,Chat.class);
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());

@@ -21,6 +21,9 @@
 
 	<websocket:handlers>
 		<websocket:mapping path="chat.do" handler="webSocketHandler" />
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
 	</websocket:handlers>
 
 	<context:component-scan base-package="com.kh.meetgo"/>

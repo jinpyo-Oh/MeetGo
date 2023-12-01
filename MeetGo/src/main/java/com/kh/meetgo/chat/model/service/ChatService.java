@@ -20,4 +20,6 @@ public interface ChatService {
     Member selectChatUserInfo(String chatroomNo);
 
     int insertEstimate(Estimate estimate);
+
+    Estimate searchEstimate(int estNo);
 }

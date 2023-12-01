@@ -189,10 +189,24 @@
 		<h4>서비스 종류</h4>
 		<div class="form__group field">
 			<select id="est-service" name="est-service">
-				<option>반려견 산책</option>
-				<option>보컬 트레이닝</option>
 			</select>
 		</div>
+		<script>
+			$(function (){
+               $.ajax({
+				   url : "selectAllEstCategory",
+				   data : {
+                       gosuNo : ${sessionScope.loginUser.userNo}
+				   },
+				   success : function (date) {
+                       console.log(data);
+                   },
+				   error : function () {
+                   
+                   }
+			   })
+			});
+		</script>
 		<hr>
 		<h4>금액</h4>
 		<div class="form__group field">
@@ -271,7 +285,6 @@
 
 <script>
 	function insertEstimate(){
-       
         let estService = $('#est-service').val();
         let estPrice = $('#estPrice').val();
         let startDate = $('#startDate').val();
@@ -297,8 +310,11 @@
                 gosuNo : ${sessionScope.loginUser.userNo},
 				userNo : userNo
 			}),
-			success:function (){
+			success:function (data){
                 console.log("견적서 저장 완료");
+                console.log(data);
+                estNo = data;
+                displayNone();
                 sendMessage('E');
 			},
 			error : function (){
