@@ -19,10 +19,14 @@ public class GosuServiceImpl implements GosuService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
-	// 고수 전체 회원수 조회용 메소드
+	// 고수 전체 조회용 메소드
 	@Override
-	public int selectGosuCount() {
-		return gosuDao.selectGosuCount(sqlSession);
+	public int selectAllGosuCount() {
+		return gosuDao.selectAllGosuCount(sqlSession);
+	}
+	@Override
+	public ArrayList<GosuOpt> selectAllGosu(PageInfo pi) {
+		return gosuDao.selectAllGosu(sqlSession, pi);
 	}
 	
 	@Override

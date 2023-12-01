@@ -259,7 +259,7 @@
                         <a>공지사항</a>
                     </li>
                     <li>
-                        <a href="searchMain.go">고수찾기</a>
+                        <a href="searchMain.go?currentPage=1">고수찾기</a>
                     </li>
                     <li>
                         <a>커뮤니티</a>

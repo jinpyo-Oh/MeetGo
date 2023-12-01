@@ -3,12 +3,29 @@
 <mapper namespace="gosuMapper">
 
 	<!-- 총 고수회원 수 -->
-	<select id="selectGosuCount" resultType="_int">
+	<select id="selectAllGosuCount" resultType="_int">
 		SELECT COUNT(*)
   		  FROM GOSU
 	</select>
 	
 	<!-- 모든 고수 -->
+	<select id="selectAllGosu" resultType="gosuOpt">
+		SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
+				       G.INTRODUCTION AS "gosu.introduction",
+				       G.REGION AS "gosu.region",
+				       M.USER_PROFILE AS "userProfile",
+				       M.USER_NICKNAME AS "userNickname",
+				       S.CATEGORY_SMALL_NO AS "categorySmallNo"
+				FROM GOSU G
+				LEFT JOIN (
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME
+				   FROM MEMBER
+				) M ON M.USER_NO = G.GOSU_NO
+				LEFT JOIN (
+				    SELECT GOSU_NO, CATEGORY_SMALL_NO
+				    FROM "GOSU-SERVICE"
+				) S ON S.GOSU_NO = G.GOSU_NO
+	</select>
 	
 	<!-- 지역 전체 - 서비스선택 회원수 -->
 	<select id="selectAllRegionOptionResultCount" parameterType="hashMap" resultType="_int" >

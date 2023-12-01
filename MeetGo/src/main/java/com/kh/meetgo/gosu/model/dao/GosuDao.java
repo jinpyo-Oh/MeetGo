@@ -15,13 +15,22 @@ import com.kh.meetgo.member.model.vo.Gosu;
 @Repository
 public class GosuDao {
 	
-	// 고수 전체 회원 수 조회용 메소드
-	public int selectGosuCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("gosuMapper.selectGosuCount");
+	// 고수 전체 회원 조회용 메소드
+	public int selectAllGosuCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("gosuMapper.selectAllGosuCount");
 	}
+	public ArrayList<GosuOpt> selectAllGosu(SqlSessionTemplate sqlSession, PageInfo pi){
+		
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("gosuMapper.selectAllGosu", null, rowBounds);
+	}
+	
 
 	// 고수찾기 검색용 메소드 영역
-	
 	// 지역 전체 선택 | 서비스 선택
 	public int selectAllRegionOptionResultCount(SqlSessionTemplate sqlSession
 			  , String region, int categoryBigNo, int categorySmallNo) {

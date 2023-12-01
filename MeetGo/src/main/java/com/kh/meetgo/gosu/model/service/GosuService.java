@@ -9,7 +9,8 @@ import com.kh.meetgo.member.model.vo.Gosu;
 public interface GosuService {
 	
 	// 고수회원수 조회
-	int selectGosuCount();
+	int selectAllGosuCount();
+	ArrayList<GosuOpt> selectAllGosu(PageInfo pi);
 	
 	// 조건에 따른 고수 회원수 조회
 	int selectAllRegionOptionResultCount(String region, int categoryBigNo, int categorySmallNo);
