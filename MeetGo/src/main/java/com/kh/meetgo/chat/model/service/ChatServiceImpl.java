@@ -46,4 +46,9 @@ public class ChatServiceImpl implements ChatService{
     public int insertEstimate(Estimate estimate) {
         return chatDao.insertEstimate(sqlSession,estimate);
     }
+
+    @Override
+    public Estimate searchEstimate(int estNo) {
+        return chatDao.searchEstimate(sqlSession,estNo);
+    }
 }

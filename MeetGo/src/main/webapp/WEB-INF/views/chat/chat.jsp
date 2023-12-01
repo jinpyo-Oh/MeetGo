@@ -97,6 +97,7 @@
 		<script>
 			let chatroomNo;
             let userNo;
+            let estNo;
             $(function () {
                 $('.chat-card').click(function () {
                     $('.right-box-info').empty();
@@ -184,47 +185,88 @@
 			}
             function appendChat(lr, data) {
                 let chat = "";
+                let est;
                 if (data.type == 'M') {
                     chat = '<div class="chat-bubble">'
 								+ '<p class="'+lr+'">' + data.content +'</p>'
 								+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
 							+ '</div>';
+                    $('.chat-area').append(chat);
+                    scrollToBottom();
                 } else if (data.type == 'P') {
                     chat = '<div class="chat-bubble">'
 							+ '<img class="'+lr+'" src="'+data.content+'">'
 							+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
                         + '</div>';
+                    $('.chat-area').append(chat);
+                    scrollToBottom();
                 } else if (data.type == 'E') {
-                    chat = '<div class="chat-bubble">'
-							+ '<div class="chat-estimate receiver">'
-								+ '<h5 class="est-title">견적서</h5>'
-								+ '<p class="est-content">'
-									+ '이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
-								+ '</p>'
-								+ '<hr>'
-								+ '<table>'
-									+ '<tr>'
-										+ '<td>서비스</td>'
-										+ '<td>반려견 산책</td>'
-									+ '</tr>'
-									+ '<tr>'
-										+ '<th>예상 금액</th>'
-										+ '<td>총 30,000 원</td>'
-									+ '</tr>'
-								+ '</table>'
-								+ '<hr>'
-								+ '<div class="est-button">'
-									+ '<p>취소된 견적서 입니다.</p>'
-								+ '</div>'
-							+ '</div>'
-							+ '<p class="chat-createAt p-receiver">1:45 PM</p>'
-                        + '</div>'
+                    $.ajax({
+						url : "searchEstimate",
+						data : {
+                            estimateNo : data.content
+						},
+						success : function (data) {
+                            insertEstChat(data);
+						},
+						error : function () {
+      						console.log("견적서 채팅 입력 실패");
+						}
+					})
+                
                 } else {
                     console.log("채팅 타입 인식 실패")
 				}
+            
+            }
+            function insertEstChat(data){
+                let chat = '<div class="chat-bubble">'
+					+ '<div class="chat-estimate receiver">'
+					+ '<h5 class="est-title">견적서</h5>'
+					+ '<p class="est-content">'
+					+ '고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
+					+ '</p>'
+					+ '<hr>'
+					+ '<table>'
+					+ '<tr>'
+					+ '<td>서비스</td>'
+					+ '<td>' + data.estService + '</td>'
+					+ '</tr>'
+					+ '<tr>'
+					+ '<th>예상 금액</th>'
+					+ '<td>' + data.estPrice + '</td>'
+					+ '</tr>'
+					+ '</table>'
+					+ '<hr>'
+					+ '<div class="chat-est-button">';
+  
+                switch (data.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
+					case '1' :
+                        chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
+							'<div style="display: flex"><button class="meetgo-btn w-50">확정하기</button><button class="meetgo-btn meetgo-red w-50">취소하기</button></div>'
+						break;
+					case '2' :
+                        chat += '<p>취소된 견적서 입니다.</p>'
+                        break;
+					case '3' :
+                        chat += '<p>확정된 견적서 입니다.</p>'
+							+'<button class="meetgo-btn meetgo-red" style="width: 268px; margin: 5px; ">취소하기</button>'
+                        break;
+					case '4' :
+                        chat += '<p>취소된 견적서 입니다.</p>'
+                        break;
+					case '5' :
+                        chat += '<p>거래 완료된 견적서 입니다.</p>'
+						+'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                        break;
+				}
+				chat 			+='</div>'
+								+ '</div>'
+								+ '<p class="chat-createAt p-receiver">1:45 PM</p>'
+							+ '</div>';
                 $('.chat-area').append(chat);
                 scrollToBottom();
-            }
+			}
 		</script>
 	</div>
 	<div class="right-box">
@@ -241,7 +283,6 @@
 				})
 			</script>
 			<div class="right-box-info">
-			
 <%--				<div class="info-profile">--%>
 <%--					<img class="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">--%>
 <%--					<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">--%>
@@ -386,7 +427,14 @@
 					} else if (type == 'P') {
      
 					} else if (type == 'E') {
-                    
+                        const data = {
+                            "chatroomNo" : chatroomNo,
+                            "sender" : ${sessionScope.loginUser.userNo},
+                            "type" : 'E',
+                            "content"   : estNo,
+                            "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                        };
+                        jsonData = JSON.stringify(data);
                     }
                     
                     websocket.send(jsonData);

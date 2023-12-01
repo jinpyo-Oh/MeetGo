@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="chatMapper">
+    <resultMap id="estimateResultSet" type="estimate">
+        <result column="EST_NO" property="estNo" />
+        <result column="EST_TITLE" property="estTitle" />
+        <result column="EST_CONTENT" property="estContent" />
+        <result column="EST_ADDRESS" property="estAddress" />
+        <result column="EST_SERVICE" property="estService" />
+        <result column="START_DATE" property="startDate" />
+        <result column="END_DATE" property="endDate" />
+        <result column="CONFIRMATION_DATE" property="confirmationDate" />
+        <result column="EST_PRICE" property="estPrice" />
+        <result column="STATUS" property="status" />
+        <result column="TID" property="tid" />
+        <result column="GOSU_NO" property="gosuNo" />
+        <result column="USER_NO" property="userNo" />
+    </resultMap>
+
+
     <resultMap id="chatroomResultSet" type="chatroom">
         <result column="CHATROOM_NO" property="chatroomNo" />
         <result column="CREATE_AT" property="createAt" />
         <result column="USER_NO" property="userNo" />
         <result column="GOSU_NO" property="gosuNo" />
     </resultMap>
+
     <resultMap id="chatResultSet" type="chat">
         <result column="CHAT_NO" property="chatNo" />
         <result column="CONTENT" property="content" />
@@ -15,6 +33,7 @@
         <result column="CREATE_AT" property="createAt" />
         <result column="CHATROOM_NO" property="chatroomNo" />
     </resultMap>
+
     <select id="selectChatRoomList" parameterType="chatroom" resultType="com.kh.meetgo.chat.model.dto.ChatListDto">
         SELECT cr.chatroom_no as "chatroom.chatroomNo",
         cr.create_at   as "chatroom.createAt",
@@ -29,24 +48,34 @@
         ) M ON CR.USER_NO = M.USER_NO
         WHERE cr.user_no = #{userNo} OR GOSU_NO = #{userNo}
     </select>
+
     <select id="selectChatList" parameterType="_int" resultMap="chatResultSet">
         SELECT *
         FROM CHAT
         WHERE CHATROOM_NO = ${chatroomNo}
     </select>
+
     <select id="selectChatroom" parameterType="_int" resultMap="chatroomResultSet">
         SELECT *
         FROM CHATROOM
         WHERE CHATROOM_NO = ${chatroomNo}
     </select>
+
     <insert id="insertChat" parameterType="chat">
         INSERT INTO CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO)
         VALUES (SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo})
     </insert>
-    <insert id="insertEstimate" parameterType="com.kh.meetgo.gosu.model.vo.Estimate">
-        INSERT INTO ESTIMATE (EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, START_DATE, END_DATE, CONFIRMATION_DATE, EST_PRICE, STATUS, "tid", GOSU_NO, USER_NO)
-        VALUES (SEQ_ESTIMATE_NO.nextval, "", #{estContent}, #{estAddress}, #{estService}, #{startDate}, #{endDate} , #{confirmationDate}, #{estPrice}, 1, NULL, gosuNo, userNo)
+
+    <insert id="insertEstimate" parameterType="estimate" useGeneratedKeys="true" keyColumn="EST_NO" keyProperty="estNo">
+        INSERT INTO ESTIMATE (EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, START_DATE, END_DATE, CONFIRMATION_DATE, EST_PRICE, STATUS, GOSU_NO, USER_NO)
+        VALUES (SEQ_ESTIMATE_NO.nextval, 'aa', #{estContent}, #{estAddress}, #{estService}, TO_DATE(#{startDate}, 'YYYY-MM-DD'), #{endDate} , #{confirmationDate}, #{estPrice}, '1', #{gosuNo}, #{userNo})
     </insert>
+
+    <select id="searchEstimate" parameterType="_int" resultMap="estimateResultSet">
+        SELECT *
+        FROM ESTIMATE
+        WHERE EST_NO = #{estNo}
+    </select>
 </mapper>
 
 

@@ -36,4 +36,8 @@ public class ChatDao {
     public int insertEstimate(SqlSessionTemplate sqlSession, Estimate estimate) {
         return sqlSession.insert("chatMapper.insertEstimate", estimate);
     }
+
+    public Estimate searchEstimate(SqlSessionTemplate sqlSession, int estNo) {
+        return sqlSession.selectOne("chatMapper.searchEstimate", estNo);
+    }
 }

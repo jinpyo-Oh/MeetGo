@@ -147,7 +147,8 @@
     }
     .right-section button:hover {
         background-color: #1673d1;
-    }.meetgo-btn {
+    }
+	.meetgo-btn {
          background-color: white;
          font-family: 'Noto Sans KR', sans-serif;
          border: 2px solid #2A8FF7;
@@ -157,10 +158,10 @@
          box-sizing: border-box;
      }
     .meetgo-btn:hover {
-        background-color: #adbfce;
-        border : 2px solid #1673d1;
+        background-color: #2A8FF7;
+        border : 2px solid black;
         box-sizing: border-box;
-        color: black;
+        color: white;
     }
     .w-100 {
         width: 100%;
@@ -201,6 +202,15 @@
 	}
 	.user-name {
 		margin-bottom: 30px;
+	}
+	.meetgo-red {
+		border: 1px solid red;
+		color : red;
+	}
+	.meetgo-red:hover {
+		background-color: red;
+		border: 1px solid black;
+		color: white;
 	}
 	.user-menu {
 		color: #3a3a3a;

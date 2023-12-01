@@ -54,13 +54,37 @@ public class ChatController {
         return "chat/estimate";
     }
 
+//    @ResponseBody
+//    @GetMapping(value = "/selectAllEstCategory")
+//    public String selectAllEstCategory(String userNo){
+//        if (userNo != null) {
+//
+//        }
+//    }
     @ResponseBody
     @PostMapping(value = "/insertEstimate")
     public String insertEstimate(@RequestBody Estimate estimate){
         System.out.println(estimate);
         int result = chatService.insertEstimate(estimate);
-        System.out.println("result = " + result);
-        return "";
+        System.out.println("estimate = " + estimate.getEstNo());
+        return String.valueOf(estimate.getEstNo());
     }
-
+    @ResponseBody
+    @GetMapping(value = "/searchEstimate", produces = "text/json; charset=UTF-8")
+    public String searchEstimate(@RequestParam(value = "estimateNo", required = false) String estimateNo) {
+        int estNo = 0;
+        System.out.println(estimateNo);
+        if (estimateNo != null && !estimateNo.isEmpty()) {
+            try {
+                estNo = Integer.parseInt(estimateNo.trim());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("estNo = " + estNo);
+        Estimate estimate = chatService.searchEstimate(estNo);
+        System.out.println(estimate);
+        return new Gson().toJson(estimate);
+    }
+    
 }
