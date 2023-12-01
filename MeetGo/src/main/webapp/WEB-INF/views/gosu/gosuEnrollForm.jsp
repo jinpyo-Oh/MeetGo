@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
+       
+
+        
         .main {
             background-color: #FFFFFF;
             width: 800px;
@@ -104,13 +107,13 @@
 <body>
     <jsp:include page="../common/header.jsp" />
 
-    <form action="insert.me" method="post">
+    <form action="insert.go" method="post">
         
         <div class="main">
 	        <h1>고수 등록</h1>
             
             <br>
-
+			
             <div id="select-option-area" class="name1" align="left">
                 <p style="margin-bottom: 5px;">지역 *</p>
                 <select id="region-main" class="option-select dropdown">
@@ -226,7 +229,6 @@
 	// 선택한 항목들이 들어갈 배열 (전역변수)
 	const selectedArr = [];
 
-
 	// sub 지역 리스트
 	let seoul = ["서울 전체", "종로구", "중구", "용산구", "성동구", "광진구", "동대문구", "중랑구", "성북구", "강북구", "도봉구", "노원구", "은평구", "서대문구", "마포구", "양천구", "강서구", "구로구", "금천구", "영등포구", "동작구", "관악구", "서초구", "강남구", "송파구", "강동구"];
 	let sejong = ["세종 전체"];
@@ -286,97 +288,97 @@
 	    let subRegionOptions = "";
 	    
 	    switch (selectedRegion) {
-	        case "allRegion":
-	                subRegionOptions += '<option value="allRegion">' + "-" + '</option>';
+        case "전체":
+                subRegionOptions += '<option>' + "-" + '</option>';
+        break;
+        case "서울":
+            $.each(seoul, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
             break;
-	        case "seoul":
-	            $.each(seoul, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "sejong":
-	            $.each(sejong, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "gangwon":
-	            $.each(gangwon, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "incheon":
-	            $.each(incheon, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "gyeonggi":
-	            $.each(gyeonggi, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "chungbuk":
-	            $.each(chungbuk, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "chungnam":
-	            $.each(chungnam, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "daejeon":
-	            $.each(daejeon, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "gyeongbuk":
-	            $.each(gyeongbuk, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "daegu":
-	            $.each(daegu, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "gyeongnam":
-	            $.each(gyeongnam, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "busan":
-	            $.each(busan, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "ulsan":
-	            $.each(ulsan, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "jeonbuk":
-	            $.each(jeonbuk, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "jeonnam":
-	            $.each(jeonnam, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "gwangju":
-	            $.each(gwangju, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        case "jeju":
-	            $.each(jeju, function(index, subRegion) {
-	                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
-	            });
-	            break;
-	        default:
-	            break;
-	    }
+        case "세종":
+            $.each(sejong, function(index, subRegion) {
+                subRegionOptions += '<option value="' + subRegion + '">' + subRegion + '</option>';
+            });
+            break;
+        case "강원":
+            $.each(gangwon, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "인천":
+            $.each(incheon, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "경기":
+            $.each(gyeonggi, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "충북":
+            $.each(chungbuk, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "충남":
+            $.each(chungnam, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "대전":
+            $.each(daejeon, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "경북":
+            $.each(gyeongbuk, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "대구":
+            $.each(daegu, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "경남":
+            $.each(gyeongnam, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "부산":
+            $.each(busan, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "울산":
+            $.each(ulsan, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "전북":
+            $.each(jeonbuk, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "전남":
+            $.each(jeonnam, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "광주":
+            $.each(gwangju, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        case "제주":
+            $.each(jeju, function(index, subRegion) {
+                subRegionOptions += '<option>' + subRegion + '</option>';
+            });
+            break;
+        default:
+            break;
+    	}
 	    // 서브 지역 옵션 업데이트
 	    subRegionSelect.html(subRegionOptions);
 	}
@@ -451,6 +453,9 @@
     
     $(function(){
     	
+    	
+    	
+    	
     	$("#category-sub").on("change", function(){
     		
     		let mainCategory = $("#category-main").val();
@@ -458,82 +463,100 @@
     		let buttonCount = $("#serviceList button").length;
 			
 			let selectedValue = $(this).val();
-
+			
 			let lastCharacter = selectedValue.charAt(selectedValue.length - 1);
 
+			let cnt=0;
 			
-			// 푸시 전 로또번호처럼 중복체크하고 중복되는게 없으면 푸시
-			selectedArr.push(selectedValue); // 선택했을때
+			for(let i = 0; i < selectedArr.length; i++){
+				
+				if(selectedArr[i] == selectedValue){
+					cnt++;
+				}
+				
+			}
+			if(cnt == 0){
+				
+				if(buttonCount < 5){
+					selectedArr.push(selectedValue);
+				}
+				
+				let showVal = "";
+				
+				switch(mainCategory) {
+					
+					case '1' : 
+						showVal = homeLiving[lastCharacter - 1];
+					break;
+					case '2' : 
+						showVal = hobbyEdu[lastCharacter - 1];
+					break;
+					case '3' : 
+						showVal = healthBeauty[lastCharacter - 1];
+					break;
+					case '4' : 
+						showVal = design[lastCharacter - 1];
+					break;
+					case '5' : 
+						showVal = event[lastCharacter - 1];
+					break;
+					case '6' : 
+						showVal = development[lastCharacter - 1];
+					break;
+					case '7' : 
+						showVal = business[lastCharacter - 1];
+					break;
+					case '8' : 
+						showVal = law[lastCharacter - 1];
+					break;
+					case '9' : 
+						showVal = other[lastCharacter - 1];
+					break;
+				}
+				
+				
+				
+				if (buttonCount < 5) {
+					let btr = "<button type='button' class='subOption'> <span class='selectedOption'>"
+							+ showVal 
+							+ "</span><input type='hidden' class='reVal' value='"
+							+ selectedValue
+							+ "'><span class='cancel'> x </span></button>&nbsp;";
+					
+					$("#serviceList").append(btr);
+				} else {
 
+					alert("최대 5개의 서비스만 선택 가능합니다.");
+				}
+			}
 
-
-
+			console.log(selectedArr);
+			
 			// console.log(lastCharacter);
 
-			console.log(mainCategory);
+			// console.log(mainCategory);
 
-			let showVal = "";
 			
-			switch(mainCategory) {
-				case '1' : 
-					showVal = homeLiving[lastCharacter - 1];
-				break;
-				case '2' : 
-					showVal = hobbyEdu[lastCharacter - 1];
-				break;
-				case '3' : 
-					showVal = healthBeauty[lastCharacter - 1];
-				break;
-				case '4' : 
-					showVal = design[lastCharacter - 1];
-				break;
-				case '5' : 
-					showVal = event[lastCharacter - 1];
-				break;
-				case '6' : 
-					showVal = development[lastCharacter - 1];
-				break;
-				case '7' : 
-					showVal = business[lastCharacter - 1];
-				break;
-				case '8' : 
-					showVal = law[lastCharacter - 1];
-				break;
-				case '9' : 
-					showVal = other[lastCharacter - 1];
-				break;
-			}
-			
-			/*
-			let homeLiving = ["청소", "인테리어", "이사", "수리"];
-			let hobbyEdu = ["음악", "요리", "외국어", "미술"];
-			let healthBeauty = ["메이크업", "헤어", "피부관리", "헬스"];
-			let design = ["영상편집", "사진편집", "일러스트 / 공예", "3D / 애니메이션"];
-			let event = ["사진촬영", "기획 / 장식", "공연"];
-			let development = ["웹 개발", "소프트웨어 개발", "앱 개발"];
-			let business = ["마케팅", "통역 / 번역", "컨설팅"];
-			let law = ["세무 / 회계", "법무", "노무"];
-			let other = ["알바", "PPT제작", "반려동물", "대여 / 대관"];
-			*/
-			
-			00
-			if (buttonCount < 5) {
-				let btr = "<button type='button' class='subOption'> <span class='selectedOption'>"
-						+ showVal 
-						+ "</span><span class='cancel'> x </span></button>&nbsp;";
-				
-				$("#serviceList").append(btr);
-			} else {
-
-				alert("최대 5개의 서비스만 선택 가능합니다.");
-			}
     	})
     	
     	$("#serviceList").on("click", ".cancel", function () {
             
+    		let num = $("#reVal").val();
+            
+            console.log(num);
+            
 			$(this).closest("button").remove();
-
-			// 인덱스값을 지우려면
+			
+			for(let i = 0; i < selectedArr.length; i++){
+				
+				if(selectedArr[i] == num){
+					console.log("중복됨");
+				}
+			}
+			
+			// 인덱스 자리의 항목을 찾아서 날리고 앞으로 한칸씩 땡겨오기
+			
+			
         });
     	
     });
