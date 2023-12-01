@@ -7,6 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class CategoryBig {
+	
 	private int categoryBigNo;
 	private String categoryBigName;
 	
