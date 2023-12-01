@@ -169,6 +169,7 @@
                 <option>광주</option>
                 <option>제주</option>
             </select>
+            
             <select id="region-sub" class="option-select" name="regionSub">
             	<option></option>
             </select>
@@ -204,7 +205,7 @@
         
         <div id="result-area">
 
-            <span>${fn:length(requestScope.list)} 건 조회됨</span>
+            <span>총 ${ requestScope.pi.listCount } 건 조회됨</span>
 
             <div align="right">
             <select id="filter" class="form-control">
@@ -262,14 +263,13 @@
              <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
                     					end="${ requestScope.pi.endPage }"
                     					step="1">
-			<button class="pageBtn" onclick="location.href='searchGosu.go?cpage=${ p }'">${ p }</button>
+			<button class="pageBtn" onclick="location.href='searchGosu.go?currentPage=${ p }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">${ p }</button>
             </c:forEach>
             
             <button class="pagingBtn" onclick="location.href='searchGosu.go?cpage=${ requestScope.pi.currentPage + 1}'">next</button>
         </div>
                
  	</div>
-
 
 <script>
 	// sub 지역 리스트

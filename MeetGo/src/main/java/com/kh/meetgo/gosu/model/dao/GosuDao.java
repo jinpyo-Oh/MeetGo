@@ -15,29 +15,24 @@ import com.kh.meetgo.member.model.vo.Gosu;
 @Repository
 public class GosuDao {
 	
-	// 고수 회원 수 조회용 메소드
+	// 고수 전체 회원 수 조회용 메소드
 	public int selectGosuCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("gosuMapper.selectGosuCount");
 	}
+
+	// 고수찾기 검색용 메소드 영역
+	
+	// 지역 전체 선택 | 서비스 선택
 	public int selectAllRegionOptionResultCount(SqlSessionTemplate sqlSession
 			  , String region, int categoryBigNo, int categorySmallNo) {
-		return sqlSession.selectOne("gosuMapper.selectAllRegionOptionResultCount");
+		
+		Map<String, Object> params = new HashMap<>();
+	    params.put("region", region);
+	    params.put("categorySmallNo", categorySmallNo);
+	    
+		return sqlSession.selectOne("gosuMapper.selectAllRegionOptionResultCount", params);
 	}
-	public int selectRegionOptionResultCount(SqlSessionTemplate sqlSession
-			  , String region, int categoryBigNo, int categorySmallNo) {
-		return sqlSession.selectOne("gosuMapper.selectRegionOptionResultCount");
-	}
-	public int selectAllRegionGosuCount(SqlSessionTemplate sqlSession
-			  , String region, int categoryBigNo, int categorySmallNo) {
-		return sqlSession.selectOne("gosuMapper.selectAllRegionGosuCount");
-	}
-	public int selectRegionGosuCount(SqlSessionTemplate sqlSession
-			  , String region, int categoryBigNo, int categorySmallNo) {
-		return sqlSession.selectOne("gosuMapper.selectRegionGosuCount");
-	}
-
-	// 고수찾기 검색용 메소드 
-	// 지역 전체 선택 | 서비스 선택
+	
 	public ArrayList<GosuOpt> selectAllRegionOptionResult(SqlSessionTemplate sqlSession, String region
 														, int categoryBigNo, int categorySmallNo, PageInfo pi){
 		
@@ -54,7 +49,18 @@ public class GosuDao {
 
 	    
 	}
+	
 	// 지역 선택 | 서비스 선택
+	public int selectRegionOptionResultCount(SqlSessionTemplate sqlSession
+			  , String region, int categoryBigNo, int categorySmallNo) {
+		
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("region", region);
+	    params.put("categorySmallNo", categorySmallNo);
+	    
+		return sqlSession.selectOne("gosuMapper.selectRegionOptionResultCount", params);
+	}
+	
 	public ArrayList<GosuOpt> selectRegionOptionResult(SqlSessionTemplate sqlSession, String region
 													 , int categoryBigNo, int categorySmallNo, PageInfo pi){
 		
@@ -72,6 +78,11 @@ public class GosuDao {
 	}
 	
 	// 지역 선택 | 서비스 전체 선택
+	public int selectRegionGosuCount(SqlSessionTemplate sqlSession
+			  , String region, int categoryBigNo, int categorySmallNo) {
+		return sqlSession.selectOne("gosuMapper.selectRegionGosuCount", region);
+	}
+
 	public ArrayList<GosuOpt> selectRegionGosu(SqlSessionTemplate sqlSession, String region
 			 , int categoryBigNo, int categorySmallNo, PageInfo pi){
 
@@ -85,6 +96,11 @@ public class GosuDao {
 	}
 	
 	// 지역 전체 선택 | 서비스 전체 선택
+	public int selectAllRegionGosuCount(SqlSessionTemplate sqlSession
+			  , String region, int categoryBigNo, int categorySmallNo) {
+		return sqlSession.selectOne("gosuMapper.selectAllRegionGosuCount", region);
+	}
+	
 	public ArrayList<GosuOpt> selectAllRegionGosu(SqlSessionTemplate sqlSession, String region
 			 , int categoryBigNo, int categorySmallNo, PageInfo pi){
 
