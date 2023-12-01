@@ -320,11 +320,11 @@ CREATE TABLE ESTIMATE
     "EST_ADDRESS"       VARCHAR2(300)  NOT NULL,                                  -- 견적서 주소
     "EST_SERVICE"       VARCHAR2(100)  NOT NULL,                                  -- 서비스 종류
     "START_DATE"        DATE           NOT NULL,                                  -- 서비스 시작일
-    "END_DATE"          DATE DEFAULT SYSDATE,                                     -- 서비스 종료일
+    "END_DATE"          VARCHAR2(200) DEFAULT SYSDATE,                            -- 서비스 종료일 ex) 계약일로부터 x일
     "CONFIRMATION_DATE" DATE           NULL,                                      -- 견적 확정일
     "EST_PRICE"         VARCHAR2(200)         NOT NULL,                            -- 견적 가격
     "STATUS"            VARCHAR2(1) CHECK ( STATUS IN ('1', '2', '3', '4', '5')), -- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료
-    "tid"               VARCHAR2(30)   NULL,                                      -- 결제 고유 번호
+    "TID"               VARCHAR2(30)   NULL,                                      -- 결제 고유 번호
     "GOSU_NO"           NUMBER         NOT NULL,                                  -- 고수 번호
     "USER_NO"           NUMBER         NOT NULL,                                  -- 사용자 번호
     FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO),
