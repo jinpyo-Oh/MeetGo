@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.meetgo.gosu.model.dao.GosuDao;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.member.model.vo.Gosu;
 
 @Service
 public class GosuServiceImpl implements GosuService {
@@ -22,6 +23,27 @@ public class GosuServiceImpl implements GosuService {
 	public ArrayList<GosuOpt> selectOptionResult(String region, int categoryBigNo, int categorySmallNo){
 			
 		return gosuDao.selectOptionResult(sqlSession, region, categoryBigNo, categorySmallNo);
+	}
+	
+	// 고수 등록용 메소드
+	@Override
+	public int insertGosu(Gosu gosu) {
+		
+		return gosuDao.insertGosu(sqlSession, gosu);
+	}
+	
+	// 고수 서비스 등록용 메소드
+	@Override
+	public int insertGosuCate(int service, int gosuNo) {
+		
+		return gosuDao.insertGosuCate(sqlSession, service, gosuNo);
+	}
+	
+	// 고수로 상태변경용 메소드
+	@Override
+	public int changeStatus(int userNo) {
+		
+		return gosuDao.changeStatus(sqlSession, userNo);
 	}
 
 	
