@@ -232,7 +232,7 @@
                            </td>
                         </tr>
                         <tr>
-                            <td colspan="2"></td>
+                            <td colspan="2">${ g.gosu.introduction }</td>
                         </tr>
                         </thead>                        
                         <tbody>

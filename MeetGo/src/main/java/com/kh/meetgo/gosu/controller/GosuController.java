@@ -43,6 +43,7 @@ public class GosuController {
 			region = regionMain;
 		}
 		
+		// 고수의 서비스
 		int categoryBigNo = Integer.parseInt(categoryMain);
 		int categorySmallNo = Integer.parseInt(categorySub);
 		
