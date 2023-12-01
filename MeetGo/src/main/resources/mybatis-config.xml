@@ -14,6 +14,7 @@
 		<typeAlias type="com.kh.meetgo.chat.model.dto.ChatListDto" alias="chatListDto" />
 		<typeAlias type="com.kh.meetgo.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.meetgo.gosu.model.dto.GosuOpt" alias="gosuOpt"/>
+		<typeAlias type="com.kh.meetgo.member.model.vo.Gosu" alias="gosu"/>
 	</typeAliases>
 	
 

@@ -15,4 +15,43 @@
 		) M ON M.USER_NO = G.GOSU_NO
 		WHERE G.REGION LIKE #{region} || '%'
 	</select>
+	
+	<insert id="insertGosu" parameterType="gosu">
+		INSERT INTO GOSU(GOSU_NO
+					   , INTRODUCTION
+					   , EMPLOYEES
+					   , BUSINESS_STATUS
+					   , EDUCATION
+					   , CAREER
+					   , ELABORATE
+					   , REGION
+					   , MOVE_DISTANCE
+					   , AVAILABLE_TIME
+					   , USER_NO)
+				  VALUES(#{gosuNo}
+				  	   , #{introduction}
+				  	   , #{employees}
+				  	   , #{businessStatus}
+				  	   , #{education}
+				  	   , #{career}
+				  	   , #{elaborate}
+				  	   , #{region}
+				  	   , #{moveDistance}
+				  	   , #{availableTime}
+				  	   , #{userNo})
+	</insert>
+	
+	<insert id="insertGosuCate" parameterType="hashMap">
+		INSERT INTO "GOSU-SERVICE"(GOSU_NO
+							   , CATEGORY_SMALL_NO)
+						  VALUES(#{gosuNo}
+						  	   , #{service})
+	</insert>
+	
+	<update id="changeStatus" parameterType="_int">
+		UPDATE MEMBER
+		   SET USER_STATUS = 2
+		 WHERE USER_NO = #{userNo} 
+	</update>
+	
 </mapper>
