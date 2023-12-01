@@ -227,7 +227,7 @@
 	<script>
 
 	// 선택한 항목들이 들어갈 배열 (전역변수)
-	const selectedArr = [];
+	let selectedArr = [];
 
 	// sub 지역 리스트
 	let seoul = ["서울 전체", "종로구", "중구", "용산구", "성동구", "광진구", "동대문구", "중랑구", "성북구", "강북구", "도봉구", "노원구", "은평구", "서대문구", "마포구", "양천구", "강서구", "구로구", "금천구", "영등포구", "동작구", "관악구", "서초구", "강남구", "송파구", "강동구"];
@@ -452,31 +452,23 @@
     }
     
     $(function(){
-    	
-    	
-    	
-    	
     	$("#category-sub").on("change", function(){
     		
     		let mainCategory = $("#category-main").val();
-
     		let buttonCount = $("#serviceList button").length;
-			
 			let selectedValue = $(this).val();
-			
 			let lastCharacter = selectedValue.charAt(selectedValue.length - 1);
-
-			let cnt=0;
-			
+            console.log("mainCategory : " + mainCategory);
+            console.log("buttonCount : " + buttonCount);
+            console.log("selectedValue : " + selectedValue);
+            console.log("lastCharacter : " + lastCharacter);
+			let cnt = 0;
 			for(let i = 0; i < selectedArr.length; i++){
-				
 				if(selectedArr[i] == selectedValue){
 					cnt++;
 				}
-				
 			}
 			if(cnt == 0){
-				
 				if(buttonCount < 5){
 					selectedArr.push(selectedValue);
 				}
@@ -517,15 +509,13 @@
 				
 				
 				if (buttonCount < 5) {
-					let btr = "<button type='button' class='subOption'> <span class='selectedOption'>"
+					let btr = "<button type='button' class='subOption' data-value='" + selectedValue + "'> <span class='selectedOption'>"
 							+ showVal 
-							+ "</span><input type='hidden' class='reVal' value='"
-							+ selectedValue
-							+ "'><span class='cancel'> x </span></button>&nbsp;";
+							+ "</span><span class='cancel' >"
+                            + "x </span></button>&nbsp;";
 					
 					$("#serviceList").append(btr);
 				} else {
-
 					alert("최대 5개의 서비스만 선택 가능합니다.");
 				}
 			}
@@ -541,18 +531,14 @@
     	
     	$("#serviceList").on("click", ".cancel", function () {
             
-    		let num = $("#reVal").val();
-            
-            console.log(num);
-            
+            let num = $(this).closest("button").data("value");
 			$(this).closest("button").remove();
-			
-			for(let i = 0; i < selectedArr.length; i++){
-				
-				if(selectedArr[i] == num){
-					console.log("중복됨");
-				}
-			}
+            for (let i = 0; i < selectedArr.length; i++) {
+                if(selectedArr[i] == num){
+                    selectedArr.splice(i,1);
+                }
+            }
+            console.log("removeAfter : " +selectedArr);
 			
 			// 인덱스 자리의 항목을 찾아서 날리고 앞으로 한칸씩 땡겨오기
 			
