@@ -316,7 +316,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button><img style="width: 20px; height: 20px;" src="<%=request.getContextPath()%>\resources\images\common\logout-icon.png">&nbsp;&nbsp; 로그아웃</button>
+												<button onclick="location.href='logout.me'"><img style="width: 20px; height: 20px;" src="<%=request.getContextPath()%>\resources\images\common\logout-icon.png">&nbsp;&nbsp; 로그아웃</button>
 											</div>
 										</c:when>
 										<c:when test="${sessionScope.loginUser.userStatus eq 2}">
@@ -358,11 +358,15 @@
 		<script>
 			alertify.alert('Alert', '${ sessionScope.alertMsg }', function(){ alertify.success('Ok'); });
 		</script>
-	
-		<!-- session 의 alertMsg 지우기 -->
 		<c:remove var="alertMsg" scope="session" />
 	</c:if>
 
+	<c:if test="${ not empty sessionScope.errorMsg }">
+		<script>
+			alertify.alert('Alert', '${ sessionScope.errorMsg }',function(){ alertify.error('Fail'); });
+		</script>
+		<c:remove var="errorMsg" scope="session" />
+	</c:if>
     <script>
         const inputField = document.querySelector("#search-input");
         const searchBar = document.querySelector(".search-bar");
