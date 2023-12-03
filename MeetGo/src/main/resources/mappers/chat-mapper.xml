@@ -76,6 +76,8 @@
         FROM ESTIMATE
         WHERE EST_NO = #{estNo}
     </select>
+
+<!--    <select id="selectAllCategory" parameterType="_"-->
 </mapper>
 
 

@@ -51,4 +51,10 @@ public class ChatServiceImpl implements ChatService{
     public Estimate searchEstimate(int estNo) {
         return chatDao.searchEstimate(sqlSession,estNo);
     }
+
+    @Override
+    public ArrayList<String> selectAllCategory(String gosuNo) {
+        return chatDao.selectAllCategory(sqlSession, gosuNo);
+    }
+
 }

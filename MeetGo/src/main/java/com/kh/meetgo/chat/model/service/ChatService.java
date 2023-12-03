@@ -22,4 +22,6 @@ public interface ChatService {
     int insertEstimate(Estimate estimate);
 
     Estimate searchEstimate(int estNo);
+
+    ArrayList<String> selectAllCategory(String gosuNo);
 }

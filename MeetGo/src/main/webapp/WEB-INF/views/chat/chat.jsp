@@ -12,6 +12,30 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 	<link href="<%=request.getContextPath()%>/resources/css/chat/chat.css?after" rel="stylesheet" type="text/css">
 	
+	<style>
+        .preview-img {
+            background-color: #e1e1e1;
+			position: absolute;
+			bottom: 205px;
+			width: 650px;
+			height: 400px;
+			align-items: center;
+			text-align: center;
+			display: flex;
+			justify-content: center;
+		}
+		.preview-img-close {
+			position: absolute;
+			bottom: 360px;
+			right: 20px;
+			cursor: pointer;
+		}
+		.preview-img img {
+			max-width: 500px;
+			max-height: 350px;
+			object-fit: cover;
+		}
+	</style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -207,7 +231,7 @@
                             estimateNo : data.content
 						},
 						success : function (data) {
-                            insertEstChat(data);
+                            insertEstChat(data, lr);
 						},
 						error : function () {
       						console.log("견적서 채팅 입력 실패");
@@ -219,23 +243,23 @@
 				}
             
             }
-            function insertEstChat(data){
+            function insertEstChat(data, lr){
                 let chat = '<div class="chat-bubble">'
-					+ '<div class="chat-estimate receiver">'
+					+ '<div class="chat-estimate '+lr+'">'
 					+ '<h5 class="est-title">견적서</h5>'
 					+ '<p class="est-content">'
-					+ '고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
+						+ '고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
 					+ '</p>'
 					+ '<hr>'
 					+ '<table>'
-					+ '<tr>'
-					+ '<td>서비스</td>'
-					+ '<td>' + data.estService + '</td>'
-					+ '</tr>'
-					+ '<tr>'
-					+ '<th>예상 금액</th>'
-					+ '<td>' + data.estPrice + '</td>'
-					+ '</tr>'
+						+ '<tr>'
+							+ '<td>서비스</td>'
+							+ '<td>' + data.estService + '</td>'
+						+ '</tr>'
+						+ '<tr>'
+							+ '<th>예상 금액</th>'
+							+ '<td>' + data.estPrice + '</td>'
+						+ '</tr>'
 					+ '</table>'
 					+ '<hr>'
 					+ '<div class="chat-est-button">';
@@ -334,8 +358,6 @@
 <%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
 <%--					</div>--%>
 <%--				</div>--%>
-
-			
 			</div>
 			<script>
                 $('.info-pofol').slick({
@@ -364,28 +386,45 @@
 				<textarea id="chat-textarea" maxlength="180" placeholder="메세지를 입력해 주세요."></textarea>
 				<div>
 					<div class="input-icon">
-						<input type="file" id="chat-file" name="file" style="display: none">
+						<input type="file" id="chat-file" name="file" style="display: none" onchange="setChatImg(event);">
 						<button class="meetgo-btn" id="chat-file-upload"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
 						<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
 						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/report-icon.png" alt="">신고</button>
 					</div>
 					<div class="input-button">
-						<button onclick="sendMessage('M')" class="meetgo-btn">전송</button>
+						<button id="send-message-btn" onclick="sendMessage('M')" class="meetgo-btn">전송</button>
 						<button class="meetgo-btn">채팅방 나가기</button>
 					</div>
 				</div>
 			</div>
 			<script>
-
                 $('#chat-file-upload').click(function (e){
                     $('#chat-file').click();
 				});
                 $('#chat-estimate-button').click(function () {
                     $('#modalWrap').css("display","block");
                 });
-
-           
+				function setChatImg(event) {
+                    var reader = new FileReader();
+					$('.preview-img').remove();
+                    reader.onload = function(event) {
+                    	var img = document.createElement("img");
+                        let imgArea = '<div class="preview-img">'
+								+ '<img class="preview-img-close" onclick="previewClose()" src="<%=request.getContextPath()%>/resources/images/chat/close-icon.png"></div>';
+                    	img.setAttribute("src", event.target.result);
+                        $('.chat-area').append(imgArea);
+                    	document.querySelector(".preview-img").appendChild(img);
+                        $('#send-message-btn').attr('onclick', "sendMessage('P')");
+                };
+					
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+           		function previewClose(){
+                    $('.preview-img').remove();
+                    $('#send-message-btn').attr('onclick', "sendMessage('M')");
+				}
 			</script>
+			
 			<script>
                 let websocket; // 전역변수 선언
                 function connect(){
@@ -413,7 +452,7 @@
                 // * 1 메시지 전송
                 function sendMessage(type){
                     let jsonData;
-                    if(type == 'M'){
+                    if(type == 'M'){ // 메시지일 경우
                         let message = $('#chat-textarea').val();
                         const data = {
                             "chatroomNo" : chatroomNo,
@@ -424,9 +463,34 @@
                         };
                         jsonData = JSON.stringify(data);
                         $('#chat-textarea').val('');
-					} else if (type == 'P') {
-     
-					} else if (type == 'E') {
+						websocket.send(jsonData);
+					} else if (type == 'P') { // 사진일 경우
+						console.log("채팅 메세지 전송");
+                        var form = $('#chat-file')[0].files[0];
+                        var formData = new FormData();
+                        formData.append('chatImg', form);
+                        $.ajax({
+                            type: "POST",
+                            enctype: 'multipart/form-data',
+                            url: "uploadChatImg",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            success: function (data) {
+                                alert("성공");
+
+								websocket.send(jsonData);
+                            },
+                            error: function (e) {
+                                alert("실패");
+                            }
+                        });
+                        $('.preview-img').remove();
+                        $('#send-message-btn').attr('onclick', "sendMessage('M')");
+                        
+                        
+					} else if (type == 'E') { // 견적서 일경우
                         const data = {
                             "chatroomNo" : chatroomNo,
                             "sender" : ${sessionScope.loginUser.userNo},
@@ -435,9 +499,8 @@
                             "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
                         };
                         jsonData = JSON.stringify(data);
+						websocket.send(jsonData);
                     }
-                    
-                    websocket.send(jsonData);
                 }
 
                 // * 2 메세지 수신
@@ -452,10 +515,6 @@
 					}
                     CheckLR(data);
                 }
-				
-
-                
-                
 			</script>
 		</div>
 	</div>

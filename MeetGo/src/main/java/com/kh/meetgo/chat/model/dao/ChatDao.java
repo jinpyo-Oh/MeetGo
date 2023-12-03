@@ -40,4 +40,9 @@ public class ChatDao {
     public Estimate searchEstimate(SqlSessionTemplate sqlSession, int estNo) {
         return sqlSession.selectOne("chatMapper.searchEstimate", estNo);
     }
+
+    public ArrayList<String> selectAllCategory(SqlSessionTemplate sqlSession, String gosuNumber) {
+        int gosuNo = Integer.parseInt(gosuNumber);
+        return (ArrayList) sqlSession.selectList("chatMapper.selectAllCategory", gosuNo);
+    }
 }

@@ -194,7 +194,7 @@
 		<script>
 			$(function (){
                $.ajax({
-				   url : "selectAllEstCategory",
+				   url : "selectAllCategory",
 				   data : {
                        gosuNo : ${sessionScope.loginUser.userNo}
 				   },
