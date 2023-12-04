@@ -288,11 +288,11 @@
 							    <a href="loginForm.me">로그인</a>
 							</li>
 							<li>
-							    <a href="EnrollForm.me">회원가입</a>
+							    <a href="enrollForm.me">회원가입</a>
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="estimate.me">견적 목록</a></li>
+							<li><a href="estimate.me?cPage=1">견적 목록</a></li>
 							<li><a href="chat.ct">채팅</a></li>
 							<li>
 								<div class="menu-userInfo" data-toggle="collapse" data-target="#user-info-collapse">

@@ -93,7 +93,7 @@
                 <img src="https://pbs.twimg.com/media/FRRFdEZaAAACoLr.jpg:large" class="profile">
                 <h2 class="name">김찬영 고객님</h2> <br>
                 <p><img src="https://assets.cdn.soomgo.com/icons/icon-mypage-kakaotalk-signin.svg">tomy2213@naver.com</p>
-                <a class="btn" href="mypageInfo.me">계정설정</button>
+                <a class="btn" href="myPageInfo.me">계정설정</button>
             </a>
         </div>
         <hr>

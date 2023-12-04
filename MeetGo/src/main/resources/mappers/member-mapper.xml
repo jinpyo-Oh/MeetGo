@@ -16,8 +16,24 @@
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="ADDRESS" property="address"/>
 		<result column="LAST_ACCESS_DATE" property="lastAccessDate" />
+		<result column="ADDRESS" property="address"/>
 		<result column="USER_STATUS" property="userStatus" />
-		
+	</resultMap>
+	
+	<resultMap id="estimateResultSet" type="estimate">
+		<result column="EST_NO" property="estNo"/>
+		<result column="EST_TITLE" property="estTitle"/>
+		<result column="EST_CONTENT" property="estContent"/>
+		<result column="EST_ADDRESS" property="estAddress"/>
+		<result column="EST_SERVICE" property="estService"/>
+		<result column="START_DATE" property="startDate"/>
+		<result column="END_DATE" property="endDate"/>
+		<result column="CONFIRMATION_DATE" property="confirmationDate"/>
+		<result column="EST_PRICE" property="estPrice"/>
+		<result column="STATUS" property="status"/>
+		<result column="TID" property="tid"/>
+		<result column="GOSU_NO" property="gosuNo"/>
+		<result column="USER_NO" property="userNo"/>
 	</resultMap>
 
 	<!-- 로그인용 쿼리문 -->
@@ -36,6 +52,7 @@
 					USER_NICKNAME,
 					USER_EMAIL,
 					USER_GENDER,
+					ADDRESS,	
 					USER_PHONE,
 					USER_STATUS)
 			VALUES (SEQ_MEMBER_NO.NEXTVAL,
@@ -45,21 +62,22 @@
 					#{userNickname},
 					#{userEmail},			
 					#{userGender},
+					#{address},
 					#{userPhone},
 					1)
 	</insert>
 	<update id="updateMember" parameterType="member">
 		UPDATE MEMBER
-		SET USER_NAME = #{userName},
-		EMAIL = #{userEmail},
-		PHONE = #{userPhone},
-		GENDER = #{userGender},
-		MODIFY_DATE = SYSDATE
+		SET USER_NICKNAME = #{userNickname},
+		USER_EMAIL = #{userEmail},
+		USER_PWD = #{userPwd}
 		WHERE USER_ID = #{userId}
+		 AND (USER_STATUS = '1' OR USER_STATUS = '2')
 	</update>
+	
 	<update id="deleteMember" parameterType="string">
 		UPDATE MEMBER
-		SET STATUS = 'N'
+		SET USER_STATUS = '4'
 		WHERE USER_ID = #{userId}
 	</update>
 	<select id="idCheck" parameterType="string" resultType="_int">
@@ -67,6 +85,12 @@
 		FROM MEMBER
 		WHERE USER_ID = #{checkId}
 	</select>
+	<select id="pwdCheck" parameterType="string" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE USER_PWD = #{checkPwd}
+	</select>
+	
 
 	<select id="selectChatUserInfo" parameterType="_int" resultMap="memberResultSet">
 		SELECT USER_NO, USER_NAME, USER_ID, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, LAST_ACCESS_DATE, USER_STATUS, ADDRESS
@@ -76,11 +100,73 @@
 		WHERE CHATROOM_NO = #{chatroomNo}
 		)
 	</select>
+	
 	<update id="changeStatus" parameterType="member">
 		UPDATE MEMBER
 		SET USER_STATUS = #{userStatus}
 		WHERE USER_ID = #{userId}
+		
 	</update>
+	
+
+	<select id="selectIncompleteListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		  FROM ESTIMATE
+		 WHERE (STATUS = '2' OR STATUS = '3' OR STATUS = '4') 
+		   AND USER_NO = #{userNo}
+	</select>
+	
+	<select id="selectCompleteListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		  FROM ESTIMATE
+		 WHERE STATUS = '5'
+		   AND USER_NO = #{userNo}
+	</select>
+	
+	<select id="selectIncompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
+		SELECT EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE, END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE, EST_PRICE, STATUS, TID, GOSU_NO, USER_NO
+		  FROM ESTIMATE
+		 WHERE (STATUS = '2' OR STATUS = '3' OR STATUS = '4')
+		   AND USER_NO = #{userNo}
+	</select>
+	
+	<select id="selectCompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
+		SELECT EST_NO
+			 , EST_TITLE
+			 , EST_CONTENT
+			 , EST_ADDRESS
+			 , EST_SERVICE
+			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
+			 , END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
+			 , EST_PRICE, STATUS, TID
+			 , GOSU_NO
+			 , USER_NO
+	  	  FROM ESTIMATE
+		 WHERE STATUS = '5'
+		   AND USER_NO = #{userNo}
+	</select>
+	
+	<select id="selectEstimateDetail" parameterType="_int" resultMap="estimateResultSet">
+		SELECT EST_NO
+			 , EST_TITLE
+			 , EST_CONTENT
+			 , EST_ADDRESS
+			 , EST_SERVICE
+			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
+			 , END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
+			 , EST_PRICE, STATUS, TID
+			 , GOSU_NO
+			 , USER_NO
+	  	  FROM ESTIMATE
+		 WHERE EST_NO = #{eno}
+	</select>
+	
+	<select id="getName" parameterType="_int" resultType="string">
+		SELECT USER_NAME
+		  FROM MEMBER
+		 WHERE USER_NO = #{userNo}
+	</select>
+	
 </mapper>
 
 
