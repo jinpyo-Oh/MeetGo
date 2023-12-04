@@ -1,5 +1,7 @@
 package com.kh.meetgo.member.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,11 +43,11 @@ public class MemberController {
 	}
 	@RequestMapping("myPage.me")
 	public String mypage() {
-		return "member/memberMypage";
+		return "member/memberMyPage";
 	}
 	@RequestMapping("myPageInfo.me")
 	public String mypagemini() {
-		return "member/memberMypagInfo";
+		return "member/memberMyPagInfo";
 	}
 	@RequestMapping("gosuPage.me")
 	public String gosuPageForm() {
@@ -53,17 +57,31 @@ public class MemberController {
 	public String memberPortFolio() {
 		return "member/memberPortFolio";
 	}
-	@RequestMapping("EnrollForm.me")
+	@RequestMapping("enrollForm.me")
 	public String memberEenrollForm() {
 		return "member/memberEnrollForm";
 	}
-	@RequestMapping("FindPassword.me")
+	@RequestMapping("findPassword.me")
 	public String memberFindPassword() {
 		return "member/memberFindPassword";
 	}
-	@RequestMapping("ChangePassword.me")
+	@RequestMapping("changePassword.me")
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
+	}
+	@RequestMapping("estimate.me")
+	public String myEstimate() {
+		return "estimate/myEstimateList";
+	}
+	
+	@RequestMapping("reviewWrite.me")
+	public String reviewWrite() {
+		return "estimate/reviewWrite";
+	}
+	
+	@RequestMapping("myReview.me")
+	public String myReview() {
+		return "member/memberMyReview";
 	}
 	
 	
@@ -113,20 +131,17 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	@RequestMapping("enrollForm.me")
-	public String enrollForm(){
-		return "member/memberEnrollForm";
-	}
-
 	@RequestMapping("insert.me")
-	public String insertMember(Member m,String domain, Model model, HttpSession session) {
+	public String insertMember(Member m,String domain, Model model, HttpSession session,String address1, String address2) {
 		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
 		String email=m.getUserEmail()+"@"+domain;
 		m.setUserEmail(email);
 		m.setUserPwd(bCryptPasswordEncoder.encode(m.getUserPwd()));
-		System.out.println(m);
+		String address = address1+" "+address2;
+		m.setAddress(address);
 		int result = memberService.insertMember(m);
 		if (result > 0) {
+
 			session.setAttribute("alertMsg", "회원 가입 성공");
 			return "redirect:/";
 		} else {
@@ -143,6 +158,16 @@ public class MemberController {
 	
 		return (count > 0) ? "NNNNN" : "NNNNY";
 	}
+	@ResponseBody
+	@RequestMapping(value = "pwdCheck.me", produces = "text/html; charset=UTF-8")
+	public String pwdCheck(String checkPwd) {
+		
+		int count = memberService.pwdCheck(checkPwd);
+		
+	
+		return (count > 0) ? "NNNNN" : "NNNNY";
+	}
+
 
 	@RequestMapping(value = "changeStatus.me", produces = "text/html; charset=UTF-8")
 	public String changeStatus(HttpSession session){
@@ -161,21 +186,114 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
+	@RequestMapping("delete.me")
+	public String deleteMember(String userId, 
+							   String userPwd,
+							   HttpSession session,
+							   Model model) {
+		
+		// userId : 탈퇴 요청을 한 회원의 아이디
+		// userPwd : 탈퇴 요청을 한 회원의 비번 평문
+		
+		// DB 로부터 비번이 일치하는 조건을 가진
+		// 쿼리문 사용 불가
+		// => Bcrypt 방식에 의해 아무리 평문이 일치하더라도
+		//    매번 다른 암호문 결과가 나올것이기 때문
+		// => 현재 session 에 담겨있는 회원의 정보 중
+		//    암호화된 비밀번호를 갖고와서 matches 메소드로 대조
+		
+		// session 으로부터 loginUser 의 userPwd 필드값 갖고오기
+		// (암호화된 비번)
+		String encPwd = ((Member)session.getAttribute("loginUser"))
+													.getUserPwd();
+		
+		
+	
+		// 비밀번호 대조작업 진행 (matches 메소드)
+		if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
+			
+			// 비밀번호가 일치할 경우
+			// => 탈퇴처리
+			int result = memberService.deleteMember(userId);
+			
+			if(result > 0) { // 회원 탈퇴 성공
+				
+				// => session 으로부터 loginUser 를 지우기 (로그아웃)
+				//    session 에 alert 문구를 담기
+				//    메인페이지로 url 재요청
+				
+				// 로그아웃 구현 방법 2가지
+				// 1. 세션을 무효화시키기 (invalidate 메소드)
+				// 2. removeAttribute 를 이용해서 회원 정보만 날리기
+				// => alert 문구도 담아야하기 때문에 2번 방법
+				session.removeAttribute("loginUser");
+				
+				session.setAttribute("alertMsg", 
+						"성공적으로 탈퇴되었습니다. 그동안 이용해주셔서 감사합니다.");
+				
+				return "redirect:/";
+				
+			} else { // 회원 탈퇴 실패
+				
+				// => 에러문구를 담아서 에러페이지로 포워딩
+				model.addAttribute("errorMsg", "회원 탈퇴 실패");
+				
+				// /WEB-INF/views/common/errorPage.jsp
+				return "common/errorPage";
+			}
+			
+		} else {
+			
+			// 비밀번호가 일치하지 않을 경우
+			// => 비밀번호가 틀렸다고 알리고 마이페이지로 url 재요청
+			
+			session.setAttribute("alertMsg", "비밀번호를 잘못 입력하였습니다. 확인해주세요.");
+			
+			return "redirect:/myPage.me";
+		}
+	}
+	@RequestMapping("update.me")
+	public String updateMember(Member m,
+							   Model model,
+							   HttpSession session) {
+		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
 
-	@RequestMapping("estimate.me")
-	public String myEstimate() {
-		return "estimate/myEstimateList";
+		m.setUserId(((Member)(session.getAttribute("loginUser"))).getUserId());
+		int result = memberService.updateMember(m);
+		if(result > 0) { // 수정 성공
+			// => 갱신된 회원의 정보를 다시 조회해와서
+			//    세션에 덮어씌우기
+			//    마이페이지로 url 재요청
+			
+			// 기존의 loginMember 메소드를 재활용해서 조회해오기
+			
+			m.setUserId(((Member)session.getAttribute("loginUser")).getUserId());
+
+			System.out.println(m);
+			Member updateMember = memberService.loginMember(m);
+			
+			
+			session.setAttribute("loginUser", updateMember);
+			
+			// 일회성 알람 문구도 담기
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			
+			// 마이페이지로 url 재요청
+			return "redirect:/myPage.me";
+			
+		} else { // 수정 실패
+			// => 에러 문구를 담아서 에러페이지로 포워딩
+			
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+			
+			// /WEB-INF/views/common/errorPage.jsp
+			return "common/errorPage";
+		}
 	}
 	
-	@RequestMapping("reviewWrite.me")
-	public String reviewWrite() {
-		return "estimate/reviewWrite";
-	}
 	
-	@RequestMapping("myReview.me")
-	public String myReview() {
-		return "member/memberMyReview";
-	}
+
+	
 }
 
 

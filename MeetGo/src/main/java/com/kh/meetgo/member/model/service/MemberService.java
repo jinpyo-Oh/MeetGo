@@ -19,6 +19,9 @@ public interface MemberService {
 	
 	// 아이디중복체크 서비스 (select)
 	int idCheck(String checkId);
+	
+	//비밀번호 체크
+	int pwdCheck(String checkPwd);
 
 
     int changeStatus(Member m);

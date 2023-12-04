@@ -286,7 +286,7 @@
 							    <a href="loginForm.me">로그인</a>
 							</li>
 							<li>
-							    <a href="EnrollForm.me">회원가입</a>
+							    <a href="enrollForm.me">회원가입</a>
 							</li>
 						</c:when>
 						<c:otherwise>

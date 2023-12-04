@@ -9,7 +9,7 @@
     <style>
         .main {
             width: 600px;
-            height: 1000px;
+            height: 900px;
             margin: 0 auto;
             text-align: center;
             padding:20px;
@@ -48,8 +48,8 @@
 
         }
         .item-description {
-            color:#7777;
-            
+                color:#7777;
+                
 
         }
         .item{
@@ -66,8 +66,8 @@
     </style>
 </head>
 <body>
-    	<jsp:include page="../common/header.jsp"/>
-    
+    <jsp:include page="../common/header.jsp"/>
+
     <div class="main">
         <div class="profile">
             <h1 class="title">계정 설정</h1>
@@ -78,11 +78,10 @@
             <div class="item-title">
                 <p>이름</p>
             </div>
-            <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow">
             <div class="item-info">
                 <p>김찬영</p>
             </div>
-            
+            <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow">
             <div class="item-description">
                 <p>이름은 상대방에게 노출되지 않습니다.</p>
                 
@@ -138,8 +137,8 @@
             
 
     </div>
+	<jsp:include page="../common/footer.jsp"/>
 
-    	<jsp:include page="../common/footer.jsp"/>
     
 </body>
 </html>
