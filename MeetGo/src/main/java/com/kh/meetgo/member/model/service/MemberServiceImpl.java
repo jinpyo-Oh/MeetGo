@@ -1,9 +1,13 @@
 package com.kh.meetgo.member.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.dao.MemberDao;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -75,6 +79,31 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int changeStatus(Member m) {
 		return memberDao.changeStatus(sqlSession,m);
+	}
+
+	@Override
+	public int selectIncompleteListCount(int userNo) {
+		return memberDao.selectIncompleteListCount(sqlSession, userNo);
+	}
+
+	@Override
+	public int selectCompleteListCount(int userNo) {
+		return memberDao.selectCompleteListCount(sqlSession, userNo);
+	}
+
+	@Override
+	public ArrayList<Estimate> selectIncompleteEstimateList(PageInfo pi1, int userNo) {
+		return memberDao.selectIncompleteEstimateList(sqlSession, pi1, userNo);
+	}
+
+	@Override
+	public ArrayList<Estimate> selectCompleteEstimateList(PageInfo pi2, int userNo) {
+		return memberDao.selectCompleteEstimateList(sqlSession, pi2, userNo);
+	}
+
+	@Override
+	public Estimate selectEstimateDetail(int eno) {
+		return memberDao.selectEstimateDetail(sqlSession, eno);
 	}
 
 
