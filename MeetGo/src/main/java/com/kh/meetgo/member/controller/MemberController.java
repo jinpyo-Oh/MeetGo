@@ -73,10 +73,6 @@ public class MemberController {
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
 	}
-	@RequestMapping("estimate.me")
-	public String myEstimate() {
-		return "estimate/myEstimateList";
-	}
 	
 	@RequestMapping("reviewWrite.me")
 	public String reviewWrite() {
@@ -256,6 +252,7 @@ public class MemberController {
 			return "redirect:/myPage.me";
 		}
 	}
+	/*
 	@RequestMapping("update.me")
 	public String updateMember(Member m,
 							   Model model,
@@ -293,6 +290,7 @@ public class MemberController {
 			// /WEB-INF/views/common/errorPage.jsp
 			return "common/errorPage";
 		}
+		*/
 	@RequestMapping("estimate.me")
 	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
 		
@@ -322,13 +320,6 @@ public class MemberController {
 		return mv;
 	}
 	
-	
-
-	@RequestMapping("myReview.me")
-	public String myReview() {
-		return "member/memberMyReview";
-	}
-	
 	@RequestMapping("estimateDetail.me")
 	public ModelAndView estimageDetail(int eno, ModelAndView mv) {
 		
@@ -336,7 +327,11 @@ public class MemberController {
 		
 		Estimate est = memberService.selectEstimateDetail(eno);
 		
-		mv.addObject("est", est).setViewName("estimate/myEstimateDetail");
+		String userName = memberService.getName(est.getUserNo());
+		String gosuName = memberService.getName(est.getGosuNo());
+		
+		mv.addObject("est", est).addObject("userName", userName).addObject("gosuName", gosuName)
+		  .setViewName("estimate/myEstimateDetail");
 		
 		return mv;
 	}

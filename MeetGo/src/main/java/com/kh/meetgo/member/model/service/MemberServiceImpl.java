@@ -106,5 +106,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.selectEstimateDetail(sqlSession, eno);
 	}
 
+	@Override
+	public String getName(int userNo) {
+		return memberDao.getName(sqlSession, userNo);
+	}
+
 
 }

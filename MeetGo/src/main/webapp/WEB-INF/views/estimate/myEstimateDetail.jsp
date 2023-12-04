@@ -83,9 +83,9 @@
                             </tr>
                             <tr class="cons">
                                 <td class="fix" style="width: 15%;">고수번호</td>
-                                <td style="width: 35%;">${ requestScope.est.gosuNo }</td>
-                                <td class="fix"  style="width: 15%;">고객번호</td>
-                                <td style="width: 35%;">${ requestScope.est.userNo }</td>
+                                <td style="width: 35%;">${ requestScope.gosuName }</td>
+                                <td class="fix"  style="width: 15%;">고객명</td>
+                                <td style="width: 35%;">${ requestScope.userName }</td>
                             </tr>
                             <tr class="cons">
                                 <td class="fix"  style="width: 15%;">가격</td>

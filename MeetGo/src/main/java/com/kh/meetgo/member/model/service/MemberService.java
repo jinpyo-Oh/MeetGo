@@ -41,7 +41,11 @@ public interface MemberService {
     // 완료된 견적서 조회 (select)
     ArrayList<Estimate> selectCompleteEstimateList(PageInfo pi2, int userNo);
     
+    // 견적서 상세조회 (select)
     Estimate selectEstimateDetail(int eno);
+    
+    // 유저번호, 고수번호로 이름 가져오기(select)
+    String getName(int userNo);
 }
 
 

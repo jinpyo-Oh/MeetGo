@@ -81,4 +81,7 @@ public class MemberDao {
     	return sqlSession.selectOne("memberMapper.selectEstimateDetail", eno);
     }
     
+    public String getName(SqlSessionTemplate sqlSession, int userNo) {
+    	return sqlSession.selectOne("memberMapper.getName", userNo);
+    }
 }

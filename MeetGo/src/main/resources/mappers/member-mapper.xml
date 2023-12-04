@@ -160,6 +160,13 @@
 	  	  FROM ESTIMATE
 		 WHERE EST_NO = #{eno}
 	</select>
+	
+	<select id="getName" parameterType="_int" resultType="string">
+		SELECT USER_NAME
+		  FROM MEMBER
+		 WHERE USER_NO = #{userNo}
+	</select>
+	
 </mapper>
 
 
