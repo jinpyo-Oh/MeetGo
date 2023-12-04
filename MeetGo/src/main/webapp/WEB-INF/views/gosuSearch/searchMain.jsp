@@ -24,6 +24,7 @@
         margin-top: 100px;
         margin-bottom: 100px;
         box-sizing: border-box;
+        min-height: 1000px;
     }
     
     /* 메뉴 제목 */
@@ -141,16 +142,16 @@
 
 	<jsp:include page="../common/header.jsp"/>
 	
+	
     <div class="outer">
         <p id="title-text">고수찾기</p><br>
         <div id="select-option-area" align="center">
-        
-            <form action="searchGosu.go" method="get">
-            <input type="hidden" name="currentPage" value="1">
+
+            <input type="hidden" id="currentPage" name="currentPage" value="1">
             <span>&nbsp;지역</span>&nbsp;&nbsp;&nbsp;
 
-            <select id="region-main" class="option-select" name="regionMain">
-            	<option value="all">전국</option>
+            <select id="region-main" class="option-select">
+            	<option value="전체">전국</option>
                 <option>서울</option>
                 <option>세종</option>
                 <option>강원</option>
@@ -170,7 +171,7 @@
                 <option>제주</option>
             </select>
             
-            <select id="region-sub" class="option-select" name="regionSub">
+            <select id="region-sub" class="option-select">
             	<option></option>
             </select>
 
@@ -178,7 +179,7 @@
             <br>
             
             <span>서비스</span>
-            <select id="category-main" class="option-select" name="categoryMain">
+            <select id="category-main" class="option-select">
                 <option value="0" selected>전체 서비스</option>
                 <option value="1" >홈 / 리빙</option>
                 <option value="2">취미 / 레슨</option>
@@ -190,13 +191,9 @@
                 <option value="8">법률 / 행정</option>
                 <option value="9">기타</option>
             </select>
-            <select id="category-sub" class="option-select" name="categorySub">
+            <select id="category-sub" class="option-select">
                 <option selected></option>
             </select>
-           	
-           	<input type="submit" value="검색" id="btn-search">
-           	
-            </form>
             
             <br>
             
@@ -204,57 +201,23 @@
 
         <hr style="width: 50%;">
         
-        <div id="result-area">
-
-            <span>총 ${ requestScope.pi.listCount } 건 조회됨</span>
-
-            <div align="right">
-            <select id="filter" class="form-control">
-                <option value="review" selected>리뷰많은순</option>
-                <option value="rate">평점높은순</option>
-                <option value="hire">고용순</option>
-                <option value="recent">최신순</option>
-            </select>
+        <div style="width: 50%; margin:auto;">
+        	<div align="left" id="resultCount">
+        		
+        	</div>
+        	<div align="right">
+	            <select id="filter" class="form-control">
+	                <option value="review" selected>리뷰많은순</option>
+	                <option value="rate">평점높은순</option>
+	                <option value="hire">고용순</option>
+	                <option value="recent">최신순</option>
+	            </select>
             </div>
+        </div>
 
-		<!-- 검색했을 경우 -->
-			<c:choose>
-				<c:when test="${ not empty requestScope.list }" >
-				<c:forEach var="g" items="${ requestScope.list }">
-            	<div align="center" class="service-object">
-                    <table class="service-table">
-                        <thead>
-                        <tr>    
-                           <th rowspan="2">
-                            <div align="center">
-                                <img class="gosu-profile" width="150px" height="150px" src="${ g.userProfile }">
-                            </div>
-                           </th> 
-                           <td style="width: 25%;">${ g.userNickname }</td>
-                           <td>
-                            <span id="mainC">${ g.categorySmallNo.toString().charAt(0) }</span> > <span id="subC">${ g.categorySmallNo.toString() }</span>
-                           </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">${ g.gosu.introduction }</td>
-                        </tr>
-                        </thead>                        
-                        <tbody>
-                        <tr>
-                            <td style="text-align: center;"><br>별점</td>
-                            <td colspan="2"><br>리뷰 <b>00</b> 건</td>
-                        </tr>
-                        <tr><td>&nbsp;</td></tr>
-                        </tbody>
-                    </table>
-                    </div> 
-                </c:forEach>
-                </c:when>
-				<c:otherwise>
-                	조회된 결과가 없습니다.
-                </c:otherwise>
-        </c:choose>
-			
+            
+        <div id="result-area">
+   
         </div>
         
         <!-- 페이징바 -->
@@ -290,6 +253,13 @@
 
             </c:forEach>   
                    
+            <!-- 페이징버튼 스크립트 -->
+			<script>
+				 // function pagingBtn(num) {
+					
+				// }
+			</script>  
+			                 
             <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
             <c:choose>
 	       		<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
@@ -337,23 +307,44 @@
 	let business = ["마케팅", "통역 / 번역", "컨설팅"];
 	let law = ["세무 / 회계", "법무", "노무"];
 	let other = ["알바", "PPT제작", "반려동물", "대여 / 대관"];
-	
+	$(function(){
+		optionSelect();
+	})
 	$(function() {
 		
+		let $regionMain = $("#region-main").val();
+		let $regionSub = $("#region-sub").val();
+		let $categoryMain = $("#category-main").val();
+		let $categorySub = $("#category-sub").val();		
+		
 	    // option 변경 이벤트 핸들러 등록
+	    $("#region-sub").on("change", function(){
+	    	console.log("1");
+			optionSelect();
+		});
+	    
 	    $("#region-main").on("change", function() {
+	    	console.log("2");
 	        updateSubRegionOptions();
+	        optionSelect();
 	    });
 	    
 	    $("#category-main").on("change", function(){
+	    	console.log("3");
 	    	updateSubCategoryUpdate();
+	    	optionSelect();
 	    });
-	    
+
+	    $("#category-sub").on("change", function(){
+	    	console.log("3");
+	    	optionSelect();
+	    });
+		
 	    updateSubRegionOptions();
 	    updateSubCategoryUpdate();
 	    
+	    
 	});
-
 
 	// 지역 옵션 업데이트
 	function updateSubRegionOptions() {
@@ -368,12 +359,12 @@
 	    let subRegionOptions = "";
 	    
 	    switch (selectedRegion) {
-	        case "all":
-	                subRegionOptions += '<option value="all">-</option>';
+	        case "전체":
+	                subRegionOptions += '<option value="전체">-</option>';
             break;
 	        case "서울":
 	            $.each(seoul, function(index, subRegion) {
-	                subRegionOptions += '<option>' + subRegion + '</option>';
+	            	subRegionOptions += '<option>' + subRegion + '</option>';	
 	            });
 	            break;
 	        case "세종":
@@ -496,7 +487,7 @@
 	            break;
 	        case "4":
 	            $.each(design, function(index, subCategory) {
-	            	 subCategoryOptions += '<option value="' + (301 + index) + '">' + design[index] + '</option>';
+	            	 subCategoryOptions += '<option value="' + (401 + index) + '">' + design[index] + '</option>';
 	            });
 	            break;
 	        case "5":
@@ -530,8 +521,77 @@
 	    }
 	    subCategorySelect.html(subCategoryOptions);
     }
-    
+
+	function optionSelect(){
+		
+		$regionMain = $("#region-main").val();
+		$regionSub = $("#region-sub").val();
+		$categoryMain = $("#category-main").val();
+		$categorySub = $("#category-sub").val();
+		
+		$("#result-area").empty();
+		
+		$.ajax({
+			url : "searchGosu.go",
+			type : "get",
+			data : { regionMain : $regionMain,
+					 regionSub : $regionSub,
+					 categoryMain : $categoryMain,
+					 categorySub : $categorySub,
+					 currentPage : $("#currentPage").val()
+			},
+			success : function(result) {
+				let list = result.list;
+				console.log(result);
+				let resultCount = '<span>'+ result.pi.listCount +'건 조회됨</span>'
+				$("#resultCount").html(resultCount);
+				
+				for(let i = 0; i < list.length; i++){
+					 let resultStr ='<div align="center" class="service-object">'
+					             + '<table class="service-table">'
+					               +  '<thead>'
+					                   + '<tr>'
+					                       + '<th rowspan="2">'
+					                           + '<div align="center">'
+					                                + '<img class="gosu-profile" width="150px" height="150px" src="${list[i].userProfile}">'
+					                            + '</div>'
+					                        + '</th>'
+					                        + '<td style="width: 25%;">' + list[i].userNickname + '</td>'
+					                        + '<td>'
+					                          +  '<span id="mainC">' +  list[i].categorySmallNo.toString().charAt(0) + '</span> >'
+					                           + '<span id="subC">'+ list[i].categorySmallNo.toString()+'</span>'
+					                        + '</td>'
+					                    + '</tr>'
+					                    + '<tr>'
+					                        + '<td colspan="2">' + list[i].gosu.introduction+ '</td>'
+					                    + '</tr>'
+					                 +'</thead>'
+					                + '<tbody>'
+					                    + '<tr>'
+					                        + '<td style="text-align: center;">'
+					                            + '<br>별점</td>'
+					                        + '<td colspan="2">'
+					                            + '<br>리뷰<b>00</b>건'
+					                        +'</td>'
+					                    + '</tr>'
+					                    + '<tr>'
+					                        + '<td>&nbsp;</td>'
+					                    + '</tr>'
+					                + '</tbody>'
+					            + '</table>'
+					        + '</div>'
+					$('#result-area').append(resultStr);
+				}
+
+			},
+			error : function() {
+				alert("error : 관리자에게 문의하세요");
+			}
+		});
+		
+	}
 </script>
+
      <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

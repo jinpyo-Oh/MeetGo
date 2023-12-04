@@ -256,10 +256,10 @@
                 </div>
                 <nav class="nav-list">
                     <li>
-                        <a>공지사항</a>
+                        <a href="">공지사항</a>
                     </li>
                     <li>
-                        <a href="searchGosu.go?currentPage=1&regionMain=all&regionSub=all&categoryMain=0&categorySub=0">
+                        <a href="searchMain.go">
                         	고수찾기
                         </a>
                     </li>

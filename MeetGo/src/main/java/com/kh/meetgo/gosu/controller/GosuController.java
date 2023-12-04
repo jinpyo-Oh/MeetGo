@@ -1,6 +1,8 @@
 package com.kh.meetgo.gosu.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -89,97 +91,59 @@ public class GosuController {
     }
 
     
-    // 고수 찾기
-    @ResponseBody
-    @RequestMapping(value = "searchGosu.go", produces = "text/html; charset=UTF-8")
-    public ModelAndView selectOptionResult(String regionMain, String regionSub
-                            , String categoryMain, String categorySub
-                            , ModelAndView mv
-                            , @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+    // 고수 찾기 포워딩
+    @RequestMapping("searchMain.go")
+    public String sendMain() {
     	
-       mv.addObject("regionMain", regionMain)
-       .addObject("regionSub", regionSub)
-       .addObject("categoryMain", categoryMain)
-       .addObject("categorySub", categorySub);
-       
-       int listCount = 0;
-       PageInfo pi = new PageInfo();
-       
-       int pageLimit = 5;
-       int boardLimit = 10;
-       
-       // 고수의 지역
-       String region = regionMain + " " + regionSub;
-       
-       ArrayList<GosuOpt> list = new ArrayList<>();
-       
-       // 고수의 서비스
-       int categoryBigNo = Integer.parseInt(categoryMain);
-       int categorySmallNo = Integer.parseInt(categorySub);      
-       
-       if(regionSub.equals("전체") && (categoryBigNo > 0)) { // 지역 전체 선택 | 서비스 선택
-          
-          region = regionMain;
-          
-          listCount = gosuService.selectAllRegionOptionResultCount(region, categoryBigNo, categorySmallNo);
-          
-          pi = Pagination.getPageInfo(listCount, 
-                currentPage, pageLimit, boardLimit);
-          
-          list = gosuService.selectAllRegionOptionResult(region, categoryBigNo, categorySmallNo, pi);    
-          
-          mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
-       } else if(!regionSub.equals("전체") && categoryBigNo > 0) { // 지역 선택 | 서비스 선택
-          
-          listCount = gosuService.selectRegionOptionResultCount(region, categoryBigNo, categorySmallNo);
-          
-          pi = Pagination.getPageInfo(listCount, 
-                currentPage, pageLimit, boardLimit);
-          
-          list = gosuService.selectRegionOptionResult(region, categoryBigNo, categorySmallNo, pi);
-          
-          mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
-       } else if(regionSub.equals("전체") && (categoryBigNo == 0)) { // 지역 전체 선택 | 서비스 전체 선택
-          
-          region = regionMain;
-          
-          listCount = gosuService.selectAllRegionGosuCount(region, categoryBigNo, categorySmallNo);
-          
-          pi = Pagination.getPageInfo(listCount, 
-                currentPage, pageLimit, boardLimit);
-          
-          list = gosuService.selectAllRegionGosu(region, categoryBigNo, categorySmallNo, pi);
-          
-          mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
-
-       } else if(regionMain.equals("all") && categoryBigNo == 0) { // 전국 선택
-    	   
-    	   listCount = gosuService.selectAllGosuCount();
-    	   System.out.println(regionMain);
-           
-           pi = Pagination.getPageInfo(listCount, 
-                 currentPage, pageLimit, boardLimit);
-    	   
-    	   list = gosuService.selectAllGosu(pi);
-       	
-       		mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
-       } else { // 지역 선택 | 서비스 전체 선택
-          listCount = gosuService.selectRegionGosuCount(region, categoryBigNo, categorySmallNo);
-          
-          pi = Pagination.getPageInfo(listCount, 
-                currentPage, pageLimit, boardLimit);
-          
-          list = gosuService.selectRegionGosu(region, categoryBigNo, categorySmallNo, pi);
-          
-          mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
-          
-       }
-
-       System.out.println(pi);
-       
-       return mv;
+    	return "gosuSearch/searchMain";
     }
     
-    
+    // 고수 찾기
+    @ResponseBody
+    @RequestMapping(value = "searchGosu.go", produces = "text/json; charset=UTF-8")
+    public String selectOptionResult(@RequestParam(value = "regionMain", defaultValue = "all")  String regionMain
+    							   , String regionSub
+    							   , @RequestParam(value = "categoryMain", defaultValue = "0") String categoryMain
+    							   , String categorySub
+    							   , @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+    	
+       int listCount = 0; // 전체 리스트 초기화
+       ArrayList<GosuOpt> list = new ArrayList<>(); // 결과 리스트 초기화
+       PageInfo pi = new PageInfo(); // PageInfo 초기화
+       String region = ""; // 지역 문자열 초기화
+       
+       int pageLimit = 5;
+       int boardLimit = 5; // 버튼 5개, 리스트 출력 5개 제한
+       
+       // 고수의 지역(시/도 - 전체 시 or 전국)
+       
+       if(regionSub.equals("전체") || regionMain.equals("전체")) {
+    	   region = regionMain;
+       } else {
+    	   region = regionMain + " " + regionSub;
+       }
+       
+       // 고수의 서비스 번호 파싱
+       int categoryBigNo = Integer.parseInt(categoryMain);
+       int categorySmallNo = 0;
+       
+       if (!categorySub.isEmpty()) {
+    	   categorySmallNo = Integer.parseInt(categorySub);
+       }
+  
+       listCount = gosuService.selectOptionalGosuCount(region, regionSub, categoryBigNo, categorySmallNo); // 조회된 회원수
+          
+       pi = Pagination.getPageInfo(listCount, 
+            currentPage, pageLimit, boardLimit);
+       
+       list = gosuService.selectOptionalGosu(region, regionSub, categoryBigNo, categorySmallNo, pi);
+       Map<String, Object> map = new HashMap<>();
+
+       map.put("list", list);
+       map.put("pi", pi);
+       
+       return new Gson().toJson(map);
+    }
+
     
 }
