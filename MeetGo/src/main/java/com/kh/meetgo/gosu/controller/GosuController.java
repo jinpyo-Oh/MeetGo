@@ -87,31 +87,9 @@ public class GosuController {
         }
     
     }
+
     
-    
-    // 고수찾기 페이지로 이동
-    @ResponseBody
-    @RequestMapping("searchMain.go")
-    public ModelAndView sendToSearchMain(ModelAndView mv
-    				  , @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
-    	
-    	int listCount = gosuService.selectAllGosuCount();
-    	
-    	PageInfo pi = new PageInfo();
-    	int pageLimit = 5;
-        int boardLimit = 10;
-        
-    	pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-    	
-    	ArrayList<GosuOpt> list = new ArrayList<>();
-    	list = gosuService.selectAllGosu(pi);
-    	
-    	mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
-    	
-       return mv;
-    }
-    
-    // 고수 지역 선택
+    // 고수 찾기
     @ResponseBody
     @RequestMapping(value = "searchGosu.go", produces = "text/html; charset=UTF-8")
     public ModelAndView selectOptionResult(String regionMain, String regionSub
@@ -174,9 +152,10 @@ public class GosuController {
           
           mv.addObject("list", list).addObject("pi", pi).setViewName("gosuSearch/searchMain");
 
-       } else if(regionMain.equals("전국") && categoryBigNo == 0) {
+       } else if(regionMain.equals("all") && categoryBigNo == 0) { // 전국 선택
     	   
     	   listCount = gosuService.selectAllGosuCount();
+    	   System.out.println(regionMain);
            
            pi = Pagination.getPageInfo(listCount, 
                  currentPage, pageLimit, boardLimit);

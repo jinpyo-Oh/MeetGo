@@ -150,7 +150,7 @@
             <span>&nbsp;지역</span>&nbsp;&nbsp;&nbsp;
 
             <select id="region-main" class="option-select" name="regionMain">
-            	<option>전국</option>
+            	<option value="all">전국</option>
                 <option>서울</option>
                 <option>세종</option>
                 <option>강원</option>
@@ -256,33 +256,49 @@
         </c:choose>
 			
         </div>
-                
-                
-                
+        
         <!-- 페이징바 -->
         <c:if test="${ not empty requestScope.list }">
-        	        <div align="center" id="pagingBtn-area">  
-        	<!-- 첫 페이지면 이전페이지로 이동 불가 -->
-        	<c:choose>
-        		<c:when test="${ requestScope.pi.currentPage eq 1 }">
-        			<button class="pagingBtn" disabled style="display:none;">prev</button>
-        		</c:when>
-        		<c:otherwise>
-        			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage - 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">prev</button>
-        		</c:otherwise>
-        	</c:choose>            
+        		<div align="center" id="pagingBtn-area">  
+        		<!-- 첫 페이지면 이전페이지로 이동 불가 -->
+        		<c:choose>
+	        		<c:when test="${ requestScope.pi.currentPage eq 1 }">
+	        			<button class="pagingBtn" style="display:none;">prev</button>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage - 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">
+	        				prev
+	        			</button>
+	        		</c:otherwise>
+        		</c:choose>   
+
+			 <!-- 내가 보고있는 페이지면 클릭 안되게 -->        		         
              <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
                     					end="${ requestScope.pi.endPage }"
-                    					step="1">
-			<button class="pageBtn" onclick="location.href='searchGosu.go?currentPage=${ p }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">${ p }</button>
-            </c:forEach>          
+                    					step="1">      
+				<c:choose>
+					<c:when test="${ requestScope.pi.currentPage eq p }">
+						<button class="pageBtn" style="background-color: rgba(38, 131, 224);" disabled>${ p }</button>
+					</c:when>
+					<c:otherwise>
+						<button class="pageBtn" onclick="location.href='searchGosu.go?currentPage=${ p }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">
+							${ p }
+						</button>
+					</c:otherwise>
+				</c:choose>                    					
+                    					           						
+
+            </c:forEach>   
+                   
             <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
             <c:choose>
-	       		<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.endPage }">
-	       			<button class="pagingBtn" disabled style="display:none;">next</button>
+	       		<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
+	       			<button class="pagingBtn" style="display:none;">next</button>
 	       		</c:when>
 	       		<c:otherwise>
-	       			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage + 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">next</button>
+	       			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage + 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">
+	       				next
+	       			</button>
 	       		</c:otherwise>
        		</c:choose>  
         	</div>
@@ -291,6 +307,7 @@
  	</div>
 
 <script>
+
 	// sub 지역 리스트
 	let seoul = ["전체", "종로구", "중구", "용산구", "성동구", "광진구", "동대문구", "중랑구", "성북구", "강북구", "도봉구", "노원구", "은평구", "서대문구", "마포구", "양천구", "강서구", "구로구", "금천구", "영등포구", "동작구", "관악구", "서초구", "강남구", "송파구", "강동구"];
 	let sejong = ["전체"];
@@ -351,7 +368,7 @@
 	    let subRegionOptions = "";
 	    
 	    switch (selectedRegion) {
-	        case "전국":
+	        case "all":
 	                subRegionOptions += '<option value="all">-</option>';
             break;
 	        case "서울":
@@ -513,7 +530,7 @@
 	    }
 	    subCategorySelect.html(subCategoryOptions);
     }
-
+    
 </script>
      <jsp:include page="../common/footer.jsp"/>
 </body>
