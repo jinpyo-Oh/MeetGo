@@ -107,7 +107,7 @@
             <hr>
             <ul>
                 <li class="mypage">고수</li>
-                <a href="gosuEnrollForm.me">
+                <a href="gosuEnrollForm.go">
                     <li class="mypage-mini">고수 등록하기 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                </a>
             </ul>

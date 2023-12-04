@@ -7,6 +7,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Header</title>
+    
+    <!-- alertify 라이브러리 -->
+    <!-- JavaScript -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -137,7 +147,8 @@
     }
     .right-section button:hover {
         background-color: #1673d1;
-    }.meetgo-btn {
+    }
+	.meetgo-btn {
          background-color: white;
          font-family: 'Noto Sans KR', sans-serif;
          border: 2px solid #2A8FF7;
@@ -147,10 +158,10 @@
          box-sizing: border-box;
      }
     .meetgo-btn:hover {
-        background-color: #adbfce;
-        border : 2px solid #1673d1;
+        background-color: #2A8FF7;
+        border : 2px solid black;
         box-sizing: border-box;
-        color: black;
+        color: white;
     }
     .w-100 {
         width: 100%;
@@ -191,6 +202,15 @@
 	}
 	.user-name {
 		margin-bottom: 30px;
+	}
+	.meetgo-red {
+		border: 1px solid red;
+		color : red;
+	}
+	.meetgo-red:hover {
+		background-color: red;
+		border: 1px solid black;
+		color: white;
 	}
 	.user-menu {
 		color: #3a3a3a;
@@ -239,7 +259,7 @@
                         <a>공지사항</a>
                     </li>
                     <li>
-                        <a href="searchMain.go">고수찾기</a>
+                        <a href="searchMain.go?currentPage=1">고수찾기</a>
                     </li>
                     <li>
                         <a>커뮤니티</a>
@@ -296,7 +316,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button><img style="width: 20px; height: 20px;" src="<%=request.getContextPath()%>\resources\images\common\logout-icon.png">&nbsp;&nbsp; 로그아웃</button>
+												<button onclick="location.href='logout.me'"><img style="width: 20px; height: 20px;" src="<%=request.getContextPath()%>\resources\images\common\logout-icon.png">&nbsp;&nbsp; 로그아웃</button>
 											</div>
 										</c:when>
 										<c:when test="${sessionScope.loginUser.userStatus eq 2}">
@@ -334,7 +354,19 @@
 			</script>
         </div>
     </header>
+   	<c:if test="${ not empty sessionScope.alertMsg }">
+		<script>
+			alertify.alert('Alert', '${ sessionScope.alertMsg }', function(){ alertify.success('Ok'); });
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
 
+	<c:if test="${ not empty sessionScope.errorMsg }">
+		<script>
+			alertify.alert('Alert', '${ sessionScope.errorMsg }',function(){ alertify.error('Fail'); });
+		</script>
+		<c:remove var="errorMsg" scope="session" />
+	</c:if>
     <script>
         const inputField = document.querySelector("#search-input");
         const searchBar = document.querySelector(".search-bar");
@@ -349,5 +381,6 @@
             searchBar.style.border = "none";
         });
     </script>
+    
 </body>
 </html>

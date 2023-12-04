@@ -14,12 +14,12 @@
 		<result column="USER_PHONE" property="userPhone" />
 		<result column="USER_PROFILE" property="userProFile" />
 		<result column="CREATE_DATE" property="createDate" />
+		<result column="ADDRESS" property="address"/>
 		<result column="LAST_ACCESS_DATE" property="lastAccessDate" />
 		<result column="ADDRESS" property="address"/>
 		<result column="USER_STATUS" property="userStatus" />
 		
 	</resultMap>
-	
 
 	<!-- 로그인용 쿼리문 -->
 	<select id="loginMember" parameterType="member" 
@@ -78,7 +78,7 @@
 	
 
 	<select id="selectChatUserInfo" parameterType="_int" resultMap="memberResultSet">
-		SELECT USER_NO, USER_NAME, USER_ID, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, LAST_ACCESS_DATE, USER_STATUS
+		SELECT USER_NO, USER_NAME, USER_ID, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, LAST_ACCESS_DATE, USER_STATUS, ADDRESS
 		FROM MEMBER
 		WHERE USER_NO = (SELECT USER_NO
 		FROM CHATROOM

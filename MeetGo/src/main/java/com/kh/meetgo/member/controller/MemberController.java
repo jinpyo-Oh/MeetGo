@@ -39,7 +39,6 @@ public class MemberController {
 	
 	@RequestMapping("loginForm.me")
 	public String loginForm() {
-		//System.out.println("s");
 		return "member/memberLogin";
 	}
 	@RequestMapping("myPage.me")
@@ -92,6 +91,28 @@ public class MemberController {
 									ModelAndView mv,
 									HttpSession session,
 									HttpServletResponse response){
+
+		
+
+		Member loginUser = memberService.loginMember(m);
+		if(loginUser != null){
+			session.setAttribute("loginUser", loginUser);
+		} else {
+			session.setAttribute("errorMsg", "아이디가 존재하지 않습니다.");
+			mv.setViewName("redirect:/loginForm.me");
+			return mv;
+		}
+
+		boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
+		if (check) {
+			session.setAttribute("alertMsg", "로그인 성공.");
+			mv.setViewName("redirect:/");
+		} else {
+			session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+			mv.setViewName("redirect:/loginForm.me");
+			return mv;
+		}
+
 		if(saveId != null && saveId.equals("y")){
 			Cookie cookie = new Cookie("saveId", m.getUserId());
 			cookie.setMaxAge(24*60*60*1);
@@ -100,20 +121,6 @@ public class MemberController {
 			Cookie cookie = new Cookie("saveId", m.getUserId());
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
-		}
-		
-		
-		Member loginUser = memberService.loginMember(m);
-		
-		
-		boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
-		if (loginUser != null && check) {
-			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("alertMsg", "로그인에 성공했습니다.");
-			mv.setViewName("redirect:/");
-		} else {
-			mv.addObject("errorMsg", "로그인 실패");
-			mv.setViewName("common/errorPage");
 		}
 		return mv;
 	}
@@ -134,10 +141,11 @@ public class MemberController {
 		m.setAddress(address);
 		int result = memberService.insertMember(m);
 		if (result > 0) {
-			session.setAttribute("alertMsg", "ㅇㅅㅇ");
+
+			session.setAttribute("alertMsg", "회원 가입 성공");
 			return "redirect:/";
 		} else {
-			model.addAttribute("errorMsg", "회원가입 실패");
+			model.addAttribute("errorMsg", "회원 가입 실패");
 			return "common/errorPage";
 		}
 	}

@@ -4,21 +4,25 @@ import com.google.gson.Gson;
 import com.kh.meetgo.chat.model.service.ChatService;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class WebSocketHandler extends TextWebSocketHandler {
-    private final ChatService chatService;
+    @Autowired
+    private ChatService chatService;
     private Map<Integer, ArrayList<WebSocketSession>> roomList = new ConcurrentHashMap<Integer, ArrayList<WebSocketSession>>();
     private Map<WebSocketSession, Integer> sessionList = new ConcurrentHashMap<WebSocketSession, Integer>();
     private static int person;
@@ -47,8 +51,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         // 전달받은 메세지
         String msg = message.getPayload();
-
-        // Json객체 → Java객체
+        // Json객체 → Java객체hgfds.,mn
         // 출력값 : [roomId=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
         Chat chat = new ObjectMapper().readValue(msg,Chat.class);
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());
@@ -75,11 +78,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         // 채팅 일시
         else {
           String text = new Gson().toJson(chat);
-//            String text = chat.getChatNo()+","+chat.getContent()+","+chat.getSender()+","+chat.getType()+","+chat.getCreateAt()+","+chat.getChatroomNo();
-//          System.out.println("text = " + text);
             TextMessage textMessage = new TextMessage(text);
-            System.out.println("textMessage = " + textMessage);
-            System.out.println("roomList = " + roomList);
             for (WebSocketSession sess : roomList.get(chat.getChatroomNo())){
                 sess.sendMessage(textMessage);
             }
@@ -90,9 +89,5 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 System.out.println("실패");
             }
         }
-
-
-
     }
-
 }

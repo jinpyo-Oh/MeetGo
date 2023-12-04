@@ -279,6 +279,7 @@ html {
     width: 120px;
     height: 120px;
     border-radius: 60px;
+    object-fit: cover;
 }
 .info-profile table {
     width: 80%;
@@ -298,10 +299,12 @@ html {
     background-color: lightgray;
     border-radius: 15px;
 }
-.est-button {
+.chat-est-button {
     width: 100%;
     padding: 0;
-    margin: 0;
+    margin: auto;
+    text-align: center;
+    align-items: center;
 }
 .chat-createAt {
     position: absolute;

@@ -1,3 +1,4 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -104,7 +105,6 @@
     .service-object{ margin-top: 50px; margin-bottom: 50px;}
     .service-table{
         width: 600px;
-        height: 200px;
         border-bottom: 1px solid lightgrey;
     }
     .service-table:hover{ cursor: pointer;}
@@ -146,7 +146,7 @@
         <div id="select-option-area" align="center">
         
             <form action="searchGosu.go" method="get">
-            
+            <input type="hidden" name="currentPage" value="1">
             <span>&nbsp;지역</span>&nbsp;&nbsp;&nbsp;
 
             <select id="region-main" class="option-select" name="regionMain">
@@ -169,6 +169,7 @@
                 <option>광주</option>
                 <option>제주</option>
             </select>
+            
             <select id="region-sub" class="option-select" name="regionSub">
             	<option></option>
             </select>
@@ -198,13 +199,14 @@
             </form>
             
             <br>
+            
         </div>
 
         <hr style="width: 50%;">
         
         <div id="result-area">
 
-            <span>건 조회됨</span>
+            <span>총 ${ requestScope.pi.listCount } 건 조회됨</span>
 
             <div align="right">
             <select id="filter" class="form-control">
@@ -214,10 +216,12 @@
                 <option value="recent">최신순</option>
             </select>
             </div>
-	
-			<c:forEach var="g" items="${ requestScope.list }">
-            <div align="center" class="service-object">
-                <div>
+
+		<!-- 검색했을 경우 -->
+			<c:choose>
+				<c:when test="${ not empty requestScope.list }" >
+				<c:forEach var="g" items="${ requestScope.list }">
+            	<div align="center" class="service-object">
                     <table class="service-table">
                         <thead>
                         <tr>    
@@ -228,39 +232,63 @@
                            </th> 
                            <td style="width: 25%;">${ g.userNickname }</td>
                            <td>
-                            <span></span> > <span>이사</span>
+                            <span id="mainC">${ g.categorySmallNo.toString().charAt(0) }</span> > <span id="subC">${ g.categorySmallNo.toString() }</span>
                            </td>
                         </tr>
                         <tr>
-                            <td colspan="2"></td>
+                            <td colspan="2">${ g.gosu.introduction }</td>
                         </tr>
                         </thead>                        
                         <tbody>
                         <tr>
                             <td style="text-align: center;"><br>별점</td>
-                            <td colspan="2"><br>리뷰 <b>21</b> 건</td>
+                            <td colspan="2"><br>리뷰 <b>00</b> 건</td>
                         </tr>
                         <tr><td>&nbsp;</td></tr>
                         </tbody>
-                    </table>                
-				</c:forEach>
-				
-                </div>
-            </div>
-
+                    </table>
+                    </div> 
+                </c:forEach>
+                </c:when>
+				<c:otherwise>
+                	조회된 결과가 없습니다.
+                </c:otherwise>
+        </c:choose>
+			
         </div>
-
-        <!-- 페이징바 -->    
-        <div align="center" id="pagingBtn-area">
-            <button class="pagingBtn">prev</button>
-            <button class="pageBtn">1</button>
-            <button class="pageBtn">2</button>
-            <button class="pagingBtn">next</button>
-        </div>
-
-    </div>	
-    
-	<jsp:include page="../common/footer.jsp"/>
+                
+                
+                
+        <!-- 페이징바 -->
+        <c:if test="${ not empty requestScope.list }">
+        	        <div align="center" id="pagingBtn-area">  
+        	<!-- 첫 페이지면 이전페이지로 이동 불가 -->
+        	<c:choose>
+        		<c:when test="${ requestScope.pi.currentPage eq 1 }">
+        			<button class="pagingBtn" disabled style="display:none;">prev</button>
+        		</c:when>
+        		<c:otherwise>
+        			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage - 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">prev</button>
+        		</c:otherwise>
+        	</c:choose>            
+             <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
+                    					end="${ requestScope.pi.endPage }"
+                    					step="1">
+			<button class="pageBtn" onclick="location.href='searchGosu.go?currentPage=${ p }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">${ p }</button>
+            </c:forEach>          
+            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
+            <c:choose>
+	       		<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.endPage }">
+	       			<button class="pagingBtn" disabled style="display:none;">next</button>
+	       		</c:when>
+	       		<c:otherwise>
+	       			<button class="pagingBtn" onclick="location.href='searchGosu.go?currentPage=${ requestScope.pi.currentPage + 1 }&regionMain=${ requestScope.regionMain }&regionSub=${ requestScope.regionSub }&categoryMain=${ requestScope.categoryMain }&categorySub=${ requestScope.categorySub }'">next</button>
+	       		</c:otherwise>
+       		</c:choose>  
+        	</div>
+        </c:if>
+               
+ 	</div>
 
 <script>
 	// sub 지역 리스트
@@ -323,8 +351,8 @@
 	    let subRegionOptions = "";
 	    
 	    switch (selectedRegion) {
-	        case "전체":
-	                subRegionOptions += '<option>' + "-" + '</option>';
+	        case "전국":
+	                subRegionOptions += '<option value="all">-</option>';
             break;
 	        case "서울":
 	            $.each(seoul, function(index, subRegion) {
@@ -485,10 +513,8 @@
 	    }
 	    subCategorySelect.html(subCategoryOptions);
     }
-    
-    
 
 </script>
-
+     <jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

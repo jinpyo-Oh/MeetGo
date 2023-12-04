@@ -189,10 +189,24 @@
 		<h4>서비스 종류</h4>
 		<div class="form__group field">
 			<select id="est-service" name="est-service">
-				<option>반려견 산책</option>
-				<option>보컬 트레이닝</option>
 			</select>
 		</div>
+		<script>
+			$(function (){
+               $.ajax({
+				   url : "selectAllCategory",
+				   data : {
+                       gosuNo : ${sessionScope.loginUser.userNo}
+				   },
+				   success : function (date) {
+                       console.log(data);
+                   },
+				   error : function () {
+                   
+                   }
+			   })
+			});
+		</script>
 		<hr>
 		<h4>금액</h4>
 		<div class="form__group field">
@@ -263,40 +277,44 @@
 			</div>
 		</div>
 		<div class="est-button">
-			<button class="meetgo-btn" onclick="submitEst()">작성하기</button>
+			<button class="meetgo-btn" onclick="insertEstimate()">작성하기</button>
 			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
 		</div>
 	</div>
 </div>
 
 <script>
-	function submitEst(){
-       
+	function insertEstimate(){
         let estService = $('#est-service').val();
         let estPrice = $('#estPrice').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let estAddress = $('#address').val() + " " + $('#detailAddress').val();
         let estContent = $('#estContent').val();
-        let estimate = {
-            chatroomNo : chatroomNo,
-            estService : estService,
-            estPrice : estPrice,
-            startDate :  startDate,
-            endDate :  endDate,
-            estAddress :  estAddress,
-            estContent :  estContent,
-            gosuNo : ${sessionScope.loginUser.userNo}
-		}
-        console.log(estimate);
+
         $.ajax({
-			url : "submitEst",
+			url : "insertEstimate",
 			method : "post",
-			data : {
-                estimate : estimate
-			},
-			success:function (){
+            dataType:"json",
+            headers: {
+                "Content-Type":"application/json"  //전달하는 데이터가 JSON형태임을 알려줌
+            },
+			data : JSON.stringify({
+                chatroomNo : chatroomNo,
+                estService : estService,
+                estPrice : estPrice,
+                startDate :  startDate,
+                endDate :  endDate,
+                estAddress :  estAddress,
+                estContent :  estContent,
+                gosuNo : ${sessionScope.loginUser.userNo},
+				userNo : userNo
+			}),
+			success:function (data){
                 console.log("견적서 저장 완료");
+                console.log(data);
+                estNo = data;
+                displayNone();
                 sendMessage('E');
 			},
 			error : function (){
