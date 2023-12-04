@@ -20,6 +20,7 @@ public class Member {
     private String userGender;
     private String userEmail;
     private String userPhone;
+    private String address;
     private String userProFile;
     private Date createDate;
     private Date lastAccessDate;

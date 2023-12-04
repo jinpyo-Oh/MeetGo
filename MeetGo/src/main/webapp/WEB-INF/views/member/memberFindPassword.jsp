@@ -95,6 +95,14 @@
         #checkinput {
         	display:none;
         }
+        .back-btn {
+        	padding : 10px 120px;
+        	background-color: #00C7AE;
+        	border-style: none;
+        	border-radius: 10px;
+        	color: white;
+        	
+        }
     </style>
 </head>
 <body>
@@ -110,10 +118,11 @@
         <div class="center-content">
             <button class="email" id="cert" onclick="cert();">이메일 전송하기</button>
         </div>
-        <div style="text-align: center;" id="checkinput">
-            <input type="text" placeholder="인증번호를 입력하세요" class="checkinput">
-            <button class="check">인증번호 입력</button>
-        </div>
+		
+		<div class="backhome">
+			<a class="back-btn" href="loginForm.me">홈으로</a>
+		</div>
+       
     </div>
     
     <script>
@@ -127,9 +136,7 @@
                     // 인증번호 발급 후 인증 이메일 입력창 요소를 비활성화
                     $("#email").attr("readonly", true);
                     $("#cert").attr("disabled", true);
-                    $("#checkinput").show();  // checkinput을 보이게 함
-                    $("#email").attr("readonly", true);
-                    $("#cert").attr("disabled", true);
+         
                 },
                 error : function() {
                     console.log("인증번호 발급 실패");
