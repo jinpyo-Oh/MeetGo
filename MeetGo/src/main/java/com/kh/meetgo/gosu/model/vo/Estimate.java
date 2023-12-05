@@ -14,7 +14,7 @@ public class Estimate {
     private String estContent;//    "EST_CONTENT"       VARCHAR2(1500) NOT NULL,                                  -- 견적서 내용
     private String estAddress;//    "EST_ADDRESS"       VARCHAR2(300)  NOT NULL,                                  -- 견적서 주소
     private String estService;//    "EST_SERVICE"       VARCHAR2(100)  NOT NULL,                                  -- 서비스 종류
-    private String startDate;//    "START_DATE"        DATE           NOT NULL,                                  -- 서비스 시작일
+    private Date startDate;//    "START_DATE"        DATE           NOT NULL,                                  -- 서비스 시작일
     private String endDate;//    "END_DATE"          DATE DEFAULT SYSDATE,                                     -- 서비스 종료일
     private Date confirmationDate;//    "CONFIRMATION_DATE" DATE           NULL,                                      -- 견적 확정일
     private String estPrice;//    "EST_PRICE"         VARCHAR2(200)         NOT NULL,                                  -- 견적 가격

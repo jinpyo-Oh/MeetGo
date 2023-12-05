@@ -1,6 +1,7 @@
 package com.kh.meetgo.member.controller;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.common.template.Pagination;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.service.MemberService;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -68,10 +72,6 @@ public class MemberController {
 	@RequestMapping("changePassword.me")
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
-	}
-	@RequestMapping("estimate.me")
-	public String myEstimate() {
-		return "estimate/myEstimateList";
 	}
 	
 	@RequestMapping("reviewWrite.me")
@@ -252,6 +252,7 @@ public class MemberController {
 			return "redirect:/myPage.me";
 		}
 	}
+	/*
 	@RequestMapping("update.me")
 	public String updateMember(Member m,
 							   Model model,
@@ -289,10 +290,51 @@ public class MemberController {
 			// /WEB-INF/views/common/errorPage.jsp
 			return "common/errorPage";
 		}
+		*/
+	@RequestMapping("estimate.me")
+	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int userNo = m.getUserNo();
+		
+		int listCount1 = memberService.selectIncompleteListCount(userNo);
+		int listCount2 = memberService.selectCompleteListCount(userNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
+		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Estimate> list1 = memberService.selectIncompleteEstimateList(pi1, userNo);
+		ArrayList<Estimate> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
+		
+		// System.out.println(list1);
+		// System.out.println(list2);
+		
+		mv.addObject("incomList", list1).addObject("pi1", pi1)
+		  .addObject("comList", list2).addObject("pi2", pi2)
+		  .setViewName("estimate/myEstimateList");
+		
+		return mv;
 	}
 	
-	
-
+	@RequestMapping("estimateDetail.me")
+	public ModelAndView estimageDetail(int eno, ModelAndView mv) {
+		
+		// System.out.println(eno);
+		
+		Estimate est = memberService.selectEstimateDetail(eno);
+		
+		String userName = memberService.getName(est.getUserNo());
+		String gosuName = memberService.getName(est.getGosuNo());
+		
+		mv.addObject("est", est).addObject("userName", userName).addObject("gosuName", gosuName)
+		  .setViewName("estimate/myEstimateDetail");
+		
+		return mv;
+	}
 	
 }
 
