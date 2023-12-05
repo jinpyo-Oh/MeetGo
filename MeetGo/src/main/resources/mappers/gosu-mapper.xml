@@ -25,6 +25,7 @@
 				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
 				        G.INTRODUCTION AS "gosu.introduction",
 				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
 				        M.USER_PROFILE AS "userProfile",
 				        M.USER_NICKNAME AS "userNickname",
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
@@ -66,6 +67,7 @@
 				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
 				        G.INTRODUCTION AS "gosu.introduction",
 				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
 				        M.USER_PROFILE AS "userProfile",
 				        M.USER_NICKNAME AS "userNickname",
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
@@ -84,6 +86,7 @@
 				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
 				        G.INTRODUCTION AS "gosu.introduction",
 				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
 				        M.USER_PROFILE AS "userProfile",
 				        M.USER_NICKNAME AS "userNickname",
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
@@ -103,6 +106,7 @@
 				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
 				        G.INTRODUCTION AS "gosu.introduction",
 				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
 				        M.USER_PROFILE AS "userProfile",
 				        M.USER_NICKNAME AS "userNickname",
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
@@ -134,6 +138,37 @@
 					 )	
 			</otherwise>
 		</choose>
+	</select>
+	
+	<!-- 고수찾기 상세정보 조회 -->
+	<select id="gosuDetail" parameterType="_int" resultType="gosuOpt">
+		SELECT *
+		FROM (
+		  SELECT DISTINCT
+		    G.GOSU_NO AS "gosu.gosuNo",
+		    G.INTRODUCTION AS "gosu.introduction",
+		    G.EMPLOYEES AS "gosu.employees",
+		    G.EDUCATION AS "gosu.education",
+		    G.CAREER AS "gosu.career",
+		    G.ELABORATE AS "gosu.elaborate",
+		    G.REGION AS "gosu.region",
+		    G.MOVE_DISTANCE AS "gosu.moveDistance",
+		    G.AVAILABLE_TIME AS "gosu.availableTime",
+		    M.USER_PROFILE AS "userProfile",
+		    M.USER_NICKNAME AS "userNickname",
+		    GS.CATEGORY_SMALL_NAME AS "categorySmallName"
+		  FROM GOSU G
+		  LEFT JOIN (
+		    SELECT USER_NO, USER_PROFILE, USER_NICKNAME
+		    FROM MEMBER
+		  ) M ON M.USER_NO = G.GOSU_NO
+		  LEFT JOIN (
+		    SELECT GOSU_NO, CATEGORY_SMALL_NO
+		    FROM "GOSU-SERVICE"
+		  ) S ON S.GOSU_NO = G.GOSU_NO
+		  LEFT JOIN SERVICE_CATEGORY_SMALL GS ON GS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO
+		  WHERE G.GOSU_NO = #{gosuNo}
+		)
 	</select>	
 	
 	<insert id="insertGosu" parameterType="gosu">

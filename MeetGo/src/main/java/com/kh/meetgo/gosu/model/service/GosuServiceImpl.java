@@ -19,16 +19,23 @@ public class GosuServiceImpl implements GosuService {
 	@Autowired
 	private SqlSessionTemplate sqlSession;	
 	
-	// 고수 회원수 카운트
+	// 고수찾기 회원수 카운트
 	@Override
 	public int selectOptionalGosuCount(String region, String regionSub, int categoryBigNo, int categorySmallNo) {
 		return gosuDao.selectOptionalGosuCount(sqlSession, region, regionSub, categoryBigNo, categorySmallNo);
 	}
 	
-	// 고수 조회결과
+	// 고수찾기 조회결과
 	@Override
 	public ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, PageInfo pi) {
 		return gosuDao.selectOptionalGosu(sqlSession, region, regionSub, categoryBigNo, categorySmallNo, pi);
+	}
+	
+	// 고수찾기 상세정보 조회
+	@Override
+	public ArrayList<GosuOpt> gosuDetail(int gosuNo) {
+
+		return gosuDao.gosuDetail(sqlSession, gosuNo);
 	}
 
 	// 고수 등록용 메소드
@@ -51,6 +58,8 @@ public class GosuServiceImpl implements GosuService {
 		
 		return gosuDao.changeStatus(sqlSession, userNo);
 	}
+
+
 
 
 

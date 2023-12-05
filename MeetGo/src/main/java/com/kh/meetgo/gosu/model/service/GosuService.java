@@ -14,6 +14,9 @@ public interface GosuService {
 	// 고수찾기
 	ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, PageInfo pi);
 
+	// 고수찾기 상세정보
+	ArrayList<GosuOpt> gosuDetail(int gosuNo);
+	
 	// 고수등록
 	int insertGosu(Gosu gosu);
 	

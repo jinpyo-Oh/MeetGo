@@ -1,4 +1,3 @@
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -108,6 +107,15 @@
         width: 600px;
         border-bottom: 1px solid lightgrey;
     }
+    
+    #career{ 
+	    border:0px;
+	    border-radius:5px;
+	    font-weight:700;
+	    color : white;
+	    background-color : rgb(169, 20, 20);
+    }
+    
     .service-table:hover{ cursor: pointer;}
     .service-table>thead{ height: 80%; font-size: 18px; }
     .service-table>tbody{ height: 20%; font-size: 16px; }
@@ -115,6 +123,14 @@
     .service-table td:nth-child(2), #service-table td:nth-child(3)
     { height: 20px; }
     .service-table th img { max-height: 100%; }
+    
+    .introduction {
+	    position: relative;
+	    max-width: 390px;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+    }
+
 
     /* 페이징버튼 */
     #paging-area{
@@ -226,9 +242,15 @@
 	        </div>
         </div>
         
-        <input type="hidden" id="currentPage" name="currentPage" value="1">
+        <!--  -->
+        <script>
+        	function sendDetail(gno) {
+        		location.href = 'gosuDetail.go?gno=' + gno;
+        	}
+        </script>
         
-
+        <!-- 현재 페이지번호 -->
+        <input type="hidden" id="currentPage" name="currentPage" value="1">
         
         <!-- ajax 통신으로 append해서 출력 -->
         <div id="paging-area" align="center">
@@ -257,11 +279,11 @@
 	       		scrollToTop();
 	       	}
 	       	
+            // 화면 상단으로 스크롤하는 함수
 	        function scrollToTop() {
-	            // 화면 상단으로 스크롤하는 함수
 	            window.scrollTo({
 	                top: 0,
-	                behavior: 'smooth' // 부드럽게 스크롤
+	                behavior: 'smooth' // 부드럽게
 	            });
 	        }
         </script>
@@ -526,7 +548,8 @@
 		$categoryMain = $("#category-main").val();
 		$categorySub = $("#category-sub").val();
 		$currentPage = $("#currentPage").val();
-		console.log($currentPage);
+		
+		// 페이지 이동 시 초기화
 		$("#result-area").empty();
 		$("#paging-area").empty();
 		
@@ -554,22 +577,22 @@
 				
 				// 조회된 데이터 화면에 출력
 				for(let i = 0; i < list.length; i++){
-					 let resultStr = '<div align="center" class="service-object">'
+					 let resultStr = '<div align="center" class="service-object" onclick="sendDetail(' + list[i].gosu.gosuNo + ')">'
 					               + '<table class="service-table">'
 					               + '<thead>'
 					               + '<tr>'
 					               + '<th rowspan="2">'
 					               + '<div align="center">'
-					               + '<img class="gosu-profile" width="150px" height="150px" src="${list[i].userProfile}">'
+					               + '<img class="gosu-profile" width="150px" height="150px" src="' + list[i].userProfile + '">'
 					               + '</div>'
 					               + '</th>'
-					               + '<td style="width: 25%;">' + list[i].userNickname + '</td>'
+					               + '<td style="width: 25%; font-weight:700;">' + list[i].userNickname + '</td>'
 					               + '<td>'
-					               +  '<span id="career">' +  list[i].gosu.career + '</span> >'
+					               +  '<button id="career" disabled>경력 ' +  list[i].gosu.career + '</button>'
 					               + '</td>'
 					               + '</tr>'
 					               + '<tr>'
-					               + '<td colspan="2">' + list[i].gosu.introduction+ '</td>'
+					               + '<td colspan="2" class="introduction">' + list[i].gosu.introduction+ '</td>'
 					               + '</tr>'
 					               +'</thead>'
 					               + '<tbody>'

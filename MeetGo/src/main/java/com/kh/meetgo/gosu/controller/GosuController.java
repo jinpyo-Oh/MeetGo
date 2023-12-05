@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
@@ -143,6 +143,21 @@ public class GosuController {
        map.put("pi", pi);
        
        return new Gson().toJson(map);
+    }
+    
+    // 고수 상세정보로 포워딩
+    @ResponseBody
+    @RequestMapping(value = "gosuDetail.go")
+    public ModelAndView gosuDetail(String gno
+    							 , ModelAndView mv) {
+    	
+    	int gosuNo = Integer.parseInt(gno);
+    	
+    	ArrayList<GosuOpt> list = gosuService.gosuDetail(gosuNo);
+    	// ArrayList<GosuImg> list = gosuService.getGosuImg(gosuNo);
+    	
+    	mv.addObject("list", list).setViewName("gosuSearch/serviceDetail");
+    	return mv;
     }
 
     

@@ -44,6 +44,12 @@ public class GosuDao {
 		
 		return (ArrayList)sqlSession.selectList("gosuMapper.selectOptionalGosu", params, rowBounds);
 	}
+	
+	// 고수찾기 상세정보
+	public ArrayList<GosuOpt> gosuDetail(SqlSessionTemplate sqlSession, int gosuNo){
+		
+		return (ArrayList)sqlSession.selectList("gosuMapper.gosuDetail", gosuNo);
+	}
 
 	// 고수 등록용 메소드
 	public int insertGosu(SqlSessionTemplate sqlSession, Gosu gosu) {
