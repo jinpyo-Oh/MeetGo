@@ -19,11 +19,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
 
     <style>
+  
         .gosu-page {
             width: 720px;
-            height: 3050px;
+            height: 3000px;
             margin: 0px auto;
             box-sizing: border-box;
+            
+            
         }
         .profile {
             display: flex;
@@ -110,9 +113,10 @@
             justify-content: flex-end;
             align-items: center;
             font-size: .875rem;
-            font-weight: 500;
+            font-weight: 600;
             line-height: 1.43;
             flex: 1;
+            margin:10px auto;
             
         }
         .update {
@@ -364,6 +368,7 @@
                 
                 <div class="my-profile-overview">
                     <div class="profile-img">
+                    
                         <img src="https://cdn.newsculture.press/news/photo/202207/509775_619054_128.jpg" class="img">
                     </div>
                 
@@ -762,45 +767,9 @@
             </div>
             
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>리뷰</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                 수정
-                            </div>
-                        </div>
+       
                     </div>
-                </div>
 
-            </div>
-            <div class="summarry">
-                <div class="info-star">
-                    <div class="value">
-                        <div class="avg">
-                            0
-                            <ul class="star">
-                                <li><img src=".com/pngimages/8/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7..com/pnimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7.pngeggcom/pngimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7.pngeg.com/pngimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7.pngeggcom/pngimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-
-                            </ul>
-                            <div class="count">
-                                0개리뷰
-                            </div>
-                        </div>
-                            
-                
-                    </div>
-                </div>
-            </div>
-        </div>
-   
-    </div>
     <jsp:include page="../common/footer.jsp"/>
     <script>
    function openMainServiceModal() {

@@ -179,9 +179,10 @@
 	  		 <div id="checkResult1" style="font-size : 0.8em; display : none;">
 	         </div>
 	
-	        <p class="name1">비밀번호 확인*</p>
-	         <input class="pass" type="password" name="" id="checkPwd" placeholder="비밀번호재입력" required>
-	     
+	         <p class="name1">비밀번호 확인*</p>
+	         <input class="pass" type="password" name="checkPwd" id="checkPwd" placeholder="비밀번호재입력" required>
+	     	 <div id="checkResult2" style="font-size: 0.8em; display: none;"></div>
+
 	
 	        <p class="name1">이름*</p>
 	        <input class="name" type="text" name="userName" id="userName" placeholder="이름(실명)을 입력해주세요." required>
@@ -194,7 +195,7 @@
                 <input type="radio" id="select2" name="userGender" value="F" required><label for="select2">여자</label>
 	        </div>
 
-            <p class="name1">위치</p>
+            <p class="name1">위치*</p>
             <div class="address">
                 <input class="name"type="text" id="sample6_address" name="address1" placeholder="주소"><br>
                 <input class="address-input"type="text" id="sample6_detailAddress" placeholder="상세주소" name="address2">
@@ -202,7 +203,7 @@
 
             </div>
 
-	        <p class="name1">전화번호</p>
+	        <p class="name1">전화번호*</p>
 	        <input class="name" type="text" id="phone" name="userPhone" placeholder="전화번호 입력('-'제외 11자리 입력)">
 	
 	        <p class="name1">이메일*</p>
@@ -214,7 +215,8 @@
                     <option value="naver.com">naver.com</option>
                     <option value="gmail.com">gmail.com</option>
 	        </select>
-	
+			<div id="checkResult3" style="font-size: 0.8em; display: none;"></div>
+			
 	        <div class="tq">
 	            <button type="submit" class="wqq">가입완료</button>
 	            <button class="wqq1">가입취소</button>
@@ -243,7 +245,7 @@
             var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
             
             if (!isValidEmail) {
-                $(this).css("border-color", "red");
+
             } else {
                 $(this).css("border-color", "rgba(0, 0, 0, 0.1)");
             }
@@ -309,63 +311,115 @@
  	});
      
      $(function() {
-  		
-  		// 아이디를 입력받는 input 요소 객체를 변수에 담아두기
-  		// (jQuery 방식으로 선택해서 담을 것)
-  		// => 관례 상 변수명 앞에 $ 를 붙임
-  		let $pwdInput = $(".main input[name=userPwd]");
-  		
-  		$pwdInput.keyup(function() {
-  			// 단, 우선 최소 5글자 이상으로 입력되어 있을 경우에만
-  			// ajax 를 요청해서 중복체크를 하도록 해보자
-  			console.log($pwdInput)
-  			if($pwdInput.val().length >= 5) {
-  				
-  				// 중복 체크 요청 보내기
-  				$.ajax({
-  					url : "pwdCheck.me",
-  					type : "get",
-  					data : {checkPwd : $pwdInput.val()},
-  					success : function(result) {
-  						
-  						// console.log(result);
-  						
-  						if(result == "NNNNN") { // 사용 불가능
-  							// 빨간색 메세지 출력
-  							$("#checkResult1").show();
-  							$("#checkResult1").css("color", "red").text("중복된 아이디가 존재합니다. 다시 입력해 주세요.");
-  							
-  							// 회원가입 버튼 비활성화
-  							$(".main button[type=submit]").attr("disabled", true);
-  							
-  						} else { // 사용 가능
-  							
-  							// 초록색 메세지 출력
-  							$("#checkResult1").show();
-  							$("#checkResult1").css("color", "green").text("사용 가능한 비밀번호입니다!");
-  						
-  							// 회원가입 버튼 활성화
-  							$(".main button[type=submit]").attr("disabled", false);
-  							
-  						}
-  					},
-  					error : function() {
-  						console.log("비밀번호 중복 체크용 ajax 통신 실패!");
-  					}
-  				});
-  				
-  			} else { // 5글자 미만일 때
-  				
-  				// 회원가입버튼 비활성화
-  				$(".main button[type=submit]").attr("disabled", true);
-  			
-  				// 메세지 숨기기
-  				$("#checkResult1").hide();
-  			}
-  		});
-  		
-  	});
-     
+    	    let $pwdInput = $(".main input[name=userPwd]");
+
+    	    $pwdInput.keyup(function() {
+    	        console.log($pwdInput.val());
+    	        if ($pwdInput.val().length < 6) {
+    	            // 비밀번호가 6자리 미만이면 빨간색 메시지 출력
+    	            $("#checkResult1").show();
+    	            $("#checkResult1").css("color", "red").text("비밀번호는 6자리 이상이어야 합니다.");
+
+    	            // 회원가입 버튼 비활성화
+    	            $(".main button[type=submit]").attr("disabled", true);
+    	        } else {
+    	            // 비밀번호가 6자리 이상이면 메시지 숨기고 회원가입 버튼 활성화
+    	            $("#checkResult1").show();
+					$("#checkResult1").css("color", "green").text("사용 가능한 비밀번호입니다!");
+
+    	            $(".main button[type=submit]").attr("disabled", false);
+    	            
+    	        }
+    	    });
+    	});
+     $(document).ready(function () {
+    	    // ... (기존 코드 생략)
+
+    	    // 비밀번호 확인 체크
+    	    $("#checkPwd").on("input", function () {
+    	        var password = $(".pass[name=userPwd]").val();
+    	        var confirmPassword = $(this).val();
+
+    	        if (password === confirmPassword) {
+    	            // 비밀번호 일치 시 메시지 숨기고 에이젝스로 일치 여부 전송
+    	            $("#checkResult2").show();
+					$("#checkResult2").css("color", "green").text("비밀번호가 일치합니다!!.");
+
+    	            // 여기에 Ajax 요청을 직접 추가하거나 필요한 동작 수행
+    	            // 예시: 비밀번호 일치 시의 동작
+    	            console.log("비밀번호 일치");
+
+    	        } else {
+    	            // 비밀번호 불일치 시 빨간색 메시지 출력하고 에이젝스로 불일치 여부 전송
+    	            $("#checkResult2").show();
+    	            $("#checkResult2").css("color", "red").text("비밀번호가 일치하지 않습니다.");
+
+    	            // 여기에 Ajax 요청을 직접 추가하거나 필요한 동작 수행
+    	            // 예시: 비밀번호 불일치 시의 동작
+    	            console.log("비밀번호 불일치");
+
+    	        }
+    	    });
+    	});
+     $(function() {
+    	    let $emailInput = $(".main input[name=userEmail]");
+
+    	    $emailInput.keyup(function() {
+    	        checkEmailDuplicate();
+    	    });
+
+    	    function checkEmailDuplicate() {
+    	        const email = $emailInput.val();
+
+    	        if (email.length < 5) {
+    	            disableSubmitButton();
+    	            hideCheckResult();
+    	            return;
+    	        }
+
+    	        $.ajax({
+    	            url: "emailCheck.me",
+    	            type: "get",
+    	            data: { checkEmail: email },
+    	            success: handleEmailCheckResult,
+    	            error: function() {
+    	                console.log("이메일 중복 체크용 ajax 통신 실패!");
+    	            }
+    	        });
+    	    }
+
+    	    function handleEmailCheckResult(result) {
+    	        const checkResultElement = $("#checkResult3");
+    	        const submitButton = $(".main button[type=submit]");
+
+    	        if (result == "NNNNN") {
+    	            showCheckResult("중복된 이메일이 존재합니다. 다시 입력해 주세요.", "red");
+    	            disableSubmitButton();
+    	        } else {
+    	            showCheckResult("사용 가능한 이메일입니다!", "green");
+    	            enableSubmitButton();
+    	        }
+    	    }
+
+    	    function showCheckResult(message, color) {
+    	        const checkResultElement = $("#checkResult3");
+    	        checkResultElement.show().css("color", color).text(message);
+    	    }
+
+    	    function hideCheckResult() {
+    	        $("#checkResult3").hide();
+    	    }
+
+    	    function enableSubmitButton() {
+    	        $(".main button[type=submit]").attr("disabled", false);
+    	    }
+
+    	    function disableSubmitButton() {
+    	        $(".main button[type=submit]").attr("disabled", true);
+    	    }
+    	});
+
+
      function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -413,6 +467,7 @@
             }
         }).open();
     }
+     
      
      
 </script>

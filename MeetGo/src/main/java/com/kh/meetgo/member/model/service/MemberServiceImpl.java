@@ -71,6 +71,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.pwdCheck(sqlSession, checkPwd);
 		
 	}
+	public int emailCheck(String checkEmail) {
+		return memberDao.emailCheck(sqlSession, checkEmail);
+		
+	}
 
 	@Override
 	public int changeStatus(Member m) {

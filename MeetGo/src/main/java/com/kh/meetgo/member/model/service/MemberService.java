@@ -22,6 +22,12 @@ public interface MemberService {
 	
 	//비밀번호 체크
 	int pwdCheck(String checkPwd);
+	
+	//이메일 체크
+	int emailCheck(String checkEmail);
+	
+	//프로필 사진 업로드
+	int uploadImg(String imgUpload);
 
 
     int changeStatus(Member m);

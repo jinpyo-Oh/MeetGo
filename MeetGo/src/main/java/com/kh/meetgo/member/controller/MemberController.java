@@ -1,6 +1,6 @@
 package com.kh.meetgo.member.controller;
 
-import java.util.HashMap;
+import java.io.IOException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.member.model.service.MemberService;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -29,6 +29,8 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private S3Uploader s3Uploader;
 	
 	
 	
@@ -36,7 +38,14 @@ public class MemberController {
 	public String checkNumber() {
 		return "member/memberChecknumber";
 	}
-	
+	@RequestMapping("myPost.me")
+	public String myPost() {
+		return "member/memberMyPost";
+	}
+	@RequestMapping("comment.me")
+	public String comment() {
+		return "member/memberComment";
+	}
 	@RequestMapping("loginForm.me")
 	public String loginForm() {
 		return "member/memberLogin";
@@ -47,7 +56,7 @@ public class MemberController {
 	}
 	@RequestMapping("myPageInfo.me")
 	public String mypagemini() {
-		return "member/memberMyPagInfo";
+		return "member/memberMyPageInfo";
 	}
 	@RequestMapping("gosuPage.me")
 	public String gosuPageForm() {
@@ -87,44 +96,42 @@ public class MemberController {
 	
 	@RequestMapping("login.me")
 	public ModelAndView loginMember(Member m,
-									String saveId,
-									ModelAndView mv,
-									HttpSession session,
-									HttpServletResponse response){
+	                         String saveId,
+	                         ModelAndView mv,
+	                         HttpSession session,
+	                         HttpServletResponse response){
 
-		
+	    
 
-		Member loginUser = memberService.loginMember(m);
-		if(loginUser != null){
-			session.setAttribute("loginUser", loginUser);
-		} else {
-			session.setAttribute("errorMsg", "아이디가 존재하지 않습니다.");
-			mv.setViewName("redirect:/loginForm.me");
-			return mv;
-		}
+	    Member loginUser = memberService.loginMember(m);
+	    if(loginUser == null){
+	       session.setAttribute("errorMsg", "아이디가 존재하지 않습니다.");
+	       mv.setViewName("redirect:/loginForm.me");
+	       return mv;
+	    }
 
-		boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
-		if (check) {
-			session.setAttribute("alertMsg", "로그인 성공.");
-			mv.setViewName("redirect:/");
-		} else {
-			session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
-			mv.setViewName("redirect:/loginForm.me");
-			return mv;
-		}
+	    boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
+	    if (check) {
+	       session.setAttribute("loginUser", loginUser);
+	       session.setAttribute("alertMsg", "로그인 성공.");
+	       mv.setViewName("redirect:/");
+	    } else {
+	       session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+	       mv.setViewName("redirect:/loginForm.me");
+	       return mv;
+	    }
 
-		if(saveId != null && saveId.equals("y")){
-			Cookie cookie = new Cookie("saveId", m.getUserId());
-			cookie.setMaxAge(24*60*60*1);
-			response.addCookie(cookie);
-		} else {
-			Cookie cookie = new Cookie("saveId", m.getUserId());
-			cookie.setMaxAge(0);
-			response.addCookie(cookie);
-		}
-		return mv;
+	    if(saveId != null && saveId.equals("y")){
+	       Cookie cookie = new Cookie("saveId", m.getUserId());
+	       cookie.setMaxAge(24*60*60*1);
+	       response.addCookie(cookie);
+	    } else {
+	       Cookie cookie = new Cookie("saveId", m.getUserId());
+	       cookie.setMaxAge(0);
+	       response.addCookie(cookie);
+	    }
+	    return mv;
 	}
-
 	@RequestMapping("logout.me")
 	public String loginMember(HttpSession session){
 		session.removeAttribute("loginUser");
@@ -255,9 +262,19 @@ public class MemberController {
 	@RequestMapping("update.me")
 	public String updateMember(Member m,
 							   Model model,
-							   HttpSession session) {
+							   HttpSession session,
+							   MultipartFile profileupload) {
 		String encPwd = bCryptPasswordEncoder.encode(m.getUserPwd());
-
+		
+		try {
+			String content = s3Uploader.upload(profileupload,"chat");
+			m.setUserProFile(content);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		m.setUserPwd(bCryptPasswordEncoder.encode(m.getUserPwd()));
+		System.out.println(m);
 		m.setUserId(((Member)(session.getAttribute("loginUser"))).getUserId());
 		int result = memberService.updateMember(m);
 		if(result > 0) { // 수정 성공
@@ -269,7 +286,7 @@ public class MemberController {
 			
 			m.setUserId(((Member)session.getAttribute("loginUser")).getUserId());
 
-			System.out.println(m);
+
 			Member updateMember = memberService.loginMember(m);
 			
 			
@@ -288,10 +305,48 @@ public class MemberController {
 			
 			// /WEB-INF/views/common/errorPage.jsp
 			return "common/errorPage";
+			
+
 		}
+		
+		
+		
+		
+		
+		
+		
+		
 	}
+		
+		
+	@ResponseBody
+	@RequestMapping(value = "emailCheck.me", produces = "text/html; charset=UTF-8")
+	public String EmailCheck(String checkEmail) {
+		
+		int count = memberService.pwdCheck(checkEmail);
+		
 	
-	
+		return (count > 0) ? "NNNNN" : "NNNNY";
+	}
+
+//	@ResponseBody
+//	@RequestMapping(value = "profileImgUpload.me", produces = "text/html; charset=UTF-8") 
+//    private String saveProfileImage(MultipartFile file) throws Exception {
+//        // 실제로는 파일 저장 경로, 파일 이름 생성, 저장된 이미지의 URL을 반환하는 로직이 들어갑니다.
+//        // 이 부분은 프로젝트에 맞게 커스터마이징이 필요합니다.
+//
+//        // 여기에서는 간단히 파일 이름을 콘솔에 출력하는 예시 코드만 작성합니다.
+//        String fileName = file.getOriginalFilename();
+//        System.out.println("Uploaded file name: " + fileName);
+//
+//        // 여기에서 실제 저장 로직을 추가하세요.
+//        // ...
+//
+//        // 저장된 이미지의 URL을 반환합니다.
+//        // 이 URL은 클라이언트로 응답될 수 있습니다.
+//        return "/images/" + fileName;
+//    }
+//	
 
 	
 }

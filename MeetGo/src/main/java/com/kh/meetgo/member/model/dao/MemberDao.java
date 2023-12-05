@@ -41,6 +41,13 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.pwdCheck", checkPwd);
 	}
 
+	public int emailCheck(SqlSessionTemplate sqlSession, String checkEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.emailCheck",checkEmail);
+	}
+
+
+
     /*
 	 * public int pwdCheck(SqlSessionTemplate sqlSession, String checkPwd) { return
 	 * sqlSession.selectOne("memberMapper.pwdCheck", checkPwd); }

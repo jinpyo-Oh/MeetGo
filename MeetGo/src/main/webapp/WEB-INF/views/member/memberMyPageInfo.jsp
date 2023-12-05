@@ -30,7 +30,8 @@
            
 
         }
-        .profileimg{
+        #userprofileimg
+        {
             width: 100px;
             height: 100px;
             border-radius: 50px;
@@ -91,15 +92,17 @@
 </head>
 <body>
     	<jsp:include page="../common/header.jsp"/>
-    
     <div class="main">
+       <form action="update.me" method="post"  enctype="multipart/form-data">
         <div class="profile">
             <h1 class="title">계정 설정</h1>
-            <img src="https://news.nateimg.co.kr/orgImg/ts/2023/08/09/15379917_1159014_4221_org.jpg" class="profileimg">
+			<img src="${ sessionScope.loginUser.userProFile }" id="userprofileimg">
+		
         </div>
-            <img src="/MeetGo/src/main/webapp/resources/images/common/poto.png" class="poto">
-            
-      <form action="update.me" method="post">
+        
+        <input type="file" id="profileupload" name="profileupload"onchange="previewProfileImage(event)" style="display:none"><img src="<%=request.getContextPath()%>/resources/images/common/camera.png" id="poto" class="poto"  onclick="openFileUpload()">
+            	
+   
         <div class="item">
             <div class="item-title">
                 <p>이름</p>
@@ -119,7 +122,7 @@
             <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow1">
             <div class="item-info">
                 <p>${ sessionScope.loginUser.userNickname }</p>
-            	<input type="text" class="form-control" id="userNickname"  Placeholder="변경할 닉네임을 입력해주세요." name="userNickname" readonly>
+            	<input type="text" class="form-control" id="userNickname"  Placeholder="변경할 닉네임을 입력해주세요." name="userNickname" readonly required>
             </div>
             <hr>
             <div class="item-title">
@@ -128,7 +131,7 @@
             <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow2">
             <div class="item-info">
                 <p>${ sessionScope.loginUser.userEmail }</p>
-               <input type="text" class="form-control" id="userEmail" value="${ sessionScope.loginUser.userEmail }" name="userEmail" readonly>
+               <input type="text" class="form-control" id="userEmail" value="${ sessionScope.loginUser.userEmail }" name="userEmail" readonly required>
                 
             </div>
             <hr>
@@ -139,7 +142,7 @@
             <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow3">
             <div class="item-info">
                 <p>********</p>
-                <input type="text" class="form-control" id="userPwd" Placeholder="변경할 비밀번호를 입력해주세요." name="userPwd" readonly>
+                <input type="text" class="form-control" id="userPwd" Placeholder="변경할 비밀번호를 입력해주세요." name="userPwd" readonly required>
                 
             </div>
             
@@ -233,13 +236,49 @@ $(document).ready(function() {
    $(".arrow3").click(function() {
             $("#userPwd").toggle().prop('readonly', false);
         });
+    
 
  
 
     // 화살표 클릭 시 보이기/숨기기 토글
+    
 
 });
+
 </script>
-    
+    <script>
+function previewProfileImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+
+    reader.onload = function () {
+        var img = document.getElementById('userprofileimg');
+        img.src = reader.result;
+    };
+
+    if (input.files && input.files[0]) {
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
+<script>
+function openFileUpload() {
+    document.getElementById('profileupload').click();
+}
+
+function previewProfileImage(event) {
+    var input = event.target;
+    var reader = new FileReader();
+
+    reader.onload = function () {
+        var img = document.getElementById('userprofileimg');
+        img.src = reader.result;
+    };
+
+    if (input.files && input.files[0]) {
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 </body>
 </html>
