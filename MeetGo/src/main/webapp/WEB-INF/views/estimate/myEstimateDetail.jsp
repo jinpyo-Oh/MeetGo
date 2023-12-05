@@ -57,14 +57,14 @@
        
            <br>
     
-            <form>
+
                 <div style="border: 1px solid black; border-radius: 10px;">
                     <table class="detail" border="1px" style="border-color: black;" >
                             <tr class="cons">
                                 <td class="fix" style="width: 15%; border-top-left-radius: 10px;">계약번호</td>
                                 <td>${ requestScope.est.estNo }</td>
                                 <td class="fix" style="width: 15%;">진행상태</td>
-                                <td style="color: red;">
+                                <td style="color: red;" id="stat">
                                 	<c:choose>
 			                        	<c:when test="${ requestScope.est.status eq 2 }">
 			                        		대기
@@ -82,7 +82,7 @@
                                 </td>
                             </tr>
                             <tr class="cons">
-                                <td class="fix" style="width: 15%;">고수번호</td>
+                                <td class="fix" style="width: 15%;" >고수번호</td>
                                 <td style="width: 35%;">${ requestScope.gosuName }</td>
                                 <td class="fix"  style="width: 15%;">고객명</td>
                                 <td style="width: 35%;">${ requestScope.userName }</td>
@@ -118,12 +118,40 @@
                     </table>
                     
                 </div>
+                
                     <br>
-                    <button class="btn btn-success btn-sm">결제</button> 
+                    <button class="btn btn-success btn-sm" id="apibtn">결제</button> 
                     <button class="btn btn-primary btn-sm">채팅</button>
                     
-            </form>
+
         </div>
+        
+        <script>
+        	$(function(){
+        		$("#apibtn").click(function(){
+        			// console.log( '${ requestScope.gosuName }' );
+        			$.ajax({
+        				url: 'kakaopay.me',
+        				method : 'post',
+        				dataType: 'json',
+        				data : {
+        					userNo : '${ requestScope.est.userNo }',
+        					estTitle : '${ requestScope.est.estTitle }',
+        					estPrice : '${ requestScope.est.estPrice }',
+        					estNo : '${ requestScope.est.estNo }'
+        				},
+        				success: function(data){
+        					
+        					var box = data.next_redirect_pc_url;
+        					window.open(box);
+        				},
+        				error: function(){
+        					alert("카카오페이 ajax 실패");
+        				}
+        			});
+        		});
+        	});
+        </script>
         
         <br><br><br><br><br><br>
         

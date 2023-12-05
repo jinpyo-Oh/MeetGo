@@ -255,7 +255,7 @@
     		$(".table-hover>tbody>tr").click(function() {
     			
     			let eno = $(this).children(".eno").text();
-    			
+    			console.log(eno);
     			location.href = "estimateDetail.me?eno=" + eno;
     		});
     	});
