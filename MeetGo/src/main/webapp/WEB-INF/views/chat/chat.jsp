@@ -1,4 +1,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -117,6 +119,7 @@
 				</div>
 			</c:forEach>
 		</div>
+		
 		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 		<script>
 			let chatroomNo;
@@ -140,6 +143,7 @@
                             for (let i = 0; i < data.length; i++) {
 								CheckLR(data[i]);
                             }
+                            scrollToBottom();
 						},
 						error : function (){
                             console.log("채팅방 목록 불러오기 에러");
@@ -155,7 +159,6 @@
                             async:false,
                             dataType:"json",
                             success : function (data){
-                                console.log(data);
                                userNo = data.userNo;
 									let userInfo =
 										'<div class="info-profile">'
@@ -210,6 +213,7 @@
             function appendChat(lr, data) {
                 let chat = "";
                 let est;
+                let createAt = data.createAt;
                 if (data.type == 'M') {
                     chat = '<div class="chat-bubble">'
 								+ '<p class="'+lr+'">' + data.content +'</p>'
@@ -231,7 +235,7 @@
                             estimateNo : data.content
 						},
 						success : function (data) {
-                            insertEstChat(data, lr);
+                            insertEstChat(data, lr,createAt);
 						},
 						error : function () {
       						console.log("견적서 채팅 입력 실패");
@@ -241,9 +245,9 @@
                 } else {
                     console.log("채팅 타입 인식 실패")
 				}
-            
+                scrollToBottom();
             }
-            function insertEstChat(data, lr){
+            function insertEstChat(data, lr,createAt){
                 let chat = '<div class="chat-bubble">'
 					+ '<div class="chat-estimate '+lr+'">'
 					+ '<h5 class="est-title">견적서</h5>'
@@ -284,10 +288,10 @@
 						+'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
                         break;
 				}
-				chat 			+='</div>'
-								+ '</div>'
-								+ '<p class="chat-createAt p-receiver">1:45 PM</p>'
-							+ '</div>';
+                chat += '</div>'
+                    + '</div>'
+                    + '<p class="chat-createAt p-' + lr + '">' + createAt +'</p>'
+                    + '</div>';
                 $('.chat-area').append(chat);
                 scrollToBottom();
 			}
@@ -442,11 +446,10 @@
                         "sender" : ${sessionScope.loginUser.userNo},
                         "type" : 'M',
                         "content"   : "ENTER_CHAT",
-                        "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                        "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
                     };
                     let jsonData = JSON.stringify(data);
                     websocket.send(jsonData);
-                    console.log(websocket);
                 }
 
                 // * 1 메시지 전송
@@ -459,7 +462,7 @@
                             "sender" : ${sessionScope.loginUser.userNo},
                             "type" : 'M',
                             "content"   : message,
-                            "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                            "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
                         };
                         jsonData = JSON.stringify(data);
                         $('#chat-textarea').val('');
@@ -469,6 +472,8 @@
                         var form = $('#chat-file')[0].files[0];
                         var formData = new FormData();
                         formData.append('chatImg', form);
+                        formData.append('uNo', ${sessionScope.loginUser.userNo});
+                        formData.append('cNo', chatroomNo);
                         $.ajax({
                             type: "POST",
                             enctype: 'multipart/form-data',
@@ -477,9 +482,16 @@
                             processData: false,
                             contentType: false,
                             cache: false,
-                            success: function (data) {
-                                alert("성공");
+                            success: function (result) {
+                                const data = {
+                                    "chatroomNo" : chatroomNo,
+                                    "sender" : ${sessionScope.loginUser.userNo},
+                                    "type" : 'P',
+                                    "content"   : result,
+                                    "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
 
+                                };
+                                jsonData = JSON.stringify(data);
 								websocket.send(jsonData);
                             },
                             error: function (e) {
@@ -496,7 +508,8 @@
                             "sender" : ${sessionScope.loginUser.userNo},
                             "type" : 'E',
                             "content"   : estNo,
-                            "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                            "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+
                         };
                         jsonData = JSON.stringify(data);
 						websocket.send(jsonData);
@@ -516,9 +529,9 @@
                     CheckLR(data);
                 }
 			</script>
+			
 		</div>
 	</div>
 </div>
-
 </body>
 </html>

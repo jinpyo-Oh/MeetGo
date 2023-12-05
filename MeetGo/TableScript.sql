@@ -45,7 +45,7 @@ CREATE TABLE MEMBER
     USER_GENDER      CHAR(1) CHECK ( USER_GENDER IN ('M', 'F') ) NOT NULL, -- 성별 (M:남, F:여)
     USER_EMAIL       VARCHAR2(30) UNIQUE                         NOT NULL, -- 이메일 (인증 필요)
     USER_PHONE       VARCHAR2(20)                                NOT NULL, -- 번호
-    USER_PROFILE     VARCHAR2(1000)                              NULL,     -- 프로필 이미지
+    USER_PROFILE     VARCHAR2(1000)    default 'https://heurm-tutorial.vlpt.us/images/default_thumbnail.png',     -- 프로필 이미지
     ADDRESS          VARCHAR2(100)                               NULL, -- 주소
     CREATE_DATE      DATE DEFAULT SYSDATE,                                 -- 생성일자
     LAST_ACCESS_DATE DATE DEFAULT SYSDATE,                                 -- 최근 접속일

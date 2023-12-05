@@ -14,6 +14,6 @@ public class Chat {
     private String content;
     private int sender;
     private String type;
-    private Date createAt;
+    private String createAt;
     private int chatroomNo;
 }
