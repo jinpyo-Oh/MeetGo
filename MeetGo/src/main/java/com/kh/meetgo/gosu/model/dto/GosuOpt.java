@@ -20,6 +20,7 @@ public class GosuOpt {
 	private String userProfile;
 	private String userNickname;
 	private int categorySmallNo;
+	private String categorySmallName;
 
 	// 나중에 별점 추가
 }

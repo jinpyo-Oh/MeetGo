@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -34,6 +35,7 @@
         display: flex;
     }
     #image-area{ width: 35%; height: 100%;}
+    #image-area>img{ width:100%; height:100%; }
     #info-area{ width: 65%; height: 100%; margin-left: 35px;}
     #gosu-name{
         font-size: 24px;
@@ -116,20 +118,21 @@
 
         <div id="detailHead-area">
             <div id="image-area" style="border: 1px dotted;">
-                <img src="">
+                <img src="${ requestScope.list[0].userProfile }">
             </div>
             <div id="info-area">
-                <p id="gosu-name">고수 이름</p>
+                <p id="gosu-name">
+                	${ requestScope.list[0].userNickname }
+				</p>
 
-                <span class="regionInfo">서울특별시</span>
-                <span class="regionInfo">&nbsp;양천구</span>
+                <span class="regionInfo">${ requestScope.list[0].gosu.region }</span>
 
                 <span class="regionInfo divBar">|</span>
 
-                <span class="regionInfo">20km 이동 가능</span>
+                <span class="regionInfo">${ requestScope.list[0].gosu.moveDistance }</span>
 
                 <div id="description">
-                    <span>소개 들어갈 자리</span>
+                    <span>${ requestScope.list[0].gosu.introduction }</span>
                 </div>
             </div>
         
@@ -138,10 +141,20 @@
         <br>
 
         <div class="etc-area" align="left">
-            <button class="subCategory" disabled>웹 개발</button>
-            <button class="subCategory" disabled>IOS 개발</button>
-            <button class="subCategory" disabled>Android 개발</button>
-            <button class="subCategory" disabled>소프트웨어 개발</button>
+        	<c:choose>
+        		<c:when test="${ not empty requestScope.list[0].categorySmallName }">
+        			<c:forEach var="p" begin="1"
+        							   end="5"
+        							   step="1">
+        				<c:if test="${not empty requestScope.list[p-1].categorySmallName}">
+			                <button class="subCategory" disabled>${requestScope.list[p-1].categorySmallName}</button>
+			            </c:if>
+        			</c:forEach>
+        		</c:when>
+        		<c:otherwise>
+        		</c:otherwise>
+        	</c:choose>
+        	
         </div>
         <div class="etc-area" align="right">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="red" class="bi bi-heart" viewBox="0 0 16 16">
@@ -169,14 +182,14 @@
             <div style="display: flex;">
                 <div style="width: 50%;">
                     <p><b>기본 정보</b></p>
-                    <p>직원 수 : <b>1</b> 명</p>
+                    <p>직원 수 : <b>${ requestScope.list[0].gosu.employees }</b> 명</p>
                     <p>개인사업자</p>
                     <p>연락 가능 시간 : <span>09:00 ~ 18:00</span></p>
                     <p>세금계산서 발행 가능</p>
                 </div>
                 <div>
                     <p><b>서비스 정보</b></p>
-                    <p>상세설명 들어갈 자리</p>
+                    <p>${ requestScope.list[0].gosu.elaborate }</p>
                 </div>
             </div>
 
@@ -185,11 +198,10 @@
             <div style="display: flex;">
                 <div style="width: 50%;">
                     <p><b>경력</b></p>
-                    <p>총 경력 : <b style="color: red;">20</b> 년</p>
-                    <p>2003 ~ 현재</p>
+                    <p>총 경력 : <b style="color: red;">${ requestScope.list[0].gosu.career }</b></p>
                     <br><br>
                     <p><b>최종학력</b></p>
-                    <p>OO대학교 컴퓨터소프트웨어학과</p>
+                    <p>${ requestScope.list[0].gosu.education }</p>
                 </div>
                 <div style="width: 50%;">
                     <p><b>자격증 및 증빙서류</b></p>

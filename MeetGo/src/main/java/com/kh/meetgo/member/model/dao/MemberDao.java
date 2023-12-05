@@ -1,8 +1,13 @@
 package com.kh.meetgo.member.model.dao;
 
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Repository // 저장소 (DAO 는 데이터 입출력이 일어나는 부분)
@@ -52,4 +57,38 @@ public class MemberDao {
 	 * public int pwdCheck(SqlSessionTemplate sqlSession, String checkPwd) { return
 	 * sqlSession.selectOne("memberMapper.pwdCheck", checkPwd); }
 	 */
+    
+    public int selectIncompleteListCount(SqlSessionTemplate sqlSession, int userNo) {
+    	return sqlSession.selectOne("memberMapper.selectIncompleteListCount", userNo);
+    }
+    
+    public int selectCompleteListCount(SqlSessionTemplate sqlSession, int userNo) {
+    	return sqlSession.selectOne("memberMapper.selectCompleteListCount", userNo);
+    }
+    
+    public ArrayList<Estimate> selectIncompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi1, int userNo){
+    	int limit = pi1.getBoardLimit();
+    	int offset = (pi1.getCurrentPage() - 1) * limit;
+    	
+    	RowBounds rowBounds = new RowBounds(offset, limit);
+    	
+    	return (ArrayList)sqlSession.selectList("memberMapper.selectIncompleteEstimateList", userNo, rowBounds);
+    }
+    
+    public ArrayList<Estimate> selectCompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi2, int userNo){
+    	int limit = pi2.getBoardLimit();
+    	int offset = (pi2.getCurrentPage() - 1) * limit;
+    	
+    	RowBounds rowBounds = new RowBounds(offset, limit);
+    	
+    	return (ArrayList)sqlSession.selectList("memberMapper.selectCompleteEstimateList", userNo, rowBounds);
+    }
+    
+    public Estimate selectEstimateDetail(SqlSessionTemplate sqlSession, int eno) {
+    	return sqlSession.selectOne("memberMapper.selectEstimateDetail", eno);
+    }
+    
+    public String getName(SqlSessionTemplate sqlSession, int userNo) {
+    	return sqlSession.selectOne("memberMapper.getName", userNo);
+    }
 }

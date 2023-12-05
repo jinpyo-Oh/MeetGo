@@ -25,11 +25,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private ChatService chatService;
     private Map<Integer, ArrayList<WebSocketSession>> roomList = new ConcurrentHashMap<Integer, ArrayList<WebSocketSession>>();
     private Map<WebSocketSession, Integer> sessionList = new ConcurrentHashMap<WebSocketSession, Integer>();
+    private Map<Integer, Integer> roomCunnectUser = new ConcurrentHashMap<Integer, Integer>();
     private static int person;
     // websocket 연결 성공 시
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         person++;
+        System.out.println(session.getAttributes().get("loginMember"));
         System.out.println("@@@@@@@@ 연결 성공 @@@@@@@@@");
     }
 
@@ -53,11 +55,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
         String msg = message.getPayload();
         // Json객체 → Java객체hgfds.,mn
         // 출력값 : [roomId=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
+
         Chat chat = new ObjectMapper().readValue(msg,Chat.class);
+
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());
 
         // 채팅방 세션 목록에 채팅방 x, 처음 들어옴, DB에 채팅방 있음 => 채팅방 생성
-        if (roomList.get(chatroom.getChatroomNo()) == null && chat.getContent().equals("ENTER_CHAT") && chatroom != null){
+        if (roomList.get(chatroom.getChatroomNo()) == null && chat.getContent().equals("ENTER_CHAT")){
+
             ArrayList<WebSocketSession> sessionTwo = new ArrayList<>();
             // session 추가
             sessionTwo.add(session);
@@ -68,7 +73,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
             System.out.println("채팅방 생성");
         }
         // 채팅방 세션 목록에 채팅방 o, 처음 들어옴, DB에 채팅방 있음
-        else if (roomList.get(chatroom.getChatroomNo()) != null && chat.getContent().equals("ENTER_CHAT") && chatroom != null){
+        else if (roomList.get(chatroom.getChatroomNo()) != null && chat.getContent().equals("ENTER_CHAT")){
+
             // RoomList에서 해당 방번호를 가진 방이 있는지 확인.
             roomList.get(chatroom.getChatroomNo()).add(session);
             // sessionList에 추가
@@ -77,17 +83,19 @@ public class WebSocketHandler extends TextWebSocketHandler {
         }
         // 채팅 일시
         else {
-          String text = new Gson().toJson(chat);
-            TextMessage textMessage = new TextMessage(text);
-            for (WebSocketSession sess : roomList.get(chat.getChatroomNo())){
-                sess.sendMessage(textMessage);
-            }
             int result = chatService.insertChat(chat);
             if(result > 0) {
                 System.out.println("성공");
             } else {
                 System.out.println("실패");
+          }
+//            chat.setCreateAt(chat.sub);
+          String text = new Gson().toJson(chat);
+            TextMessage textMessage = new TextMessage(text);
+            for (WebSocketSession sess : roomList.get(chat.getChatroomNo())){
+                sess.sendMessage(textMessage);
             }
+
         }
     }
 }

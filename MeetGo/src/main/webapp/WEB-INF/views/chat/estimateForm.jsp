@@ -198,8 +198,13 @@
 				   data : {
                        gosuNo : ${sessionScope.loginUser.userNo}
 				   },
-				   success : function (date) {
+				   success : function (data) {
                        console.log(data);
+                       for (let i = 0; i < data.length; i++) {
+                           let option = '<option value="'+data[i].categorySmallNo+'">'+ data[i].categorySmallName +'</option>';
+                           console.log(option);
+                       		$('#est-service').append(option);
+                       }
                    },
 				   error : function () {
                    
@@ -311,7 +316,6 @@
 				userNo : userNo
 			}),
 			success:function (data){
-                console.log("견적서 저장 완료");
                 console.log(data);
                 estNo = data;
                 displayNone();

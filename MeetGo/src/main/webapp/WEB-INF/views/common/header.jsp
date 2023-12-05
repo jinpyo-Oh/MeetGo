@@ -256,10 +256,12 @@
                 </div>
                 <nav class="nav-list">
                     <li>
-                        <a>공지사항</a>
+                        <a href="">공지사항</a>
                     </li>
                     <li>
-                        <a href="searchMain.go?currentPage=1">고수찾기</a>
+                        <a href="searchMain.go">
+                        	고수찾기
+                        </a>
                     </li>
                     <li>
                         <a>커뮤니티</a>
@@ -290,7 +292,7 @@
 							</li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="estimate.me">견적 목록</a></li>
+							<li><a href="estimate.me?cPage=1">견적 목록</a></li>
 							<li><a href="chat.ct">채팅</a></li>
 							<li>
 								<div class="menu-userInfo" data-toggle="collapse" data-target="#user-info-collapse">

@@ -1,6 +1,9 @@
 package com.kh.meetgo.member.controller;
 
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.meetgo.common.config.S3Uploader;
+import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.common.template.Pagination;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.service.MemberService;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -78,10 +84,6 @@ public class MemberController {
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
 	}
-	@RequestMapping("estimate.me")
-	public String myEstimate() {
-		return "estimate/myEstimateList";
-	}
 	
 	@RequestMapping("reviewWrite.me")
 	public String reviewWrite() {
@@ -103,23 +105,24 @@ public class MemberController {
 
 	    
 
-	    Member loginUser = memberService.loginMember(m);
-	    if(loginUser == null){
-	       session.setAttribute("errorMsg", "아이디가 존재하지 않습니다.");
-	       mv.setViewName("redirect:/loginForm.me");
-	       return mv;
-	    }
 
-	    boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
-	    if (check) {
-	       session.setAttribute("loginUser", loginUser);
-	       session.setAttribute("alertMsg", "로그인 성공.");
-	       mv.setViewName("redirect:/");
-	    } else {
-	       session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
-	       mv.setViewName("redirect:/loginForm.me");
-	       return mv;
-	    }
+		Member loginUser = memberService.loginMember(m);
+		if(loginUser == null){
+			session.setAttribute("errorMsg", "아이디가 존재하지 않습니다.");
+			mv.setViewName("redirect:/loginForm.me");
+			return mv;
+		}
+
+		boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
+		if (check) {
+			session.setAttribute("loginUser", loginUser);
+			session.setAttribute("alertMsg", "로그인 성공.");
+			mv.setViewName("redirect:/");
+		} else {
+			session.setAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+			mv.setViewName("redirect:/loginForm.me");
+			return mv;
+		}
 
 	    if(saveId != null && saveId.equals("y")){
 	       Cookie cookie = new Cookie("saveId", m.getUserId());
@@ -259,6 +262,7 @@ public class MemberController {
 			return "redirect:/myPage.me";
 		}
 	}
+	/*
 	@RequestMapping("update.me")
 	public String updateMember(Member m,
 							   Model model,
@@ -308,14 +312,35 @@ public class MemberController {
 			
 
 		}
+
+		*/
+	@RequestMapping("estimate.me")
+	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
 		
+		Member m = (Member)session.getAttribute("loginUser");
 		
+		int userNo = m.getUserNo();
 		
+		int listCount1 = memberService.selectIncompleteListCount(userNo);
+		int listCount2 = memberService.selectCompleteListCount(userNo);
 		
+		int pageLimit = 5;
+		int boardLimit = 5;
 		
+		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
+		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
 		
+		ArrayList<Estimate> list1 = memberService.selectIncompleteEstimateList(pi1, userNo);
+		ArrayList<Estimate> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
 		
+		// System.out.println(list1);
+		// System.out.println(list2);
 		
+		mv.addObject("incomList", list1).addObject("pi1", pi1)
+		  .addObject("comList", list2).addObject("pi2", pi2)
+		  .setViewName("estimate/myEstimateList");
+		
+		return mv;
 	}
 		
 		
@@ -326,28 +351,25 @@ public class MemberController {
 		int count = memberService.pwdCheck(checkEmail);
 		
 	
-		return (count > 0) ? "NNNNN" : "NNNNY";
+	@RequestMapping("estimateDetail.me")
+	public ModelAndView estimateDetail(String eno, ModelAndView mv) {
+		
+		// System.out.println(eno);
+		int estNo = 0;
+		if(!eno.isEmpty()) {
+			estNo = Integer.parseInt(eno);
+		}
+		
+		Estimate est = memberService.selectEstimateDetail(estNo);
+		
+		String userName = memberService.getName(est.getUserNo());
+		String gosuName = memberService.getName(est.getGosuNo());
+		
+		mv.addObject("est", est).addObject("userName", userName).addObject("gosuName", gosuName)
+		  .setViewName("estimate/myEstimateDetail");
+		
+		return mv;
 	}
-
-//	@ResponseBody
-//	@RequestMapping(value = "profileImgUpload.me", produces = "text/html; charset=UTF-8") 
-//    private String saveProfileImage(MultipartFile file) throws Exception {
-//        // 실제로는 파일 저장 경로, 파일 이름 생성, 저장된 이미지의 URL을 반환하는 로직이 들어갑니다.
-//        // 이 부분은 프로젝트에 맞게 커스터마이징이 필요합니다.
-//
-//        // 여기에서는 간단히 파일 이름을 콘솔에 출력하는 예시 코드만 작성합니다.
-//        String fileName = file.getOriginalFilename();
-//        System.out.println("Uploaded file name: " + fileName);
-//
-//        // 여기에서 실제 저장 로직을 추가하세요.
-//        // ...
-//
-//        // 저장된 이미지의 URL을 반환합니다.
-//        // 이 URL은 클라이언트로 응답될 수 있습니다.
-//        return "/images/" + fileName;
-//    }
-//	
-
 	
 }
 
