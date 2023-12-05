@@ -17,7 +17,6 @@
         <result column="USER_NO" property="userNo" />
     </resultMap>
 
-
     <resultMap id="chatroomResultSet" type="chatroom">
         <result column="CHATROOM_NO" property="chatroomNo" />
         <result column="CREATE_AT" property="createAt" />
@@ -32,6 +31,12 @@
         <result column="TYPE" property="type" />
         <result column="CREATE_AT" property="createAt" />
         <result column="CHATROOM_NO" property="chatroomNo" />
+    </resultMap>
+
+    <resultMap id="categorySmallResultSet" type="categorySmall">
+        <result column="CATEGORY_SMALL_NO" property="categorySmallNo" />
+        <result column="CATEGORY_SMALL_NAME" property="categorySmallName" />
+        <result column="CATEGORY_BIG_NO" property="categoryBigNo" />
     </resultMap>
 
     <select id="selectChatRoomList" parameterType="chatroom" resultType="com.kh.meetgo.chat.model.dto.ChatListDto">
@@ -50,9 +55,10 @@
     </select>
 
     <select id="selectChatList" parameterType="_int" resultMap="chatResultSet">
-        SELECT *
+        SELECT CHAT_NO, CONTENT, SENDER, TYPE, TO_CHAR(CREATE_AT, 'YY-MM-DD HH24:MI') as CREATE_AT , CHATROOM_NO
         FROM CHAT
         WHERE CHATROOM_NO = ${chatroomNo}
+        ORDER BY CHAT_NO
     </select>
 
     <select id="selectChatroom" parameterType="_int" resultMap="chatroomResultSet">
@@ -72,12 +78,36 @@
     </insert>
 
     <select id="searchEstimate" parameterType="_int" resultMap="estimateResultSet">
+        SELECT est_no, est_title, est_content, est_address,
+        sm.CATEGORY_SMALL_NAME as est_service, start_date, end_date, confirmation_date,
+        est_price, status, tid, gosu_no, user_no
+        FROM ESTIMATE E
+        LEFT JOIN (
         SELECT *
-        FROM ESTIMATE
+        FROM SERVICE_CATEGORY_SMALL
+        ) SM ON E.EST_SERVICE = SM.CATEGORY_SMALL_NO
         WHERE EST_NO = #{estNo}
     </select>
 
-<!--    <select id="selectAllCategory" parameterType="_"-->
+    <select id="selectAllCategory" parameterType="_int" resultMap="categorySmallResultSet">
+        select A.CATEGORY_SMALL_NO as CATEGORY_SMALL_NO, CATEGORY_SMALL_NAME, CATEGORY_BIG_NO
+        from SERVICE_CATEGORY_SMALL B
+        INNER JOIN(
+        select *
+        from "GOSU-SERVICE"
+        where GOSU_NO = ${gosuNo}
+        ) A ON A.CATEGORY_SMALL_NO = B.CATEGORY_SMALL_NO
+    </select>
+
+    <select id="selectService" parameterType="_int" resultType="string">
+        select CATEGORY_SMALL_NAME
+        from SERVICE_CATEGORY_SMALL
+        where CATEGORY_SMALL_NO = #{categorySmallNo}
+    </select>
+    <insert id="insertChatImg" parameterType="chat">
+        insert into CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO)
+        values(SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo})
+    </insert>
 </mapper>
 
 

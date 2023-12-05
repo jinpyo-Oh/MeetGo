@@ -4,6 +4,7 @@ import com.kh.meetgo.chat.model.dao.ChatDao;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.gosu.model.vo.CategorySmall;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +54,18 @@ public class ChatServiceImpl implements ChatService{
     }
 
     @Override
-    public ArrayList<String> selectAllCategory(String gosuNo) {
+    public ArrayList<CategorySmall> selectAllCategory(String gosuNo) {
         return chatDao.selectAllCategory(sqlSession, gosuNo);
+    }
+
+    @Override
+    public String selectService(int categorySmallNo) {
+        return chatDao.selectService(sqlSession,categorySmallNo);
+    }
+
+    @Override
+    public int insertChatImg(Chat chat) {
+        return chatDao.insertChatImg(sqlSession,chat);
     }
 
 }

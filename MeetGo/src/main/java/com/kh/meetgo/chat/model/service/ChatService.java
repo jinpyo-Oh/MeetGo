@@ -3,6 +3,7 @@ package com.kh.meetgo.chat.model.service;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.gosu.model.vo.CategorySmall;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -23,5 +24,9 @@ public interface ChatService {
 
     Estimate searchEstimate(int estNo);
 
-    ArrayList<String> selectAllCategory(String gosuNo);
+    ArrayList<CategorySmall> selectAllCategory(String gosuNo);
+
+    String selectService(int categorySmallNo);
+
+    int insertChatImg(Chat chat);
 }
