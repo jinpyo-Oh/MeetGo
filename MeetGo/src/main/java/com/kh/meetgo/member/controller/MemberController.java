@@ -1,8 +1,6 @@
 package com.kh.meetgo.member.controller;
 
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
@@ -14,8 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.meetgo.common.config.S3Uploader;
@@ -342,13 +340,6 @@ public class MemberController {
 		
 		return mv;
 	}
-		
-		
-	@ResponseBody
-	@RequestMapping(value = "emailCheck.me", produces = "text/html; charset=UTF-8")
-	public String EmailCheck(String checkEmail) {
-		
-		int count = memberService.pwdCheck(checkEmail);
 		
 	
 	@RequestMapping("estimateDetail.me")
