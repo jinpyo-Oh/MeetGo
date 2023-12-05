@@ -17,8 +17,9 @@
 				    SELECT DISTINCT G.GOSU_NO
 				    FROM GOSU G
 				    LEFT JOIN (
-				        SELECT DISTINCT GOSU_NO, CATEGORY_SMALL_NO
+				        SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
 				        FROM "GOSU-SERVICE"
+				        GROUP BY GOSU_NO
 				    ) S ON S.GOSU_NO = G.GOSU_NO
 				    LEFT JOIN (
                         SELECT USER_NO, USER_STATUS
@@ -43,8 +44,9 @@
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
-				    SELECT DISTINCT GOSU_NO, CATEGORY_SMALL_NO
-				    FROM "GOSU-SERVICE"
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
 				) S ON S.GOSU_NO = G.GOSU_NO
 				<choose>
 					<when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
@@ -86,8 +88,9 @@
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
-				    SELECT DISTINCT GOSU_NO, CATEGORY_SMALL_NO
-				    FROM "GOSU-SERVICE"
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
 				) S ON S.GOSU_NO = G.GOSU_NO )
 			</when>
 			<when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
@@ -105,8 +108,9 @@
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
-				    SELECT DISTINCT GOSU_NO, CATEGORY_SMALL_NO
-				    FROM "GOSU-SERVICE"
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
 				) S ON S.GOSU_NO = G.GOSU_NO
 				WHERE S.CATEGORY_SMALL_NO = #{categorySmallNo} )
 			</when>
@@ -125,8 +129,9 @@
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
-				    SELECT DISTINCT GOSU_NO, CATEGORY_SMALL_NO
-				    FROM "GOSU-SERVICE"
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
 				) S ON S.GOSU_NO = G.GOSU_NO
 				<choose>
 					<when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
@@ -144,7 +149,7 @@
 						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
 					</otherwise>
 				</choose>
-					AND M.USER_STATUS = 2	
+					AND M.USER_STATUS = 2
 					 )	
 			</otherwise>
 		</choose>
