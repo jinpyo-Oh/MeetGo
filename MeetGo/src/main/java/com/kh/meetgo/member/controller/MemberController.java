@@ -321,11 +321,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping("estimateDetail.me")
-	public ModelAndView estimageDetail(int eno, ModelAndView mv) {
+	public ModelAndView estimateDetail(String eno, ModelAndView mv) {
 		
 		// System.out.println(eno);
+		int estNo = 0;
+		if(!eno.isEmpty()) {
+			estNo = Integer.parseInt(eno);
+		}
 		
-		Estimate est = memberService.selectEstimateDetail(eno);
+		Estimate est = memberService.selectEstimateDetail(estNo);
 		
 		String userName = memberService.getName(est.getUserNo());
 		String gosuName = memberService.getName(est.getGosuNo());

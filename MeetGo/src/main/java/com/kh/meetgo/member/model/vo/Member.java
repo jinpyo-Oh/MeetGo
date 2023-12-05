@@ -23,7 +23,6 @@ public class Member {
     private String address;
     private String userProFile;
     private Date createDate;
-    private String address;
     private Date lastAccessDate;
     private int userStatus;
 
