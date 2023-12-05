@@ -3,6 +3,7 @@ package com.kh.meetgo.chat.model.dao;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.gosu.model.vo.CategorySmall;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -41,8 +42,16 @@ public class ChatDao {
         return sqlSession.selectOne("chatMapper.searchEstimate", estNo);
     }
 
-    public ArrayList<String> selectAllCategory(SqlSessionTemplate sqlSession, String gosuNumber) {
+    public ArrayList<CategorySmall> selectAllCategory(SqlSessionTemplate sqlSession, String gosuNumber) {
         int gosuNo = Integer.parseInt(gosuNumber);
         return (ArrayList) sqlSession.selectList("chatMapper.selectAllCategory", gosuNo);
+    }
+
+    public String selectService(SqlSessionTemplate sqlSession, int categorySmallNo) {
+        return sqlSession.selectOne("chatMapper.selectService", categorySmallNo);
+    }
+
+    public int insertChatImg(SqlSessionTemplate sqlSession, Chat chat) {
+        return sqlSession.insert("chatMapper.insertChatImg", chat);
     }
 }

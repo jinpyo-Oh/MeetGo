@@ -95,9 +95,7 @@ public class MemberController {
 		
 
 		Member loginUser = memberService.loginMember(m);
-		if(loginUser != null){
-			session.setAttribute("loginUser", loginUser);
-		} else {
+		if(loginUser == null){
 			session.setAttribute("errorMsg", "아이디가 존재하지 않습니다.");
 			mv.setViewName("redirect:/loginForm.me");
 			return mv;
@@ -105,6 +103,7 @@ public class MemberController {
 
 		boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
 		if (check) {
+			session.setAttribute("loginUser", loginUser);
 			session.setAttribute("alertMsg", "로그인 성공.");
 			mv.setViewName("redirect:/");
 		} else {
