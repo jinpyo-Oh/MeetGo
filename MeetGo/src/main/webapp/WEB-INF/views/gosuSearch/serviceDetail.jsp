@@ -26,14 +26,14 @@
 
        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
-       /* 전체 div 영역 */
-       .outer{
-        width: 1000px;
-        margin: auto;
-        margin-top: 100px;
-        margin-bottom: 100px;
-        box-sizing: border-box;
-    }
+    /* 전체 div 영역 */
+    .outer{
+       width: 1000px;
+       margin: auto;
+       margin-top: 100px;
+       margin-bottom: 100px;
+       box-sizing: border-box;
+   	}
 
     /* 상단 타이틀 영역 */
     #detailHead-area{
@@ -151,14 +151,15 @@
     .rate{ margin-bottom: 10px; }
 
     #thirdTb{ font-size: 22px; margin-top: 20px;}
-
-
-    
+     
     </style>
 </head>
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
+	
+	<jsp:include page="../common/side.jsp"/>
+
 	
     <div class="outer">
         <div id="detailHead-area">
