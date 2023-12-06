@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="gosuMapper">
+
+	<!-- 총 고수회원 수 -->
+	<select id="selectOptionalGosuCount" parameterType="hashMap" resultType="_int">
+		<choose>
+			<when test="(region == '전체') and (categoryBigNo == 0)"> <!-- 전국 | 전체 서비스 -->
+                SELECT COUNT(*)
+  		  		  FROM GOSU G
+                  LEFT JOIN MEMBER M ON M.USER_NO = G.USER_NO
+                  WHERE M.USER_STATUS = 2
+			</when>
+			<when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
+				SELECT COUNT(*)
+				FROM (
+				    SELECT DISTINCT G.GOSU_NO
+				    FROM GOSU G
+				    LEFT JOIN (
+				        SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+				        FROM "GOSU-SERVICE"
+				        GROUP BY GOSU_NO
+				    ) S ON S.GOSU_NO = G.GOSU_NO
+				    LEFT JOIN (
+                        SELECT USER_NO, USER_STATUS
+                        FROM MEMBER
+                    ) M ON M.USER_NO = G.USER_NO
+				WHERE S.CATEGORY_SMALL_NO = #{categorySmallNo}
+				  AND M.USER_STATUS = 2
+				)
+			</when>
+			<otherwise>
+				SELECT COUNT(*)
+				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
+				        G.INTRODUCTION AS "gosu.introduction",
+				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
+				        M.USER_PROFILE AS "userProfile",
+				        M.USER_NICKNAME AS "userNickname",
+				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
+		 		  FROM GOSU G
+				  LEFT JOIN (
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   FROM MEMBER
+				) M ON M.USER_NO = G.GOSU_NO
+				  LEFT JOIN (
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
+				) S ON S.GOSU_NO = G.GOSU_NO
+				<choose>
+					<when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
+						WHERE G.REGION LIKE #{region} || '%'
+					</when>
+					<when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
+						WHERE G.REGION = #{region}
+					</when>
+					<when test="(regionSub == '전체') and (categoryBigNo != 0)"> <!-- 시/도 전체 | 특정 서비스 -->
+						WHERE G.REGION LIKE #{region} || '%'
+						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+					</when>
+					<otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
+						WHERE G.REGION = #{region}
+						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+					</otherwise>
+				</choose>
+				AND M.USER_STATUS = 2
+						)
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- 고수 회원 -->
+	<select id="selectOptionalGosu" parameterType="hashMap" resultType="gosuOpt" >
+		<choose>
+			<when test="(region == '전체') and (categoryBigNo == 0)"> <!-- 전국 | 전체 서비스 -->
+				SELECT *
+				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
+				        G.INTRODUCTION AS "gosu.introduction",
+				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
+				        M.USER_PROFILE AS "userProfile",
+				        M.USER_NICKNAME AS "userNickname",
+				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
+		 		  FROM GOSU G
+				  LEFT JOIN (
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   FROM MEMBER
+				) M ON M.USER_NO = G.GOSU_NO
+				  LEFT JOIN (
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
+				) S ON S.GOSU_NO = G.GOSU_NO )
+			</when>
+			<when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
+				SELECT *
+				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
+				        G.INTRODUCTION AS "gosu.introduction",
+				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
+				        M.USER_PROFILE AS "userProfile",
+				        M.USER_NICKNAME AS "userNickname",
+				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
+		 		  FROM GOSU G
+				  LEFT JOIN (
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   FROM MEMBER
+				) M ON M.USER_NO = G.GOSU_NO
+				  LEFT JOIN (
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
+				) S ON S.GOSU_NO = G.GOSU_NO
+				WHERE S.CATEGORY_SMALL_NO = #{categorySmallNo} )
+			</when>
+			<otherwise>
+				SELECT *
+				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
+				        G.INTRODUCTION AS "gosu.introduction",
+				        G.REGION AS "gosu.region",
+				        G.CAREER AS "gosu.career",
+				        M.USER_PROFILE AS "userProfile",
+				        M.USER_NICKNAME AS "userNickname",
+				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
+		 		  FROM GOSU G
+				  LEFT JOIN (
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   FROM MEMBER
+				) M ON M.USER_NO = G.GOSU_NO
+				  LEFT JOIN (
+				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+			        FROM "GOSU-SERVICE"
+			        GROUP BY GOSU_NO
+				) S ON S.GOSU_NO = G.GOSU_NO
+				<choose>
+					<when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
+						WHERE G.REGION LIKE #{region} || '%'
+					</when>
+					<when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
+						WHERE G.REGION = #{region}
+					</when>
+					<when test="(regionSub == '전체') and (categoryBigNo != 0)"> <!-- 시/도 전체 | 특정 서비스 -->
+						WHERE G.REGION LIKE #{region} || '%'
+						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+					</when>
+					<otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
+						WHERE G.REGION = #{region}
+						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+					</otherwise>
+				</choose>
+					AND M.USER_STATUS = 2
+					 )	
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 고수찾기 상세정보 조회 -->
+	<select id="gosuDetail" parameterType="_int" resultType="gosuOpt">
+		SELECT *
+		FROM (
+		  SELECT DISTINCT
+		    G.GOSU_NO AS "gosu.gosuNo",
+		    G.INTRODUCTION AS "gosu.introduction",
+		    G.EMPLOYEES AS "gosu.employees",
+		    G.EDUCATION AS "gosu.education",
+		    G.CAREER AS "gosu.career",
+		    G.ELABORATE AS "gosu.elaborate",
+		    G.REGION AS "gosu.region",
+		    G.MOVE_DISTANCE AS "gosu.moveDistance",
+		    G.AVAILABLE_TIME AS "gosu.availableTime",
+		    M.USER_PROFILE AS "userProfile",
+		    M.USER_NICKNAME AS "userNickname",
+		    GS.CATEGORY_SMALL_NAME AS "categorySmallName"
+		  FROM GOSU G
+		  LEFT JOIN (
+		    SELECT USER_NO, USER_PROFILE, USER_NICKNAME
+		    FROM MEMBER
+		  ) M ON M.USER_NO = G.GOSU_NO
+		  LEFT JOIN (
+		    SELECT GOSU_NO, CATEGORY_SMALL_NO
+		    FROM "GOSU-SERVICE"
+		  ) S ON S.GOSU_NO = G.GOSU_NO
+		  LEFT JOIN SERVICE_CATEGORY_SMALL GS ON GS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO
+		  WHERE G.GOSU_NO = #{gosuNo}
+		)
+	</select>	
+	
+	<select id="getGosuImg" parameterType="_int" resultType="gosuImg">
+		SELECT GOSU_IMG_NO AS "gosuImgNo",
+			   GOSU_IMG_URL AS "gosuImgUrl",
+			   STATUS AS "status",
+			   GOSU_NO AS "gosuNo"
+		  FROM "GOSU-IMG"
+		 WHERE GOSU_NO = #{gosuNo}
+		   AND STATUS = 1
+	</select>
+	
+	<insert id="insertGosu" parameterType="gosu">
+		INSERT INTO GOSU(GOSU_NO
+					   , INTRODUCTION
+					   , EMPLOYEES
+					   , BUSINESS_STATUS
+					   , EDUCATION
+					   , CAREER
+					   , ELABORATE
+					   , REGION
+					   , MOVE_DISTANCE
+					   , AVAILABLE_TIME
+					   , USER_NO)
+				  VALUES(#{gosuNo}
+				  	   , #{introduction}
+				  	   , #{employees}
+				  	   , #{businessStatus}
+				  	   , #{education}
+				  	   , #{career}
+				  	   , #{elaborate}
+				  	   , #{region}
+				  	   , #{moveDistance}
+				  	   , #{availableTime}
+				  	   , #{userNo})
+	</insert>
+	
+	<insert id="insertGosuCate" parameterType="hashMap">
+		INSERT INTO "GOSU-SERVICE"(GOSU_NO
+							   , CATEGORY_SMALL_NO)
+						  VALUES(#{gosuNo}
+						  	   , #{service})
+	</insert>
+	
+	<update id="changeStatus" parameterType="_int">
+		UPDATE MEMBER
+		   SET USER_STATUS = 2
+		 WHERE USER_NO = #{userNo} 
+	</update>
+
+</mapper>

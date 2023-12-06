@@ -3,6 +3,8 @@ package com.kh.meetgo.chat.model.dao;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.gosu.model.vo.CategorySmall;
+import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.member.model.vo.Member;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -30,5 +32,26 @@ public class ChatDao {
     public Member selectChatUserInfo(SqlSessionTemplate sqlSession, String no) {
         int chatroomNo = Integer.parseInt(no);
         return sqlSession.selectOne("memberMapper.selectChatUserInfo", chatroomNo);
+    }
+
+    public int insertEstimate(SqlSessionTemplate sqlSession, Estimate estimate) {
+        return sqlSession.insert("chatMapper.insertEstimate", estimate);
+    }
+
+    public Estimate searchEstimate(SqlSessionTemplate sqlSession, int estNo) {
+        return sqlSession.selectOne("chatMapper.searchEstimate", estNo);
+    }
+
+    public ArrayList<CategorySmall> selectAllCategory(SqlSessionTemplate sqlSession, String gosuNumber) {
+        int gosuNo = Integer.parseInt(gosuNumber);
+        return (ArrayList) sqlSession.selectList("chatMapper.selectAllCategory", gosuNo);
+    }
+
+    public String selectService(SqlSessionTemplate sqlSession, int categorySmallNo) {
+        return sqlSession.selectOne("chatMapper.selectService", categorySmallNo);
+    }
+
+    public int insertChatImg(SqlSessionTemplate sqlSession, Chat chat) {
+        return sqlSession.insert("chatMapper.insertChatImg", chat);
     }
 }

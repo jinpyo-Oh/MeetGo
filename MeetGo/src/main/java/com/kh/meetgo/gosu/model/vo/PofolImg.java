@@ -6,5 +6,5 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
-public class PofolIMg {
+public class PofolImg {
 }

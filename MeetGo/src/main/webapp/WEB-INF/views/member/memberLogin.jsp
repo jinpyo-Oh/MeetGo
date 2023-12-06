@@ -8,8 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
-    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
-	<!-- CSS -->
+
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
 	<!-- Default theme -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
@@ -109,7 +108,7 @@
         height: 50px;
         display: block;
         margin:  auto; 
-    }
+    	}
         .kakaoss {
            width: 20px;
             
@@ -123,6 +122,13 @@
         .links1 {
             width: 500px;
             padding: 50px;
+        }
+        .kakaologin-btn{
+        	background-color:yellow;
+        	boder-style:none;
+        	padding: 10px 30px;
+        	color: white;
+        	text-align: center;
         }
         
     </style>
@@ -142,8 +148,8 @@
         </div>
     </form>
     <div class="links">
-        <a class="link" href="FindPassword.me">비밀번호 찾기</a>
-        <a class="link" href="EnrollForm.me">회원가입</a>
+        <a class="link" href="findPassword.me">비밀번호 찾기</a>
+        <a class="link" href="enrollForm.me">회원가입</a>
         <c:choose>
     		<c:when test="${ not empty cookie.saveId }">
     			<input type="checkbox" id="saveId" name="saveId" value="y" checked>
@@ -156,11 +162,45 @@
     	</c:choose>
         
     </div>
-    <div class="links1">
-        <a class="kakao" href=""><img src="img/kakao_login_medium_wide.png" class="kakaosrc"></a>
-        <a class="naver" href=""><img src="img/btnG_완성형.png" class="naversrc"></a>
-        <a class="google" href=""><img src="img/web_dark_sq_SU@1x.png" class="googlesrc"></a> 
+  
+    <ul>
+	<li onclick="kakaoLogin();">
+      <a href="javascript:void(0)">
+          <span>카카오 로그인</span>
+      </a>
+	</li>
+	<li onclick="kakaoLogout();">
+      <a href="javascript:void(0)">
+          <span>카카오 로그아웃</span>
+      </a>
+	</li>
+</ul>
+
 </div>
-</div>
+<script>
+	window.Kakao.init('d10703cccb5343e34a8ed27fbcf9688f'); //발급받은 키 중 javascript키를 사용해준다.
+console.log(Kakao.isInitialized()); // sdk초기화여부판단
+//카카오로그인
+function kakaoLogin() {
+    window.Kakao.Auth.login({
+      success: function (response) {
+        Kakao.API.request({
+          url: '/v2/user/me',
+          success: function (response) {
+        	  console.log(response)
+          },
+          fail: function (error) {
+            console.log(error)
+          },
+        })
+      },
+      fail: function (error) {
+        console.log(error)
+      },
+    })
+  }
+  </script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+   <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 </body>
 </html>

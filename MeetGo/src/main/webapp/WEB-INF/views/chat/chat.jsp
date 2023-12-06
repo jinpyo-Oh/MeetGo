@@ -1,4 +1,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -10,8 +12,32 @@
 	
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
-	<link href="<%=request.getContextPath()%>/resources/css/chat/chat.css" rel="stylesheet" type="text/css">
+	<link href="<%=request.getContextPath()%>/resources/css/chat/chat.css?after" rel="stylesheet" type="text/css">
 	
+	<style>
+        .preview-img {
+            background-color: #e1e1e1;
+			position: absolute;
+			bottom: 205px;
+			width: 650px;
+			height: 400px;
+			align-items: center;
+			text-align: center;
+			display: flex;
+			justify-content: center;
+		}
+		.preview-img-close {
+			position: absolute;
+			bottom: 360px;
+			right: 20px;
+			cursor: pointer;
+		}
+		.preview-img img {
+			max-width: 500px;
+			max-height: 350px;
+			object-fit: cover;
+		}
+	</style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -93,10 +119,15 @@
 				</div>
 			</c:forEach>
 		</div>
+		
+		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 		<script>
 			let chatroomNo;
+            let userNo;
+            let estNo;
             $(function () {
                 $('.chat-card').click(function () {
+                    $('.right-box-info').empty();
                     $('.chat-card').removeClass('select');
                     $(this).addClass('select');
                     $('.chat-area').empty();
@@ -112,6 +143,7 @@
                             for (let i = 0; i < data.length; i++) {
 								CheckLR(data[i]);
                             }
+                            scrollToBottom();
 						},
 						error : function (){
                             console.log("채팅방 목록 불러오기 에러");
@@ -127,40 +159,40 @@
                             async:false,
                             dataType:"json",
                             success : function (data){
+                               userNo = data.userNo;
 									let userInfo =
-										'<div className="info-profile">'
-											+'<img className="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">'
-											+'<img className="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">'
-											+'<div className="info-profile-more-list">'
+										'<div class="info-profile">'
+											+'<img class="info-profile-img" src="'+data.userProFile+'">'
+											+'<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">'
+											+'<div clas="info-profile-more-list">'
 												+'<div>회원 상세 조회</div>'
 											+'</div>'
-											+'<h3>김세정</h3>'
+											+'<h3>'+ data.userName +'</h3>'
 											+'<table>'
 												+'<tr>'
 													+'<td width="40%">지역</td>'
-													+'<td></td>'
+													+'<td>'+data.address+'</td>'
 												+'</tr>'
 												+'<tr>'
 													+'<td>믿고 횟수</td>'
 													+'<td>15 회</td>'
 												+'</tr>'
-												+'<tr>'
-													+'<td>서비스</td>'
-													+'<td>반려견 산책</td>'
-												+'</tr>'
 											+'</table>'
 											+'<hr style="border : 1px solid lightgray; width: 80%;">'
 										+'</div>'
-										+'<div className="info-detail">'
+										+'<div class="info-detail">'
 											+'<h5 style="margin-left: 20px">리뷰 목록</h5>'
-											+'<div className="review-img-area">'
+											+'<div class="review-img-area">'
 												+'<div style="width: 100px!important;"><img class="info-img" src="https://news.nateimg.co.kr/orgImg/xs/2020/04/09/1586412414197720.jpg"></div>'
 												+'<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNDAg/MDAxNjE0MDY5MTYxNzE1.ID-uK_t73wGeNH9TGMIeWKJZsQq9KDg_nySZdlKTLBQg.eOm-EdEw-i_NbPvPA5qdAOeLpwlhqEu5PMVGu5DqXr8g.JPEG/4-2.jpg?type=w1200"></div>'
 												+'<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNzQg/MDAxNjE0MDY5MTk5NDk2.RuWcBaRHnRUgGHlf-PHJAfsE54JjUD3DheHMskaeGsUg.wETZ4LxUQwZ6n6UErBz_2QqIATZk6sDvtx5bdlew304g.JPEG/5-3.jpg?type=w1200"></div>'
 											+'</div>'
 										+'</div>';
-									console.log(userInfo);
 									$('.right-box-info').append(userInfo);
+									$('.review-img-area').slick({
+										slidesToShow: 2,
+										slidesToScroll: 2,
+									});
                             },
                             error : function () {
                                 alert("오른쪽 회원 정보 조회 실패");
@@ -169,59 +201,100 @@
                     } else {			<!-- 로그인 유저가 회원 상태면 고수 정보 붙이기 -->
                     
                     }
-					
-
                     connect();
                     scrollToBottom();
                 });
             });
+		
             function CheckLR(data){
                 const lr = (data.sender == ${sessionScope.loginUser.userNo}) ? "receiver" : "sender";
                 appendChat(lr, data);
 			}
             function appendChat(lr, data) {
                 let chat = "";
+                let est;
+                let createAt = data.createAt;
                 if (data.type == 'M') {
                     chat = '<div class="chat-bubble">'
 								+ '<p class="'+lr+'">' + data.content +'</p>'
 								+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
 							+ '</div>';
+                    $('.chat-area').append(chat);
+                    scrollToBottom();
                 } else if (data.type == 'P') {
                     chat = '<div class="chat-bubble">'
 							+ '<img class="'+lr+'" src="'+data.content+'">'
 							+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
                         + '</div>';
+                    $('.chat-area').append(chat);
+                    scrollToBottom();
                 } else if (data.type == 'E') {
-                    chat = '<div class="chat-bubble">'
-							+ '<div class="chat-estimate receiver">'
-								+ '<h5 class="est-title">견적서</h5>'
-								+ '<p class="est-content">'
-									+ '이상현 고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
-								+ '</p>'
-								+ '<hr>'
-								+ '<table>'
-									+ '<tr>'
-										+ '<td>서비스</td>'
-										+ '<td>반려견 산책</td>'
-									+ '</tr>'
-									+ '<tr>'
-										+ '<th>예상 금액</th>'
-										+ '<td>총 30,000 원</td>'
-									+ '</tr>'
-								+ '</table>'
-								+ '<hr>'
-								+ '<div class="est-button">'
-									+ '<p>취소된 견적서 입니다.</p>'
-								+ '</div>'
-							+ '</div>'
-							+ '<p class="chat-createAt p-receiver">1:45 PM</p>'
-                        + '</div>'
+                    $.ajax({
+						url : "searchEstimate",
+						data : {
+                            estimateNo : data.content
+						},
+						success : function (data) {
+                            insertEstChat(data, lr,createAt);
+						},
+						error : function () {
+      						console.log("견적서 채팅 입력 실패");
+						}
+					})
+                
                 } else {
                     console.log("채팅 타입 인식 실패")
 				}
-                $('.chat-area').append(chat);
                 scrollToBottom();
             }
+            function insertEstChat(data, lr,createAt){
+                let chat = '<div class="chat-bubble">'
+					+ '<div class="chat-estimate '+lr+'">'
+					+ '<h5 class="est-title">견적서</h5>'
+					+ '<p class="est-content">'
+						+ '고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
+					+ '</p>'
+					+ '<hr>'
+					+ '<table>'
+						+ '<tr>'
+							+ '<td>서비스</td>'
+							+ '<td>' + data.estService + '</td>'
+						+ '</tr>'
+						+ '<tr>'
+							+ '<th>예상 금액</th>'
+							+ '<td>' + data.estPrice + '</td>'
+						+ '</tr>'
+					+ '</table>'
+					+ '<hr>'
+					+ '<div class="chat-est-button">';
+  
+                switch (data.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
+					case '1' :
+                        chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
+							'<div style="display: flex"><button class="meetgo-btn w-50">확정하기</button><button class="meetgo-btn meetgo-red w-50">취소하기</button></div>'
+						break;
+					case '2' :
+                        chat += '<p>취소된 견적서 입니다.</p>'
+                        break;
+					case '3' :
+                        chat += '<p>확정된 견적서 입니다.</p>'
+							+'<button class="meetgo-btn meetgo-red" style="width: 268px; margin: 5px; ">취소하기</button>'
+                        break;
+					case '4' :
+                        chat += '<p>취소된 견적서 입니다.</p>'
+                        break;
+					case '5' :
+                        chat += '<p>거래 완료된 견적서 입니다.</p>'
+						+'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                        break;
+				}
+                chat += '</div>'
+                    + '</div>'
+                    + '<p class="chat-createAt p-' + lr + '">' + createAt +'</p>'
+                    + '</div>';
+                $('.chat-area').append(chat);
+                scrollToBottom();
+			}
 		</script>
 	</div>
 	<div class="right-box">
@@ -238,7 +311,6 @@
 				})
 			</script>
 			<div class="right-box-info">
-			
 <%--				<div class="info-profile">--%>
 <%--					<img class="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">--%>
 <%--					<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">--%>
@@ -290,25 +362,21 @@
 <%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
 <%--					</div>--%>
 <%--				</div>--%>
+			</div>
 			<script>
-			
-			</script>
-			<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-			<script>
-				$('.info-pofol').slick({
-					slidesToShow: 2,
-					slidesToScroll: 2,
-				});
-				$('.review-img-area').slick({
-					slidesToShow: 2,
-					slidesToScroll: 2,
-				});
+                $('.info-pofol').slick({
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                });
+                $('.review-img-area').slick({
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                });
                 $('.info-img-area').slick({
                     slidesToShow: 2,
                     slidesToScroll: 2,
                 });
 			</script>
-			</div>
 		</div>
 		<div>
 			<script>
@@ -322,28 +390,45 @@
 				<textarea id="chat-textarea" maxlength="180" placeholder="메세지를 입력해 주세요."></textarea>
 				<div>
 					<div class="input-icon">
-						<input type="file" id="chat-file" name="file" style="display: none">
+						<input type="file" id="chat-file" name="file" style="display: none" onchange="setChatImg(event);">
 						<button class="meetgo-btn" id="chat-file-upload"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
 						<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
 						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/report-icon.png" alt="">신고</button>
 					</div>
 					<div class="input-button">
-						<button onclick="sendMessage('M')" class="meetgo-btn">전송</button>
+						<button id="send-message-btn" onclick="sendMessage('M')" class="meetgo-btn">전송</button>
 						<button class="meetgo-btn">채팅방 나가기</button>
 					</div>
 				</div>
 			</div>
 			<script>
-
                 $('#chat-file-upload').click(function (e){
                     $('#chat-file').click();
 				});
                 $('#chat-estimate-button').click(function () {
                     $('#modalWrap').css("display","block");
                 });
-
-           
+				function setChatImg(event) {
+                    var reader = new FileReader();
+					$('.preview-img').remove();
+                    reader.onload = function(event) {
+                    	var img = document.createElement("img");
+                        let imgArea = '<div class="preview-img">'
+								+ '<img class="preview-img-close" onclick="previewClose()" src="<%=request.getContextPath()%>/resources/images/chat/close-icon.png"></div>';
+                    	img.setAttribute("src", event.target.result);
+                        $('.chat-area').append(imgArea);
+                    	document.querySelector(".preview-img").appendChild(img);
+                        $('#send-message-btn').attr('onclick', "sendMessage('P')");
+                };
+					
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+           		function previewClose(){
+                    $('.preview-img').remove();
+                    $('#send-message-btn').attr('onclick', "sendMessage('M')");
+				}
 			</script>
+			
 			<script>
                 let websocket; // 전역변수 선언
                 function connect(){
@@ -361,34 +446,74 @@
                         "sender" : ${sessionScope.loginUser.userNo},
                         "type" : 'M',
                         "content"   : "ENTER_CHAT",
-                        "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                        "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
                     };
                     let jsonData = JSON.stringify(data);
                     websocket.send(jsonData);
-                    console.log(websocket);
                 }
 
                 // * 1 메시지 전송
                 function sendMessage(type){
                     let jsonData;
-                    if(type == 'M'){
+                    if(type == 'M'){ // 메시지일 경우
                         let message = $('#chat-textarea').val();
                         const data = {
                             "chatroomNo" : chatroomNo,
                             "sender" : ${sessionScope.loginUser.userNo},
                             "type" : 'M',
                             "content"   : message,
-                            "createAt" : <%= new SimpleDateFormat("yyMMddhhmmss").format(new java.sql.Date(System.currentTimeMillis()))%>
+                            "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
                         };
                         jsonData = JSON.stringify(data);
                         $('#chat-textarea').val('');
-					} else if (type == 'P') {
-     
-					} else if (type == 'E') {
-                    
+						websocket.send(jsonData);
+					} else if (type == 'P') { // 사진일 경우
+						console.log("채팅 메세지 전송");
+                        var form = $('#chat-file')[0].files[0];
+                        var formData = new FormData();
+                        formData.append('chatImg', form);
+                        formData.append('uNo', ${sessionScope.loginUser.userNo});
+                        formData.append('cNo', chatroomNo);
+                        $.ajax({
+                            type: "POST",
+                            enctype: 'multipart/form-data',
+                            url: "uploadChatImg",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            success: function (result) {
+                                const data = {
+                                    "chatroomNo" : chatroomNo,
+                                    "sender" : ${sessionScope.loginUser.userNo},
+                                    "type" : 'P',
+                                    "content"   : result,
+                                    "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+
+                                };
+                                jsonData = JSON.stringify(data);
+								websocket.send(jsonData);
+                            },
+                            error: function (e) {
+                                alert("실패");
+                            }
+                        });
+                        $('.preview-img').remove();
+                        $('#send-message-btn').attr('onclick', "sendMessage('M')");
+                        
+                        
+					} else if (type == 'E') { // 견적서 일경우
+                        const data = {
+                            "chatroomNo" : chatroomNo,
+                            "sender" : ${sessionScope.loginUser.userNo},
+                            "type" : 'E',
+                            "content"   : estNo,
+                            "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+
+                        };
+                        jsonData = JSON.stringify(data);
+						websocket.send(jsonData);
                     }
-                    
-                    websocket.send(jsonData);
                 }
 
                 // * 2 메세지 수신
@@ -403,14 +528,10 @@
 					}
                     CheckLR(data);
                 }
-				
-
-                
-                
 			</script>
+			
 		</div>
 	</div>
 </div>
-
 </body>
 </html>

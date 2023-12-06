@@ -19,11 +19,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
 
     <style>
+  
         .gosu-page {
             width: 720px;
-            height: 3050px;
+            height: 3000px;
             margin: 0px auto;
             box-sizing: border-box;
+            
+            
         }
         .profile {
             display: flex;
@@ -110,9 +113,10 @@
             justify-content: flex-end;
             align-items: center;
             font-size: .875rem;
-            font-weight: 500;
+            font-weight: 600;
             line-height: 1.43;
             flex: 1;
+            margin:10px auto;
             
         }
         .update {
@@ -364,6 +368,7 @@
                 
                 <div class="my-profile-overview">
                     <div class="profile-img">
+                    
                         <img src="https://cdn.newsculture.press/news/photo/202207/509775_619054_128.jpg" class="img">
                     </div>
                 
@@ -399,18 +404,18 @@
                     <h2>숨고 활동명</h2>
                     <div class="action-group-wapper">
                         <div class="type">
-                            <div class="update">
+                            <div class="update" onclick="toggleEditMode()">
                                 수정
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="info">
                 <div class="value">
-                    
-                    김찬영
+                    <div id="displayText">김찬영</div>
+                    <input type="text" id="editInput" style="display: none;">
+                    <button id="saveButton" style="display: none;" onclick="saveChanges()">저장</button>
                 </div>
             </div>
         </div>
@@ -762,45 +767,9 @@
             </div>
             
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>리뷰</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                 수정
-                            </div>
-                        </div>
+       
                     </div>
-                </div>
 
-            </div>
-            <div class="summarry">
-                <div class="info-star">
-                    <div class="value">
-                        <div class="avg">
-                            0
-                            <ul class="star">
-                                <li><img src=".com/pngimages/8/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7..com/pnimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7.pngeggcom/pngimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7.pngeg.com/pngimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-                                <li><img src="https://e7.pngeggcom/pngimages/508/846/png-clipart-star-star-angle-triangle.png"></li>
-
-                            </ul>
-                            <div class="count">
-                                0개리뷰
-                            </div>
-                        </div>
-                            
-                
-                    </div>
-                </div>
-            </div>
-        </div>
-   
-    </div>
     <jsp:include page="../common/footer.jsp"/>
     <script>
    function openMainServiceModal() {
@@ -821,7 +790,39 @@
             closeMainServiceModal();
         }
     });
-       
+    function toggleEditMode() {
+        var displayText = document.getElementById('displayText');
+        var editInput = document.getElementById('editInput');
+        var saveButton = document.getElementById('saveButton');
+
+        displayText.style.display = 'none';
+        editInput.style.display = 'block';
+        saveButton.style.display = 'block';
+
+        // 입력 필드 값을 현재 표시 텍스트로 설정합니다.
+        editInput.value = displayText.innerText;
+    }
+
+    function updateDisplayText() {
+        // 입력 필드 값이 변경될 때마다 표시 텍스트 업데이트
+        var displayText = document.getElementById('displayText');
+        var editInput = document.getElementById('editInput');
+        displayText.innerText = editInput.value;
+    }
+
+    function saveChanges() {
+        var displayText = document.getElementById('displayText');
+        var editInput = document.getElementById('editInput');
+        var saveButton = document.getElementById('saveButton');
+
+        // 입력 필드 값으로 표시 텍스트를 업데이트합니다.
+        displayText.innerText = editInput.value;
+
+        // 저장 버튼과 입력 필드를 숨깁니다.
+        displayText.style.display = 'block';
+        editInput.style.display = 'none';
+        saveButton.style.display = 'none';
+    }
 
     </script>
 

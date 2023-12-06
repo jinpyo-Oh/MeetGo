@@ -139,7 +139,6 @@ html {
     height: 100%;
     box-sizing: border-box;
 }
-
 .chat-area {
     width: 650px;
     height: 100%;
@@ -197,6 +196,7 @@ html {
 .select {
     background-color: white;
     border-right: none;
+    pointer-events: none;
 }
 .input-icon {
     float: left;
@@ -279,6 +279,7 @@ html {
     width: 120px;
     height: 120px;
     border-radius: 60px;
+    object-fit: cover;
 }
 .info-profile table {
     width: 80%;
@@ -298,23 +299,25 @@ html {
     background-color: lightgray;
     border-radius: 15px;
 }
-.est-button {
+.chat-est-button {
     width: 100%;
     padding: 0;
-    margin: 0;
+    margin: auto;
+    text-align: center;
+    align-items: center;
 }
 .chat-createAt {
     position: absolute;
     bottom: 0;
     padding: 0 !important;
-    margin:40px 0 0 0 !important;
+    margin:60px 0 0 0 !important;
     font-size: 0.9em;
 }
 .p-receiver {
-    right: 30px;
+    right: 20px;
 }
 .p-sender {
-    left: 30px;
+    left: 20px;
 }
 .info-img-area, .info-pofol, .review-img-area {
     margin: auto;

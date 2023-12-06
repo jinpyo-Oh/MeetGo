@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -5,6 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>고수 정보</title>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+
     <style>
     /* 폰트 */
        @font-face {
@@ -19,7 +27,7 @@
 
        /* 전체 div 영역 */
        .outer{
-        width: 1200px;
+        width: 1000px;
         margin: auto;
         margin-top: 100px;
         margin-bottom: 100px;
@@ -29,11 +37,12 @@
     /* 상단 타이틀 영역 */
     #detailHead-area{
         width: 70%;
-        height: 280px;
+        height: 250px;
         margin: auto;
         display: flex;
     }
     #image-area{ width: 35%; height: 100%;}
+    #image-area>img{ width:100%; height:100%; }
     #info-area{ width: 65%; height: 100%; margin-left: 35px;}
     #gosu-name{
         font-size: 24px;
@@ -45,13 +54,14 @@
     #description{
         width: 100%;
         height: 55%;
-        margin-top: 42px;
+        margin-top: 30px;
     }
     
     /* 소분류 표시 영역 */
     .etc-area{
         width: 70%;
         margin: auto;
+        margin-bottom:20px;
     }
     .subCategory{
         border: 0px;
@@ -94,6 +104,7 @@
     #firstTb *{
         font-size: 18px;
         margin-top: 10px;
+        width: 100%;
     }
 
     #secondTb{ font-size: 20px; margin-top: 30px;}
@@ -106,6 +117,22 @@
 
     #thirdTb{ font-size: 22px; margin-top: 20px;}
 
+	.fade {
+	    margin: auto;
+	    align-items: center;
+	    text-align: center;
+	    width: 100%;
+	    height: 100px;
+	    padding: 0 30px;
+	}
+	.info-img {
+	    width: 80px;
+	    height: 80px;
+	    object-fit:cover;
+	    margin: auto;
+	}
+
+    
     </style>
 </head>
 <body>
@@ -113,23 +140,23 @@
 	<jsp:include page="../common/header.jsp"/>
 	
     <div class="outer">
-
         <div id="detailHead-area">
-            <div id="image-area" style="border: 1px dotted;">
-                <img src="">
+            <div id="image-area">
+                <img src="${ requestScope.list[0].userProfile }">
             </div>
             <div id="info-area">
-                <p id="gosu-name">고수 이름</p>
+                <p id="gosu-name">
+                	${ requestScope.list[0].userNickname }
+				</p>
 
-                <span class="regionInfo">서울특별시</span>
-                <span class="regionInfo">&nbsp;양천구</span>
+                <span class="regionInfo">${ requestScope.list[0].gosu.region }</span>
 
                 <span class="regionInfo divBar">|</span>
 
-                <span class="regionInfo">20km 이동 가능</span>
+                <span class="regionInfo">${ requestScope.list[0].gosu.moveDistance }</span>
 
                 <div id="description">
-                    <span>소개 들어갈 자리</span>
+                    <span>${ requestScope.list[0].gosu.introduction }</span>
                 </div>
             </div>
         
@@ -138,10 +165,20 @@
         <br>
 
         <div class="etc-area" align="left">
-            <button class="subCategory" disabled>웹 개발</button>
-            <button class="subCategory" disabled>IOS 개발</button>
-            <button class="subCategory" disabled>Android 개발</button>
-            <button class="subCategory" disabled>소프트웨어 개발</button>
+        	<c:choose>
+        		<c:when test="${ not empty requestScope.list[0].categorySmallName }">
+        			<c:forEach var="p" begin="1"
+        							   end="5"
+        							   step="1">
+        				<c:if test="${not empty requestScope.list[p-1].categorySmallName}">
+			                <button class="subCategory" disabled>${requestScope.list[p-1].categorySmallName}</button>
+			            </c:if>
+        			</c:forEach>
+        		</c:when>
+        		<c:otherwise>
+        		</c:otherwise>
+        	</c:choose>
+        	
         </div>
         <div class="etc-area" align="right">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="red" class="bi bi-heart" viewBox="0 0 16 16">
@@ -166,48 +203,76 @@
 
             <!-- 고수정보 -->
             <div id="firstTb">
-            <div style="display: flex;">
-                <div style="width: 50%;">
-                    <p><b>기본 정보</b></p>
-                    <p>직원 수 : <b>1</b> 명</p>
-                    <p>개인사업자</p>
-                    <p>연락 가능 시간 : <span>09:00 ~ 18:00</span></p>
-                    <p>세금계산서 발행 가능</p>
-                </div>
                 <div>
                     <p><b>서비스 정보</b></p>
-                    <p>상세설명 들어갈 자리</p>
+                    <p><span>"</span>${ requestScope.list[0].gosu.elaborate }<span>"</span></p>
                 </div>
-            </div>
-
-            <br><br><br>
-
-            <div style="display: flex;">
-                <div style="width: 50%;">
-                    <p><b>경력</b></p>
-                    <p>총 경력 : <b style="color: red;">20</b> 년</p>
-                    <p>2003 ~ 현재</p>
-                    <br><br>
+                <br><br><br>
+                <div>	
+                    <p><b>기본 정보</b></p>
+                    <p>연락 가능 시간 : <span>09:00 ~ 18:00</span></p>
+                    <p>직원 수 : <b>${ requestScope.list[0].gosu.employees }</b> 명</p>
+                    <p>개인사업자</p>
+                </div>
+                <br><br><br>
+                <div>
+                    <p><b>경력 사항</b></p>
+                    <p>총 경력 : <b style="color: #2A8FF7;">${ requestScope.list[0].gosu.career }</b></p>
+                    <p>세부경력내용이들어갈자리	</p>
+                    <br><br><br>
                     <p><b>최종학력</b></p>
-                    <p>OO대학교 컴퓨터소프트웨어학과</p>
+                    <p>${ requestScope.list[0].gosu.education }</p>
                 </div>
-                <div style="width: 50%;">
-                    <p><b>자격증 및 증빙서류</b></p>
-                    <div style="display: flex;">
-                        <img src="" width="200px" height="200px">
-                        <img src="" width="200px" height="200px">
-                    </div>
-                </div>
-            </div>
 
             <br><br><br><br>
             <!-- 사진 영역 -->
-            <div align="center">
-                <img src="" width="250px" height="200px">
-                <img src="" width="250px" height="200px">
-                <img src="" width="250px" height="200px">
-            </div>
-        </div>
+            <p><b>사진 및 상세설명</b></p>
+            
+            <div align="center"
+	            style="display:flex; margin: auto;">
+            <c:choose>
+            	<c:when test="${ not empty requestScope.imageList }">
+	            	<c:forEach var="p" begin="1"
+						               end="${ requestScope.imageList.size() }"
+						               step="1">
+	            	<img class="gosuImgThumb" src="${ requestScope.imageList[p-1].gosuImgUrl }"
+	            	width="200px" height="150px"
+	            	style="margin-right:5px; margin-left:5px;">
+	            	</c:forEach>
+            	</c:when>
+            	<c:otherwise>
+            		<p style="color:lightgray;">등록된 이미지가 없습니다.</p>
+            	</c:otherwise>
+            </c:choose>
+			</div>
+			
+		  <div class="fade">
+			<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
+		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
+		    <div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
+		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
+		  </div>
+			
+        </div>  
+        
+  
+ 
+        
+        <!-- slick 연동 -->
+  		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <script type="text/javascript">
+		    $(document).ready(function(){
+
+			    $('.fade').slick({
+			    	dots: true,
+			    	infinite: true,
+			    	speed: 500,
+			    	fade: false,
+			    	cssEase: 'linear',
+			    	slidesToShow: 1
+			    });
+		    });   
+  		</script>
 
         <!-- 리뷰 -->
         <div id="secondTb" style="display: none;">
@@ -309,7 +374,6 @@
             </div>
             
         </div>
-
         </div>
 
     </div>
@@ -354,7 +418,7 @@
 
         });
     </script>	
-	
+
 	<jsp:include page="../common/footer.jsp"/>
 
 </body>

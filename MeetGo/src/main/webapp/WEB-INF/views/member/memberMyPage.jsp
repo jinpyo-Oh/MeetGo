@@ -14,13 +14,7 @@
         .mypage-main a {
             text-decoration: none;
         }
-        .profile {
-            width: 75px;
-            height: 75px;
-            float: left;
-            border-radius: 10px;
-            margin-right:10px;
-        }
+      
  
 
         .name {
@@ -76,6 +70,14 @@
             float: right;
             
         }
+        #uploadImage {
+        
+            width: 75px;
+            height: 75px;
+            float: left;
+            border-radius: 10px;
+            margin-right:10px;
+        }
         
         
     </style>
@@ -89,41 +91,33 @@
         <br>
         <br>
         <div class="header">
-            <a href=""class="">
-                <img src="https://pbs.twimg.com/media/FRRFdEZaAAACoLr.jpg:large" class="profile">
-                <h2 class="name">김찬영 고객님</h2> <br>
+            <a href="myPageInfo.me"class="">
+               <img src="${ sessionScope.loginUser.userProFile }" id="uploadImage">
+                <h2 class="name">${ sessionScope.loginUser.userName}고객님</h2> <br>
                 <p><img src="https://assets.cdn.soomgo.com/icons/icon-mypage-kakaotalk-signin.svg">tomy2213@naver.com</p>
-                <a class="btn" href="mypageInfo.me">계정설정</button>
+                <a class="btn" href="myPageInfo.me">계정설정</button>
             </a>
         </div>
         <hr>
         <div class="body">
             <ul>
-                <li class="mypage">믿고페이</li>
+                <li class="mypage">결제내역</li>
                 <a href="">
-                    <li class="mypage-mini"> 믿고 페이 내역  <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"></li>
+                    <li class="mypage-mini">결제 내역 바로가기  <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"></li>
                 </a>  
             </ul>
             <hr>
             <ul>
                 <li class="mypage">고수</li>
-                <a href="gosuEnrollForm.me">
+                <a href="gosuEnrollForm.go">
                     <li class="mypage-mini">고수 등록하기 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                </a>
             </ul>
             <hr>
             <ul>
-               
-            	<li class="mypage">게시판</li>
-                	<a href="">
-                  	  	<li class="mypage-mini">게시판 보러가기<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
-               		 </a>
-            </ul>     
-            <hr>
-            <ul>
             	<li class="mypage">커뮤니티</li>
-                	<a href="">
-                    	<li class="mypage-mini">작성글/댓글 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow" ></li>
+                	<a href="myPost.me">
+                    	<li class="mypage-mini">커뮤니티 작성글/댓글 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow" ></li>
                 	</a>
             </ul>
             <hr>
@@ -138,9 +132,7 @@
                 	<a href="">
                     	<li class="mypage">설정</li>
                 	</a>
-                	<a href="">
-                    	<li class="mypage-mini">알림 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"></li>
-                	</a>
+            
                 	<a href="">
                    	 <li class="mypage-mini">공지사항<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                 	</a>
