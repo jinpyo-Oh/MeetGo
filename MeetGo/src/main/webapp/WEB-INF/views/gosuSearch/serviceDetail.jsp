@@ -6,11 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>고수 정보</title>
+
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<!--  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" /> -->
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+<link href="<%=request.getContextPath()%>/resources/css/slick/slick.css" rel="stylesheet" type="text/css">
 
 
     <style>
@@ -56,7 +57,6 @@
         height: 55%;
         margin-top: 30px;
     }
-    
     /* 소분류 표시 영역 */
     .etc-area{
         width: 70%;
@@ -101,12 +101,47 @@
     .tableMenu:hover{ cursor: pointer; color: #2f6faf; }
 
     /* 고수 정보 */
-    #firstTb *{
+    #firstTb{
         font-size: 18px;
-        margin-top: 10px;
+        box-sizing:border-box;
         width: 100%;
     }
 
+	#myModal { margin:auto; }
+
+    .modal-dialog{
+	    min-width:800px;
+    }
+    .modal-content{ 
+		margin:auto;
+	   	width:800px;
+	    height:800px;
+    	background-color:transparent;
+        border:0px;
+    }
+   	.fullImage {
+   		margin:auto;
+   		box-sizing:border-box;
+   		width :800px;
+	    height:800px;
+	}
+	.fullImage div{
+		width :800px;
+	    height:800px;
+	}
+	.info-img { 
+		width:800px; 
+		height:800px;
+		object-fit : cover;
+	}
+	
+	.slick-dots li button:before { color : white; opacity:1; font-size : 20px;}
+	.slick-prev:before, .slick-next:before{
+		color : black;
+		font-size:50px;
+	}
+	.slick-prev {left: -55px;}
+	
     #secondTb{ font-size: 20px; margin-top: 30px;}
     #star-rate{
         font-size: 28px;
@@ -117,20 +152,6 @@
 
     #thirdTb{ font-size: 22px; margin-top: 20px;}
 
-	.fade {
-	    margin: auto;
-	    align-items: center;
-	    text-align: center;
-	    width: 100%;
-	    height: 100px;
-	    padding: 0 30px;
-	}
-	.info-img {
-	    width: 80px;
-	    height: 80px;
-	    object-fit:cover;
-	    margin: auto;
-	}
 
     
     </style>
@@ -214,17 +235,18 @@
                     <p>직원 수 : <b>${ requestScope.list[0].gosu.employees }</b> 명</p>
                     <p>개인사업자</p>
                 </div>
-                <br><br><br>
+                <br><br>
                 <div>
                     <p><b>경력 사항</b></p>
                     <p>총 경력 : <b style="color: #2A8FF7;">${ requestScope.list[0].gosu.career }</b></p>
+                    <br>
                     <p>세부경력내용이들어갈자리	</p>
-                    <br><br><br>
+                    <br><br>
                     <p><b>최종학력</b></p>
                     <p>${ requestScope.list[0].gosu.education }</p>
                 </div>
 
-            <br><br><br><br>
+            <br><br><br>
             <!-- 사진 영역 -->
             <p><b>사진 및 상세설명</b></p>
             
@@ -237,43 +259,52 @@
 						               step="1">
 	            	<img class="gosuImgThumb" src="${ requestScope.imageList[p-1].gosuImgUrl }"
 	            	width="200px" height="150px"
-	            	style="margin-right:5px; margin-left:5px;">
-	            	</c:forEach>
+	            	style="margin-right:5px; margin-left:5px;" data-toggle="modal" data-target="#myModal" >
+	            	</c:forEach> 
             	</c:when>
             	<c:otherwise>
             		<p style="color:lightgray;">등록된 이미지가 없습니다.</p>
             	</c:otherwise>
             </c:choose>
 			</div>
-			
-		  <div class="fade">
-			<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
-		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
-		    <div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
-		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
-		  </div>
+		
+			<!-- The Modal -->
+			<div class="modal" id="myModal">
+			  <div class="modal-dialog" >
+			    <div class="modal-content">
+			          <div class="fullImage" >
+						  <div><img class="info-img" 
+						  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
+					      <div><img class="info-img" 
+					      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
+					      <div><img class="info-img" 
+					      src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
+					      <div><img class="info-img" 
+					      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
+				 	  </div>
+			      </div>	
+			    </div>
+			  </div>
+			</div>		
+	  
+        <!-- slick 연동 -->
+  		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	        <script type="text/javascript">
+			    $(document).ready(function(){
+	
+				    $('.fullImage').slick({
+				    	dots: true,
+				    	infinite: true,
+				    	speed: 0,
+				    	fade: true,
+				    	cssEase: 'linear',
+				    	slidesToShow: 1
+				    });
+			    });   
+	  		</script>
 			
         </div>  
         
-  
- 
-        
-        <!-- slick 연동 -->
-  		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-        <script type="text/javascript">
-		    $(document).ready(function(){
-
-			    $('.fade').slick({
-			    	dots: true,
-			    	infinite: true,
-			    	speed: 500,
-			    	fade: false,
-			    	cssEase: 'linear',
-			    	slidesToShow: 1
-			    });
-		    });   
-  		</script>
-
         <!-- 리뷰 -->
         <div id="secondTb" style="display: none;">
 
