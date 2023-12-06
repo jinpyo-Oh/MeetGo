@@ -32,9 +32,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-	
-	
-	
+
 
 	@RequestMapping("gosuList.go")
 	public String test() {
@@ -89,18 +87,13 @@ public class BoardController {
 		return mv;
 	}
 	
-	
-	@PostMapping("insert.go")
+	@PostMapping("insertReqGosu.go")
 	public String insertBoard(Board m, 
 							  MultipartFile upfile,
 							  HttpSession session,
 							  Model model) {
 		
-		
-		
 		int result = boardService.insertBoard(m);
-	
-		
 		
 		if(result > 0) { 
 			
@@ -207,6 +200,26 @@ public class BoardController {
 			
 			return "common/errorPage";
 		}
+	}
+	
+	@RequestMapping("pofolList.po")
+	public String sendPofolList() {
+		return "board/portfolio/pofolList";
+	}
+	
+	@RequestMapping("sendPofolWrite.po")
+	public String sendPofolWrite() {
+		return "board/portfolio/pofolWrite";
+	}
+	
+	@RequestMapping("pofolWrite.po")
+	public void pofolWrite() {
+		
+	}
+	
+	@RequestMapping("pofolDetail.po")
+	public String pofolDetail() {
+		return "board/portfolio/pofolDetail";
 	}
 	
 }

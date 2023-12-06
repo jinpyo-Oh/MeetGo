@@ -14,7 +14,7 @@
         font-weight: 400;
         font-style: normal;
     }
-    * { font-family: 'Pretendard-Regular'; 
+    .wrap { font-family: 'Pretendard-Regular'; 
     
     } 
     
@@ -148,6 +148,8 @@ table, th, td {
 </head>
 <body>
     	<jsp:include page="../../common/header.jsp"/>
+    	
+    	<jsp:include page="../../common/side.jsp"/>
 
  <div class="wrap">
 

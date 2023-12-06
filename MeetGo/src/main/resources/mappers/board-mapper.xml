@@ -45,13 +45,12 @@
 			        BOARD_TITLE,
 			        BOARD_CONTENT,
 			        BOARD_CREATE_DATE
-			         )
+			        )
 			         VALUES(SEQ_BOARD_NO.NEXTVAL
 			         ,#{boardTitle}
 			         ,#{boardContent}
 			         ,#{createDate}
-			         )
-		    
+			        )
 		</insert>	
 			<insert id="insertTipboard" parameterType="Board">
 			    INSERT INTO BOARD (
