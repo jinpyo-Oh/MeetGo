@@ -20,7 +20,7 @@
 
        /* 전체 div 영역 */
        .outer{
-        width: 1200px;
+        width: 1000px;
         margin: auto;
         margin-top: 100px;
         margin-bottom: 100px;
@@ -30,7 +30,7 @@
     /* 상단 타이틀 영역 */
     #detailHead-area{
         width: 70%;
-        height: 280px;
+        height: 250px;
         margin: auto;
         display: flex;
     }
@@ -47,13 +47,14 @@
     #description{
         width: 100%;
         height: 55%;
-        margin-top: 42px;
+        margin-top: 30px;
     }
     
     /* 소분류 표시 영역 */
     .etc-area{
         width: 70%;
         margin: auto;
+        margin-bottom:20px;
     }
     .subCategory{
         border: 0px;
@@ -96,6 +97,7 @@
     #firstTb *{
         font-size: 18px;
         margin-top: 10px;
+        width: 100%;
     }
 
     #secondTb{ font-size: 20px; margin-top: 30px;}
@@ -115,9 +117,8 @@
 	<jsp:include page="../common/header.jsp"/>
 	
     <div class="outer">
-
         <div id="detailHead-area">
-            <div id="image-area" style="border: 1px dotted;">
+            <div id="image-area">
                 <img src="${ requestScope.list[0].userProfile }">
             </div>
             <div id="info-area">
@@ -179,45 +180,33 @@
 
             <!-- 고수정보 -->
             <div id="firstTb">
-            <div style="display: flex;">
-                <div style="width: 50%;">
-                    <p><b>기본 정보</b></p>
-                    <p>직원 수 : <b>${ requestScope.list[0].gosu.employees }</b> 명</p>
-                    <p>개인사업자</p>
-                    <p>연락 가능 시간 : <span>09:00 ~ 18:00</span></p>
-                    <p>세금계산서 발행 가능</p>
-                </div>
                 <div>
                     <p><b>서비스 정보</b></p>
-                    <p>${ requestScope.list[0].gosu.elaborate }</p>
+                    <p><span>"</span>${ requestScope.list[0].gosu.elaborate }<span>"</span></p>
                 </div>
-            </div>
-
-            <br><br><br>
-
-            <div style="display: flex;">
-                <div style="width: 50%;">
-                    <p><b>경력</b></p>
-                    <p>총 경력 : <b style="color: red;">${ requestScope.list[0].gosu.career }</b></p>
-                    <br><br>
+                <br><br><br>
+                <div>	
+                    <p><b>기본 정보</b></p>
+                    <p>연락 가능 시간 : <span>09:00 ~ 18:00</span></p>
+                    <p>직원 수 : <b>${ requestScope.list[0].gosu.employees }</b> 명</p>
+                    <p>개인사업자</p>
+                </div>
+                <br><br><br>
+                <div>
+                    <p><b>경력 사항</b></p>
+                    <p>총 경력 : <b style="color: #2A8FF7;">${ requestScope.list[0].gosu.career }</b></p>
+                    <br><br><br>
                     <p><b>최종학력</b></p>
                     <p>${ requestScope.list[0].gosu.education }</p>
                 </div>
-                <div style="width: 50%;">
-                    <p><b>자격증 및 증빙서류</b></p>
-                    <div style="display: flex;">
-                        <img src="" width="200px" height="200px">
-                        <img src="" width="200px" height="200px">
-                    </div>
-                </div>
-            </div>
 
             <br><br><br><br>
             <!-- 사진 영역 -->
-            <div align="center">
-                <img src="" width="250px" height="200px">
-                <img src="" width="250px" height="200px">
-                <img src="" width="250px" height="200px">
+            <div align="center"
+            style="display:flex; margin: auto;">
+                <img src="" width="200px" height="200px" style="margin-right: 10px;">
+                <img src="" width="200px" height="200px" style="margin-right: 10px;">
+                <img src="" width="200px" height="200px">
             </div>
         </div>
 
