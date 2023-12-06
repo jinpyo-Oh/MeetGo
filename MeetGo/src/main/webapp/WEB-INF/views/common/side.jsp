@@ -30,30 +30,28 @@
 	    height: 1000px;
 	}
 	li a {
-	    text-decoration: none;
 	    display: block;
-	    color: #000;
+	    color: black;
 	    padding: 8px 15px 8px 15px;
 	    font-weight: bold;
 	}
-
-
-li a:hover{
-    background-color: #333;
-    color: #fff;
-}
+	
+	li a:hover{
+	    background-color: #333;
+	    color: #fff;
+	}
 </style>
 <body>
 	<div class="sidebar">
-	    <div class="side">
+	    <div class="side" align="center">
 	        <ul>
-	           <b style="font-size: 35px; text-align: center;">커뮤니티</b>
+	           <li style="border-bottom:5px solid #2a91f7c0; padding-bottom:10px;"><b style="font-size: 35px; text-align: center; letter-spacing:5px; color:#2a91f7c0;">커뮤니티</b></li>
 	           <br><br><br>
-	            <li><a href="#" style="font-size: 25px;">고수찾아요</a></li>
-	            <br>
-	            <li><a href="#" style="font-size: 25px;">팁 노하우</a></li>
-	            <br>
-	            <li><a href="#" style="font-size: 25px;">포트폴리오</a></li>
+	           <li><a href="#" style="font-size: 25px; text-decoration:none;">고수찾아요</a></li>
+	           <br>
+	           <li><a href="#" style="font-size: 25px; text-decoration:none;">팁 노하우</a></li>
+	           <br>
+	           <li><a href="#" style="font-size: 25px; text-decoration:none;">포트폴리오</a></li>
 	        </ul>
 	    </div>
 	</div>
