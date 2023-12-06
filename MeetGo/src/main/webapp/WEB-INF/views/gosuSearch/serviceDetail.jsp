@@ -88,7 +88,7 @@
     #btn-requestService:hover{ background-color: #2A8FF7; }
 
     /* 고수 상세정보 영역 */
-    #detail-info{
+    .detail-info{
         width: 70%;
         margin: auto;
     }
@@ -106,9 +106,22 @@
         box-sizing:border-box;
         width: 100%;
     }
+    #secondTb{
+	    font-size: 20px;
+	    margin:auto;
+	    margin-top: 30px;
+	    width : 1000px;
+	    box-sizing:border-box;
+    }
+    #thirdTb{
+	    font-size: 22px;
+	    margin:auto;
+	    margin-top: 20px;
+	    width : 700px;
+	    box-sizing:border-box;
+    }
 
 	#myModal { margin:auto; }
-
     .modal-dialog{
 	    min-width:800px;
     }
@@ -119,6 +132,7 @@
     	background-color:transparent;
         border:0px;
     }
+    .gosuImgThumb:hover{ cursor : pointer; }
    	.fullImage {
    		margin:auto;
    		box-sizing:border-box;
@@ -140,26 +154,19 @@
 		color : black;
 		font-size:50px;
 	}
-	.slick-prev {left: -55px;}
-	
-    #secondTb{ font-size: 20px; margin-top: 30px;}
+	.slick-prev { left: -55px; }
     #star-rate{
         font-size: 28px;
         margin-right: 20px;
         color: rgb(148, 219, 42);
     }
     .rate{ margin-bottom: 10px; }
-
-    #thirdTb{ font-size: 22px; margin-top: 20px;}
-     
+    
     </style>
 </head>
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
-	
-	<jsp:include page="../common/side.jsp"/>
-
 	
     <div class="outer">
         <div id="detailHead-area">
@@ -212,7 +219,7 @@
             <hr>     
         </div>
 
-        <div id="detail-info">
+        <div class="detail-info">
             <table id="tableMenu">
                 <tr>
                     <td class="tableMenu" style="border-bottom: 3px solid #2A8FF7;">고수 정보</td>
@@ -264,24 +271,23 @@
 	            	</c:forEach> 
             	</c:when>
             	<c:otherwise>
-            		<p style="color:lightgray;">등록된 이미지가 없습니다.</p>
+            		<p style="color:lightgray; margin-top:20px;">등록된 이미지가 없습니다.</p>
             	</c:otherwise>
             </c:choose>
 			</div>
 		
-			<!-- The Modal -->
+			<!-- 사진 크게보기 -->
 			<div class="modal" id="myModal">
 			  <div class="modal-dialog" >
 			    <div class="modal-content">
 			          <div class="fullImage" >
-						  <div><img class="info-img" 
-						  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
-					      <div><img class="info-img" 
-					      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
-					      <div><img class="info-img" 
-					      src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
-					      <div><img class="info-img" 
-					      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
+			          <c:forEach var="p" begin="1"
+						                 end="${ requestScope.imageList.size() }"
+						                 step="1">
+						  <div>
+	            		  	<img class="info-img" src="${ requestScope.imageList[p-1].gosuImgUrl }">
+	            		  </div>
+	            	  </c:forEach> 
 				 	  </div>
 			      </div>	
 			    </div>
@@ -306,12 +312,11 @@
 			
         </div>  
         
+        
         <!-- 리뷰 -->
-        <div id="secondTb" style="display: none;">
-
+        <div id="secondTb" style="display: none; width:700px;">
             <div style="display: flex;">
                 <div style="width: 50%;">
-
                     <p><b>총 리뷰 <span>123</span>건</b></p>
                     <span id="star-rate">4.5</span>
 
@@ -367,19 +372,20 @@
                     <a href="">more...</a>
                 </div>
 
-                <div style="width: 50%;">
+                <div style="margin-left:40px; width:350px;">
                     <p><b>사진</b></p>
-                    <img src="" width="200px" height="200px">
-                    <img src="" width="200px" height="200px">
-                    <img src="" width="200px" height="200px">
-                    <img src="" width="200px" height="200px">
+                    <img src="" width="150px" height="150px">
+                    <img src="" width="150px" height="150px">
+                    <img src="" width="150px" height="150px">
+                    <img src="" width="150px" height="150px">
+                    <img src="" width="150px" height="150px">
+                    <img src="" width="150px" height="150px">
                 </div>
             </div>
-
-        </div>
+		</div>
 
         <!-- 포트폴리오 -->
-        <div id="thirdTb" style="display: none;">
+        <div id="thirdTb" style="display: none; margin:auto;">
             <p>
                 <svg class="rate" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#2A8FF7" class="bi bi-file-earmark-ppt-fill" viewBox="0 0 16 16">
                 <path d="M8.188 10H7V6.5h1.188a1.75 1.75 0 1 1 0 3.5"/>
@@ -390,17 +396,17 @@
 
             <br>
 
-            <div style="display: flex;">
+            <div style="display: flex; width: 600px;">
             <div align="center" style="margin-left: 5px; margin-right: 5px;">
-                <img src="" width="270px" height="150px">
+                <img src="" width="220px" height="150px">
                 <p>포트폴리오 게시글제목</p>
             </div>
             <div align="center" style="margin-left: 5px; margin-right: 5px;">
-                <img src="" width="270px" height="150px">
+                <img src="" width="220px" height="150px">
                 <p>포트폴리오 게시글제목</p>
             </div>
             <div align="center" style="margin-left: 5px; margin-right: 5px;">
-                <img src="" width="270px" height="150px">
+                <img src="" width="220px" height="150px">
                 <p>포트폴리오 게시글제목</p>
             </div>
             </div>
@@ -408,7 +414,6 @@
         </div>
         </div>
 
-    </div>
 
     <!-- 고수 상세메뉴 이벤트핸들링 -->
     <script>
