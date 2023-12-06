@@ -159,9 +159,9 @@
             <div class="content_1_2">
                 
                 <div class="content_main1_1">
-                    <h2>&nbsp;&nbsp;포트폴리오 꿀팁</h2>
+                    <h2>&nbsp;&nbsp; ${ m.boardTitle }</h2>
                   
-                    <p>&nbsp;&nbsp;포트폴리오 작성시에는 신중하게 작성하는게 중요하다</p>
+                    <p>&nbsp;&nbsp; ${ m.boardContent }</p>
                       
                     &nbsp;&nbsp; &nbsp;&nbsp;<i class="bi bi-eye-fill"></i>                 
                     &nbsp;&nbsp;
@@ -169,45 +169,7 @@
                 <div class="content_main1_2">
                     <img src="" id="titleImg" width="170" height="160" >    
                 </div> 
-                
-                
-                <div class="content_main2_1">
-                    <h2>&nbsp;&nbsp;인테리어 꿀팁</h2>
-                    <p>&nbsp;&nbsp;인테리어시에는 신중하게</p>
-                    <br>
-                    &nbsp;&nbsp; &nbsp;&nbsp;<i class="bi bi-eye-fill"></i>
-                    &nbsp;&nbsp;
-                </div>   
-                <div class="content_main2_2">
-                    <img src="" id="titleImg" width="170" height="160" >    
-                </div>
-                
-                
-                <div class="content_main3_1">
-                    <h2>&nbsp;&nbsp;이력서 작성 요령 </h2>
-                    <p>&nbsp;&nbsp;이력저 작성시에는 신중하게 작성하는게 중요하다</p>
-                    <br>
-                    &nbsp;&nbsp; &nbsp;&nbsp;<i class="bi bi-eye-fill"></i>
-                    &nbsp;&nbsp;
-                </div>   
-                <div class="content_main3_2">
-                    <img src="" id="titleImg" width="170" height="160" >    
-                </div> 
-                
-                
-                <div class="content_main4_1">
-                    <h2>&nbsp;&nbsp;안녕하세요</h2>
-                    <p>&nbsp;&nbsp;이력저 작성시에는 신중하게 작성하는게 중요하다</p>
-                    <br>
-                    &nbsp;&nbsp; &nbsp;&nbsp;<i class="bi bi-eye-fill"></i>
-                    &nbsp;&nbsp;
-                </div>   
-               
-                <div class="content_main4_2">
-                    <img src="" id="titleImg" width="170" height="160" >                      
-                </div>  
-                
-                    
+         
                     <div class="content_1_3_1" >
                         
                     <br><br><br><br><br>
@@ -234,7 +196,9 @@
                     
                     <div class="content_1_3_2" >
                     
-                    <button class="btn btn-primary">작성하기</button>
+                <a href="tipWrite.go">
+                <button type="submit" class="btn btn-primary" >글작성</button>
+            	</a>
                     
                     </div>
      

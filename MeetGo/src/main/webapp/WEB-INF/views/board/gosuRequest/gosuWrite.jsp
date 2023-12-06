@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+</head>
 <style>
     @font-face {
         font-family: 'Pretendard-Regular';
@@ -102,20 +103,18 @@ textarea{
         display: none;
     }
 </style>
-</head>
+
 <body>
 	<jsp:include page="../../common/header.jsp"/>
 
- <body>
     <div class="wrap">
         <form id="gosuWrite" action="insert.go" method="post" enctype="multipart/form-data"> 
-
         <div class="gosu_title">
             <div class="gosu_title_1">
                 <h4><b>&nbsp;&nbsp;&nbsp;고수찾기</b></h4>  
             </div>
-            <div class="gosu_title_2">
-            
+            <div class="gosu_title_2">              
+                
                 <button type="submit" id="title_btn" style="float: right; font-size: 20px;">등록하기</button>
             </div>
         </div>
@@ -139,33 +138,34 @@ textarea{
         
             
             <hr>
+            
             <label class="input-file-button1" for="gosutitle1">
-                <input type="file" id="gosutitle1" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg1');" required>
+                <input type="file" multiple id="gosutitle1" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg1');" >
             </label>
             
             <label class="input-file-button2" for="gosutitle2">
-                <input type="file" id="gosutitle2" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg2');" >
+                <input type="file" multiple id="gosutitle2" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg2');" >
             </label>
             
             <label class="input-file-button3" for="gosutitle3">
-                <input type="file" id="gosutitle3" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg3');" >
+                <input type="file" multiple id="gosutitle3" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg3');"  >
             </label>
             
             <label class="input-file-button4" for="gosutitle4">
-                <input type="file" id="gosutitle4" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg4');" >
+                <input type="file" multiple id="gosutitle4" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg4');" >
             </label>
             
             <label class="input-file-button5" for="gosutitle5">
-                <input type="file" id="gosutitle5" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg5');" >
+                <input type="file"  multiple id="gosutitle5" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg5');" >
             </label>
-    
-        
         </div>
         <br>
-        <div class="gosu_head">
-            &nbsp;&nbsp;&nbsp; <input type="text" name="" id=""
+        
+        <div class="gosu_head"> <label for="title">
+            &nbsp;&nbsp;&nbsp; <input type="text" name="boardTitle" id="title"
             placeholder="제목을 입력하세요."
             style="border: none; background: transparent; width: 600px; height: 40px; font-size: 18px;">
+        </label>
         </div>
         <hr>
         <div class="gosu_category">
@@ -185,11 +185,14 @@ textarea{
         </div>
         <div class="gosu_content">
             <br><br>
-            <textarea id="gosu_content" cols="30" rows="10" placeholder="&nbsp;&nbsp;고수를 쉽게 찾으려면 보다 구체적으로 적어주시면 더욱 빠르게 찾을 수 있습니다&#13;
+            <label for="content">
+            <textarea id="content" class="form-control" name="boardContent" cols="30" rows="10" placeholder="&nbsp;&nbsp;고수를 쉽게 찾으려면 보다 구체적으로 적어주시면 더욱 빠르게 찾을 수 있습니다&#13;
             예) 드럼 레슨을 도와주실 고수분 찾아요 &#13; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예)&nbsp;화장실 청소를 도와 줄 고수분 찾아요"
             style="border: none; height: 200px; width: 900px; font-size: 20px; ;"></textarea>
+        </label>
         </div>
-    </form>
+   
+	</form>
 
     </div>
 

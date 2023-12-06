@@ -141,7 +141,7 @@
             </div>
             
             <div class="main_body_1_2">
-                &nbsp;  &nbsp;작성일 : 2023-11-28
+                &nbsp;  &nbsp;작성일 :${ requestScope.m.createDate }
             </div>
             </div>
            
@@ -157,7 +157,7 @@
             <img src="" id="titleImg" width="600" height="250" >    
             <br>
             <textarea name="" id="textarea" cols="" rows="" placeholder="&nbsp;&nbsp;">
-
+				${ requestScope.m.boardContent }
             </textarea>
             <hr>
          </div>

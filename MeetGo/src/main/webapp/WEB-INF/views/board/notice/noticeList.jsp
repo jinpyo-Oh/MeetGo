@@ -115,33 +115,9 @@ table, th, td {
     box-sizing: border-box;
 
 }
-.list-bar {
-  text-align: center;
-  margin-top: 20px; /* You can adjust the margin-top value as needed */
-}
-
-.pagination {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-
-.pagination li {
-  display: inline;
-  margin-right: 5px; /* Adjust the spacing between pagination items as needed */
-}
-
-.pagination a {
-  text-decoration: none;
-  color: #007bff; /* You can set the color to your preference */
-  padding: 8px 12px;
-  border: 1px solid #007bff; /* You can set the border color to your preference */
-  border-radius: 5px;
-}
-
-.pagination a:hover {
-  background-color: #007bff; /* You can set the hover background color to your preference */
-  color: #fff; /* You can set the hover text color to your preference */
+.center-button {
+    display: block;
+    margin: auto;
 }
       
 </style>
@@ -150,12 +126,9 @@ table, th, td {
     	<jsp:include page="../../common/header.jsp"/>
 
  <div class="wrap">
-
-        
         <div class="gosu_header">
-        
             <br>
-            <h2>고수찾아요</h2>
+            <h2>공지사항</h2>
             <hr>
         </div>
         <div class="gosu_body_1">
@@ -180,7 +153,7 @@ table, th, td {
         
             <table class="gosu_first">
                 <tr>
-                    <th> &nbsp; &nbsp; &nbsp;
+                    <th style> &nbsp; &nbsp; &nbsp;
                         <i class="bi bi-megaphone-fill"></i>
                     </th>
                     <th class="gosu_notice">게시판 이용안내 및 주의사항 </th>
@@ -201,6 +174,7 @@ table, th, td {
                         &nbsp;&nbsp;
                         ${ m.boardTitle } </td>
                     <td class="gosu_content_3"style="text-align: center;">
+                        ${ m.userNo }
                        
                     </td>
                     <td class="gosu_content_4"
@@ -209,60 +183,35 @@ table, th, td {
                     </td>            
                </tr>
             </table>   
-            <a href="gosuWrite.go">
+            <a href="noticeWrite.go">
                 <button type="submit" class="btn btn-primary" >글작성</button>
             </a>
-             <a href="tipList.go">
-                <button type="submit" class="btn btn-primary" >팁노하우게시판이동</button>
-            </a>
-            <a href="noticeList.go">
-                <button type="submit" class="btn btn-primary" >공지시항게시판이동</button>
-            </a>
        </div>
+       <div class="list-bar">
+        <nav aria-label="Page navigation example" >
+            <ul class="pagination">
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="t">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
        <div class="gosu_footer" >
-    
-		</div>
-   		   <div id="pagingArea">
-                <ul class="pagination">
-                
-                	<c:choose>
-                		<c:when test="${ requestScope.pi.currentPage eq 1 }">
-	                    	<li class="page-item disabled">
-	                    		<a class="page-link" href="#">Previous</a>
-	                    	</li>
-                    	</c:when>
-                    	<c:otherwise>
-	                    	<li class="page-item">
-	                    		<a class="page-link" href="gosuList.go?cpage=${ requestScope.pi.currentPage - 1 }">Previous</a>
-	                    	</li>
-                    	</c:otherwise>
-                    </c:choose>
-                    
-                    <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
-                    					 end="${ requestScope.pi.endPage }"
-                    					step="1">
-                    	<li class="page-item">
-                    		<a class="page-link" href="gosuList.go?cpage=${ p }">${ p }</a>
-                    	</li>
-                    </c:forEach>
-                    
-                    <c:choose>
-                    	<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
-		                    <li class="page-item disabled">
-		                    	<a class="page-link" href="#">Next</a>
-		                    </li>
-		                </c:when>
-		                <c:otherwise>
-		                    <li class="page-item">
-		                    	<a class="page-link" href="gosuList.go?cpage=${ requestScope.pi.currentPage + 1 }">Next</a>
-		                    </li>
-		                </c:otherwise>
-                	</c:choose>
-                
-                </ul>
-            </div>
+   		
+   		
        </div>
       
+    </div>
 	    	<jsp:include page="../../common/footer.jsp"/>
 	
 	
@@ -279,6 +228,6 @@ table, th, td {
 		});
 	});
 	</script>
-	
+	 
 </body>
 </html>

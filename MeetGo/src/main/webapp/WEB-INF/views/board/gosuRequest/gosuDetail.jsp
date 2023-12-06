@@ -94,36 +94,47 @@
 <body>
 	<jsp:include page="../../common/header.jsp"/>
 
- <div class="wrap">
+  <div class="wrap">
 
         <div class="gosu_header1">
             &nbsp; &nbsp;
             <b>커뮤니티 > 고수찾기</b>
         </div>
-        
+        <table class="table">
         <div class="gosu_header2">
             
-            <h2>&nbsp; &nbsp;{ $requestScope.m.boardTitle}</h2>
-            
-            &nbsp; &nbsp;경기/김포시
+                <tr>
+
+            <h2>&nbsp; &nbsp;<td><h2>${ requestScope.m.boardTitle }</h2></td>
+                    </tr>
+            &nbsp; &nbsp;
             <hr>
         </div>
         <div class="gosu_content1">
             <br>
             <img src="" id="profileImg" width="70" height="70">   
             &nbsp; 
-              &nbsp; &nbsp;<i class="bi bi-eye-fill"></i> 20
+            ${ requestScope.m.createDate } &nbsp; &nbsp;<i class="bi bi-eye-fill"></i> 20
 
         </div>
         <hr>
-       
+        <div class="swiper"> <!-- 슬라이드 이미지 시작 -->
+			<div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a00df9b2a481d32ec42ae698738782a76.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a4022de826f725e10df604bf1b9725cfd.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807ab3a18fdf58bc66ec3f4b6084b7d0b570.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807aba2da8249bd9ffef143efb890203e009.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a00df9b2a481d32ec42ae698738782a76.png"></div>
+			</div>
+			<div class="swiper-pagination"></div>
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
         <div class="gosu_content2">
-            <br>
-            { $requestScope.m.boardContent}
-            <br>
-            
-
+            ${ requestScope.m.boardContent }
+	
         </div>
+    </table>
         <div class="gosu_coment">
             
             <input type="text" name="coment" id="coment" style="width: 1000px; height: 50px;" 

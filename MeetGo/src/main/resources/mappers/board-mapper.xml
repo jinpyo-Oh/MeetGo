@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper">
+	<!--  
+	<resultMap id="replyResultSet" type="reply">
+		<result column="REPLY_NO" property="replyNo" />
+		<result column="REPLY_CONTENT" property="replyContent" />
+		<result column="REPLY_WRITER" property="replyWriter" />
+		<result column="CREATE_DATE" property="createDate" />
+	</resultMap>
+ -->
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="BOARD_CONTENT" property="boardContent" />
+		<result column="BOARD_CREATE_DATE" property="createDate" /> <!-- 별칭 -->		
+		<result column="BOARD_UPDATE_DATE" property="boardUpdate" /> 		
+		<result column="BOARD_COUNT" property="boardCount" />	
+		<result column="BOARD_TYPE" property="boardType" />	
+		<result column="USER_NO" property="userNo" />		
+	</resultMap>
+
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM BOARD
+		 WHERE BOARD_TYPE = 1
+	</select>
+	
+
+	<select id="selectList" resultMap="boardResultSet">
+		SELECT BOARD_NO
+		     , BOARD_TITLE
+		     , COUNT
+		     , TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		     , ORIGIN_NAME
+		  FROM BOARD
+		 WHERE BOARD_TYPE = 1
+		 ORDER BY BOARD_NO DESC
+	</select>
+	
+	<insert id="insertBoard" parameterType="Board">
+			    INSERT INTO BOARD (
+			        BOARD_NO,
+			        BOARD_TITLE,
+			        BOARD_CONTENT,
+			        BOARD_CREATE_DATE
+			         )
+			         VALUES(SEQ_BOARD_NO.NEXTVAL
+			         ,#{boardTitle}
+			         ,#{boardContent}
+			         ,#{createDate}
+			         )
+		    
+		</insert>	
+			<insert id="insertTipboard" parameterType="Board">
+			    INSERT INTO BOARD (
+			        BOARD_NO,
+			        BOARD_TITLE,
+			        BOARD_CONTENT,
+			        BOARD_CREATE_DATE )
+			         VALUES(SEQ_BOARD_NO.NEXTVAL
+			         ,#{boardTitle}
+			         ,#{boardContent}
+			         ,#{createDate}
+			         )
+		    
+		</insert>				
+
+	<select id="selectBoard" parameterType="_int" resultMap="boardResultSet">
+		SELECT BOARD_NO
+		     , BOARD_TITLE
+		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		     , BOARD_CONTENT
+		     
+		  FROM BOARD
+		 WHERE BOARD_NO = #{boardNo}
+		   AND BOARD_TYPE = 1
+	</select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
