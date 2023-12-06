@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 
 public interface GosuService {
@@ -16,6 +17,8 @@ public interface GosuService {
 
 	// 고수찾기 상세정보
 	ArrayList<GosuOpt> gosuDetail(int gosuNo);
+	// 고수 이미지 가져오기
+	ArrayList<GosuImg> getGosuImg(int gosuNo);
 	
 	// 고수등록
 	int insertGosu(Gosu gosu);

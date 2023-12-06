@@ -15,6 +15,7 @@
 		<typeAlias type="com.kh.meetgo.member.model.vo.Member" alias="member"/>
 		<typeAlias type="com.kh.meetgo.gosu.model.dto.GosuOpt" alias="gosuOpt"/>
 		<typeAlias type="com.kh.meetgo.member.model.vo.Gosu" alias="gosu"/>
+		<typeAlias type="com.kh.meetgo.gosu.model.vo.GosuImg" alias="gosuImg"/>
 		<typeAlias type="com.kh.meetgo.gosu.model.vo.Estimate" alias="estimate"/>
 		<typeAlias type="com.kh.meetgo.gosu.model.vo.CategorySmall" alias="categorySmall"/>
 	</typeAliases>

@@ -186,6 +186,16 @@
 		)
 	</select>	
 	
+	<select id="getGosuImg" parameterType="_int" resultType="gosuImg">
+		SELECT GOSU_IMG_NO AS "gosuImgNo",
+			   GOSU_IMG_URL AS "gosuImgUrl",
+			   STATUS AS "status",
+			   GOSU_NO AS "gosuNo"
+		  FROM "GOSU-IMG"
+		 WHERE GOSU_NO = #{gosuNo}
+		   AND STATUS = 1
+	</select>
+	
 	<insert id="insertGosu" parameterType="gosu">
 		INSERT INTO GOSU(GOSU_NO
 					   , INTRODUCTION

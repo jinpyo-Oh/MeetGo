@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dao.GosuDao;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 
 @Service
@@ -34,8 +35,12 @@ public class GosuServiceImpl implements GosuService {
 	// 고수찾기 상세정보 조회
 	@Override
 	public ArrayList<GosuOpt> gosuDetail(int gosuNo) {
-
 		return gosuDao.gosuDetail(sqlSession, gosuNo);
+	}
+	
+	// 고수찾기 이미지 불러오기
+	public ArrayList<GosuImg> getGosuImg(int gosuNo){
+		return gosuDao.getGosuImg(sqlSession, gosuNo);
 	}
 
 	// 고수 등록용 메소드

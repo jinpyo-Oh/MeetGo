@@ -6,6 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>고수 정보</title>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+
     <style>
     /* 폰트 */
        @font-face {
@@ -110,6 +117,22 @@
 
     #thirdTb{ font-size: 22px; margin-top: 20px;}
 
+	.fade {
+	    margin: auto;
+	    align-items: center;
+	    text-align: center;
+	    width: 100%;
+	    height: 100px;
+	    padding: 0 30px;
+	}
+	.info-img {
+	    width: 80px;
+	    height: 80px;
+	    object-fit:cover;
+	    margin: auto;
+	}
+
+    
     </style>
 </head>
 <body>
@@ -195,6 +218,7 @@
                 <div>
                     <p><b>경력 사항</b></p>
                     <p>총 경력 : <b style="color: #2A8FF7;">${ requestScope.list[0].gosu.career }</b></p>
+                    <p>세부경력내용이들어갈자리	</p>
                     <br><br><br>
                     <p><b>최종학력</b></p>
                     <p>${ requestScope.list[0].gosu.education }</p>
@@ -202,13 +226,53 @@
 
             <br><br><br><br>
             <!-- 사진 영역 -->
+            <p><b>사진 및 상세설명</b></p>
+            
             <div align="center"
-            style="display:flex; margin: auto;">
-                <img src="" width="200px" height="200px" style="margin-right: 10px;">
-                <img src="" width="200px" height="200px" style="margin-right: 10px;">
-                <img src="" width="200px" height="200px">
-            </div>
-        </div>
+	            style="display:flex; margin: auto;">
+            <c:choose>
+            	<c:when test="${ not empty requestScope.imageList }">
+	            	<c:forEach var="p" begin="1"
+						               end="${ requestScope.imageList.size() }"
+						               step="1">
+	            	<img class="gosuImgThumb" src="${ requestScope.imageList[p-1].gosuImgUrl }"
+	            	width="200px" height="150px"
+	            	style="margin-right:5px; margin-left:5px;">
+	            	</c:forEach>
+            	</c:when>
+            	<c:otherwise>
+            		<p style="color:lightgray;">등록된 이미지가 없습니다.</p>
+            	</c:otherwise>
+            </c:choose>
+			</div>
+			
+		  <div class="fade">
+			<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
+		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
+		    <div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
+		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
+		  </div>
+			
+        </div>  
+        
+  
+ 
+        
+        <!-- slick 연동 -->
+  		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+        <script type="text/javascript">
+		    $(document).ready(function(){
+
+			    $('.fade').slick({
+			    	dots: true,
+			    	infinite: true,
+			    	speed: 500,
+			    	fade: false,
+			    	cssEase: 'linear',
+			    	slidesToShow: 1
+			    });
+		    });   
+  		</script>
 
         <!-- 리뷰 -->
         <div id="secondTb" style="display: none;">
@@ -310,7 +374,6 @@
             </div>
             
         </div>
-
         </div>
 
     </div>
@@ -355,7 +418,7 @@
 
         });
     </script>	
-	
+
 	<jsp:include page="../common/footer.jsp"/>
 
 </body>

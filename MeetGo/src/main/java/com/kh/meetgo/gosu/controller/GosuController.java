@@ -19,6 +19,7 @@ import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
 import com.kh.meetgo.gosu.model.service.GosuServiceImpl;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -154,9 +155,13 @@ public class GosuController {
     	int gosuNo = Integer.parseInt(gno);
     	
     	ArrayList<GosuOpt> list = gosuService.gosuDetail(gosuNo);
-    	// ArrayList<GosuImg> list = gosuService.getGosuImg(gosuNo);
+    	ArrayList<GosuImg> imageList = gosuService.getGosuImg(gosuNo);
+
+    	// gno의 고수정보와 고수 이미지 리턴
+    	mv.addObject("list", list)
+    	.addObject("imageList", imageList)
+    	.setViewName("gosuSearch/serviceDetail");
     	
-    	mv.addObject("list", list).setViewName("gosuSearch/serviceDetail");
     	return mv;
     }
 

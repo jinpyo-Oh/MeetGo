@@ -7,4 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class Pofol {
+	
+	
 }

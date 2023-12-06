@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 
 @Repository
@@ -46,9 +47,13 @@ public class GosuDao {
 	}
 	
 	// 고수찾기 상세정보
-	public ArrayList<GosuOpt> gosuDetail(SqlSessionTemplate sqlSession, int gosuNo){
-		
+	public ArrayList<GosuOpt> gosuDetail(SqlSessionTemplate sqlSession, int gosuNo) {	
 		return (ArrayList)sqlSession.selectList("gosuMapper.gosuDetail", gosuNo);
+	}
+	
+	// 고수이미지 불러오기
+	public ArrayList<GosuImg> getGosuImg(SqlSessionTemplate sqlSession, int gosuNo) {
+		return (ArrayList)sqlSession.selectList("gosuMapper.getGosuImg", gosuNo);
 	}
 
 	// 고수 등록용 메소드
