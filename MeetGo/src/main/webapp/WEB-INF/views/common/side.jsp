@@ -14,7 +14,7 @@
         font-weight: 400;
         font-style: normal;
     }
-    * { font-family: 'Pretendard-Regular'; } 
+    .side { font-family: 'Pretendard-Regular'; } 
     .sidebar {
 	   	width : 200px;
 	   	height:100%;
@@ -29,14 +29,14 @@
 	    width: 250px;
 	    height: 1000px;
 	}
-	li a {
+	.side li a {
 	    display: block;
 	    color: black;
 	    padding: 8px 15px 8px 15px;
 	    font-weight: bold;
 	}
 	
-	li a:hover{
+	.side li a:hover{
 	    background-color: #333;
 	    color: #fff;
 	}
