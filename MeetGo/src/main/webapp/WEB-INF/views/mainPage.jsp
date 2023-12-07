@@ -101,7 +101,7 @@
 		.portfolio-info {
 			width: 250px;
 			margin: 10px auto 0 auto;
-            display: inline-block;
+            display: flex;
 		}
         .portfolio-info img{
 			width: 40px;
@@ -111,7 +111,7 @@
 		}
 		.portfolio-info p{
 			line-height: 100%;
-			margin: 0;
+			margin-top: 10px;
 		}
         .tip-card {
             width: 600px;
@@ -303,6 +303,21 @@
 					<img style="width: 15px; height: 15px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX///8AAABZWVn8/PxkZGRNTU309PRtbW06OjpWVlZSUlJbW1tJSUn39/dpaWn5+flERESsrKyioqJAQECOjo63t7cLCwva2tqXl5dzc3MWFhYtLS3j4+PLy8thYWHCwsKampqAgIAfHx/e3t41NTXHcqcgAAAD30lEQVR4nO2dC3ITMRBEpWyy+WGMTZyvA3Hg/mckWw4QLNmrdpwSbzTvANR0Tc9Mi61yQngP/eLu7P764Xy+fNc/89/SX8U/nN/UruYDeLyOb7mqXc/BmcUNvtWu6MDMNwXGeFK7poOSEfgyjLWrOiBZgTEe1a7rYGwRGONF7coOxFaBVmZxh0AbRt0p0MK6WewWyDfqzZhAfBc/jStkz+L3AoHsLn4pUgiexWmZQHAXy0w6QJ3F0VOBN+rItf8HZkYVegg1avkcDhDXzVJSiJzFZ00isIu3mkLgLBaf/N/wNmryn4hj8GZxpUrkGfXCvsRzVSLOqN2lKhG3brojVSLPqPIs8k6/3MUGZhHXxU7eqA3MIm6jBtmoDcxiA0bFrRsPcBa66AHOQhc9wFnoYtfAq1+WiDOqHuBwGdUDXAbcuvEAZ6GL/urPgNuo/urP0IBRG5DYgFFx68Zf/Rlwp98DnIUueoDLgNuoHuAy8Ix6Yl+iH40U3Lrxo5EBd/r9s42FLrbw2Ua+i7iN2sJnmwZe/bJRcevGA5yFLrYQ4Bo4Gh7gUnBGbSHA+WebFNy68QCXAXf6PcBZ6GILR8MDXApvFv1oWJDoAS4Ft2781Z8Bd/o9wFnooh7g7mqXLCPP4rx2xTJyuulrV6wiBzjgL6OrRq1d7x6IRwP4C/7i0VjUrncPtFl8ql3uPvSKwlXtavegL/xlW2wP+5JfX/4Lbw67r5JA3i6dnmkCcfdQtGiMt7UrFpmoAuOkdskanWrROKtdssZEXDK43C3PYDytXbLGVDr0A8e1S9aQz0T8XLtkDS2qDcAsqp8JWAfVqIabwYk8gzCL2j8TskCYRfWoBlsyvbxkYBbVZxDWwc6j2iY0i3pU24Q2g7JFYTPoUY0u0PyL3n5Us34m7Ec16y96j2p0gXpUg1nUflTzFz1coPmo5h9fEmAW9aiWAJtBf9HTBXpUS4AtGf/4QhfoUS2BNoPWo5r9jy8e1TaBWdTPRALMovajmvUz4S/6BNgM+scXukB/0dMF+scXukDzUc1f9Akwi3pUS4DNoL/o6QI9qiXAlox/fKEL9KiWQJtB61HNP74kmJ9BmEXDsXWBT6pAmEW13x0bgC2ZEFaiQJpFQ7DewfCoCaTN4AsLSSDPoiHcWhcYVoJA3gwOzMsFAmdwoHwOkRZ9YWldYAjPpi06MCsSyFwyrzyYtuhAQapBdzAUHAzwDL5yZdmia3ZKtCBwp0S+RddslWhF4FaJNiy6JivRksCsRDsWXZM8hnl/5GaMjZcU70/cjLNcvXHoj9rVfAz97PTn/fXD5WxZu5Lt/AJjmD6cEME9/gAAAABJRU5ErkJggg==">
 				</a>
 			</div>
+			<script>
+				$(function (){
+                    $.ajax({
+						url : "selectMainPortfolio",
+						method : "get",
+						success : function (data){
+      						console.log(data);
+							let pofolCard = ''
+						},
+						error : function (){
+                            alert("메인페이지 포폴 조회 실패");
+						}
+					})
+				})
+			</script>
 			<div class="main-portfolio">
 				<div class="portfolio-card">
 					<div class="portfolio-img">
