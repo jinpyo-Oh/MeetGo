@@ -89,7 +89,10 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<PofolOpt> selectPofolList(PageInfo pi, String standard, int categoryBigNo) {
 		return boardDao.selectPofolList(sqlSession, pi, standard, categoryBigNo);
 	}
-	
+	@Override
+	public String getLoginUserCtgName(int userNo) {
+		return boardDao.getLoginUserCtgName(sqlSession, userNo);
+	}
 	
 
 }

@@ -91,26 +91,30 @@
 	<jsp:include page="../../common/side.jsp"/>
 
 	<script>
-		function sendWrite() {
-			let userStatus = ${ sessionScope.loginUser.userStatus }
-			if(userStatus == 1){
-				alert("고수 회원만 글 작성이 가능합니다.");
-			} else {
-				location.href="sendPofolWrite.po";
-			}
-		}
+	    function checkUserStatus() {
+	        let userStatus = ${sessionScope.loginUser.userStatus};
+	        if (userStatus == 1) {
+	            alert("고수 회원만 글 작성이 가능합니다.");
+	            return false;
+	        }
+	        return true;
+	    }
+	    
 	</script>
-	
-    <div class="outer">
-		<a href="pofolDetail.po">ㅇㅇ</a>
-        <p class="boardTitleText">포트폴리오</p>
-        <div style="display:flex;">
-        <div align="left" style="width:50%; margin-left:50px;">
-        	<!-- 로그인 시 보여짐 / 일반회원이 클릭시 alert -->
-        	<c:if test="${ not empty sessionScope.loginUser }">
-        		<button type="button" id="btn-write" onclick="sendWrite();" >글작성</button>
-        	</c:if>
-        </div>
+
+	<div class="outer">
+	    <a href="pofolDetail.po">ㅇㅇ</a>
+	    <p class="boardTitleText">포트폴리오</p>
+	    <div style="display:flex;">
+	        <div align="left" style="width:50%; margin-left:50px;">
+	            <!-- 로그인 시 보여짐 / 일반회원이 클릭시 alert -->
+	            <c:if test="${not empty sessionScope.loginUser}">
+	                <form action="sendPofolWrite.po" method="post" onsubmit="return checkUserStatus();">
+	                    <input type="hidden" value="${sessionScope.loginUser.userNo}">
+	                    <button type="submit" id="btn-write">글작성</button>
+	                </form>
+	        	</c:if>
+	        </div>
         <div align="right" style="width:50%;">
             <select id="pofol-view-option" class="form-control">
                 <option selected value="recent">최신순</option>

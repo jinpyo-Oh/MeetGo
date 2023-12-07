@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +28,7 @@ import com.kh.meetgo.common.model.service.CommonService;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
+import com.kh.meetgo.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -231,7 +233,14 @@ public class BoardController {
 
 	
 	@RequestMapping("sendPofolWrite.po")
-	public String sendPofolWrite() {
+	public String sendPofolWrite(@SessionAttribute("loginUser") Member loginUser
+								, Model model) {
+		
+		int userNo = loginUser.getUserNo();
+		
+		String loginUserCtgName = boardService.getLoginUserCtgName(userNo);
+
+		model.addAttribute("loginUserCtgName", loginUserCtgName);
 		return "board/portfolio/pofolWrite";
 	}
 	
