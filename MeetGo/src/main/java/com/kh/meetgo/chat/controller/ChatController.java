@@ -59,14 +59,10 @@ public class ChatController {
     @ResponseBody
     @GetMapping(value = "/chatGosuInfo")
     public String selectChatGosuInfo(String chatroomNo){
-        System.out.println("@@@@@@@@@@@@ chatGosuInfo @@@@@@@@@@@@");
         GosuProfileDto gosuProfileDto = new GosuProfileDto();
-        System.out.println("chatroomNo = " + chatroomNo);
 
         int no = 0;
-        if(!chatroomNo.isEmpty()){
-            no = Integer.parseInt(chatroomNo);
-        }
+        if(!chatroomNo.isEmpty()) no = Integer.parseInt(chatroomNo);
 
         gosuProfileDto.setMember(chatService.selectChatGosuInfo(no));
         int userNo = gosuProfileDto.getMember().getUserNo();
@@ -76,7 +72,6 @@ public class ChatController {
         gosuProfileDto.setChatReviewDtoList(chatService.selectReviewList(userNo));
         gosuProfileDto.setPofolImgList(chatService.selectPofolList(userNo));
         gosuProfileDto.setReviewAvg(chatService.selectReviewAvg(userNo));
-        System.out.println("Avg = " + gosuProfileDto.getReviewAvg());
         return new Gson().toJson(gosuProfileDto);
     }
 
@@ -84,22 +79,18 @@ public class ChatController {
     public String estimateForm() {
         return "chat/estimate";
     }
-
-
     @ResponseBody
     @PostMapping(value = "/insertEstimate")
     public String insertEstimate(@RequestBody Estimate estimate) {
         int result = chatService.insertEstimate(estimate);
         return String.valueOf(estimate.getEstNo());
     }
-
     @ResponseBody
     @GetMapping(value = "selectAllCategory", produces = "text/json; charset=UTF-8")
     public String selectAllCategory(String gosuNo){
         ArrayList<CategorySmall> list = chatService.selectAllCategory(gosuNo);
         return new Gson().toJson(list);
     }
-
     @ResponseBody
     @GetMapping(value = "/searchEstimate", produces = "text/json; charset=UTF-8")
     public String searchEstimate(@RequestParam(value = "estimateNo", required = false) String estimateNo) {
@@ -114,6 +105,7 @@ public class ChatController {
         Estimate estimate = chatService.searchEstimate(estNo);
         return new Gson().toJson(estimate);
     }
+
     @ResponseBody
     @PostMapping(value = "/uploadChatImg", produces = "text/json; charset=UTF-8")
     public String uploadChatImg(@RequestPart(value = "chatImg", required = false) MultipartFile file, String uNo,String cNo) throws IOException {
@@ -148,7 +140,6 @@ public class ChatController {
             }
         } else {
             System.out.println("에러");
-
             return "";
         }
     }

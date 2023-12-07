@@ -14,4 +14,6 @@ import lombok.ToString;
 public class PoFolRequest {
     private Pofol pofol;
     private String firstImg;
+    private String gosuImg;
+    private String userNickname;
 }
