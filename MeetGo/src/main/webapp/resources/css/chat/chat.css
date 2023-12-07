@@ -235,7 +235,7 @@ html {
 .chat-estimate {
     width: 300px;
     padding: 10px 10px;
-    margin: 20px 5px 20px 20px;
+    margin: 20px;
     border-radius: .4em;
     text-align: left;
     box-sizing: border-box;

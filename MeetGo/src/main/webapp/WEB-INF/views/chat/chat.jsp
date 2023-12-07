@@ -142,6 +142,7 @@
             let check=false;
             $(function () {
                 $('.chat-card').click(function () {
+                    $('.hide-right-box').css("display", "none");
                     $('.right-box-info').empty();
                     $('.chat-card').removeClass('select');
                     $(this).addClass('select');
@@ -442,7 +443,9 @@
 						<div class="input-icon">
 							<input type="file" id="chat-file" name="file" style="display: none" onchange="setChatImg(event);">
 							<button class="meetgo-btn" id="chat-file-upload"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
-							<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
+							<c:if test="${sessionScope.loginUser.userStatus == 2}">
+								<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
+							</c:if>
 						</div>
 						<div class="input-button">
 							<button id="send-message-btn" onclick="sendMessage('M')" class="meetgo-btn">전송</button>
@@ -528,6 +531,7 @@
 							formData.append('chatImg', form);
 							formData.append('uNo', ${sessionScope.loginUser.userNo});
 							formData.append('cNo', chatroomNo);
+                            console.log(formData);
 							$.ajax({
 								type: "POST",
 								enctype: 'multipart/form-data',
