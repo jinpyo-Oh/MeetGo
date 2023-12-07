@@ -47,6 +47,6 @@ public interface BoardService {
 		ArrayList<PofolOpt> selectPofolList(PageInfo pi, String standard, int categoryBigNo);
 		
 		// 로그인한 고수의 등록된 카테고리 이름
-		String getLoginUserCtgName(int userNo);
+		ArrayList<String> getLoginUserCtgName(int userNo);
 	
 }

@@ -11,7 +11,10 @@
 		<result column="USER_NO" property="userNo" />
 	</resultMap>
 		
-		
+	<resultMap id="categorySmall" type="categorySmall">
+		<result column="CATEGORY_SMALL_NO" property="categorySmallNo" />
+		<result column="CATEGORY_SMALL_NAME" property="categorySmallName" />
+	</resultMap>	
 
 	<resultMap id="boardResultSet" type="board">
 		<result column="BOARD_NO" property="boardNo" />
@@ -165,8 +168,9 @@
 	</select>
 	
 	<!-- 로그인한 회원의 카테고리 가져오기 -->
-	<select id="getLoginUserCtgNo" parameterType="_int" resultType="string">
-		SELECT SC.CATEGORY_SMALL_NAME
+	<select id="getLoginUserCtgName" parameterType="_int" resultMap="categorySmall">
+		SELECT SC.CATEGORY_SMALL_NO,
+      		   SC.CATEGORY_SMALL_NAME
 		  FROM SERVICE_CATEGORY_SMALL SC
 		  LEFT JOIN(
 		    SELECT CATEGORY_SMALL_NO, GOSU_NO

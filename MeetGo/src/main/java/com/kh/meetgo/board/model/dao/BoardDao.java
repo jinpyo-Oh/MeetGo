@@ -99,8 +99,8 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectPofolList", params, rowBounds);
 	}
 	
-	public String getLoginUserCtgName(SqlSessionTemplate sqlSession, int userNo) {
-		return sqlSession.selectOne("boardMapper.getLoginUserCtgName", userNo);
+	public ArrayList<String> getLoginUserCtgName(SqlSessionTemplate sqlSession, int userNo) {
+		return (ArrayList)sqlSession.selectList("boardMapper.getLoginUserCtgName", userNo);
 	}
 
 }

@@ -231,17 +231,17 @@ public class BoardController {
 		return new Gson().toJson(map);
 	}
 
-	
+	@ResponseBody
 	@RequestMapping("sendPofolWrite.po")
-	public String sendPofolWrite(@SessionAttribute("loginUser") Member loginUser
-								, Model model) {
+	public ModelAndView sendPofolWrite(@SessionAttribute("loginUser") Member loginUser
+								, ModelAndView mv) {
 		
 		int userNo = loginUser.getUserNo();
 		
-		String loginUserCtgName = boardService.getLoginUserCtgName(userNo);
-
-		model.addAttribute("loginUserCtgName", loginUserCtgName);
-		return "board/portfolio/pofolWrite";
+		ArrayList<String> loginUserCtgName = boardService.getLoginUserCtgName(userNo);
+		
+		mv.addObject("loginUserCtgName", loginUserCtgName).setViewName("board/portfolio/pofolWrite");
+		return mv;
 	}
 	
 	@RequestMapping("pofolWrite.po")

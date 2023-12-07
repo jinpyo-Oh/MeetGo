@@ -90,7 +90,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectPofolList(sqlSession, pi, standard, categoryBigNo);
 	}
 	@Override
-	public String getLoginUserCtgName(int userNo) {
+	public ArrayList<String> getLoginUserCtgName(int userNo) {
 		return boardDao.getLoginUserCtgName(sqlSession, userNo);
 	}
 	
