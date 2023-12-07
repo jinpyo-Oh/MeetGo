@@ -25,6 +25,7 @@
 		<mapper resource="/mappers/chat-mapper.xml" />
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/gosu-mapper.xml"/>
+		<mapper resource="/mappers/common-mapper.xml"/>
 	</mappers>
 </configuration>
 

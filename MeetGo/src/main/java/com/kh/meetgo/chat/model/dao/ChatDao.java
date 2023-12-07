@@ -1,10 +1,12 @@
 package com.kh.meetgo.chat.model.dao;
 
 import com.kh.meetgo.chat.model.dto.ChatListDto;
+import com.kh.meetgo.chat.model.dto.ChatReviewDto;
+import com.kh.meetgo.chat.model.dto.GosuProfileDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
-import com.kh.meetgo.gosu.model.vo.CategorySmall;
-import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.*;
+import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -53,5 +55,37 @@ public class ChatDao {
 
     public int insertChatImg(SqlSessionTemplate sqlSession, Chat chat) {
         return sqlSession.insert("chatMapper.insertChatImg", chat);
+    }
+
+    public int changeEstStatus(SqlSessionTemplate sqlSession, Estimate estimate) {
+        return sqlSession.update("chatMapper.changeEstStatus", estimate);
+    }
+
+    public Member selectChatGosuInfo(SqlSessionTemplate sqlSession, int chatroomNo) {
+        return sqlSession.selectOne("chatMapper.selectChatGosuInfo", chatroomNo);
+    }
+
+    public ArrayList<CategorySmall> selectServiceList(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList) sqlSession.selectList("chatMapper.selectServiceList", userNo);
+    }
+
+    public Gosu selectGosu(SqlSessionTemplate sqlSession, int userNo) {
+        return sqlSession.selectOne("chatMapper.selectGosu", userNo);
+    }
+
+    public ArrayList<GosuImg> selectGosuImg(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList) sqlSession.selectList("chatMapper.selectGosuImg", userNo);
+    }
+
+    public ArrayList<ChatReviewDto> selectReviewList(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList) sqlSession.selectList("chatMapper.selectReviewList", userNo);
+    }
+
+    public ArrayList<PofolImg> selectPofolList(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList) sqlSession.selectList("chatMapper.selectPofolList", userNo);
+    }
+
+    public double selectReviewAvg(SqlSessionTemplate sqlSession, int userNo) {
+        return sqlSession.selectOne("chatMapper.selectReviewAvg", userNo);
     }
 }

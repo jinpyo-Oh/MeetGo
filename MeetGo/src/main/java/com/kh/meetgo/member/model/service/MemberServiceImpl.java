@@ -81,6 +81,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public int uploadImg(String imgUpload) {
+		return 0;
+	}
+
+	@Override
 	public int changeStatus(Member m) {
 		return memberDao.changeStatus(sqlSession,m);
 	}

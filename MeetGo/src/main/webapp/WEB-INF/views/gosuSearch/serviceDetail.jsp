@@ -6,11 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>고수 정보</title>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+	<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 
 
     <style>
@@ -117,7 +118,7 @@
 
     #thirdTb{ font-size: 22px; margin-top: 20px;}
 
-	.fade {
+	.qwe {
 	    margin: auto;
 	    align-items: center;
 	    text-align: center;
@@ -138,6 +139,25 @@
 <body>
 
 	<jsp:include page="../common/header.jsp"/>
+	<div style="width: 1200px; height: 300px; margin: auto">
+		<div class="qwe">
+			<div><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
+			<div><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
+			<div><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
+			<div><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
+		</div>
+	</div>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	<script>
+        $('.qwe').slick({
+            dots: true,
+            infinite: true,
+            speed: 500,
+            fade: false,
+            cssEase: 'linear',
+            slidesToShow: 1
+        });
+	</script>
 	
     <div class="outer">
         <div id="detailHead-area">
@@ -246,12 +266,7 @@
             </c:choose>
 			</div>
 			
-		  <div class="fade">
-			<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>
-		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>
-		    <div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>
-		    <div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>
-		  </div>
+
 			
         </div>  
         
@@ -259,20 +274,7 @@
  
         
         <!-- slick 연동 -->
-  		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-        <script type="text/javascript">
-		    $(document).ready(function(){
-
-			    $('.fade').slick({
-			    	dots: true,
-			    	infinite: true,
-			    	speed: 500,
-			    	fade: false,
-			    	cssEase: 'linear',
-			    	slidesToShow: 1
-			    });
-		    });   
-  		</script>
+ 
 
         <!-- 리뷰 -->
         <div id="secondTb" style="display: none;">

@@ -1,6 +1,4 @@
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -14,14 +12,16 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 	<link href="<%=request.getContextPath()%>/resources/css/chat/chat.css?after" rel="stylesheet" type="text/css">
 	
+	
 	<style>
         .preview-img {
+            position: absolute;
             background-color: #e1e1e1;
-			position: absolute;
-			bottom: 205px;
 			width: 650px;
 			height: 400px;
+			top:400px;
 			align-items: center;
+			box-sizing: border-box;
 			text-align: center;
 			display: flex;
 			justify-content: center;
@@ -124,7 +124,10 @@
 		<script>
 			let chatroomNo;
             let userNo;
+            let gosuNo;
             let estNo;
+            let estNumber;
+            let check=false;
             $(function () {
                 $('.chat-card').click(function () {
                     $('.right-box-info').empty();
@@ -199,7 +202,94 @@
                             }
                         })
                     } else {			<!-- 로그인 유저가 회원 상태면 고수 정보 붙이기 -->
-                    
+                        $.ajax({
+                            url : "chatGosuInfo",
+                            data : {
+                                chatroomNo : chatroomNo
+                            },
+                            async:false,
+                            dataType:"json",
+                            success : function (data){
+                                console.log(data);
+                                let member = data.member;
+                                let gosu = data.gosu;
+                                let chatReviewDtoList = data.chatReviewDtoList;
+                                let gosuImgList = data.gosuImgList;
+                                let serviceList = data.serviceList;
+                                let pofolImgList = data.pofolImgList;
+                                console.log(pofolImgList);
+                                let userInfo =
+                                    '<div class="info-profile">' +
+										'<img class="info-profile-img" src="'+member.userProFile+'">' +
+										'<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">' +
+										'<div class="info-profile-more-list">' +
+											'<div>고수 상세 조회</div>' +
+											'<div></div>' +
+										'</div>' +
+										'<h3>'+ member.userName +'</h3>'+
+										'<table>' +
+											'<tr>' +
+												'<td width="30%">지역</td>' +
+												'<td width="70%">대전 중구</td>' +
+											'</tr>' +
+											'<tr>' +
+												'<td>리뷰</td>' +
+												'<td>☆ '+ data.reviewAvg +' (' + chatReviewDtoList.length +')</td>' +
+											'</tr>' +
+											'<tr>' +
+												'<td>경력</td>' +
+												'<td>'+ gosu.career +'</td>' +
+											'</tr>' +
+										'</table>' +
+										'<hr style="border: 1px solid lightgray; width: 80%;">' +
+                                    '</div>' +
+                                    '<div class="info-detail">' +
+										'<div class="info-service">' +
+										'<h5 style="margin-left: 20px">제공 서비스</h5>' +
+										'<div class="info-service-list">';
+								for (let i = 0; i < serviceList.length; i++) {
+									userInfo += '<button class="meetgo-btn" value="'+ serviceList[i].categorySmallNo +'">'
+									 + serviceList[i].categorySmallName
+									+ '</button>'
+								}
+                                        
+                                userInfo += '</div>' +
+                                    '</div>' +
+                                    '<h5 style="margin-left: 20px">소개 이미지</h5>' +
+                                    '<div class="info-img-area">';
+                                for (let i = 0; i < gosuImgList.length; i++) {
+									userInfo += '<div style="width: 100px!important;"><img class="info-img" data-value="' +gosuImgList[i].gosuImgNo+ '" src="'+ gosuImgList[i].gosuImgUrl +'"></div>'
+                                }
+								userInfo +=  '</div>' +
+                                    '<h5 style="margin-left: 20px">포트폴리오</h5>' +
+                                    '<div class="info-pofol">';
+                                for (let i = 0; i < pofolImgList.length; i++) {
+                                    userInfo += '<div style="width: 100px!important;"><img class="info-img" data-value="'+pofolImgList[i].pofolImgNo+'" src="'+pofolImgList[i].pofolImgUrl+'"></div>'
+                                }
+								userInfo += '</div>' +
+                                    '</div>';
+								$('.right-box-info').append(userInfo);
+
+                                $('.info-pofol').slick({
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2,
+                                });
+                                $('.review-img-area').slick({
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2,
+                                });
+                                $('.info-img-area').slick({
+                                    slidesToShow: 2,
+                                    slidesToScroll: 2,
+                                });
+                            },
+                            error : function () {
+                                alert("오른쪽 고수 정보 조회 실패");
+                            }
+						})
+                    }
+					if(check) {
+                        disconnect();
                     }
                     connect();
                     scrollToBottom();
@@ -248,6 +338,7 @@
                 scrollToBottom();
             }
             function insertEstChat(data, lr,createAt){
+                let estStatus = data.status;
                 let chat = '<div class="chat-bubble">'
 					+ '<div class="chat-estimate '+lr+'">'
 					+ '<h5 class="est-title">견적서</h5>'
@@ -266,19 +357,22 @@
 						+ '</tr>'
 					+ '</table>'
 					+ '<hr>'
-					+ '<div class="chat-est-button">';
+					+ '<div class="chat-est-button" id="est-btn-content'+data.estNo+'">';
   
-                switch (data.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
+                switch (estStatus) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
 					case '1' :
                         chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
-							'<div style="display: flex"><button class="meetgo-btn w-50">확정하기</button><button class="meetgo-btn meetgo-red w-50">취소하기</button></div>'
+							'<div style="display: flex"><button class="meetgo-btn w-50 changeEstBtn" onclick="changeEstStatus('+data.estNo+', 3)">확정하기</button>' +
+							'<button class="meetgo-btn meetgo-red w-50 changeEstBtn" onclick="changeEstStatus('+data.estNo+', 2)">취소하기</button></div>'
 						break;
 					case '2' :
                         chat += '<p>취소된 견적서 입니다.</p>'
                         break;
 					case '3' :
                         chat += '<p>확정된 견적서 입니다.</p>'
-							+'<button class="meetgo-btn meetgo-red" style="width: 268px; margin: 5px; ">취소하기</button>'
+							+ '<div style="display: flex">'
+							+ '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
+							+ '<button class="meetgo-btn meetgo-red w-50 changeEstBtn"  onclick="changeEstStatus('+data.estNo+', 2)" style="width: 268px; margin: 5px; ">취소하기</button>'
                         break;
 					case '4' :
                         chat += '<p>취소된 견적서 입니다.</p>'
@@ -299,7 +393,7 @@
 	</div>
 	<div class="right-box">
 		<div style="display: flex; height: 85%">
-			<div class="chat-area" id="chatArea"> <!-- 채팅 들어가는 영역 -->
+			<div class="chat-area" id="chatArea" > <!-- 채팅 들어가는 영역 -->
 			</div>
 			<script>
                 function scrollToBottom() {
@@ -364,18 +458,7 @@
 <%--				</div>--%>
 			</div>
 			<script>
-                $('.info-pofol').slick({
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                });
-                $('.review-img-area').slick({
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                });
-                $('.info-img-area').slick({
-                    slidesToShow: 2,
-                    slidesToScroll: 2,
-                });
+
 			</script>
 		</div>
 		<div>
@@ -432,12 +515,17 @@
 			<script>
                 let websocket; // 전역변수 선언
                 function connect(){
+                    check = true;
                     let url = "ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chat.do";
                     websocket = new WebSocket(url);
+                    
                     // 웹 소켓에 이벤트가 발생했을 때 호출될 함수 등
                     websocket.onopen = onOpen;
                     websocket.onmessage = onMessage;
                 }
+				function disconnect(){
+                    websocket.close();
+				}
 
                 // 웹 소켓에 연결되었을 때 호출될 함수
                 function onOpen() {
@@ -528,6 +616,48 @@
 					}
                     CheckLR(data);
                 }
+                function changeEstStatus(changeEstNo, changeStatus){
+					let estBtnContent = '#est-btn-content'+changeEstNo;
+                   $(estBtnContent).empty();
+                    $.ajax({
+						url : "changeEstStatus",
+						data : {
+                            estNo : changeEstNo,
+							status : changeStatus
+						},
+                        success : function (result) {
+                        	console.log(result);
+                            let chat = "";
+                            switch (result.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
+                                case '1' :
+                                    chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
+                                        '<div style="display: flex"><button class="meetgo-btn w-50" onclick="changeEstStatus('+result.estNo+', 3)">확정하기</button>' +
+                                        '<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus('+result.estNo+', 2)">취소하기</button></div>'
+                                    break;
+                                case '2' :
+                                    chat += '<p>취소된 견적서 입니다.</p>'
+                                    break;
+                                case '3' :
+                                    chat += '<p>확정된 견적서 입니다.</p>'
+                                        + '<div style="display: flex">'
+                                        + '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
+                                        + '<button class="meetgo-btn meetgo-red w-50"  onclick="changeEstStatus('+result.estNo+', 2)" style="width: 268px; margin: 5px; ">취소하기</button>'
+                                    break;
+                                case '4' :
+                                    chat += '<p>취소된 견적서 입니다.</p>'
+                                    break;
+                                case '5' :
+                                    chat += '<p>거래 완료된 견적서 입니다.</p>'
+                                        +'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                                    break;
+                            }
+                            $(estBtnContent).append(chat);
+						},
+						error : function () {
+                            console.log("견적서 상태 변경 실패");
+						}
+					})
+				}
 			</script>
 			
 		</div>
