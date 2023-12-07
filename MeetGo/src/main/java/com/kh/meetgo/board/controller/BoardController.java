@@ -244,9 +244,16 @@ public class BoardController {
 		return mv;
 	}
 	
-	@RequestMapping("pofolWrite.po")
-	public void pofolWrite() {
-		
+	@ResponseBody
+	@PostMapping(value = "pofolWrite.po", produces = "text/json; charset=UTF-8")
+	public void pofolWrite(
+			  ArrayList<MultipartFile> pofolImgUrl
+			  ,	String pofolTitle
+			  , String pofolIntro
+			  , String pofolPrice
+			  , String pofolContent) {
+		System.out.println(pofolTitle);
+		System.out.println(pofolImgUrl);
 	}
 	
 	@RequestMapping("pofolDetail.po")
