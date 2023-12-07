@@ -211,7 +211,7 @@ table, th, td {
                     </td>            
                </tr>
             </table>   
-            <a href="gosuWrite.go">
+            <a href="gosuWrite.bo">
                 <button type="submit" class="btn btn-primary" >글작성</button>
             </a>
              <a href="tipList.go">
@@ -277,7 +277,7 @@ table, th, td {
 			
 			
 			
-			location.href = "detail.go?mno=" + bno;
+			location.href = "detail.bo?mno=" + bno;
 		});
 	});
 	</script>

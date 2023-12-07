@@ -33,33 +33,31 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 
-
 	@RequestMapping("gosuList.go")
 	public String test() {
 		return "board/gosuRequest/gosuList";
 	}
 	
-	@RequestMapping("noticeWrite.go")
+	@RequestMapping("noticeWrite.bo")
 	public String noticeForm() {
 		return "board/notice/noticeWrite";
 	}
 	
-	@RequestMapping("tipList.go")
+	@RequestMapping("tipList.bo")
 	public String tipList() {
 		return "board/tip/tipList";
 	}
-	@RequestMapping("noticeList.go")
+	@RequestMapping("noticeList.bo")
 	public String noticeList() {
 		return "board/notice/noticeList";
 	}
 	
-	
-	@GetMapping("gosuWrite.go")
+	@GetMapping("gosuWrite.bo")
 	public String enrollForm() {
 		return "board/gosuRequest/gosuWrite";
 	}
 	
-	@GetMapping("tipWrite.go")
+	@GetMapping("tipWrite.bo")
 	public String tipForm() {
 		return "board/tip/tipWrite";
 	}
@@ -87,7 +85,7 @@ public class BoardController {
 		return mv;
 	}
 	
-	@PostMapping("insertReqGosu.go")
+	@PostMapping("insert.bo")
 	public String insertBoard(Board m, 
 							  MultipartFile upfile,
 							  HttpSession session,
@@ -99,7 +97,7 @@ public class BoardController {
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
 			
-			return "redirect:/gosuList.go"; // 첫 페이지로 이동
+			return "redirect:/gosuList.bo"; // 첫 페이지로 이동
 			
 		} else { 
 			model.addAttribute("errorMsg", "게시글 등록 실패");
@@ -108,22 +106,19 @@ public class BoardController {
 		}
 	}
 	
-	@PostMapping("tipInsert.go")
+	@PostMapping("tipInsert.bo")
 	public String insertTipboard(Board m, 
 							  MultipartFile upfile,
 							  HttpSession session,
 							  Model model) {
-		
-		
+			
 		int result = boardService.insertTipboard(m);
-	
-		
 		
 		if(result > 0) { 
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
 			
-			return "redirect:/tipList.go"; // 첫 페이지로 이동
+			return "redirect:/tipList.bo"; // 첫 페이지로 이동
 			
 		} else { 
 			model.addAttribute("errorMsg", "게시글 등록 실패");
@@ -132,7 +127,7 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping("detail.go")
+	@RequestMapping("detail.bo")
 	public ModelAndView selectBoard(int bno, 
 									ModelAndView mv) {
 		
@@ -202,6 +197,7 @@ public class BoardController {
 		}
 	}
 	
+	// 포트폴리오 게시판
 	@RequestMapping("pofolList.po")
 	public String sendPofolList() {
 		return "board/portfolio/pofolList";

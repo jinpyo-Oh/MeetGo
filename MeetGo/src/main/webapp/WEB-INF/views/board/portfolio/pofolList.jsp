@@ -241,7 +241,7 @@
                                 21
                             </span>
                             <span class="pofol-title">Title</span>
-                        </div>    
+                        </div>
                     </div>
                     <div class="pofol-obj">
                         <img src="" width="250px" height="250px"><br>
