@@ -129,6 +129,25 @@
 		        </otherwise>
 		    </choose>
 	</select>
+	
+	<!-- 로그인한 회원의 카테고리 가져오기 -->
+	<select id="getLoginUserCtgNo" parameterType="_int" resultType="string">
+		SELECT SC.CATEGORY_SMALL_NAME
+		  FROM SERVICE_CATEGORY_SMALL SC
+		  LEFT JOIN(
+		    SELECT CATEGORY_SMALL_NO, GOSU_NO
+		      FROM "GOSU-SERVICE"
+		  ) GS ON GS.CATEGORY_SMALL_NO = SC.CATEGORY_SMALL_NO
+		  LEFT JOIN(
+		    SELECT GOSU_NO, USER_NO
+		      FROM GOSU
+		  ) G ON G.GOSU_NO = GS.GOSU_NO
+		  LEFT JOIN(
+		    SELECT USER_NO
+		      FROM MEMBER
+		  ) M ON M.USER_NO = G.USER_NO
+		  WHERE M.USER_NO = #{userNo}
+	</select>
 
 
 </mapper>
