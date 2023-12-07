@@ -201,11 +201,11 @@
         INNER JOIN (
         SELECT *
         FROM POFOL
-        WHERE GOSU_NO = 1001
+        WHERE GOSU_NO = ${userNo}
         )P USING (POFOL_NO)
     </select>
     <select id="selectReviewAvg" parameterType="_int" resultType="_double">
-        SELECT AVG(REV_POINT)
+        SELECT NVL(AVG(REV_POINT), 0) AS AVERAGE_REV_POINT
         FROM REVIEW R
         WHERE R.GOSU_NO = ${userNo}
     </select>

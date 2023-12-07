@@ -4,31 +4,30 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="commonMapper">
     <select id="selectMainPortfolio" resultType="com.kh.meetgo.common.model.dto.PoFolRequest">
-        SELECT P.POFOL_NO as "pofol.pofolNo",
-        P.POFOL_TITLE AS "pofol.pofolTitle",
-        P.POFOL_PRICE AS "pofol.pofolPrice",
-        S.CATEGORY_SMALL_NAME as "pofol.pofolService",
-        P.POFOL_CONTENT AS "pofol.pofolContent",
-        P.POFOL_VISITED AS "pofol.pofolVisited",
-        P.POFOL_CREATE_DATE AS "pofol.pofolCreateDate",
-        P.POFOL_STATUS AS "pofol.pofolStatus",
-        P.GOSU_NO AS "pofol.gosuNo",
-        P.POFOL_SERVICE  AS "pofol.pofolService",
-        PI.POFOL_IMG_URL AS firstImg
+        SELECT P.POFOL_NO            as "pofol.pofolNo",
+            P.POFOL_TITLE         AS "pofol.pofolTitle",
+            P.POFOL_PRICE         AS "pofol.pofolPrice",
+            S.CATEGORY_SMALL_NAME as "pofol.pofolService",
+            P.POFOL_CONTENT       AS "pofol.pofolContent",
+            P.POFOL_VISITED       AS "pofol.pofolVisited",
+            P.POFOL_CREATE_DATE   AS "pofol.pofolCreateDate",
+            P.POFOL_STATUS        AS "pofol.pofolStatus",
+            P.GOSU_NO             AS "pofol.gosuNo",
+            P.POFOL_SERVICE       AS "pofol.pofolService",
+            PI.POFOL_IMG_URL      AS firstImg,
+            M.USER_PROFILE        AS gosuImg,
+            M.USER_NICKNAME       AS userNickname
         FROM POFOL P
-        LEFT JOIN (
-        SELECT *
+        LEFT JOIN (SELECT *
+            FROM POFOL_IMG
+            WHERE (POFOL_NO, POFOL_IMG_NO) IN (SELECT POFOL_NO, MIN(POFOL_IMG_NO)
         FROM POFOL_IMG
-        WHERE (POFOL_NO, POFOL_IMG_NO) IN (
-        SELECT POFOL_NO, MIN(POFOL_IMG_NO)
-        FROM POFOL_IMG
-        GROUP BY POFOL_NO
-        )
-        ) PI ON P.POFOL_NO = PI.POFOL_NO
-        LEFT JOIN (
-        SELECT CATEGORY_SMALL_NO, CATEGORY_SMALL_NAME
-        FROM SERVICE_CATEGORY_SMALL
-        ) S ON P.POFOL_SERVICE =S.CATEGORY_SMALL_NO
+        GROUP BY POFOL_NO)) PI ON P.POFOL_NO = PI.POFOL_NO
+            LEFT JOIN (SELECT CATEGORY_SMALL_NO, CATEGORY_SMALL_NAME
+            FROM SERVICE_CATEGORY_SMALL) S ON P.POFOL_SERVICE = S.CATEGORY_SMALL_NO
+        LEFT JOIN (SELECT USER_NO, USER_PROFILE, USER_NICKNAME
+        FROM MEMBER
+        ) M ON M.USER_NO = P.GOSU_NO
         ORDER BY P.POFOL_VISITED DESC
     </select>
 </mapper>
