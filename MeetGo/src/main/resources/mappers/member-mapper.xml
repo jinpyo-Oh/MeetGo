@@ -178,6 +178,17 @@
 		 WHERE USER_NO = #{userNo}
 	</select>
 	
+	<update id="payService" parameterType="estimate">
+		UPDATE ESTIMATE 
+		   SET TID = #{tid}
+		 WHERE EST_NO = #{estNo}
+	</update>
+	
+	<update id="updateStatus" parameterType="_int">
+		UPDATE ESTIMATE 
+		   SET STATUS = '4'
+		 WHERE EST_NO = #{estNo}
+	</update>
 </mapper>
 
 
