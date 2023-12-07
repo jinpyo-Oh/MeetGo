@@ -1,6 +1,8 @@
 package com.kh.meetgo.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 
 @Repository
 public class BoardDao {
@@ -74,6 +77,26 @@ public class BoardDao {
 	public ArrayList<Board> selectTopBoardList(SqlSessionTemplate sqlSession) {
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.selectTopBoardList");
+	}
+	
+	// 포폴리스트 전체카운트
+	public int countPofolList(SqlSessionTemplate sqlSession) {	
+		return sqlSession.selectOne("boardMapper.countPofolList");
+	}
+	// 포폴리스트 전체조회
+	public ArrayList<PofolOpt> selectPofolList(SqlSessionTemplate sqlSession, PageInfo pi, String standard, int categoryBigNo) {
+		
+		Map<String, Object> params = new HashMap<>();
+		
+		params.put("standard", standard);
+		params.put("categoryBigNo", categoryBigNo);
+		
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectPofolList", params, rowBounds);
 	}
 
 }
