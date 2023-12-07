@@ -272,7 +272,7 @@ table, th, td {
 			
 			
 			
-			location.href = "detail.go?mno=" + bno;
+			location.href = "detail.bo?mno=" + bno;
 		});
 	});
 	</script>
