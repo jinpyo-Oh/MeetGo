@@ -52,6 +52,12 @@ public interface MemberService {
     
     // 유저번호, 고수번호로 이름 가져오기(select)
     String getName(int userNo);
+    
+    // 결제
+    int payService(String estNo, String tid);
+    
+    // 견적서 상태 변경
+    int updateStatus(int estNo);
 }
 
 

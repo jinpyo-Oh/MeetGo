@@ -7,5 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class ReviewImg {
-
+    private int imgNo;
+    private String revImgUrl;
+    private int revNo;
 }

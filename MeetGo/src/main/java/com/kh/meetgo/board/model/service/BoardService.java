@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 
 public interface BoardService {
 	
@@ -39,5 +40,10 @@ public interface BoardService {
 		// 댓글 작성 서비스 (ajax)
 		int insertReply(Reply r);
 	
+		// 포트폴리오 전체 개수
+		int countPofolList();
+		
+		// 포트폴리오 전체조회
+		ArrayList<PofolOpt> selectPofolList(PageInfo pi, String standard, int categoryBigNo);
 	
 }

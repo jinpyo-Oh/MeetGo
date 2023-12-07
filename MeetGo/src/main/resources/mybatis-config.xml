@@ -20,7 +20,8 @@
 		<typeAlias type="com.kh.meetgo.gosu.model.vo.CategorySmall" alias="categorySmall"/>
    		<typeAlias type="com.kh.meetgo.board.model.vo.Board" alias="board"/>
    		<typeAlias type="com.kh.meetgo.board.model.vo.Reply" alias="reply" />
-   		
+   		<typeAlias type="com.kh.meetgo.gosu.model.vo.Pofol" alias="pofol"/>
+   		<typeAlias type="com.kh.meetgo.gosu.model.dto.PofolOpt" alias="pofolOpt"/>
 	</typeAliases>
 	
 
@@ -29,8 +30,8 @@
 		<mapper resource="/mappers/chat-mapper.xml" />
 		<mapper resource="/mappers/member-mapper.xml"/>
 		<mapper resource="/mappers/gosu-mapper.xml"/>
+		<mapper resource="/mappers/common-mapper.xml"/>
 		<mapper resource="/mappers/board-mapper.xml"/>
-
 	</mappers>
 </configuration>
 

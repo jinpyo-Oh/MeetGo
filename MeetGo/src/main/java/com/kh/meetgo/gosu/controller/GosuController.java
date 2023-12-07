@@ -90,7 +90,6 @@ public class GosuController {
         }
     
     }
-
     
     // 고수 찾기 포워딩
     @RequestMapping("searchMain.go")

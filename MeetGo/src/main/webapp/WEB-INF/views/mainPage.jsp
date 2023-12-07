@@ -3,7 +3,9 @@
 <head>
 	<title>메인페이지</title>
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-	
+	<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
 	<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 	<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
 	<style>
@@ -111,6 +113,7 @@
 		}
 		.portfolio-info p{
 			line-height: 100%;
+			margin-top: 10px;
 		}
         .tip-card {
             width: 600px;
@@ -147,7 +150,6 @@
             padding: 0 25px;
 			color: #323232;
 		}
-
 	</style>
 </head>
 
@@ -302,60 +304,84 @@
 					<img style="width: 15px; height: 15px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX///8AAABZWVn8/PxkZGRNTU309PRtbW06OjpWVlZSUlJbW1tJSUn39/dpaWn5+flERESsrKyioqJAQECOjo63t7cLCwva2tqXl5dzc3MWFhYtLS3j4+PLy8thYWHCwsKampqAgIAfHx/e3t41NTXHcqcgAAAD30lEQVR4nO2dC3ITMRBEpWyy+WGMTZyvA3Hg/mckWw4QLNmrdpwSbzTvANR0Tc9Mi61yQngP/eLu7P764Xy+fNc/89/SX8U/nN/UruYDeLyOb7mqXc/BmcUNvtWu6MDMNwXGeFK7poOSEfgyjLWrOiBZgTEe1a7rYGwRGONF7coOxFaBVmZxh0AbRt0p0MK6WewWyDfqzZhAfBc/jStkz+L3AoHsLn4pUgiexWmZQHAXy0w6QJ3F0VOBN+rItf8HZkYVegg1avkcDhDXzVJSiJzFZ00isIu3mkLgLBaf/N/wNmryn4hj8GZxpUrkGfXCvsRzVSLOqN2lKhG3brojVSLPqPIs8k6/3MUGZhHXxU7eqA3MIm6jBtmoDcxiA0bFrRsPcBa66AHOQhc9wFnoYtfAq1+WiDOqHuBwGdUDXAbcuvEAZ6GL/urPgNuo/urP0IBRG5DYgFFx68Zf/Rlwp98DnIUueoDLgNuoHuAy8Ix6Yl+iH40U3Lrxo5EBd/r9s42FLrbw2Ua+i7iN2sJnmwZe/bJRcevGA5yFLrYQ4Bo4Gh7gUnBGbSHA+WebFNy68QCXAXf6PcBZ6GILR8MDXApvFv1oWJDoAS4Ft2781Z8Bd/o9wFnooh7g7mqXLCPP4rx2xTJyuulrV6wiBzjgL6OrRq1d7x6IRwP4C/7i0VjUrncPtFl8ql3uPvSKwlXtavegL/xlW2wP+5JfX/4Lbw67r5JA3i6dnmkCcfdQtGiMt7UrFpmoAuOkdskanWrROKtdssZEXDK43C3PYDytXbLGVDr0A8e1S9aQz0T8XLtkDS2qDcAsqp8JWAfVqIabwYk8gzCL2j8TskCYRfWoBlsyvbxkYBbVZxDWwc6j2iY0i3pU24Q2g7JFYTPoUY0u0PyL3n5Us34m7Ec16y96j2p0gXpUg1nUflTzFz1coPmo5h9fEmAW9aiWAJtBf9HTBXpUS4AtGf/4QhfoUS2BNoPWo5r9jy8e1TaBWdTPRALMovajmvUz4S/6BNgM+scXukB/0dMF+scXukDzUc1f9Akwi3pUS4DNoL/o6QI9qiXAlox/fKEL9KiWQJtB61HNP74kmJ9BmEXDsXWBT6pAmEW13x0bgC2ZEFaiQJpFQ7DewfCoCaTN4AsLSSDPoiHcWhcYVoJA3gwOzMsFAmdwoHwOkRZ9YWldYAjPpi06MCsSyFwyrzyYtuhAQapBdzAUHAzwDL5yZdmia3ZKtCBwp0S+RddslWhF4FaJNiy6JivRksCsRDsWXZM8hnl/5GaMjZcU70/cjLNcvXHoj9rVfAz97PTn/fXD5WxZu5Lt/AJjmD6cEME9/gAAAABJRU5ErkJggg==">
 				</a>
 			</div>
-			<div class="main-portfolio">
-				<div class="portfolio-card">
-					<div class="portfolio-img">
-						<img src="https://i.namu.wiki/i/qk6xHhBTmeQn4DDjNj4Gaa0KrNLmmqpXfsDcwQIUwiWrAq-3bw4CAN9VPKtfuFbRDuGIW-Gk6JIaGnVXijJ9og.webp">
-						<div class="portfolio-img-text">
-							<h4>내가 작업한 모델 포토샵 메이크...</h4>
-							<p>부분/피팅모델 알바</p>
-						</div>
-					</div>
-					<div class="portfolio-info">
-						<img src="https://i.namu.wiki/i/qk6xHhBTmeQn4DDjNj4Gaa0KrNLmmqpXfsDcwQIUwiWrAq-3bw4CAN9VPKtfuFbRDuGIW-Gk6JIaGnVXijJ9og.webp">
-						<p>임윤아</p>
-					</div>
-				</div>
-				<div class="portfolio-card">
-					<div class="portfolio-img">
-						<img src="https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg">
-						<div class="portfolio-img-text">
-							<h4>내가 작업한 모델 포토샵 메이크...</h4>
-							<p>부분/피팅모델 알바</p>
-						</div>
-					</div>
-					<div class="portfolio-info">
-						<img src="https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg">
-						<p>예인</p>
-					</div>
-				</div>
-				<div class="portfolio-card">
-					<div class="portfolio-img">
-						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU">
-						<div class="portfolio-img-text">
-							<h4>내가 작업한 모델 포토샵 메이크...</h4>
-							<p>부분/피팅모델 알바</p>
-						</div>
-					</div>
-					<div class="portfolio-info">
-						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU">
-						<p>예원</p>
-					</div>
-				</div>
-				<div class="portfolio-card">
-					<div class="portfolio-img">
-						<img src="https://static.cdn.soomgo.com/upload/portfolio/0c2db666-3ccd-4c23-853c-ff212cb9dd0e.jpg?w=250&h=250&webp=1">
-						<div class="portfolio-img-text">
-							<h4>내가 작업한 모델 포토샵 메이크...</h4>
-							<p>부분/피팅모델 알바</p>
-						</div>
-					</div>
-					<div class="portfolio-info">
-						<img src="https://dmmj3ljielax6.cloudfront.net/upload/profile/d9a51a2f-370a-43fd-b44a-4013552174f0.jpg?h=320&w=320&webp=1">
-						<p>남서연</p>
-					</div>
-				</div>
+			<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+			<script>
+				$(function (){
+                    $.ajax({
+						url : "selectMainPortfolio",
+						method : "get",
+						success : function (data){
+      						console.log(data);
+							if(data.length === 0) {
+                                
+							}
+                            for (let i = 0; i < data.length; i++) {
+								let pofol = data[i].pofol;
+                                let pofolUrl = data[i].firstImg;
+                                let userUrl = data[i].gosuImg;
+                                var pofolCard = '<div class="portfolio-card">' +
+													'<div class="portfolio-img">' +
+														'<img src="'+pofolUrl+'">' +
+														'<div class="portfolio-img-text">' +
+															'<h4>'+pofol.pofolTitle+'</h4>' +
+															'<p>'+pofol.pofolService+'</p>' +
+														'</div>' +
+													'</div>' +
+													'<div class="portfolio-info">' +
+														'<img src="'+userUrl+'">' +
+														'<p>'+data[i].userNickname+'</p>' +
+													'</div>' +
+												'</div>';
+                                $('.main-pofol').append(pofolCard);
+                            }
+                            $('.main-pofol').slick({
+                                dots: true,
+                                infinite: false,
+                                speed: 300,
+                                slidesToShow: 4,
+                                slidesToScroll: 4,
+                                responsive: [
+                                    {
+                                        breakpoint: 1024,
+                                        settings: {
+                                            slidesToShow: 3,
+                                            slidesToScroll: 3,
+                                            infinite: true,
+                                            dots: true
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 600,
+                                        settings: {
+                                            slidesToShow: 2,
+                                            slidesToScroll: 2
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 480,
+                                        settings: {
+                                            slidesToShow: 1,
+                                            slidesToScroll: 1
+                                        }
+                                    }
+                                    // You can unslick at a given breakpoint now by adding:
+                                    // settings: "unslick"
+                                    // instead of a settings object
+                                ]
+                            });
+						},
+						error : function (){
+                            alert("메인페이지 포폴 조회 실패");
+						}
+					})
+				})
+			</script>
+			<div class="main-portfolio main-pofol">
+			
 			</div>
+			<script>
+			
+			</script>
 		</section>
 		<br><br>
 		<section> <!-- MeetGo 꿀팁 영역 시작 -->

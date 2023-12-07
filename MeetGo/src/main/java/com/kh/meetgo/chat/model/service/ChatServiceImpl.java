@@ -2,10 +2,11 @@ package com.kh.meetgo.chat.model.service;
 
 import com.kh.meetgo.chat.model.dao.ChatDao;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
+import com.kh.meetgo.chat.model.dto.ChatReviewDto;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
-import com.kh.meetgo.gosu.model.vo.CategorySmall;
-import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.*;
+import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -66,6 +67,46 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public int insertChatImg(Chat chat) {
         return chatDao.insertChatImg(sqlSession,chat);
+    }
+
+    @Override
+    public int changeEstStatus(Estimate estimate) {
+        return chatDao.changeEstStatus(sqlSession,estimate);
+    }
+
+    @Override
+    public Member selectChatGosuInfo(int chatroomNo) {
+        return chatDao.selectChatGosuInfo(sqlSession,chatroomNo);
+    }
+
+    @Override
+    public ArrayList<CategorySmall> selectServiceList(int userNo) {
+        return chatDao.selectServiceList(sqlSession,userNo);
+    }
+
+    @Override
+    public Gosu selectGosu(int userNo) {
+        return chatDao.selectGosu(sqlSession, userNo);
+    }
+
+    @Override
+    public ArrayList<GosuImg> selectGosuImg(int userNo) {
+        return chatDao.selectGosuImg(sqlSession,userNo);
+    }
+
+    @Override
+    public ArrayList<ChatReviewDto> selectReviewList(int userNo) {
+        return chatDao.selectReviewList(sqlSession, userNo);
+    }
+
+    @Override
+    public ArrayList<PofolImg> selectPofolList(int userNo) {
+        return chatDao.selectPofolList(sqlSession, userNo);
+    }
+
+    @Override
+    public double selectReviewAvg(int userNo) {
+        return chatDao.selectReviewAvg(sqlSession,userNo);
     }
 
 }

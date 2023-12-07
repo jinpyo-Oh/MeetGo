@@ -2,6 +2,8 @@ package com.kh.meetgo.board.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,8 +23,10 @@ import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.config.S3Uploader;
+import com.kh.meetgo.common.model.service.CommonService;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 
 @Controller
 public class BoardController {
@@ -33,6 +37,8 @@ public class BoardController {
 	
 	@Autowired
 	private S3Uploader s3Uploader;
+	private CommonService commonService;
+
 
 	@RequestMapping("gosuList.bo")
 	public String test() {
@@ -194,11 +200,35 @@ public class BoardController {
 	
 	}
 	
-	// 포트폴리오 게시판
-	@RequestMapping("pofolList.po")
+	@RequestMapping("sendPofol.po")
 	public String sendPofolList() {
+		
 		return "board/portfolio/pofolList";
 	}
+	
+	// 포트폴리오 게시판
+	@ResponseBody
+	@RequestMapping(value = "pofolListOrderBy.po", produces = "text/json; charset=UTF-8")
+	public String selectPofolList(@RequestParam(value = "currentPage", defaultValue = "1") int currentPage
+		 , @RequestParam(value = "standard") String standard
+		 , @RequestParam(value = "category") String category) {
+
+		int listCount = boardService.countPofolList();
+		int pageLimit = 5;
+		int boardLimit = 9;
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		int categoryBigNo = Integer.parseInt(category);
+		
+		// 전체 내용 리스트
+		ArrayList<PofolOpt> list = boardService.selectPofolList(pi, standard, categoryBigNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("list", list);
+		map.put("pi", pi);
+		return new Gson().toJson(map);
+	}
+
 	
 	@RequestMapping("sendPofolWrite.po")
 	public String sendPofolWrite() {

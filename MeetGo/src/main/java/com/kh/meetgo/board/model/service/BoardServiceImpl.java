@@ -12,6 +12,7 @@ import com.kh.meetgo.board.model.dao.BoardDao;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 
 // @Component
 @Service
@@ -64,7 +65,6 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.updateBoard(sqlSession, m);
 	}
 
-
 	@Override
 	public int insertTipboard(Board m) {
 		return boardDao.insertTipboard(sqlSession, m);
@@ -82,6 +82,14 @@ public class BoardServiceImpl implements BoardService {
 		return 0;
 	}
 
+	public int countPofolList() {
+		return boardDao.countPofolList(sqlSession);
+	}
+	@Override
+	public ArrayList<PofolOpt> selectPofolList(PageInfo pi, String standard, int categoryBigNo) {
+		return boardDao.selectPofolList(sqlSession, pi, standard, categoryBigNo);
+	}
+	
 	
 
 }

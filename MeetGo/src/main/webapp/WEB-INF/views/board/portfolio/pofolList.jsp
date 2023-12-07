@@ -58,10 +58,12 @@
     }
 
     /* 게시글 영역 */
-    .pofol-line{ margin: auto; margin-bottom: 80px;}
-    .pofol-obj { margin: 0 auto; }
-    .view-count{ display: inline-block; width: 20%; margin-left: 2px;}
-    .pofol-title{ display: inline-block; width: 80%; text-align: center;}
+    .pofol-line{ margin: auto; margin-bottom: 80px; width:100%; min-height:1000px; }
+    .pofol-obj { width:300px; text-align:center; margin-bottom:80px; }
+    .pofol-obj img:hover{ transform: scale(1.05); }
+    
+    .view-count{ display: inline-block; margin-left: 2px; font-size:20px;}
+    .pofol-title{ font-size:22px; margin-top:10px;}
 
     #pagingBtn-area{margin-top: 80px;}
     .pagingBtn{
@@ -111,8 +113,8 @@
         </div>
         <div align="right" style="width:50%;">
             <select id="pofol-view-option" class="form-control">
-                <option>최신순</option>
-                <option>조회순</option>
+                <option selected value="recent">최신순</option>
+                <option value="views">조회순</option>
             </select>
         </div>
         </div>
@@ -121,164 +123,151 @@
         <!-- 카테고리 선택 블럭 -->
         <div id="category-main-select" align="center">
             <!--1-->
-            <button class="btn-cateMain" type="button">전체</button>
-            <button class="btn-cateMain" type="button">홈 / 리빙</button>
-            <button class="btn-cateMain" type="button">취미/교육</button>
-            <button class="btn-cateMain" type="button">건강 / 미용</button>
-            <button class="btn-cateMain" type="button">디자인</button>
+            <button class="btn-cateMain" type="button" value="0">전체</button>
+            <button class="btn-cateMain" type="button" value="1">홈 / 리빙</button>
+            <button class="btn-cateMain" type="button" value="2">취미/교육</button>
+            <button class="btn-cateMain" type="button" value="3">건강 / 미용</button>
+            <button class="btn-cateMain" type="button" value="4">디자인</button>
             <br>
             <!--2-->
-            <button class="btn-cateMain" type="button">이벤트</button>
-            <button class="btn-cateMain" type="button">IT / 개발</button>
-            <button class="btn-cateMain" type="button">비즈니스</button>
-            <button class="btn-cateMain" type="button">법률 / 행정</button>
-            <button class="btn-cateMain" type="button">기타</button>            
+            <button class="btn-cateMain" type="button" value="5">이벤트</button>
+            <button class="btn-cateMain" type="button" value="6">IT / 개발</button>
+            <button class="btn-cateMain" type="button" value="7">비즈니스</button>
+            <button class="btn-cateMain" type="button" value="8">법률 / 행정</button>
+            <button class="btn-cateMain" type="button" value="9">기타</button>            
         </div>
 
         <br><br>
-        <!-- 포트폴리오 게시글 테이블 -->
-        <!-- 첫째 줄 -->
+        
         <div class="pofol-line">
-        <div style="display: flex;">
-            <div class="pofol-obj">
-                <img src="" width="250px" height="250px"><br>
-                <div style="display: flex;">
-                    <span class="view-count">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                        </svg>
-                        21
-                    </span>
-                    <span class="pofol-title">Title</span>
-                </div>    
-            </div>
-            <div class="pofol-obj">
-                <img src="" width="250px" height="250px"><br>
-                <div style="display: flex;">
-                    <span class="view-count">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                        </svg>
-                        21
-                    </span>
-                    <span class="pofol-title">Title</span>
-                </div>    
-            </div>
-            <div class="pofol-obj">
-                <img src="" width="250px" height="250px"><br>
-                <div style="display: flex;">
-                    <span class="view-count">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                        </svg>
-                        21
-                    </span>
-                    <span class="pofol-title">Title</span>
-                </div>    
-            </div>
+        	<div style="display:flex; flex-wrap:wrap; width:900px; margin:auto;" id="wraper">
+        	</div>
         </div>
+<!-- 현재 페이지번호 -->
+        <input type="hidden" id="currentPage" name="currentPage" value="1">
+        
+        <!-- ajax 통신으로 append해서 출력 -->
+        <div id="paging-area" align="center">
         </div>
+             
+        <!-- 페이징처리 스크립트 -->
+        <script>
+	       	function paging(num) {
+	       		currentPage = num;
+	       		$("#currentPage").val(num);
+	       		optionSelect();
+	       		scrollToTop();
+	       	}
+	       	
+	       	function prevPage() {
+	       		num = parseInt($currentPage) - 1;
+	       		$("#currentPage").val(num);
+	       		optionSelect();
+	       		scrollToTop();
+	       	}
+	       	
+	       	function nextPage() {
+	       		num = parseInt($currentPage) + 1;
+	       		$("#currentPage").val(num);
+	       		optionSelect();
+	       		scrollToTop();
+	       	}
+	       	
+            // 화면 상단으로 스크롤하는 함수
+	        function scrollToTop() {
+	            window.scrollTo({
+	                top: 0,
+	                behavior: 'smooth' // 부드럽게
+	            });
+	        }
+        </script>
 
-        <!-- 두번째 줄 -->
-        <div class="pofol-line">
-            <div style="display: flex;">
-                <div class="pofol-obj">
-                    <img src="" width="250px" height="250px"><br>
-                    <div style="display: flex;">
-                        <span class="view-count">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                            </svg>
-                            21
-                        </span>
-                        <span class="pofol-title">Title</span>
-                    </div>    
-                </div>
-                <div class="pofol-obj">
-                    <img src="" width="250px" height="250px"><br>
-                    <div style="display: flex;">
-                        <span class="view-count">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                            </svg>
-                            21
-                        </span>
-                        <span class="pofol-title">Title</span>
-                    </div>    
-                </div>
-                <div class="pofol-obj">
-                    <img src="" width="250px" height="250px"><br>
-                    <div style="display: flex;">
-                        <span class="view-count">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                            </svg>
-                            21
-                        </span>
-                        <span class="pofol-title">Title</span>
-                    </div>    
-                </div>
-            </div>
-            </div>
+	<script>
+	
+		let category = 0;
+		let standard = $("#pofol-view-option").val();
+		
+		$(function() {
+			
+			showpofolList(category, standard);
 
-            <!-- 세번째 줄 -->
-            <div class="pofol-line">
-                <div style="display: flex;">
-                    <div class="pofol-obj">
-                        <img src="" width="250px" height="250px"><br>
-                        <div style="display: flex;">
-                            <span class="view-count">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                </svg>
-                                21
-                            </span>
-                            <span class="pofol-title">Title</span>
-                        </div>
-                    </div>
-                    <div class="pofol-obj">
-                        <img src="" width="250px" height="250px"><br>
-                        <div style="display: flex;">
-                            <span class="view-count">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                </svg>
-                                21
-                            </span>
-                            <span class="pofol-title">Title</span>
-                        </div>    
-                    </div>
-                    <div class="pofol-obj">
-                        <img src="" width="250px" height="250px"><br>
-                        <div style="display: flex;">
-                            <span class="view-count">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
-                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-                                </svg>
-                                21
-                            </span>
-                            <span class="pofol-title">Title</span>
-                        </div>    
-                    </div>
-                </div>
-                </div>
+		})
+	
+		$("#pofol-view-option").on("change", function() {
+	        standard = $(this).val();
+	        showpofolList(category, standard);
+		});
+		
+		$(".btn-cateMain").on("click", function() {
+		    category = $(this).val();
+		    showpofolList(category, standard);
+		});
+	
+		function showpofolList(num, option) {
+						
+			let $category = num; // 대분류 번호
+			let $standard = option; // 정렬기준
 
-            <!-- 페이징바 -->    
-            <div align="center" id="pagingBtn-area">
-                <button class="pagingBtn">prev</button>
-                <button class="pageBtn">1</button>
-                <button class="pageBtn">2</button>
-                <button class="pagingBtn">next</button>
-            </div>
+			$("#wraper").empty();
+			$("#paging-area").empty();
+			
+			$.ajax({
+				url : "pofolListOrderBy.po",
+				type : "get",
+				data : { standard : $standard,
+						 category : $category },
+				success : function(result) {
+					
+					let list = result.list;
+					let firstImgList = result.firstImgList;
+					let startPage = result.pi.startPage;
+					let endPage = result.pi.endPage;
+					let maxPage = result.pi.maxPage;
+					let currnetPage = result.pi.currnetPage;
+						
+            		for(let i = 0; i < list.length; i++){
+            			let resultStr = '<div class="pofol-obj">'
+			    						+ '<img src="' + list[i].firstImg + '" width="250px" height="250px"><br>'
+			        					+ '<div style="width:250px; margin:auto; text-align:left;">'
+			        					+ '<p class="pofol-title">' + list[i].pofol.pofolTitle + '</p>'
+			               				+ '<span class="view-count">'
+				                        + '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">'
+				                        + '<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>'
+				                        + '<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>'
+			                    		+ '</svg>'
+			                    		+ list[i].pofol.pofolVisited
+			                			+ '</span>'    
+			        					+ '</div>'    
+			    						+ '</div>'
+    						
+    						$("#wraper").append(resultStr);
+            		}
+            		
+            		for(let p = startPage; p <= endPage; p++){
+    					
+    					let pagingBtn = '';
+    					pagingBtn = $('<button type="button" class="pageBtn" onclick="paging(' + p + ');">' + p + '</button>');
+    					
+    					if (parseInt($("#currentPage").val()) == p) {
+    				        pagingBtn.attr("disabled", true);
+    				        pagingBtn.css("background-color", "rgb(32, 93, 154)");
+    				    }
+    			
+    					$('#paging-area').append(pagingBtn);
+    				}     
+    				
+    				// 다음버튼
+    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage()">Next</button>');
+    				if(parseInt($("#currentPage").val()) == maxPage){
+    					nextButton.css("display", "none");
+    				}
+    				$('#paging-area').append(nextButton);
+            		
+				},
+				error : function() { console.log("fail"); }
+			});
+		}
+	</script>
 
     </div>		
 	

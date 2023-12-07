@@ -81,6 +81,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public int uploadImg(String imgUpload) {
+		return 0;
+	}
+
+	@Override
 	public int changeStatus(Member m) {
 		return memberDao.changeStatus(sqlSession,m);
 	}
@@ -113,6 +118,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String getName(int userNo) {
 		return memberDao.getName(sqlSession, userNo);
+	}
+
+	@Override
+	public int uploadImg(String imgUpload) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int payService(String estNo, String tid) {
+		return memberDao.payService(sqlSession, estNo, tid);
+	}
+
+	@Override
+	public int updateStatus(int estNo) {
+		return memberDao.updateStatus(sqlSession, estNo);
 	}
 
 
