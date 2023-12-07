@@ -240,6 +240,7 @@ html {
     box-sizing: border-box;
     border: 1px solid #f4f4f4;
     background-color: white;
+    box-shadow: 2px 2px 2px 2px lightgray;
 }
 .chat-estimate hr{
     background-color: lightgray;

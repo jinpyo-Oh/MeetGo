@@ -178,7 +178,9 @@
 		cursor: pointer;
 	}
     #user-profile {
-		height: 70%;
+		height: 60px;
+		width: 60px;
+		object-fit: cover;
 		border-radius: 50%;
 	}
 	#user-collapse {

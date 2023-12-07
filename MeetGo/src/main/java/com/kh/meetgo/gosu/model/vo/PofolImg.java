@@ -7,4 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class PofolImg {
+    private int pofolImgNo;
+    private String pofolImgUrl;
+    private int pofolNo;
 }

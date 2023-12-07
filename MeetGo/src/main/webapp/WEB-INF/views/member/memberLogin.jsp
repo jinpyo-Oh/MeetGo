@@ -142,7 +142,7 @@
         <p class="qw">아이디</p>
         <input class="id" type="text" align="center" placeholder="아이디를 입력해주세요." name="userId" value="${ cookie.saveId.value }"required>
         <p class="qw">비밀번호</p>
-        <input class="pass" type="password" align="center" placeholder="비밀번호를 입력해주세요."name="userPwd" required>
+        <input class="pass" type="password" align="center" placeholder="비밀번호를 입력해주세요." name="userPwd" required>
         <div class="loginbarform">
             <button class="loginbar">로그인</button>
         </div>

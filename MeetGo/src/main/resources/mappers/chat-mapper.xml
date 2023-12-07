@@ -2,56 +2,80 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="chatMapper">
     <resultMap id="estimateResultSet" type="estimate">
-        <result column="EST_NO" property="estNo" />
-        <result column="EST_TITLE" property="estTitle" />
-        <result column="EST_CONTENT" property="estContent" />
-        <result column="EST_ADDRESS" property="estAddress" />
-        <result column="EST_SERVICE" property="estService" />
-        <result column="START_DATE" property="startDate" />
-        <result column="END_DATE" property="endDate" />
-        <result column="CONFIRMATION_DATE" property="confirmationDate" />
-        <result column="EST_PRICE" property="estPrice" />
-        <result column="STATUS" property="status" />
-        <result column="TID" property="tid" />
-        <result column="GOSU_NO" property="gosuNo" />
-        <result column="USER_NO" property="userNo" />
+        <result column="EST_NO" property="estNo"/>
+        <result column="EST_TITLE" property="estTitle"/>
+        <result column="EST_CONTENT" property="estContent"/>
+        <result column="EST_ADDRESS" property="estAddress"/>
+        <result column="EST_SERVICE" property="estService"/>
+        <result column="START_DATE" property="startDate"/>
+        <result column="END_DATE" property="endDate"/>
+        <result column="CONFIRMATION_DATE" property="confirmationDate"/>
+        <result column="EST_PRICE" property="estPrice"/>
+        <result column="STATUS" property="status"/>
+        <result column="TID" property="tid"/>
+        <result column="GOSU_NO" property="gosuNo"/>
+        <result column="USER_NO" property="userNo"/>
     </resultMap>
-
-    <resultMap id="chatroomResultSet" type="chatroom">
-        <result column="CHATROOM_NO" property="chatroomNo" />
-        <result column="CREATE_AT" property="createAt" />
+    <resultMap id="memberResultSet" type="member">
         <result column="USER_NO" property="userNo" />
-        <result column="GOSU_NO" property="gosuNo" />
+        <result column="USER_NAME" property="userName" />
+        <result column="USER_ID" property="userId" />
+        <result column="USER_PWD" property="userPwd" />
+        <result column="USER_EMAIL" property="userEmail" />
+        <result column="USER_NICKNAME" property="userNickname" />
+        <result column="USER_GENDER" property="userGender" />
+        <result column="USER_PHONE" property="userPhone" />
+        <result column="USER_PROFILE" property="userProFile" />
+        <result column="CREATE_DATE" property="createDate" />
+        <result column="ADDRESS" property="address"/>
+        <result column="LAST_ACCESS_DATE" property="lastAccessDate" />
+        <result column="ADDRESS" property="address"/>
+        <result column="USER_STATUS" property="userStatus" />
+    </resultMap>
+    <resultMap id="chatroomResultSet" type="chatroom">
+        <result column="CHATROOM_NO" property="chatroomNo"/>
+        <result column="CREATE_AT" property="createAt"/>
+        <result column="USER_NO" property="userNo"/>
+        <result column="GOSU_NO" property="gosuNo"/>
     </resultMap>
 
     <resultMap id="chatResultSet" type="chat">
-        <result column="CHAT_NO" property="chatNo" />
-        <result column="CONTENT" property="content" />
-        <result column="SENDER" property="sender" />
-        <result column="TYPE" property="type" />
-        <result column="CREATE_AT" property="createAt" />
-        <result column="CHATROOM_NO" property="chatroomNo" />
+        <result column="CHAT_NO" property="chatNo"/>
+        <result column="CONTENT" property="content"/>
+        <result column="SENDER" property="sender"/>
+        <result column="TYPE" property="type"/>
+        <result column="CREATE_AT" property="createAt"/>
+        <result column="CHATROOM_NO" property="chatroomNo"/>
     </resultMap>
 
     <resultMap id="categorySmallResultSet" type="categorySmall">
-        <result column="CATEGORY_SMALL_NO" property="categorySmallNo" />
-        <result column="CATEGORY_SMALL_NAME" property="categorySmallName" />
-        <result column="CATEGORY_BIG_NO" property="categoryBigNo" />
+        <result column="CATEGORY_SMALL_NO" property="categorySmallNo"/>
+        <result column="CATEGORY_SMALL_NAME" property="categorySmallName"/>
+        <result column="CATEGORY_BIG_NO" property="categoryBigNo"/>
     </resultMap>
 
-    <select id="selectChatRoomList" parameterType="chatroom" resultType="com.kh.meetgo.chat.model.dto.ChatListDto">
-        SELECT cr.chatroom_no as "chatroom.chatroomNo",
-        cr.create_at   as "chatroom.createAt",
-        cr.user_no     as "chatroom.userNo",
-        cr.gosu_no     as "chatroom.gosuNo",
-        M.user_name   as "userName",
+    <select id="selectChatRoomList" parameterType="member" resultType="com.kh.meetgo.chat.model.dto.ChatListDto">
+        SELECT
+        cr.chatroom_no as "chatroom.chatroomNo",
+        cr.create_at as "chatroom.createAt",
+        cr.user_no as "chatroom.userNo",
+        cr.gosu_no as "chatroom.gosuNo",
+        M.user_name as "userName",
         M.USER_PROFILE as "userProfile"
         FROM CHATROOM cr
         LEFT JOIN (
         SELECT USER_NAME, USER_NO, USER_PROFILE
         FROM MEMBER
-        ) M ON CR.USER_NO = M.USER_NO
-        WHERE cr.user_no = #{userNo} OR GOSU_NO = #{userNo}
+        <choose>
+            <when test="userStatus == 1">
+                ) M ON CR.GOSU_NO = M.USER_NO
+                WHERE CR.USER_NO =  #{userNo}
+            </when>
+            <otherwise>
+                ) M ON CR.USER_NO = M.USER_NO
+                WHERE CR.GOSU_NO = #{userNo}
+            </otherwise>
+        </choose>
     </select>
 
     <select id="selectChatList" parameterType="_int" resultMap="chatResultSet">
@@ -73,8 +97,10 @@
     </insert>
 
     <insert id="insertEstimate" parameterType="estimate" useGeneratedKeys="true" keyColumn="EST_NO" keyProperty="estNo">
-        INSERT INTO ESTIMATE (EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, START_DATE, END_DATE, CONFIRMATION_DATE, EST_PRICE, STATUS, GOSU_NO, USER_NO)
-        VALUES (SEQ_ESTIMATE_NO.nextval, 'aa', #{estContent}, #{estAddress}, #{estService}, TO_DATE(#{startDate}, 'YYYY-MM-DD'), #{endDate} , #{confirmationDate}, #{estPrice}, '1', #{gosuNo}, #{userNo})
+        INSERT INTO ESTIMATE (EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, START_DATE, END_DATE,
+        CONFIRMATION_DATE, EST_PRICE, STATUS, GOSU_NO, USER_NO)
+        VALUES (SEQ_ESTIMATE_NO.nextval, 'aa', #{estContent}, #{estAddress}, #{estService}, TO_DATE(#{startDate},
+        'YYYY-MM-DD'), #{endDate} , #{confirmationDate}, #{estPrice}, '1', #{gosuNo}, #{userNo})
     </insert>
 
     <select id="searchEstimate" parameterType="_int" resultMap="estimateResultSet">
@@ -108,6 +134,81 @@
         insert into CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO)
         values(SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo})
     </insert>
+    <update id="changeEstStatus" parameterType="estimate">
+        UPDATE ESTIMATE
+        SET STATUS = #{status}
+        WHERE EST_NO = #{estNo}
+    </update>
+    <select id="selectChatGosuInfo"  parameterType="_int" resultMap="memberResultSet">
+        SELECT *
+        FROM MEMBER M
+        LEFT JOIN (
+            SELECT *
+            FROM GOSU
+        ) G USING (USER_NO)
+        WHERE USER_NO = (
+            SELECT GOSU_NO
+            FROM CHATROOM
+            WHERE CHATROOM_NO = #{chatroomNo}
+        )
+    </select>
+    <select id="selectServiceList" parameterType="_int" resultMap="categorySmallResultSet">
+        SELECT *
+        FROM SERVICE_CATEGORY_SMALL A
+        JOIN (
+            SELECT CATEGORY_SMALL_NO
+            FROM "GOSU-SERVICE"
+            WHERE GOSU_NO = ${userNo}
+        ) B USING (CATEGORY_SMALL_NO)
+    </select>
+    <select id="selectGosu" parameterType="_int" resultType="com.kh.meetgo.member.model.vo.Gosu">
+        SELECT *
+        FROM GOSU
+        WHERE USER_NO = ${userNO}
+    </select>
+    <select id="selectGosuImg" parameterType="_int" resultType="com.kh.meetgo.gosu.model.vo.GosuImg">
+        SELECT gosu_img_no as gosuImgNo, gosu_img_url as gosuImgUrl, status as status, gosu_no as gosuNo
+        FROM "GOSU-IMG"
+        WHERE GOSU_NO = ${userNo}
+    </select>
+    <select id="selectReviewList" parameterType="_int" resultType="com.kh.meetgo.chat.model.dto.ChatReviewDto">
+        SELECT R.rev_no AS "review.revNo",
+                R.rev_content AS "review.revContent",
+                R.rev_point AS "review.revPoint",
+                R.rev_date AS "review.revDate",
+                R.rev_status AS "review.revStatus",
+                R.est_no AS "review.estNo",
+                R.user_no AS "review.userNo",
+                R.gosu_no AS "review.gosuNo",
+                RI.rev_img_url AS "reviewImg.revImgUrl",
+                RI.IMG_NO AS "reviewImg.imgNo"
+        FROM REVIEW R
+            LEFT JOIN (
+                SELECT REV_NO, rev_img_url, IMG_NO
+                FROM REVIEW_IMG
+                WHERE (REV_NO, IMG_NO) IN (
+                    SELECT REV_NO, MIN(IMG_NO) AS min_img_no
+                    FROM REVIEW_IMG
+                    GROUP BY REV_NO
+                )
+            ) RI ON R.REV_NO = RI.REV_NO
+        WHERE R.GOSU_NO = ${userNo}
+    </select>
+
+    <select id="selectPofolList" parameterType="_int" resultType="com.kh.meetgo.gosu.model.vo.PofolImg">
+        SELECT POFOL_NO as pofolNo, POFOL_IMG_NO as pofolImgNo, POFOL_IMG_URL as pofolImgUrl
+        FROM POFOL_IMG PI
+        INNER JOIN (
+        SELECT *
+        FROM POFOL
+        WHERE GOSU_NO = 1001
+        )P USING (POFOL_NO)
+    </select>
+    <select id="selectReviewAvg" parameterType="_int" resultType="_double">
+        SELECT AVG(REV_POINT)
+        FROM REVIEW R
+        WHERE R.GOSU_NO = ${userNo}
+    </select>
 </mapper>
 
 
