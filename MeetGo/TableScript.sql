@@ -3,7 +3,7 @@ drop table "GOSU-IMG" cascade constraints purge;
 drop table "GOSU-SERVICE" cascade constraints purge;
 drop table SERVICE_CATEGORY_SMALL cascade constraints purge;
 drop table SERVICE_CATEGORY_BIG cascade constraints purge;
-drop table POFOL_LIKE cascade constraints purge;
+drop table GOSU_LIKE cascade constraints purge;
 drop table POFOL cascade constraints purge;
 drop table CHAT_IMAGE cascade constraints purge;
 drop table ESTIMATE cascade constraints purge;
@@ -37,19 +37,19 @@ drop sequence SEQ_EMAIL_NO;
 -- 회원 테이블
 CREATE TABLE MEMBER
 (
-    USER_NO          NUMBER PRIMARY KEY,                                   -- 유저 번호
-    USER_NAME        VARCHAR2(30)                                NOT NULL, -- 이름
-    USER_ID          VARCHAR2(30) UNIQUE                         NOT NULL, -- 아이디
-    USER_PWD         VARCHAR2(1000)                              NOT NULL, -- 비밀번호
-    USER_NICKNAME    VARCHAR2(30) UNIQUE                         NOT NULL, -- 닉네임
-    USER_GENDER      CHAR(1) CHECK ( USER_GENDER IN ('M', 'F') ) NOT NULL, -- 성별 (M:남, F:여)
-    USER_EMAIL       VARCHAR2(30) UNIQUE                         NOT NULL, -- 이메일 (인증 필요)
-    USER_PHONE       VARCHAR2(20)                                NOT NULL, -- 번호
-    USER_PROFILE     VARCHAR2(1000)    default 'https://heurm-tutorial.vlpt.us/images/default_thumbnail.png',     -- 프로필 이미지
-    ADDRESS          VARCHAR2(100)                               NULL, -- 주소
-    CREATE_DATE      DATE DEFAULT SYSDATE,                                 -- 생성일자
-    LAST_ACCESS_DATE DATE DEFAULT SYSDATE,                                 -- 최근 접속일
-    USER_STATUS      NUMBER CHECK (USER_STATUS IN (1, 2, 3, 4))  NULL      -- 1: 일반사용자,  2: 고수,  3: 고수 비활성화 4: 회원 탈퇴(비활성화)
+    USER_NO          NUMBER PRIMARY KEY,                                                                   -- 유저 번호
+    USER_NAME        VARCHAR2(30)                                NOT NULL,                                 -- 이름
+    USER_ID          VARCHAR2(30) UNIQUE                         NOT NULL,                                 -- 아이디
+    USER_PWD         VARCHAR2(1000)                              NOT NULL,                                 -- 비밀번호
+    USER_NICKNAME    VARCHAR2(30) UNIQUE                         NOT NULL,                                 -- 닉네임
+    USER_GENDER      CHAR(1) CHECK ( USER_GENDER IN ('M', 'F') ) NOT NULL,                                 -- 성별 (M:남, F:여)
+    USER_EMAIL       VARCHAR2(30) UNIQUE                         NOT NULL,                                 -- 이메일 (인증 필요)
+    USER_PHONE       VARCHAR2(20)                                NOT NULL,                                 -- 번호
+    USER_PROFILE     VARCHAR2(1000) default 'https://heurm-tutorial.vlpt.us/images/default_thumbnail.png', -- 프로필 이미지
+    ADDRESS          VARCHAR2(100)                               NULL,                                     -- 주소
+    CREATE_DATE      DATE           DEFAULT SYSDATE,                                                       -- 생성일자
+    LAST_ACCESS_DATE DATE           DEFAULT SYSDATE,                                                       -- 최근 접속일
+    USER_STATUS      NUMBER CHECK (USER_STATUS IN (1, 2, 3, 4))  NULL                                      -- 1: 일반사용자,  2: 고수,  3: 고수 비활성화 4: 회원 탈퇴(비활성화)
 );
 
 CREATE TABLE REPORT
@@ -66,42 +66,56 @@ CREATE SEQUENCE SEQ_REPORT_NO NOCACHE;
 
 CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE,ADDRESS, USER_STATUS)
-VALUES (1001, '윤아', 'user01', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER01', 'M', 'dltkdgus1850@gmail.com', '01035483929',
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTA2MjJfMjk2/MDAxNjI0MzM1MjAxODcz.Rts7NekerZ35zKgVJtX5n3ZBtQq0n8jSi1Aq6JcU0WEg.7Z3yCyxY9PnCZfBazkvwTLB3BmtHghYBZcEAlt7pEmMg.JPEG.hwoarangx2/img_(3).jpg?type=w800', '서울시 영등포구',1);
+                    USER_PROFILE, ADDRESS, USER_STATUS)
+VALUES (1001, '윤아', 'user01', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER01', 'M',
+        'dltkdgus1850@gmail.com', '01035483929',
+        'https://mblogthumb-phinf.pstatic.net/MjAyMTA2MjJfMjk2/MDAxNjI0MzM1MjAxODcz.Rts7NekerZ35zKgVJtX5n3ZBtQq0n8jSi1Aq6JcU0WEg.7Z3yCyxY9PnCZfBazkvwTLB3BmtHghYBZcEAlt7pEmMg.JPEG.hwoarangx2/img_(3).jpg?type=w800',
+        '서울시 영등포구', 1);
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE,ADDRESS, USER_STATUS)
-VALUES (1002, '수지', 'user02', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER02', 'M', 'dltkdgus1851@gmail.com', '01035483929',
-        'https://i.pinimg.com/originals/d0/55/34/d05534b4a66c74ae771a4924d2013567.jpg', '안산시 상록구',1);
+                    USER_PROFILE, ADDRESS, USER_STATUS)
+VALUES (1002, '수지', 'user02', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER02', 'M',
+        'dltkdgus1851@gmail.com', '01035483929',
+        'https://i.pinimg.com/originals/d0/55/34/d05534b4a66c74ae771a4924d2013567.jpg', '안산시 상록구', 1);
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE,ADDRESS, USER_STATUS)
-VALUES (1003, '예인', 'user03', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER03', 'M', 'dltkdgus1852@gmail.com', '01035483929',
-        'https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg', '대전 오정동',1);
+                    USER_PROFILE, ADDRESS, USER_STATUS)
+VALUES (1003, '예인', 'user03', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER03', 'M',
+        'dltkdgus1852@gmail.com', '01035483929',
+        'https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg',
+        '대전 오정동', 1);
 INSERT INTO MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                    USER_PROFILE,ADDRESS, USER_STATUS)
-VALUES (1004, '예은', 'user04', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER04', 'M', 'dltkdgus1853@gmail.com', '01035483929',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', '대전 은행동',1);
+                    USER_PROFILE, ADDRESS, USER_STATUS)
+VALUES (1004, '예은', 'user04', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER04', 'M',
+        'dltkdgus1853@gmail.com', '01035483929',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', '대전 은행동',
+        1);
 
 -- 고수 테이블
 CREATE TABLE GOSU
 (
     "GOSU_NO"         NUMBER PRIMARY KEY,                            -- 고수 번호
-    "INTRODUCTION"    VARCHAR2(255) NOT NULL,                        -- 소개
-    "EMPLOYEES"       NUMBER        NOT NULL,                        -- 직원 수
+    "INTRODUCTION"    VARCHAR2(255)  NOT NULL,                       -- 소개
+    "EMPLOYEES"       NUMBER         NOT NULL,                       -- 직원 수
     "BUSINESS_STATUS" NUMBER CHECK ( BUSINESS_STATUS IN (1, 2, 3) ), -- 일반, 개인, 법인
-    "EDUCATION"       VARCHAR2(100) NOT NULL,                        -- 학력
-    "CAREER"          VARCHAR2(50)  NOT NULL,                        -- 경력
-    "ELABORATE"       VARCHAR2(255) NOT NULL,                        -- 서비스 상세 설명
-    "REGION"          VARCHAR2(100) NOT NULL,                        -- 지역
-    "MOVE_DISTANCE"   VARCHAR2(150) NULL,                            -- 이동 가능 거리
-    "AVAILABLE_TIME"  VARCHAR2(200) NULL,                            -- 이용 가능 시간
-    "USER_NO"         NUMBER        NOT NULL,
+    "EDUCATION"       VARCHAR2(100)  NOT NULL,                       -- 학력
+    "CAREER"          VARCHAR2(1000) NOT NULL,                       -- 경력
+    "ELABORATE"       VARCHAR2(255)  NOT NULL,                       -- 서비스 상세 설명
+    "REGION"          VARCHAR2(100)  NOT NULL,                       -- 지역
+    "MOVE_DISTANCE"   VARCHAR2(150)  NULL,                           -- 이동 가능 거리
+    "AVAILABLE_TIME"  VARCHAR2(200)  NULL,                           -- 이용 가능 시간
+    "USER_NO"         NUMBER         NOT NULL,
     FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
 );
-INSERT INTO GOSU (GOSU_NO, ADDRESS, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
-                  MOVE_DISTANCE,
-                  AVAILABLILTY_TIME, USER_NO)
-VALUES (1004, '서울시 어쩌구', '렛미인트로듀스 마이셀프투유', 1, 1, '초졸', '1년', '서비스 상세 설명입니다.', '서울 어쩌구', '5km', '오전 9시 ~ 오후 2시', 1002);
+
+
+-- 고수 좋아요 테이블
+CREATE TABLE "GOSU_LIKE"
+(
+    "GOSU_NO" NUMBER NOT NULL, -- 포폴 번호
+    "USER_NO" NUMBER NOT NULL, -- 사용자 번호
+    FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO),
+    FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
+);
+
 
 -- 찜 목록 테이블
 CREATE TABLE "WISH-LIST"
@@ -115,12 +129,10 @@ CREATE TABLE "WISH-LIST"
 -- 고수 소개 이미지
 CREATE TABLE "GOSU-IMG"
 (
-    "GOSU_IMG_NO" NUMBER PRIMARY KEY,                -- 고수 이미지 번호
-    "ORIGIN_NAME" VARCHAR2(255) NOT NULL,            -- 원본 이름
-    "CHANGE_NAME" VARCHAR2(255) NOT NULL,            -- 수정 이름
-    "FILE_PATH"   VARCHAR2(255) NOT NULL,            -- 파일 경로
-    "STATUS"      NUMBER CHECK ( STATUS IN (1, 2) ), -- 1 : 정상, 2 : 삭제
-    "GOSU_NO"     NUMBER        NOT NULL,            -- 고수 번호
+    "GOSU_IMG_NO"  NUMBER PRIMARY KEY,                -- 고수 이미지 번호
+    "GOSU_IMG_URL" VARCHAR2(500) NOT NULL,            -- URL
+    "STATUS"       NUMBER CHECK ( STATUS IN (1, 2) ), -- 1 : 정상, 2 : 삭제
+    "GOSU_NO"      NUMBER        NOT NULL,            -- 고수 번호
     FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO)
 );
 CREATE SEQUENCE SEQ_GOSU_IMG NOCACHE;
@@ -251,22 +263,28 @@ CREATE TABLE "GOSU-SERVICE"
 -- 포트폴리오 테이블
 CREATE TABLE "POFOL"
 (
-    "POFOL_NO"      NUMBER PRIMARY KEY,      -- 포폴 번호
-    "POFOL_TITLE"   VARCHAR2(50)   NOT NULL, -- 포폴 제목
-    "POFOL_CONTENT" VARCHAR2(1000) NOT NULL, -- 포폴 내용
-    "GOSU_NO"       NUMBER         NOT NULL, -- 고수 번호
+    "POFOL_NO"          NUMBER PRIMARY KEY,                               -- 포폴 번호
+    "POFOL_SERVICE"     NUMBER         NOT NULL,                          -- 포폴 서비스
+    "POFOL_TITLE"       VARCHAR2(50)   NOT NULL,                          -- 포폴 제목
+    "POFOL_PRICE"       VARCHAR2(100)  NOT NULL,                          -- 가격
+    "POFOL_CONTENT"     VARCHAR2(1000) NOT NULL,                          -- 포폴 내용
+    "POFOL_VISITED"     NUMBER DEFAULT 0,                                 -- 포폴 조회수
+    "POFOL_CREATE_DATE" DATE   DEFAULT SYSDATE,                           -- 포폴 작성일
+    "POFOL_STATUS"      NUMBER DEFAULT 1 CHECK (POFOL_STATUS IN (1, 2) ), -- 1 : 정상 2 : 삭제
+    "GOSU_NO"           NUMBER         NOT NULL,                          -- 고수 번호
     FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO)
 );
 CREATE SEQUENCE SEQ_POFOL_NO NOCACHE;
 
--- 포트폴리오 좋아요 테이블
-CREATE TABLE "POFOL_LIKE"
+-- 포트폴리오 이미지 테이블
+CREATE TABLE "POFOL_IMG"
 (
-    "POFOL_NO" NUMBER NOT NULL, -- 포폴 번호
-    "USER_NO"  NUMBER NOT NULL, -- 사용자 번호
-    FOREIGN KEY (POFOL_NO) REFERENCES POFOL (POFOL_NO),
-    FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
+    "POFOL_IMG_NO"  NUMBER PRIMARY KEY,     -- 포폴 이미지 번호
+    "POFOL_IMG_URL" VARCHAR2(500) NOT NULL, -- 포폴 URL 주소
+    "POFOL_NO"      NUMBER        NOT NULL, -- 포폴 번호
+    FOREIGN KEY (POFOL_NO) REFERENCES POFOL (POFOL_NO)
 );
+CREATE SEQUENCE SEQ_POFOL_IMG_NO NOCACHE;
 
 
 -- 채팅방 리스트 테이블
@@ -280,12 +298,8 @@ CREATE TABLE "CHATROOM"
     FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO)
 );
 CREATE SEQUENCE SEQ_CHATROOM_NO NOCACHE;
-INSERT INTO CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1000, SYSDATE, 1001, 1004);
-INSERT INTO CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1001, SYSDATE, 1002, 1004);
-INSERT INTO CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1002, SYSDATE, 1003, 1004);
+
+
 -- 1대1 채팅 테이블
 CREATE TABLE "CHAT"
 (
@@ -322,7 +336,7 @@ CREATE TABLE ESTIMATE
     "START_DATE"        DATE           NOT NULL,                                  -- 서비스 시작일
     "END_DATE"          VARCHAR2(200) DEFAULT SYSDATE,                            -- 서비스 종료일 ex) 계약일로부터 x일
     "CONFIRMATION_DATE" DATE           NULL,                                      -- 견적 확정일
-    "EST_PRICE"         VARCHAR2(200)         NOT NULL,                            -- 견적 가격
+    "EST_PRICE"         VARCHAR2(200)  NOT NULL,                                  -- 견적 가격
     "STATUS"            VARCHAR2(1) CHECK ( STATUS IN ('1', '2', '3', '4', '5')), -- 1:대기, 2:취소, 3:확정(결제 대기), 4:결제 완료, 5:완료
     "TID"               VARCHAR2(30)   NULL,                                      -- 결제 고유 번호
     "GOSU_NO"           NUMBER         NOT NULL,                                  -- 고수 번호
@@ -352,9 +366,7 @@ CREATE SEQUENCE SEQ_REV_NO NOCACHE;
 CREATE TABLE "REVIEW_IMG"
 (
     "IMG_NO"      NUMBER PRIMARY KEY,     -- 리뷰 이미지 번호
-    "ORIGIN_NAME" VARCHAR2(300) NOT NULL, -- 원본 이름
-    "CHANGE_NAME" VARCHAR2(300) NOT NULL, -- 수정 이름ㅁ
-    "IMG_PATH"    VARCHAR2(300) NOT NULL, -- 파일 경로
+    "REV_IMG_URL" VARCHAR2(300) NOT NULL, -- 리뷰 이미지 URL
     "REV_NO"      NUMBER        NOT NULL, -- 리뷰 번호
     FOREIGN KEY (REV_NO) REFERENCES REVIEW (REV_NO)
 );

@@ -101,7 +101,7 @@
 		.portfolio-info {
 			width: 250px;
 			margin: 10px auto 0 auto;
-            display: flex;
+            display: inline-block;
 		}
         .portfolio-info img{
 			width: 40px;
@@ -111,6 +111,7 @@
 		}
 		.portfolio-info p{
 			line-height: 100%;
+			margin: 0;
 		}
         .tip-card {
             width: 600px;

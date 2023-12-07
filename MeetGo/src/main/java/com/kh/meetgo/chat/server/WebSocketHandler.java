@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.kh.meetgo.chat.model.service.ChatService;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
+import com.kh.meetgo.member.model.vo.Member;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,21 +26,20 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private ChatService chatService;
     private Map<Integer, ArrayList<WebSocketSession>> roomList = new ConcurrentHashMap<Integer, ArrayList<WebSocketSession>>();
     private Map<WebSocketSession, Integer> sessionList = new ConcurrentHashMap<WebSocketSession, Integer>();
-    private Map<Integer, Integer> roomCunnectUser = new ConcurrentHashMap<Integer, Integer>();
+    private Map<Integer, Integer> roomConnectUser = new ConcurrentHashMap<Integer, Integer>();
     private static int person;
     // websocket 연결 성공 시
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         person++;
-        System.out.println(session.getAttributes().get("loginMember"));
-        System.out.println("@@@@@@@@ 연결 성공 @@@@@@@@@");
+//        System.out.println("@@@@@@@@ 연결 성공 @@@@@@@@@");
     }
 
     // websocket 연결 종료 시
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         person--;
-        System.out.println(session.getId() + " 연결 종료 => 총 접속 인원 : " + person + "명");
+//        System.out.println(session.getId() + " 연결 종료 => 총 접속 인원 : " + person + "명");
         // sessionList에 session이 있다면
         if(sessionList.get(session) != null) {
             // 해당 session의 방 번호를 가져와서, 방을 찾고, 그 방의 ArrayList<session>에서 해당 session을 지운다.
@@ -51,18 +51,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
     // websocket 메세지 수신 및 송신
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+
         // 전달받은 메세지
         String msg = message.getPayload();
         // Json객체 → Java객체hgfds.,mn
         // 출력값 : [roomId=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
-
         Chat chat = new ObjectMapper().readValue(msg,Chat.class);
 
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());
 
         // 채팅방 세션 목록에 채팅방 x, 처음 들어옴, DB에 채팅방 있음 => 채팅방 생성
         if (roomList.get(chatroom.getChatroomNo()) == null && chat.getContent().equals("ENTER_CHAT")){
-
             ArrayList<WebSocketSession> sessionTwo = new ArrayList<>();
             // session 추가
             sessionTwo.add(session);
@@ -70,16 +69,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
             sessionList.put(session, chatroom.getChatroomNo());
             // RoomList에 추가
             roomList.put(chatroom.getChatroomNo(), sessionTwo);
-            System.out.println("채팅방 생성");
+//            System.out.println("채팅방 생성");
         }
         // 채팅방 세션 목록에 채팅방 o, 처음 들어옴, DB에 채팅방 있음
         else if (roomList.get(chatroom.getChatroomNo()) != null && chat.getContent().equals("ENTER_CHAT")){
-
             // RoomList에서 해당 방번호를 가진 방이 있는지 확인.
             roomList.get(chatroom.getChatroomNo()).add(session);
             // sessionList에 추가
             sessionList.put(session, chatroom.getChatroomNo());
-            System.out.println("채팅방 입장");
+//            System.out.println("채팅방 입장");
         }
         // 채팅 일시
         else {
@@ -95,7 +93,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
             for (WebSocketSession sess : roomList.get(chat.getChatroomNo())){
                 sess.sendMessage(textMessage);
             }
-
         }
+
     }
 }
