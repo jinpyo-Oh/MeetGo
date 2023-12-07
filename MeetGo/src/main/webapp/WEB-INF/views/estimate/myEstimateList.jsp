@@ -70,7 +70,7 @@
                 <tr>
 					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
 					<td class="type" style="width:20%;"><h4><b>완료된 계약</b></h4> </td>
-					<td class="type" style="float:right;"><a href="myReview.me" type="button" class="btn btn-success btn-sm">내 리뷰</a></td>                
+					<td class="type" style="text-align: right; float:right;"><a href="myReview.me" class="">내 리뷰 보러가기</a></td>                
                 </tr>
             </table>
             
@@ -158,7 +158,7 @@
             
         	<div id="com" style="display: none;">
 	            <table class="table-hover" align="center">
-	                <thead>
+	                <thead  style="height: 35px;">
 	                    <tr>
 	                        <th style="width: 10%;">계약번호</th>
 	                        <th style="width: 35%;">내용</th>
@@ -179,7 +179,12 @@
 				                        <td>${ b.gosuNo }</td>
 				                        <td>${ b.startDate}</td>
 				                        <td>완료</td>
-				                        <td><a type="button" href="reviewWrite.me" class="btn btn-success btn-sm">리뷰</a></td>
+				                        <td id="review">
+				                        	<a type="button" class="btn btn-success btn-sm">
+				                        		리뷰작성
+				                        	</a>
+				                        	<input type="hidden" id="estNo" value="${ b.estNo }">
+				                        </td>
 				                    </tr>
 				            	</c:forEach>
 			                </tbody>
@@ -252,11 +257,18 @@
     	
     	$(function() {
     		
-    		$(".table-hover>tbody>tr").click(function() {
+    		$(".table-hover>tbody>tr td:not(:last-child)").click(function() {
     			
-    			let eno = $(this).children(".eno").text();
-    			console.log(eno);
+    			let eno = $(this).siblings(".eno").text();
+    			// console.log(eno);
     			location.href = "estimateDetail.me?eno=" + eno;
+    		});
+    		
+    		
+    		$("#review").click(function(){
+    			let eno = $("#estNo").val();
+    			// console.log(eno);
+    			location.href = "reviewWrite.me?eno=" + eno;
     		});
     	});
     	
