@@ -148,10 +148,10 @@ table, th, td {
 </head>
 <body>
     	<jsp:include page="../../common/header.jsp"/>
-    	
-    	<jsp:include page="../../common/side.jsp"/>
-
- <div class="wrap">
+    		
+		 <jsp:include page="../../common/side.jsp"/>
+		
+		 <div class="wrap">
 
         
         <div class="gosu_header">
