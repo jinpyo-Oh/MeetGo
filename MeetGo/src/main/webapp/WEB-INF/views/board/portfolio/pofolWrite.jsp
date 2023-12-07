@@ -48,7 +48,6 @@
     .btn-deleteFile{margin-left: 10px;}
     .btn-deleteFile:hover{cursor: pointer; fill:#2A8FF7}
 
-    .outer>form button[type="submit"],
     .outer>form button[type="button"]{
         border: 0px;
         border-radius: 5px;
@@ -61,11 +60,11 @@
         margin-left: 15px;
         margin-right: 15px;
     }
-    .outer>form button[type="button"]{
+    #btnCancel{
         background-color: rgba(204, 29, 29, 0.699);;
     }
-    .outer>form button[type="submit"]:hover{background-color: #2A8FF7;}
-    .outer>form button[type="button"]:hover{background-color: rgba(204, 29, 29);}
+    #btnSubmit:hover{background-color: #2A8FF7;}
+    #btnCancel:hover{background-color: rgba(204, 29, 29);}
 </style>
 </head>
 <body>
@@ -77,12 +76,13 @@
             포트폴리오 등록
         </p>
         <hr>
+        <form action="pofolWrite.po" method="post" onsubmit="return false;" enctype="multipart/form-data">
             <table id="form-table">
                 <thead>
                 <tr>
                     <th>카테고리</th>
                     <td>
-                        <select class="form-control" id="categorySelect" required>
+                        <select class="form-control" id="categorySelect" name="categorySmallNo" required>
 	                        <c:forEach var="item" items="${ requestScope.loginUserCtgName }">
 	                        	<option value="${ item.categorySmallNo }">${item.categorySmallName}</option>
 	                        </c:forEach>
@@ -92,7 +92,7 @@
                 <tr>
                     <th>제목</th>
                     <td>
-                        <input type="text" class="form-control" id="pofolTitle" required>
+                        <input type="text" class="form-control" id="pofolTitle" name="pofolTitle" required>
                     </td>
                 </tr>
                 <tr>
@@ -100,7 +100,7 @@
                         가격
                     </th>
                     <td>
-                        <input type="text" class="form-control" id="servicePrice">
+                        <input type="text" class="form-control" id="pofolPrice" name="pofolPrice">
                         <span><b>원</b></span>
                         <select class="form-control" id="priceOption">
                             <option>직접입력</option>
@@ -114,13 +114,13 @@
                 <tr>
                     <th>소개글</th>
                     <td colspan="2">
-                        <textarea class="form-control pofolIntro" style="resize: none;" rows="5"></textarea>
+                        <textarea class="form-control pofolIntro" id="pofolIntro" style="resize: none;" rows="5" name="pofolIntro"></textarea>
                     </td>
                 </tr>
                 <tr>
                     <th>내용</th>
                     <td>
-                        <textarea class="form-control pofolDescription" style="resize: none;" rows="10"></textarea>
+                        <textarea class="form-control pofolDescription" id="pofolContent" style="resize: none;" rows="10" name="pofolContent"></textarea>
                         <br>
                     </td>
                 </tr>
@@ -141,9 +141,11 @@
                 </tbody>
             </table>
             <div align="center">
-                <button type="button" onclick="history.back();">취소</button>
-                <button type="submit">등록하기</button>
+                <button id="btnCancel" type="button" onclick="history.back();">취소</button>
+                <button id="btnSubmit" type="button" onclick="submitForm();">등록하기</button>
             </div>
+        </form>
+        
     </div> 
     
     <script>
@@ -224,25 +226,33 @@
 
         /* 폼 전송 */
         function submitForm() {
+        	
             // 폼데이터 담기
-            var form = document.querySelector("form");
-            var formData = new FormData(form);
-            for (var i = 0; i < filesArr.length; i++) {
+            let form = document.querySelector("form");
+            let formData = new FormData(form);
+
+            for (let i = 0; i < filesArr.length; i++) {
                 // 삭제되지 않은 파일만 폼데이터에 담기
                 if (!filesArr[i].is_delete) {
-                    formData.append("attach_file", filesArr[i]);
+                    formData.append("pofolImgUrl", filesArr[i]);
                 }
             }
 
+            formData.append('categorySmallNo', $('#categorySelect').val());
+            formData.append("pofolTitle", $('#pofolTitle').val());
+            formData.append("pofolIntro", $('#pofolIntro').val());
+            formData.append("pofolPrice", $('#pofolPrice').val());
+            formData.append("pofolContent", $('#pofolContent').val());
+			
+            console.log(formData);
             $.ajax({
-                method: 'POST',
-                url: '',
-                dataType: 'json',
-                data: formData,
-                async: true,
-                timeout: 30000,
-                cache: false,
-                headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
+            	type: "POST",
+            	enctype: 'multipart/form-data',
+            	url: "pofolWrite.po",
+            	data: formData,
+            	processData: false,
+            	contentType: false,
+            	cache: false,
                 success: function () {
                     alert("파일업로드 성공");
                 },
