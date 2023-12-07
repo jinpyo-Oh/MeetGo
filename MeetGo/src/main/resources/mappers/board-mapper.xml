@@ -71,10 +71,63 @@
 		     , BOARD_TITLE
 		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
 		     , BOARD_CONTENT
-		     
 		  FROM BOARD
 		 WHERE BOARD_NO = #{boardNo}
 		   AND BOARD_TYPE = 1
+	</select>
+	
+	
+	<!-- 포폴 리스트 전체카운트 -->
+	<select id="countPofolList" resultType="_int">
+		SELECT COUNT(*)
+		  FROM POFOL
+		 WHERE POFOL_STATUS = 1
+	</select>
+	
+	<!-- 포폴 리스트 전체조회 -->
+	<select id="selectPofolList" parameterType="hashMap" resultType="pofolOpt">
+        SELECT P.POFOL_NO AS "pofol.pofolNo",
+			   P.POFOL_TITLE AS "pofol.pofolTitle",
+			   P.POFOL_VISITED AS "pofol.pofolVisited",
+			   P.POFOL_STATUS AS "pofol.pofolStatus",
+               P.POFOL_SERVICE AS "pofol.pofolService",
+			   P.GOSU_NO AS "pofol.gosuNo",
+               CS.CATEGORY_BIG_NO AS "categoryBigNo",
+               CS.CATEGORY_SMALL_NAME AS "categorySmallName",
+               PI.POFOL_IMG_URL AS "firstImg"
+		  FROM POFOL P
+          LEFT JOIN (
+            SELECT GOSU_NO, CATEGORY_SMALL_NO
+              FROM "GOSU-SERVICE"
+          ) S ON S.CATEGORY_SMALL_NO = P.POFOL_SERVICE
+          LEFT JOIN (
+            SELECT CATEGORY_SMALL_NO, CATEGORY_BIG_NO, CATEGORY_SMALL_NAME
+              FROM SERVICE_CATEGORY_SMALL
+          ) CS ON CS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO
+          LEFT JOIN (
+	        SELECT *
+	        FROM POFOL_IMG
+	        WHERE (POFOL_NO, POFOL_IMG_NO) IN (
+	        SELECT POFOL_NO, MIN(POFOL_IMG_NO)
+	        FROM POFOL_IMG
+	        GROUP BY POFOL_NO)
+	        ) PI ON P.POFOL_NO = PI.POFOL_NO
+        <where>
+	        <choose>
+	            <when test="categoryBigNo != 0">
+	                AND CS.CATEGORY_BIG_NO = #{categoryBigNo}
+	            </when>
+	            <otherwise></otherwise>
+	        </choose>
+	    </where>
+		    <choose>
+		        <when test="standard == 'recent'">
+		            ORDER BY POFOL_CREATE_DATE DESC
+		        </when>
+		        <otherwise>
+		            ORDER BY POFOL_VISITED DESC
+		        </otherwise>
+		    </choose>
 	</select>
 
 

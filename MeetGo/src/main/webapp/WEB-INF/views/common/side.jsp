@@ -51,7 +51,7 @@
 	           <br>
 	           <li><a href="tipList.bo" style="font-size: 25px; text-decoration:none;">팁 노하우</a></li>
 	           <br>
-	           <li><a href="pofolList.po" style="font-size: 25px; text-decoration:none;">포트폴리오</a></li>
+	           <li><a href="sendPofol.po" style="font-size: 25px; text-decoration:none;">포트폴리오</a></li>
 	        </ul>
 	    </div>
 	</div>

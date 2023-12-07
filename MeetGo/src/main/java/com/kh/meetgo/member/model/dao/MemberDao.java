@@ -91,4 +91,18 @@ public class MemberDao {
     public String getName(SqlSessionTemplate sqlSession, int userNo) {
     	return sqlSession.selectOne("memberMapper.getName", userNo);
     }
+
+	public int payService(SqlSessionTemplate sqlSession, String estNo, String tid) {
+		
+		Estimate e = new Estimate();
+		
+		e.setEstNo(Integer.parseInt(estNo));
+		e.setTid(tid);
+		
+		return sqlSession.update("memberMapper.payService", e);
+	}
+
+	public int updateStatus(SqlSessionTemplate sqlSession, int estNo) {
+		return sqlSession.update("memberMapper.updateStatus", estNo);
+	}
 }
