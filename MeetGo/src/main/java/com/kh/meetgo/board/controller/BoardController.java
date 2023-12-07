@@ -15,17 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.board.model.vo.Board;
-import com.kh.meetgo.common.model.dto.PoFolRequest;
+import com.kh.meetgo.board.model.vo.Reply;
+import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.service.CommonService;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
+import com.kh.meetgo.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -35,6 +38,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@Autowired
+	private S3Uploader s3Uploader;
 	private CommonService commonService;
 
 
@@ -67,7 +71,7 @@ public class BoardController {
 		return "board/tip/tipWrite";
 	}
 	
-	@GetMapping("list.bo")
+	@GetMapping("gosuList.bo")
 	public ModelAndView selectList(
 			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
 			ModelAndView mv) {
@@ -86,7 +90,6 @@ public class BoardController {
 		mv.addObject("list", list)
 		  .addObject("pi", pi)
 		  .setViewName("board/gosuRequest/gosuList");
-		  
 		return mv;
 	}
 	
@@ -170,14 +173,7 @@ public class BoardController {
 		int result = boardService.deleteBoard(bno);
 		
 		if(result > 0) { // 삭제 성공
-			// => alert 문구를 담아 게시판 리스트 페이지로 url 재요청
 			
-			// 기존에 첨부파일이 있었을 경우
-			// 서버로부터 해당 첨부파일 삭제하기
-			
-			// filePath 라는 매개변수에는
-			// 기존에 첨부파일이 있었을 경우 수정파일명
-			// 기존에 첨부파일이 없었을 경우 "" 이 들어가 있음
 			if(!filePath.equals("")) {
 				// 기존에 첨부파일이 있었을 경우
 				// => 해당 파일을 삭제처리
@@ -200,6 +196,10 @@ public class BoardController {
 			
 			return "common/errorPage";
 		}
+	
+		
+	
+	
 	}
 	
 	@RequestMapping("sendPofol.po")
@@ -231,10 +231,17 @@ public class BoardController {
 		return new Gson().toJson(map);
 	}
 
-	
+	@ResponseBody
 	@RequestMapping("sendPofolWrite.po")
-	public String sendPofolWrite() {
-		return "board/portfolio/pofolWrite";
+	public ModelAndView sendPofolWrite(@SessionAttribute("loginUser") Member loginUser
+								, ModelAndView mv) {
+		
+		int userNo = loginUser.getUserNo();
+		
+		ArrayList<String> loginUserCtgName = boardService.getLoginUserCtgName(userNo);
+		
+		mv.addObject("loginUserCtgName", loginUserCtgName).setViewName("board/portfolio/pofolWrite");
+		return mv;
 	}
 	
 	@RequestMapping("pofolWrite.po")
@@ -246,5 +253,32 @@ public class BoardController {
 	public String pofolDetail() {
 		return "board/portfolio/pofolDetail";
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "rlist.bo", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int bno) {
+		
+		ArrayList<Reply> list = boardService.selectReplyList(bno);
+		
+		// Gson gson = new Gson();
+		// return gson.toJson(list);
+		
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "rinsert.bo", produces = "text/html; charset=UTF-8")
+	public String ajaxInsertReply(Reply r) {
+		
+		// System.out.println(r);
+		
+		int result = boardService.insertReply(r);
+		
+		return (result > 0) ? "success" : "fail";
+	}
+	
+	
+	
 	
 }

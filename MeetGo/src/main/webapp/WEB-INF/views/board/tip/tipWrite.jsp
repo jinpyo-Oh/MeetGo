@@ -155,7 +155,7 @@
             </div>
             
             <br>
-            <form id="tipWrite" action="tipInsert.go" method="post" enctype="multipart/form-data">
+            <form id="tipWrite" action="tipInsert.bo" method="post" enctype="multipart/form-data">
             <div style="display: flex; align-items: center;">
             	
             	

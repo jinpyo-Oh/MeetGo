@@ -41,7 +41,8 @@
 			</props>
 		</property>
 	</bean>
-
+	
+	
 	<!-- Transaction 처리를 위한 Benn 등록 -->
 	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
 		<property name="dataSource" ref="basicDataSource" />

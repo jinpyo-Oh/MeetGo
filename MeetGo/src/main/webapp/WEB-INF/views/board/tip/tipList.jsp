@@ -149,9 +149,8 @@
                 <form action="test.do" method="get">             
                     <select name="">
                         <option value="new">최신순</option>
-                        <option value="writer">작성자</option>
-                        <option value="title">제목</option>
-                    </select>
+                        <option value="writer">조회수</option>
+                     </select>
                 </form>    
             </div>
             

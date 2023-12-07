@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -76,21 +77,22 @@
             포트폴리오 등록
         </p>
         <hr>
-        <form action="pofolWrite.po" method="post" onsubmit="return false;" enctype="multipart/form-data">
             <table id="form-table">
                 <thead>
                 <tr>
                     <th>카테고리</th>
                     <td>
                         <select class="form-control" id="categorySelect" required>
-                            <option></option>
+	                        <c:forEach var="item" items="${ requestScope.loginUserCtgName }">
+	                        	<option value="${ item.categorySmallNo }">${item.categorySmallName}</option>
+	                        </c:forEach>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th>제목</th>
                     <td>
-                        <input type="text" class="form-control" id="pofolTitle" name="" required>
+                        <input type="text" class="form-control" id="pofolTitle" required>
                     </td>
                 </tr>
                 <tr>
@@ -142,8 +144,6 @@
                 <button type="button" onclick="history.back();">취소</button>
                 <button type="submit">등록하기</button>
             </div>
-        </form>
-        
     </div> 
     
     <script>

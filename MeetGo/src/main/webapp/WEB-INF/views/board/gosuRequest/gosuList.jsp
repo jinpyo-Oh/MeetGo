@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -18,7 +19,6 @@
     
     } 
     
-    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
 .wrap{
     margin: auto;
@@ -87,7 +87,7 @@ table, th, td {
     width: 1000px;
     height: 630px;
 }
-.gosu_content_1{
+.bno{
     width: 80px;
     height: 10px;
     box-sizing: border-box;
@@ -179,7 +179,10 @@ table, th, td {
         </div>
        
        <div class="gosu_main">
-        
+        <script>
+			console.log(${requestScope.boardTitle});
+		</script>    
+		
             <table class="gosu_first">
                 <tr>
                     <th> &nbsp; &nbsp; &nbsp;
@@ -191,31 +194,33 @@ table, th, td {
                     
                     
                 </tr>       
-                        
+                    
             </table>
-           <table class="gosu_content">
-                <tr>
-                    <td class="gosu_content_1">
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        ${ m.boardNo }
+           <table class="boardList">
+            <c:forEach var="m" items="${ requestScope.list }">
+              		<tr>
+       
+                    <td class="bno">
+                        ${m.boardNo}
                     </td>
                     <td class="gosu_content_2">
-                        &nbsp;&nbsp;
-                        ${ m.boardTitle } </td>
-                    <td class="gosu_content_3"style="text-align: center;">
-                       
-                    </td>
+                         ${m.boardTitle} </td>
+                 
                     <td class="gosu_content_4"
                     style="text-align: center;"
-                    > ${ m.createDate }
+                    >  ${m.createDate}
+                   
                     </td>            
                </tr>
+               
+               </c:forEach>
             </table>   
-            <a href="gosuWrite.bo">
-                <button type="submit" class="btn btn-primary" >글작성</button>
-            </a>
+           
             
        </div>
+       <a href="gosuWrite.bo">
+        <button type="submit" class="btn btn-primary"  >글작성</button>
+        </a>
        <div class="gosu_footer" >
     
 		</div>
@@ -264,16 +269,9 @@ table, th, td {
 	
 	
 	<script>
-	$(function() {
-		
-		$("#baordList > tr").click(function() {
-			
-			let mno = $(this).children(".mno").text();
-			
-			
-			
-			location.href = "detail.bo?mno=" + bno;
-		});
+	$(".boardList tr").click(function() {
+	    let bno = $(this).children(".bno").text();
+	    location.href = "detail.bo?bno=" + bno;
 	});
 	</script>
 	

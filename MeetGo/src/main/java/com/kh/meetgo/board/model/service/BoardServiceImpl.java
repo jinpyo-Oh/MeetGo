@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.meetgo.board.model.dao.BoardDao;
 import com.kh.meetgo.board.model.vo.Board;
+import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 
@@ -35,13 +36,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	@Transactional // 이 메소드가 트랜잭션 1개임을 나타냄
-	/*
-	 * 단, Transactional 어노테이션은 
-	 * dml 문의 실패를 Exception 이 발생했을 때로 간주한다.
-	 * => 즉, result1 = 1; result2 = 0;
-	 *    처리된 행의 갯수가 0 으로 나오더라도 실패로 간주하지 않음!!
-	 */
+	@Transactional 
+
 	public int insertBoard(Board m) {
 		return boardDao.insertBoard(sqlSession, m);
 	}
@@ -75,6 +71,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	public ArrayList<Reply> selectReplyList(int boardNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insertReply(Reply r) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	public int countPofolList() {
 		return boardDao.countPofolList(sqlSession);
 	}
@@ -82,7 +89,10 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<PofolOpt> selectPofolList(PageInfo pi, String standard, int categoryBigNo) {
 		return boardDao.selectPofolList(sqlSession, pi, standard, categoryBigNo);
 	}
-	
+	@Override
+	public ArrayList<String> getLoginUserCtgName(int userNo) {
+		return boardDao.getLoginUserCtgName(sqlSession, userNo);
+	}
 	
 
 }
