@@ -108,7 +108,7 @@ textarea{
 	<jsp:include page="../../common/header.jsp"/>
 
     <div class="wrap">
-        <form id="gosuWrite" action="insert.go" method="post" enctype="multipart/form-data"> 
+        <form id="gosuWrite" action="insert.bo" method="post" enctype="multipart/form-data"> 
         <div class="gosu_title">
             <div class="gosu_title_1">
                 <h4><b>&nbsp;&nbsp;&nbsp;고수찾기</b></h4>  

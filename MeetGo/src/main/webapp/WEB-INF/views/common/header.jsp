@@ -266,7 +266,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="gosuList.go">커뮤니티</a>
+                        <a href="gosuList.bo">커뮤니티</a>
                     </li>
                 </nav>
             </div>

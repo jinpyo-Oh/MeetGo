@@ -47,9 +47,9 @@
 	        <ul>
 	           <li style="border-bottom:5px solid #2a91f7c0; padding-bottom:10px;"><b style="font-size: 35px; text-align: center; letter-spacing:5px; color:#2a91f7c0;">커뮤니티</b></li>
 	           <br><br><br>
-	           <li><a href="gosuList.go" style="font-size: 25px; text-decoration:none;">고수찾아요</a></li>
+	           <li><a href="gosuList.bo" style="font-size: 25px; text-decoration:none;">고수찾아요</a></li>
 	           <br>
-	           <li><a href="#" style="font-size: 25px; text-decoration:none;">팁 노하우</a></li>
+	           <li><a href="tipList.bo" style="font-size: 25px; text-decoration:none;">팁 노하우</a></li>
 	           <br>
 	           <li><a href="pofolList.po" style="font-size: 25px; text-decoration:none;">포트폴리오</a></li>
 	        </ul>
