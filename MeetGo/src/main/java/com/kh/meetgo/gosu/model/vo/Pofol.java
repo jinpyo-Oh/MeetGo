@@ -15,4 +15,5 @@ public class Pofol {
     private String pofolCreateDate;
     private int pofolStatus;
     private int gosuNo;
+
 }

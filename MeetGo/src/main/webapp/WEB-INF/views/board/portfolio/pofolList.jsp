@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,6 +34,16 @@
     #pofol-view-option{
         width: 100px;
     }
+	#btn-write{
+		width: 100px;
+        height: 40px;
+        font-size: 20px;
+        border: 0px;
+        border-radius: 5px;
+        color: white;
+        background-color: darkgray;
+    }
+    #btn-write:hover{ background-color : rgb(136, 136, 136); }
 
     .btn-cateMain{
         width: 120px;
@@ -75,15 +86,35 @@
 </head>
 <body>
 	<jsp:include page="../../common/header.jsp"/>
+	<jsp:include page="../../common/side.jsp"/>
+
+	<script>
+		function sendWrite() {
+			let userStatus = ${ sessionScope.loginUser.userStatus }
+			if(userStatus == 1){
+				alert("고수 회원만 글 작성이 가능합니다.");
+			} else {
+				location.href="sendPofolWrite.po";
+			}
+		}
+	</script>
 	
     <div class="outer">
-
+		<a href="pofolDetail.po">ㅇㅇ</a>
         <p class="boardTitleText">포트폴리오</p>
-        <div align="right">
+        <div style="display:flex;">
+        <div align="left" style="width:50%; margin-left:50px;">
+        	<!-- 로그인 시 보여짐 / 일반회원이 클릭시 alert -->
+        	<c:if test="${ not empty sessionScope.loginUser }">
+        		<button type="button" id="btn-write" onclick="sendWrite();" >글작성</button>
+        	</c:if>
+        </div>
+        <div align="right" style="width:50%;">
             <select id="pofol-view-option" class="form-control">
                 <option>최신순</option>
                 <option>조회순</option>
             </select>
+        </div>
         </div>
         <hr>
 
@@ -110,7 +141,7 @@
         <div class="pofol-line">
         <div style="display: flex;">
             <div class="pofol-obj">
-                <img src="optimize.jpg" width="250px" height="250px"><br>
+                <img src="" width="250px" height="250px"><br>
                 <div style="display: flex;">
                     <span class="view-count">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -123,7 +154,7 @@
                 </div>    
             </div>
             <div class="pofol-obj">
-                <img src="images.jpg" width="250px" height="250px"><br>
+                <img src="" width="250px" height="250px"><br>
                 <div style="display: flex;">
                     <span class="view-count">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -136,7 +167,7 @@
                 </div>    
             </div>
             <div class="pofol-obj">
-                <img src="17374f4f6a3247a7aa00fbfe115b606b.png" width="250px" height="250px"><br>
+                <img src="" width="250px" height="250px"><br>
                 <div style="display: flex;">
                     <span class="view-count">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">

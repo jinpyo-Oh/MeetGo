@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+</head>
 <style>
  @font-face {
         font-family: 'Pretendard-Regular';
@@ -98,7 +101,7 @@
 
     .main1{
     width: 1000px;
-    height: 150px;
+    height: 80px;
     box-sizing: border-box;
 
     }
@@ -146,41 +149,42 @@
         <div class="main1">
             <br>
             <div style="display: flex; align-items: center;">
-                <h4>&nbsp;&nbsp; 카테고리 &nbsp;&nbsp;</h4>
-                <form action="test.do" method="get">             
-                    <select name="" style="height: 30px; width: 120px;">
-                        <option value="new">&nbsp;&nbsp;게시판</option>
-                        <option value="writer">작성자</option>
-                        <option value="title">제목</option>
-                    </select>
-                </form>    
+                <h4>&nbsp;&nbsp; 팁 / 노하우 &nbsp;&nbsp;</h4>
+                
+                </div>
             </div>
             
             <br>
-            
+            <form id="tipWrite" action="tipInsert.go" method="post" enctype="multipart/form-data">
             <div style="display: flex; align-items: center;">
-                
+            	
+            	
                 <h4>&nbsp;&nbsp; 제목&nbsp;</h4>
-                <input type="text" style="margin-left: 10px; height: 29px; width: 600px;" placeholder="내용을 입력해주세요.">
+                <label for="title">
+                <input type="text" name="boardTitle" id="title" style="margin-left: 10px; height: 29px; width: 600px;" placeholder="내용을 입력해주세요.">
                 <br>
+                </label>
             </div>
             <hr>
         
-        </div>
+   
         
         <div class="main2">
             <br>    
-            <textarea name="" id="textarea" cols="100" rows="10" placeholder="&nbsp;&nbsp;내용을 입력하세요."></textarea>
-        </div>
-       
+            <label for="content">
+            <textarea name="boardContent" id="content" cols="100" rows="10" placeholder="&nbsp;&nbsp;내용을 입력하세요."></textarea>
+       		</label>
+       </div>
+       	
         <div class="main3">
 
             <div class="main3_1" style="text-align: center;">
-               
+               	<label ="img">
                 <input type="file" id="fileInput" onchange="displayFileName()">
                 <button class="w-btn w-btn-blue">찾아보기</button>
+                  </label>  
                 <p id="fileName" style="margin-top: 10px;"></p>
-                       
+                   
             </div>
 
 
@@ -193,7 +197,7 @@
             <button class="btn btn-primary" style="margin-left: 15px;">작성하기</button>
 
         </div>
-
+    </form>
 
     </div>
 	<jsp:include page="../../common/footer.jsp"/>

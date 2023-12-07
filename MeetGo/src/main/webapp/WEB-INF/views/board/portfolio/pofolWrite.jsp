@@ -76,21 +76,21 @@
             포트폴리오 등록
         </p>
         <hr>
-        <form method="POST" onsubmit="return false;" enctype="multipart/form-data">
+        <form action="pofolWrite.po" method="post" onsubmit="return false;" enctype="multipart/form-data">
             <table id="form-table">
                 <thead>
                 <tr>
                     <th>카테고리</th>
                     <td>
                         <select class="form-control" id="categorySelect" required>
-                            <option>홈 / 리빙</option>
+                            <option></option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th>제목</th>
                     <td>
-                        <input type="text" class="form-control" id="pofolTitle" required>
+                        <input type="text" class="form-control" id="pofolTitle" name="" required>
                     </td>
                 </tr>
                 <tr>
@@ -139,7 +139,7 @@
                 </tbody>
             </table>
             <div align="center">
-                <button type="button">취소</button>
+                <button type="button" onclick="history.back();">취소</button>
                 <button type="submit">등록하기</button>
             </div>
         </form>

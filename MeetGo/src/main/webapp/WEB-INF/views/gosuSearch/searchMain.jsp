@@ -164,7 +164,6 @@
 
 	<jsp:include page="../common/header.jsp"/>
 	
-	
     <div class="outer">
         <p id="title-text">고수찾기</p><br>
         <div id="select-option-area" align="center">

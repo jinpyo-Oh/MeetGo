@@ -13,236 +13,204 @@
         font-style: normal;
     }
     * { font-family: 'Pretendard-Regular'; 
-    }     
+    
+    } 
+    
     @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
- .wrap{
-    width: 1000px;
-    height: 700px;
+.wrap{
     margin: auto;
-    box-sizing: border-box;
- }
- .gosu_title{
+    height: 1000px;
     width: 1000px;
-    height: 70px;
+}
+.gosu_header1{
+    height: 50px;
+    width: 1000px;
+}
+
+.gosu_header2{
+    height: 80px;
+    width: 1000px;
+    box-sizing: border-box;
+}
+.gosu_content1{
+    height: 100px;
+    box-sizing: border-box;
+}
+.gosu_content2{
+    box-sizing: border-box;
+    height: 150px;
+    text-align: center;
+}
+.gosu_coment{
+    height: 60px;
+    width: 1000px;
+    
+}
+#coment{
+    border-radius: 6px;
+}
+
+.gosu_coment2 {
+    width: 1000px;
+    height: 100px;
     display: flex;
     position: relative;
     flex-direction: row; /* Change flex-direction to row */
+}
+
+.gosu_coment2_1 {
+    width: 12%;
+    height: 80px;
+}
+
+.gosu_coment2_2 {
+    width: 80%;
+    height: 80px; 
+    float: right;
+    /* Change height to 100px to match gosu_coment2_1 */
+    /* Add position relative */
+}
+
+.gosu_coment2_3{
+   width: 10%;
+   height: 50px;
     
 }
- 
- .gosu_title_1{
-    width: 15%;
-    height: 70px;
-    margin-top: 5px;
- }
- .gosu_title_2{
-    width: 85%;
-    height: 70px;
-    float: right;
- }
- #title_btn{
-    background-color: transparent;
-    border: 0;
-    opacity: 0.5;
-    margin-top: 5px;
-    margin-right: 10px;
-
- }
-
- .gosu_img_1{
+.gosu_bottom{
     width: 1000px;
-    height: 40px;
- }
- .gosu_img_2{
-    width: 1000px;
-    height: 150px;
- }
-.gosu_head{
-    width: 1000px;
-    height: 40px;
-}
-.gosu_category{
-    width: 1000px;
-    height: 55px;
-    box-sizing: border-box;
-  
-}
-.gosu_content{
-    width: 1000px;
-    height: 280px;
-    box-sizing: border-box;
-}
-#gosu_content{
-    margin: auto; /* 가운데 정렬 스타일 추가 */
-    display: block; /* 블록 레벨 요소로 설정하여 가운데 정렬이 적용되도록 합니다. */
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
 *:focus {
     outline: 0;
 }
-textarea{
-    resize: none;
-}
-.input-file-button1,
-    .input-file-button2,
-    .input-file-button3,
-    .input-file-button4,
-    .input-file-button5 {
-        display: inline-block;
-        margin-bottom: 15px;
-    }
 
-    .input-file-button1 input,
-    .input-file-button2 input,
-    .input-file-button3 input,
-    .input-file-button4 input,
-    .input-file-button5 input {
-        display: none;
-    }
 </style>
 </head>
 <body>
 	<jsp:include page="../../common/header.jsp"/>
 
- <div class="wrap">
-        <div class="gosu_title">
-            <div class="gosu_title_1">
-                <h4><b>&nbsp;&nbsp;&nbsp;고수찾기</b></h4>  
-            </div>
-            <div class="gosu_title_2">
-                
-                <button type="submit" id="title_btn" style="float: right; font-size: 20px;">등록하기</button>
-            </div>
+  <div class="wrap">
+
+        <div class="gosu_header1">
+            &nbsp; &nbsp;
+            <b>커뮤니티 > 고수찾기</b>
         </div>
-        
-        <div class="gosu_img_1">
-            &nbsp;&nbsp;<i class="bi bi-camera-fill" style="font-size: 27px;"></i>&nbsp;&nbsp;&nbsp; <span
-                id="fileCount">0</span>/5
-        </div>
-        <div class="gosu_img_2" style="text-align: center;">
-            &nbsp;&nbsp;&nbsp;
+        <table class="table">
+        <div class="gosu_header2">
             
-            <img src="" id="profileImg1" width="150" height="150" onclick="handleImageClick('#gosutitle1');" >   
-            &nbsp;&nbsp;&nbsp;
-            <img src="" id="profileImg2" width="150" height="150" onclick="handleImageClick('#gosutitle2');"> 
-            &nbsp;&nbsp;&nbsp;
-            <img src="" id="profileImg3" width="150" height="150" onclick="handleImageClick('#gosutitle3');">  
-            &nbsp;&nbsp;&nbsp;
-            <img src="" id="profileImg4" width="150" height="150" onclick="handleImageClick('#gosutitle4');"> 
-            &nbsp;&nbsp;&nbsp; 
-            <img src="" id="profileImg5" width="150" height="150" onclick="handleImageClick('#gosutitle5');">   
-        
-            
+                <tr>
+
+            <h2>&nbsp; &nbsp;<td><h2>${ requestScope.m.boardTitle }</h2></td>
+                    </tr>
+            &nbsp; &nbsp;
             <hr>
-            <label class="input-file-button1" for="gosutitle1">
-                <input type="file" id="gosutitle1" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg1');" required>
-            </label>
-            
-            <label class="input-file-button2" for="gosutitle2">
-                <input type="file" id="gosutitle2" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg2');" >
-            </label>
-            
-            <label class="input-file-button3" for="gosutitle3">
-                <input type="file" id="gosutitle3" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg3');" >
-            </label>
-            
-            <label class="input-file-button4" for="gosutitle4">
-                <input type="file" id="gosutitle4" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg4');" >
-            </label>
-            
-            <label class="input-file-button5" for="gosutitle5">
-                <input type="file" id="gosutitle5" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg5');" >
-            </label>
-    
-        
         </div>
-        <br>
-        <div class="gosu_head">
-            &nbsp;&nbsp;&nbsp; <input type="text" name="" id=""
-            placeholder="제목을 입력하세요."
-            style="border: none; background: transparent; width: 600px; height: 40px; font-size: 18px;">
+        <div class="gosu_content1">
+            <br>
+            <img src="" id="profileImg" width="70" height="70">   
+            &nbsp; 
+            ${ requestScope.m.createDate } &nbsp; &nbsp;<i class="bi bi-eye-fill"></i> 20
+
         </div>
         <hr>
-        <div class="gosu_category">
-            &nbsp;&nbsp; 
-            <form action="test.do" method="get">             
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <select name="" style="height: 30px; width: 150px;">
-                    <option value="new">카테고리</option>
-                    <option value="writer">레슨</option>
-                    <option value="title">코딩</option>
-                </select>&nbsp;&nbsp;&nbsp;&nbsp;
-                <select name="" style="height: 30px; width:150px;">
-                    <option value="new">지역명</option>
-                    <option value="writer">서울</option>
-                    <option value="title">경기</option>
-                </select>
-            </form>   
-                <hr>
+        <div class="swiper"> <!-- 슬라이드 이미지 시작 -->
+			<div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a00df9b2a481d32ec42ae698738782a76.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a4022de826f725e10df604bf1b9725cfd.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807ab3a18fdf58bc66ec3f4b6084b7d0b570.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807aba2da8249bd9ffef143efb890203e009.png"></div>
+				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a00df9b2a481d32ec42ae698738782a76.png"></div>
+			</div>
+			<div class="swiper-pagination"></div>
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
+        <div class="gosu_content2">
+            ${ requestScope.m.boardContent }
+	
         </div>
-        <div class="gosu_content">
-            <br><br>
-            <textarea id="gosu_content" cols="30" rows="10" placeholder="&nbsp;&nbsp;고수를 쉽게 찾으려면 보다 구체적으로 적어주시면 더욱 빠르게 찾을 수 있습니다&#13;
-            예) 드럼 레슨을 도와주실 고수분 찾아요 &#13; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예)&nbsp;화장실 청소를 도와 줄 고수분 찾아요"
-            style="border: none; height: 200px; width: 900px; font-size: 20px; ;"></textarea>
+    </table>
+        <div class="gosu_coment">
+            
+            <input type="text" name="coment" id="coment" style="width: 1000px; height: 50px;" 
+            
+            placeholder="&nbsp;내용을 입력하세요.">
         </div>
+        <hr>
+         <div class="gosu_coment">
+            
+            <input type="text" name="coment" id="coment" style="width: 900px; height: 50px;" 
+            
+            placeholder="&nbsp;내용을 입력하세요."> 
+            &nbsp; <button type="submit" class="btn btn-primary">댓글작성</button>
         </div>
+            
+        <div class="gosu_coment2_2">
+            &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" style="width: 700px; 
+            border: none; background: transparent;">
+        </div>    
+        
+        <div class="gosu_coment2_3">
+            <button type="submit"class="btn btn-primary" style="float: right;">견적요청</button>
+        </div>       
+            
+        </div>
+        <div class="gosu_coment2">
+            
+            <div class="gosu_coment2_1">
+                <img src="" id="profileImg" width="50" height="50">&nbsp;&nbsp;user03       
+            </div>
+                
+            <div class="gosu_coment2_2">
+                &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" style="width: 700px; 
+                border: none; background: transparent;">
+            </div>    
+            
+            <div class="gosu_coment2_3">
+                <button type="submit" class="btn btn-primary" style="float: right;">견적요청</button>
+            </div>       
+                
+        </div>
+        
+        <div class="gosu_coment2">
+            
+                <div class="gosu_coment2_1">
+                    <img src="" id="profileImg" width="50" height="50">&nbsp;&nbsp;user03       
+                </div>
+                    
+                <div class="gosu_coment2_2">
+                    &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="text" style="width: 700px; 
+                    border: none; background: transparent;">
+                </div>    
+                
+                <div class="gosu_coment2_3">
+                    <button class="btn btn-primary" style="float: right;">견적요청</button>
+                </div>       
+                    
+        </div>    
+	
+        
+        <div class="gosu_bottom">
+            <button type="submit" id="gosu_btn" class="btn btn-secondary" >목록가기</button>
+        </div>
+        
+        
+
     
     	<jsp:include page="../../common/footer.jsp"/>
     
-    <script>
-        
-            function handleImageClick(inputFileId) {
-                    $(inputFileId).trigger('click');
-                }
-
-                function loadImg(inputFile, imgId) {
-                    if (inputFile.files.length === 1) {
-                        let reader = new FileReader();
-
-                        reader.readAsDataURL(inputFile.files[0]);
-
-                        reader.onload = function (e) {
-                            $(imgId).attr("src", e.target.result);
-                        };
-                    } else {
-                        $(imgId).attr("src", null);
-                    }
-                }
-
-                let fileCount = 0;
-
-            function handleImageClick(inputFileId) {
-                $(inputFileId).trigger('click');
-            }
-
-            function loadImg(inputFile, imgId) {
-                if (inputFile.files.length === 1) {
-                    let reader = new FileReader();
-
-                    reader.readAsDataURL(inputFile.files[0]);
-
-                    reader.onload = function (e) {
-                        $(imgId).attr("src", e.target.result);
-                        handleFileCount(1); // 파일이 업로드되면 fileCount 증가
-                    };
-                } else {
-                    $(imgId).attr("src", null);
-                    handleFileCount(-1); // 이미지가 삭제되면 fileCount 감소
-                }
-            }
-
-            function handleFileCount(change) {
-                fileCount += change;
-                $('#fileCount').text(fileCount);
-
-                // 파일 업로드 버튼 표시 또는 숨김
-                if (fileCount >= 5) {
-                    $(".input-file-button1, .input-file-button2, .input-file-button3, .input-file-button4, .input-file-button5").hide();
-                } else {
-                    $(".input-file-button1, .input-file-button2, .input-file-button3, .input-file-button4, .input-file-button5").show();
-                }
-            }   
-    </script>
 </body>
+<script>
+
+
+
+</script>
 </html>
