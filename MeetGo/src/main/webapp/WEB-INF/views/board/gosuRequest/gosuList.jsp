@@ -211,15 +211,10 @@ table, th, td {
                     </td>            
                </tr>
             </table>   
-            <a href="gosuWrite.go">
+            <a href="gosuWrite.bo">
                 <button type="submit" class="btn btn-primary" >글작성</button>
             </a>
-             <a href="tipList.go">
-                <button type="submit" class="btn btn-primary" >팁노하우게시판이동</button>
-            </a>
-            <a href="noticeList.go">
-                <button type="submit" class="btn btn-primary" >공지시항게시판이동</button>
-            </a>
+            
        </div>
        <div class="gosu_footer" >
     
@@ -235,7 +230,7 @@ table, th, td {
                     	</c:when>
                     	<c:otherwise>
 	                    	<li class="page-item">
-	                    		<a class="page-link" href="gosuList.go?cpage=${ requestScope.pi.currentPage - 1 }">Previous</a>
+	                    		<a class="page-link" href="gosuList.bo?cpage=${ requestScope.pi.currentPage - 1 }">Previous</a>
 	                    	</li>
                     	</c:otherwise>
                     </c:choose>
@@ -244,7 +239,7 @@ table, th, td {
                     					 end="${ requestScope.pi.endPage }"
                     					step="1">
                     	<li class="page-item">
-                    		<a class="page-link" href="gosuList.go?cpage=${ p }">${ p }</a>
+                    		<a class="page-link" href="gosuList.bo?cpage=${ p }">${ p }</a>
                     	</li>
                     </c:forEach>
                     
@@ -256,7 +251,7 @@ table, th, td {
 		                </c:when>
 		                <c:otherwise>
 		                    <li class="page-item">
-		                    	<a class="page-link" href="gosuList.go?cpage=${ requestScope.pi.currentPage + 1 }">Next</a>
+		                    	<a class="page-link" href="gosuList.bo?cpage=${ requestScope.pi.currentPage + 1 }">Next</a>
 		                    </li>
 		                </c:otherwise>
                 	</c:choose>

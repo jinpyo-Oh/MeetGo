@@ -183,7 +183,7 @@ table, th, td {
                     </td>            
                </tr>
             </table>   
-            <a href="noticeWrite.go">
+            <a href="noticeWrite.bo">
                 <button type="submit" class="btn btn-primary" >글작성</button>
             </a>
        </div>

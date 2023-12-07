@@ -34,32 +34,32 @@ public class BoardController {
 	private BoardService boardService;
 
 
-	@RequestMapping("gosuList.go")
+	@RequestMapping("gosuList.bo")
 	public String test() {
 		return "board/gosuRequest/gosuList";
 	}
 	
-	@RequestMapping("noticeWrite.go")
+	@RequestMapping("noticeWrite.bo")
 	public String noticeForm() {
 		return "board/notice/noticeWrite";
 	}
 	
-	@RequestMapping("tipList.go")
+	@RequestMapping("tipList.bo")
 	public String tipList() {
 		return "board/tip/tipList";
 	}
-	@RequestMapping("noticeList.go")
+	@RequestMapping("noticeList.bo")
 	public String noticeList() {
 		return "board/notice/noticeList";
 	}
 	
 	
-	@GetMapping("gosuWrite.go")
+	@GetMapping("gosuWrite.bo")
 	public String enrollForm() {
 		return "board/gosuRequest/gosuWrite";
 	}
 	
-	@GetMapping("tipWrite.go")
+	@GetMapping("tipWrite.bo")
 	public String tipForm() {
 		return "board/tip/tipWrite";
 	}
