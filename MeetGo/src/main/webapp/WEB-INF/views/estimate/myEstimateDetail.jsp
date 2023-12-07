@@ -119,10 +119,18 @@
                     
                 </div>
                 
-                    <br>
-                    <button class="btn btn-success btn-sm" id="apibtn">결제</button> 
-                    <button class="btn btn-primary btn-sm">채팅</button>
-                    
+                <br>
+                
+                <a class="btn btn-warning btn-sm" style="float: left;" href="estimate.me?">뒤로가기</a>
+            
+                <c:choose>
+                    <c:when test="${ requestScope.est.status eq 3 }">
+                        <button class="btn btn-success btn-sm" id="apibtn">결제</button> 
+                    </c:when>
+                    <c:otherwise>
+                        <button class="btn btn-success btn-sm" id="apibtn" style="display: none;">결제</button> 
+                    </c:otherwise>
+                    </c:choose>
 
         </div>
         
@@ -142,7 +150,7 @@
         				},
         				success: function(data){
         					
-        					var box = data.next_redirect_pc_url;
+        					var box = data;
         					window.open(box);
         				},
         				error: function(){

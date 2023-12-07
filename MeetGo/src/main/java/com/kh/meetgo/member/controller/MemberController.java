@@ -1,6 +1,7 @@
 package com.kh.meetgo.member.controller;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.meetgo.common.config.S3Uploader;
@@ -81,11 +83,6 @@ public class MemberController {
 	@RequestMapping("changePassword.me")
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
-	}
-	
-	@RequestMapping("reviewWrite.me")
-	public String reviewWrite() {
-		return "estimate/reviewWrite";
 	}
 	
 	@RequestMapping("myReview.me")
@@ -260,7 +257,7 @@ public class MemberController {
 			return "redirect:/myPage.me";
 		}
 	}
-	/*
+	
 	@RequestMapping("update.me")
 	public String updateMember(Member m,
 							   Model model,
@@ -310,8 +307,8 @@ public class MemberController {
 			
 
 		}
-
-		*/
+	}
+	
 	@RequestMapping("estimate.me")
 	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
 		
@@ -358,6 +355,26 @@ public class MemberController {
 		
 		mv.addObject("est", est).addObject("userName", userName).addObject("gosuName", gosuName)
 		  .setViewName("estimate/myEstimateDetail");
+		
+		return mv;
+	}
+	
+	@RequestMapping("reviewWrite.me")
+	public ModelAndView reviewWrite(String eno, ModelAndView mv) {
+
+		int estNo = 0;
+		
+		if(!eno.isEmpty()) {
+			estNo = Integer.parseInt(eno);
+		}
+
+		Estimate est = memberService.selectEstimateDetail(estNo);
+		
+		String userName = memberService.getName(est.getUserNo());
+		String gosuName = memberService.getName(est.getGosuNo());
+
+		mv.addObject("est", est).addObject("userName", userName).addObject("gosuName", gosuName)
+		.setViewName("estimate/reviewWrite");
 		
 		return mv;
 	}

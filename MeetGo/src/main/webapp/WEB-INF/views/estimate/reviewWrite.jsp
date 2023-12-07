@@ -65,13 +65,13 @@
                     <table class="detail" border="1px" style="border-color: black;" >
                             <tr class="cons">
                                 <td class="fix" style="width: 15%; border-top-left-radius: 10px;">계약번호</td>
-                                <td style="width: 35%;">A-119</td>
-                                <td class="fix" style="width: 15%;">진행상태</td>
-                                <td style="color: red; width: 35%;">완료</td>
+                                <td style="width: 35%;">${ est.estNo }</td>
+                                <td class="fix" style="width: 15%;">견적서명</td>
+                                <td style="color: red; width: 35%;">${ est.estTitle }</td>
                             </tr>
                             <tr class="cons">
-                                <td class="fix" >작성자</td>
-                                <td>1234</td>
+                                <td class="fix" >고수명</td>
+                                <td>${ gosuName }</td>
                                 <td class="fix" >별점</td>
                                 <td style="color: #e8dc06c4;">
                                     <div class="rating">
@@ -167,7 +167,7 @@
                         /*result.textContent = `${num}/5`;*/
                         const ratingInput = document.getElementById("ratingInput");
                         ratingInput.value = num;
-                        //console.log(ratingInput);
+                        console.log(ratingInput);
                     }
         
                     executeRating(ratingStars, ratingResult);
