@@ -135,6 +135,7 @@ html {
     border-radius: 40px;
 }
 .right-box {
+    position: relative;
     width: 900px;
     height: 100%;
     box-sizing: border-box;

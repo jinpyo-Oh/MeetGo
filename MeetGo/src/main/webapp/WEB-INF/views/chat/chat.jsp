@@ -37,6 +37,18 @@
 			max-height: 350px;
 			object-fit: cover;
 		}
+        .overlay-right-box{
+			position: relative;
+		}
+		.hide-right-box{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+			text-align: center;
+			align-items: center;
+			padding-top: 30%;
+		}
 	</style>
 </head>
 <body>
@@ -210,14 +222,12 @@
                             async:false,
                             dataType:"json",
                             success : function (data){
-                                console.log(data);
                                 let member = data.member;
                                 let gosu = data.gosu;
                                 let chatReviewDtoList = data.chatReviewDtoList;
                                 let gosuImgList = data.gosuImgList;
                                 let serviceList = data.serviceList;
                                 let pofolImgList = data.pofolImgList;
-                                console.log(pofolImgList);
                                 let userInfo =
                                     '<div class="info-profile">' +
 										'<img class="info-profile-img" src="'+member.userProFile+'">' +
@@ -252,7 +262,6 @@
 									 + serviceList[i].categorySmallName
 									+ '</button>'
 								}
-                                        
                                 userInfo += '</div>' +
                                     '</div>' +
                                     '<h5 style="margin-left: 20px">소개 이미지</h5>' +
@@ -260,6 +269,9 @@
                                 for (let i = 0; i < gosuImgList.length; i++) {
 									userInfo += '<div style="width: 100px!important;"><img class="info-img" data-value="' +gosuImgList[i].gosuImgNo+ '" src="'+ gosuImgList[i].gosuImgUrl +'"></div>'
                                 }
+                                if(gosuImgList.length == 0) {
+                                    userInfo += '<div style="width:100%!important;"><p style="margin-top: 20px; width: 100%">소개 이미지가 없습니다.</p></div>'
+								}
 								userInfo +=  '</div>' +
                                     '<h5 style="margin-left: 20px">포트폴리오</h5>' +
                                     '<div class="info-pofol">';
@@ -391,277 +403,233 @@
 			}
 		</script>
 	</div>
-	<div class="right-box">
-		<div style="display: flex; height: 85%">
-			<div class="chat-area" id="chatArea" > <!-- 채팅 들어가는 영역 -->
-			</div>
-			<script>
-                function scrollToBottom() {
-                    var chatArea = document.getElementById('chatArea');
-                    chatArea.scrollTop = chatArea.scrollHeight;
-                }
-                $(function (){
-                    scrollToBottom();
-				})
-			</script>
-			<div class="right-box-info">
-<%--				<div class="info-profile">--%>
-<%--					<img class="info-profile-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPGYZhyErT9b-eoGkDeBwbFJCjEfq2EPLQew&usqp=CAU">--%>
-<%--					<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">--%>
-<%--					<div class="info-profile-more-list">--%>
-<%--						<div>고수 상세 조회</div>--%>
-<%--						<div></div>--%>
-<%--					</div>--%>
-<%--					<h3>김세정</h3>--%>
-<%--					<table>--%>
-<%--						<tr>--%>
-<%--							<td width="30%">지역</td>--%>
-<%--							<td width="70%" >대전 중구</td>--%>
-<%--						</tr>--%>
-<%--						<tr>--%>
-<%--							<td>리뷰</td>--%>
-<%--							<td>☆ 4.8</td>--%>
-<%--						</tr>--%>
-<%--						<tr>--%>
-<%--							<td>경력</td>--%>
-<%--							<td>4년</td>--%>
-<%--						</tr>--%>
-<%--					</table>--%>
-<%--					<hr style="border : 1px solid lightgray; width: 80%;">--%>
-<%--				</div>--%>
-<%--				<div class="info-detail">--%>
-<%--					<div class="info-service">--%>
-<%--						<h5 style="margin-left: 20px">제공 서비스</h5>--%>
-<%--						<div class="info-service-list">--%>
-<%--							<button class="meetgo-btn">보컬 트레이닝</button>--%>
-<%--							<button class="meetgo-btn">웹 개발</button>--%>
-<%--							<button class="meetgo-btn">앱 개발</button>--%>
-<%--						</div>--%>
-<%--					</div>--%>
-<%--					<h5 style="margin-left: 20px">소개 이미지</h5>--%>
-<%--					<div class="info-img-area">--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
-<%--						--%>
-<%--					</div>--%>
-
-<%--					--%>
-<%--					<h5 style="margin-left: 20px">포트폴리오</h5>--%>
-<%--					<div class="info-pofol">--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxZ4Eh7SoozBfSwpwOkXYxL1YHXeya0LXgA&usqp=CAU"></div>--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRUfeazYf3-sn2ipj9DQcNF0L3wXPHm7wRa5g&usqp=CAU"></div>--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://img.mbn.co.kr/filewww/news/other/2023/09/06/030036230022.jpg"></div>--%>
-<%--						<div style="width: 100px!important;"><img class="info-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzRfEq5JpANKJ9qgmRHkyUKcSf22exYo2jsm-4NIJF8cIXFgtfagGHoquh-z0Xxe0Fr4A&usqp=CAU"></div>--%>
-<%--					</div>--%>
-<%--				</div>--%>
-			</div>
-			<script>
-
-			</script>
-		</div>
-		<div>
-			<script>
-				$(function (){
-                    let chatbox = document.getElementsByClassName('chat-input-box');
-                    chatbox.disable = true;
-				})
-			</script>
-			<div class="chat-input-box" >
-				<label for="chat-textarea"></label>
-				<textarea id="chat-textarea" maxlength="180" placeholder="메세지를 입력해 주세요."></textarea>
-				<div>
-					<div class="input-icon">
-						<input type="file" id="chat-file" name="file" style="display: none" onchange="setChatImg(event);">
-						<button class="meetgo-btn" id="chat-file-upload"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
-						<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
-						<button class="meetgo-btn"><img src="<%=request.getContextPath()%>/resources/images/chat/report-icon.png" alt="">신고</button>
-					</div>
-					<div class="input-button">
-						<button id="send-message-btn" onclick="sendMessage('M')" class="meetgo-btn">전송</button>
-						<button class="meetgo-btn">채팅방 나가기</button>
-					</div>
+	
+	<div class="overlay-right-box">
+		<div class="right-box">
+			<div class="hide-right-box">
+				<div style="">
+					<img style="width: 100px; height: 100px" src="<%=request.getContextPath()%>/resources/images/chat/chat-icon.png">
+					<div><p style="font-size: 30px; color: white">채팅을 선택해 주세요</p></div>
 				</div>
 			</div>
-			<script>
-                $('#chat-file-upload').click(function (e){
-                    $('#chat-file').click();
-				});
-                $('#chat-estimate-button').click(function () {
-                    $('#modalWrap').css("display","block");
-                });
-				function setChatImg(event) {
-                    var reader = new FileReader();
-					$('.preview-img').remove();
-                    reader.onload = function(event) {
-                    	var img = document.createElement("img");
-                        let imgArea = '<div class="preview-img">'
-								+ '<img class="preview-img-close" onclick="previewClose()" src="<%=request.getContextPath()%>/resources/images/chat/close-icon.png"></div>';
-                    	img.setAttribute("src", event.target.result);
-                        $('.chat-area').append(imgArea);
-                    	document.querySelector(".preview-img").appendChild(img);
-                        $('#send-message-btn').attr('onclick', "sendMessage('P')");
-                };
-					
-                    reader.readAsDataURL(event.target.files[0]);
-                }
-           		function previewClose(){
-                    $('.preview-img').remove();
-                    $('#send-message-btn').attr('onclick', "sendMessage('M')");
-				}
-			</script>
-			
-			<script>
-                let websocket; // 전역변수 선언
-                function connect(){
-                    check = true;
-                    let url = "ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chat.do";
-                    websocket = new WebSocket(url);
-                    
-                    // 웹 소켓에 이벤트가 발생했을 때 호출될 함수 등
-                    websocket.onopen = onOpen;
-                    websocket.onmessage = onMessage;
-                }
-				function disconnect(){
-                    websocket.close();
-				}
-
-                // 웹 소켓에 연결되었을 때 호출될 함수
-                function onOpen() {
-                    const data = {
-                        "chatroomNo" : chatroomNo,
-                        "sender" : ${sessionScope.loginUser.userNo},
-                        "type" : 'M',
-                        "content"   : "ENTER_CHAT",
-                        "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
-                    };
-                    let jsonData = JSON.stringify(data);
-                    websocket.send(jsonData);
-                }
-
-                // * 1 메시지 전송
-                function sendMessage(type){
-                    let jsonData;
-                    if(type == 'M'){ // 메시지일 경우
-                        let message = $('#chat-textarea').val();
-                        const data = {
-                            "chatroomNo" : chatroomNo,
-                            "sender" : ${sessionScope.loginUser.userNo},
-                            "type" : 'M',
-                            "content"   : message,
-                            "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
-                        };
-                        jsonData = JSON.stringify(data);
-                        $('#chat-textarea').val('');
-						websocket.send(jsonData);
-					} else if (type == 'P') { // 사진일 경우
-						console.log("채팅 메세지 전송");
-                        var form = $('#chat-file')[0].files[0];
-                        var formData = new FormData();
-                        formData.append('chatImg', form);
-                        formData.append('uNo', ${sessionScope.loginUser.userNo});
-                        formData.append('cNo', chatroomNo);
-                        $.ajax({
-                            type: "POST",
-                            enctype: 'multipart/form-data',
-                            url: "uploadChatImg",
-                            data: formData,
-                            processData: false,
-                            contentType: false,
-                            cache: false,
-                            success: function (result) {
-                                const data = {
-                                    "chatroomNo" : chatroomNo,
-                                    "sender" : ${sessionScope.loginUser.userNo},
-                                    "type" : 'P',
-                                    "content"   : result,
-                                    "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
-
-                                };
-                                jsonData = JSON.stringify(data);
-								websocket.send(jsonData);
-                            },
-                            error: function (e) {
-                                alert("실패");
-                            }
-                        });
-                        $('.preview-img').remove();
-                        $('#send-message-btn').attr('onclick', "sendMessage('M')");
-                        
-                        
-					} else if (type == 'E') { // 견적서 일경우
-                        const data = {
-                            "chatroomNo" : chatroomNo,
-                            "sender" : ${sessionScope.loginUser.userNo},
-                            "type" : 'E',
-                            "content"   : estNo,
-                            "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
-
-                        };
-                        jsonData = JSON.stringify(data);
-						websocket.send(jsonData);
-                    }
-                }
-
-                // * 2 메세지 수신
-                function onMessage(e) {
-                    let obj = JSON.parse(e.data);
-                    let data = {
-                        "chatroomNo" : obj.chatroomNo,
-						"sender" : obj.sender,
-						"type" : obj.type,
-						"content"   : obj.content,
-						"createAt" : obj.createAt
+			<div style="display: flex; height: 85%">
+				<div class="chat-area" id="chatArea" > <!-- 채팅 들어가는 영역 -->
+				</div>
+				<script>
+					function scrollToBottom() {
+						var chatArea = document.getElementById('chatArea');
+						chatArea.scrollTop = chatArea.scrollHeight;
 					}
-                    CheckLR(data);
-                }
-                function changeEstStatus(changeEstNo, changeStatus){
-					let estBtnContent = '#est-btn-content'+changeEstNo;
-                   $(estBtnContent).empty();
-                    $.ajax({
-						url : "changeEstStatus",
-						data : {
-                            estNo : changeEstNo,
-							status : changeStatus
-						},
-                        success : function (result) {
-                        	console.log(result);
-                            let chat = "";
-                            switch (result.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
-                                case '1' :
-                                    chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
-                                        '<div style="display: flex"><button class="meetgo-btn w-50" onclick="changeEstStatus('+result.estNo+', 3)">확정하기</button>' +
-                                        '<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus('+result.estNo+', 2)">취소하기</button></div>'
-                                    break;
-                                case '2' :
-                                    chat += '<p>취소된 견적서 입니다.</p>'
-                                    break;
-                                case '3' :
-                                    chat += '<p>확정된 견적서 입니다.</p>'
-                                        + '<div style="display: flex">'
-                                        + '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
-                                        + '<button class="meetgo-btn meetgo-red w-50"  onclick="changeEstStatus('+result.estNo+', 2)" style="width: 268px; margin: 5px; ">취소하기</button>'
-                                    break;
-                                case '4' :
-                                    chat += '<p>취소된 견적서 입니다.</p>'
-                                    break;
-                                case '5' :
-                                    chat += '<p>거래 완료된 견적서 입니다.</p>'
-                                        +'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
-                                    break;
-                            }
-                            $(estBtnContent).append(chat);
-						},
-						error : function () {
-                            console.log("견적서 상태 변경 실패");
-						}
+					$(function (){
+						scrollToBottom();
 					})
-				}
-			</script>
-			
+				</script>
+				<div class="right-box-info">
+
+				</div>
+			</div>
+			<div>
+				<script>
+					$(function (){
+						let chatbox = document.getElementsByClassName('chat-input-box');
+						chatbox.disable = true;
+					})
+				</script>
+				<div class="chat-input-box" >
+					<label for="chat-textarea"></label>
+					<textarea id="chat-textarea" maxlength="180" placeholder="메세지를 입력해 주세요."></textarea>
+					<div>
+						<div class="input-icon">
+							<input type="file" id="chat-file" name="file" style="display: none" onchange="setChatImg(event);">
+							<button class="meetgo-btn" id="chat-file-upload"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
+							<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
+						</div>
+						<div class="input-button">
+							<button id="send-message-btn" onclick="sendMessage('M')" class="meetgo-btn">전송</button>
+							<button class="meetgo-btn">채팅방 나가기</button>
+						</div>
+					</div>
+				</div>
+				<script>
+					$('#chat-file-upload').click(function (e){
+						$('#chat-file').click();
+					});
+					$('#chat-estimate-button').click(function () {
+						$('#modalWrap').css("display","block");
+					});
+					function setChatImg(event) {
+						var reader = new FileReader();
+						$('.preview-img').remove();
+						reader.onload = function(event) {
+							var img = document.createElement("img");
+							let imgArea = '<div class="preview-img">'
+									+ '<img class="preview-img-close" onclick="previewClose()" src="<%=request.getContextPath()%>/resources/images/chat/close-icon.png"></div>';
+							img.setAttribute("src", event.target.result);
+							$('.chat-area').append(imgArea);
+							document.querySelector(".preview-img").appendChild(img);
+							$('#send-message-btn').attr('onclick', "sendMessage('P')");
+					};
+						
+						reader.readAsDataURL(event.target.files[0]);
+					}
+					function previewClose(){
+						$('.preview-img').remove();
+						$('#send-message-btn').attr('onclick', "sendMessage('M')");
+					}
+				</script>
+				
+				<script>
+					let websocket; // 전역변수 선언
+					function connect(){
+						check = true;
+						let url = "ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/chat.do";
+						websocket = new WebSocket(url);
+						
+						// 웹 소켓에 이벤트가 발생했을 때 호출될 함수 등
+						websocket.onopen = onOpen;
+						websocket.onmessage = onMessage;
+					}
+					function disconnect(){
+						websocket.close();
+					}
+	
+					// 웹 소켓에 연결되었을 때 호출될 함수
+					function onOpen() {
+						const data = {
+							"chatroomNo" : chatroomNo,
+							"sender" : ${sessionScope.loginUser.userNo},
+							"type" : 'M',
+							"content"   : "ENTER_CHAT",
+							"createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+						};
+						let jsonData = JSON.stringify(data);
+						websocket.send(jsonData);
+					}
+	
+					// * 1 메시지 전송
+					function sendMessage(type){
+						let jsonData;
+						if(type == 'M'){ // 메시지일 경우
+							let message = $('#chat-textarea').val();
+							const data = {
+								"chatroomNo" : chatroomNo,
+								"sender" : ${sessionScope.loginUser.userNo},
+								"type" : 'M',
+								"content"   : message,
+								"createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+							};
+							jsonData = JSON.stringify(data);
+							$('#chat-textarea').val('');
+							websocket.send(jsonData);
+						} else if (type == 'P') { // 사진일 경우
+							console.log("채팅 메세지 전송");
+							var form = $('#chat-file')[0].files[0];
+							var formData = new FormData();
+							formData.append('chatImg', form);
+							formData.append('uNo', ${sessionScope.loginUser.userNo});
+							formData.append('cNo', chatroomNo);
+							$.ajax({
+								type: "POST",
+								enctype: 'multipart/form-data',
+								url: "uploadChatImg",
+								data: formData,
+								processData: false,
+								contentType: false,
+								cache: false,
+								success: function (result) {
+									const data = {
+										"chatroomNo" : chatroomNo,
+										"sender" : ${sessionScope.loginUser.userNo},
+										"type" : 'P',
+										"content"   : result,
+										"createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+	
+									};
+									jsonData = JSON.stringify(data);
+									websocket.send(jsonData);
+								},
+								error: function (e) {
+									alert("실패");
+								}
+							});
+							$('.preview-img').remove();
+							$('#send-message-btn').attr('onclick', "sendMessage('M')");
+							
+							
+						} else if (type == 'E') { // 견적서 일경우
+							const data = {
+								"chatroomNo" : chatroomNo,
+								"sender" : ${sessionScope.loginUser.userNo},
+								"type" : 'E',
+								"content"   : estNo,
+								"createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+	
+							};
+							jsonData = JSON.stringify(data);
+							websocket.send(jsonData);
+						}
+					}
+	
+					// * 2 메세지 수신
+					function onMessage(e) {
+						let obj = JSON.parse(e.data);
+						let data = {
+							"chatroomNo" : obj.chatroomNo,
+							"sender" : obj.sender,
+							"type" : obj.type,
+							"content"   : obj.content,
+							"createAt" : obj.createAt
+						}
+						CheckLR(data);
+					}
+					function changeEstStatus(changeEstNo, changeStatus){
+						let estBtnContent = '#est-btn-content'+changeEstNo;
+					   $(estBtnContent).empty();
+						$.ajax({
+							url : "changeEstStatus",
+							data : {
+								estNo : changeEstNo,
+								status : changeStatus
+							},
+							success : function (result) {
+								console.log(result);
+								let chat = "";
+								switch (result.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
+									case '1' :
+										chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
+											'<div style="display: flex"><button class="meetgo-btn w-50" onclick="changeEstStatus('+result.estNo+', 3)">확정하기</button>' +
+											'<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus('+result.estNo+', 2)">취소하기</button></div>'
+										break;
+									case '2' :
+										chat += '<p>취소된 견적서 입니다.</p>'
+										break;
+									case '3' :
+										chat += '<p>확정된 견적서 입니다.</p>'
+											+ '<div style="display: flex">'
+											+ '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
+											+ '<button class="meetgo-btn meetgo-red w-50"  onclick="changeEstStatus('+result.estNo+', 2)" style="width: 268px; margin: 5px; ">취소하기</button>'
+										break;
+									case '4' :
+										chat += '<p>취소된 견적서 입니다.</p>'
+										break;
+									case '5' :
+										chat += '<p>거래 완료된 견적서 입니다.</p>'
+											+'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+										break;
+								}
+								$(estBtnContent).append(chat);
+							},
+							error : function () {
+								console.log("견적서 상태 변경 실패");
+							}
+						})
+					}
+				</script>
+				
+			</div>
 		</div>
 	</div>
 </div>
+
 </body>
 </html>

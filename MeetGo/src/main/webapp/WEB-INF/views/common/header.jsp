@@ -248,6 +248,11 @@
     #user-info-collapse ul {
 		padding: 0;
 	}
+	.status-icon {
+		margin-left: 20px;
+		width: 50px;
+		height: 50px;
+	}
 </style>
 <body>
     <header class="global-header">
@@ -281,6 +286,14 @@
                         </div>
                     </form>
                 </div>
+				<c:choose>
+					<c:when test="${sessionScope.loginUser.userStatus eq 1}">
+						<div><img class="status-icon" src="<%=request.getContextPath()%>/resources/images/common/clients-icon.png"></div>
+					</c:when>
+					<c:otherwise>
+						<div><img class="status-icon" src="<%=request.getContextPath()%>/resources/images/common/specialis-icon.png"></div>
+					</c:otherwise>
+				</c:choose>
             </div>
             <div class="right-section">
                 <nav class="nav-list">
@@ -294,9 +307,13 @@
 							</li>
 						</c:when>
 						<c:otherwise>
+							<li>
+		
+							</li>
 							<li><a href="estimate.me?cPage=1">견적 목록</a></li>
 							<li><a href="chat.ct">채팅</a></li>
 							<li>
+
 								<div class="menu-userInfo" data-toggle="collapse" data-target="#user-info-collapse">
 									<img id="user-profile" src="${sessionScope.loginUser.userProFile}">
 									<img id="user-collapse" src="<%=request.getContextPath()%>/resources/images/chat/wing-icon.png">
@@ -316,7 +333,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 고수 전환</button>
+												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\exchange-icon.png">&nbsp;&nbsp; 고수 전환</button>
 											</div>
 											<hr>
 											<div class="user-button">
@@ -336,7 +353,7 @@
 											</div>
 											<hr>
 											<div class="user-button">
-												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\change-icon.png">&nbsp;&nbsp; 회원 전환</button>
+												<button onclick="location.href='changeStatus.me'"><img src="<%=request.getContextPath()%>\resources\images\common\exchange-icon.png">&nbsp;&nbsp; 회원 전환</button>
 											</div>
 											<hr>
 											<div class="user-button">

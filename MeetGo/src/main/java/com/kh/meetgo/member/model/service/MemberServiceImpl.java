@@ -120,11 +120,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.getName(sqlSession, userNo);
 	}
 
-	@Override
-	public int uploadImg(String imgUpload) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public int payService(String estNo, String tid) {
