@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +21,7 @@
 
 .wrap{
     margin: auto;
-    height: 1000px;
+    height: 850px;
     width: 1000px;
 }
 .gosu_header1{
@@ -42,41 +43,45 @@
     height: 150px;
     text-align: center;
 }
-.gosu_coment{
+/* 댓글 작성 */
+
+#coment{
+	
+    border-radius: 6px;
+}
+
+.gosu_coment1{
     height: 60px;
     width: 1000px;
     
 }
-#coment{
-    border-radius: 6px;
-}
-
 .gosu_coment2 {
     width: 1000px;
     height: 100px;
     display: flex;
     position: relative;
-    flex-direction: row; /* Change flex-direction to row */
+    flex-direction: row; 
 }
 
 .gosu_coment2_1 {
-    width: 12%;
+    width: 10%;
     height: 80px;
 }
 
 .gosu_coment2_2 {
-    width: 80%;
+    width: 75%;
     height: 80px; 
     float: right;
-    /* Change height to 100px to match gosu_coment2_1 */
-    /* Add position relative */
+
 }
 
-.gosu_coment2_3{
-   width: 10%;
-   height: 50px;
-    
+.gosu_coment2_3 {
+	width: 13%;
+	height: 80px; 	  
+	text-align:center;
 }
+
+
 .gosu_bottom{
     width: 1000px;
     height: 80px;
@@ -85,6 +90,7 @@
     align-items: center;
     
 }
+
 *:focus {
     outline: 0;
 }
@@ -93,38 +99,38 @@
 </head>
 <body>
 	<jsp:include page="../../common/header.jsp"/>
-
+	<jsp:include page="../../common/side.jsp"/>
+	
   <div class="wrap">
 
         <div class="gosu_header1">
             &nbsp; &nbsp;
             <b>커뮤니티 > 고수찾기</b>
         </div>
-        <table class="table">
-        <div class="gosu_header2">
+        
+        <div class="gosu_header2">             
+       
+           &nbsp; &nbsp;<td><h2>&nbsp; ${ requestScope.m.boardTitle }</h2></td>
             
-                <tr>
-
-            <h2>&nbsp; &nbsp;<td><h2>${ requestScope.m.boardTitle }</h2></td>
-                    </tr>
             &nbsp; &nbsp;
-            <hr>
         </div>
         <div class="gosu_content1">
             <br>
             <img src="" id="profileImg" width="70" height="70">   
             &nbsp; 
+            ${ requestScope.m.userNo }
+            
             ${ requestScope.m.createDate } &nbsp; &nbsp;<i class="bi bi-eye-fill"></i> 20
 
         </div>
         <hr>
         <div class="swiper"> <!-- 슬라이드 이미지 시작 -->
 			<div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a00df9b2a481d32ec42ae698738782a76.png"></div>
-				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a4022de826f725e10df604bf1b9725cfd.png"></div>
-				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807ab3a18fdf58bc66ec3f4b6084b7d0b570.png"></div>
-				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807aba2da8249bd9ffef143efb890203e009.png"></div>
-				<div class="swiper-slide"><img src="resources/4e80b713683364873b06b4f33517807a00df9b2a481d32ec42ae698738782a76.png"></div>
+                <div class="swiper-slide"><img src=""></div>
+				<div class="swiper-slide"><img src=""></div>
+				<div class="swiper-slide"><img src=""></div>
+				<div class="swiper-slide"><img src=""></div>
+				<div class="swiper-slide"><img src=""></div>
 			</div>
 			<div class="swiper-pagination"></div>
 			<div class="swiper-button-prev"></div>
@@ -134,83 +140,128 @@
             ${ requestScope.m.boardContent }
 	
         </div>
-    </table>
-        <div class="gosu_coment">
+			
+				 <table id="replyArea">
+			 
+        		<div class="gosu_coment1">
+          
+            <!-- 일반회원의 댓글 입력가능창하게끔 -->
+            <!-- 만약 로그인이 안되었다면 막거나 하기 -->
+                    
+            <input type="text" name="coment" id="coment" style="width: 900px; height: 50px;" placeholder="&nbsp;내용을 입력하세요."> &nbsp; 
             
-            <input type="text" name="coment" id="coment" style="width: 1000px; height: 50px;" 
-            
-            placeholder="&nbsp;내용을 입력하세요.">
-        </div>
-        <hr>
-         <div class="gosu_coment">
-            
-            <input type="text" name="coment" id="coment" style="width: 900px; height: 50px;" 
-            
-            placeholder="&nbsp;내용을 입력하세요."> 
-            &nbsp; <button type="submit" class="btn btn-primary">댓글작성</button>
-        </div>
-            
+             <button class="btn btn-primary" onclick="addReply();">댓글작성</button>        	
+	   
+	        </div>
+	      
+	        <hr>
+	       
+	        </table>
+ 	     
+         <div class="gosu_coment2">   <!-- 댓글을 등록한 회원의 id  -->
+				<div class="gosu_coment2_1">
+                <!-- 프로필 이미지 넣기 -->
+                <img src="" id="profileImg" width="50" height="50">&nbsp;&nbsp; 
+                ${ requestScope.m.userNo }
+                
+                </div>
+                 
         <div class="gosu_coment2_2">
             &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" style="width: 700px; 
-            border: none; background: transparent;">
-        </div>    
-        
-        <div class="gosu_coment2_3">
-            <button type="submit"class="btn btn-primary" style="float: right;">견적요청</button>
-        </div>       
-            
+         	 background: transparent;">        	
+        </div> 
+        	 <div class="gosu_coment2_3">        	 
+        	  <button type="submit" class="btn btn-primary">견적요청</button>       	 
+        	 </div>
+        	                     
         </div>
-        <div class="gosu_coment2">
-            
-            <div class="gosu_coment2_1">
-                <img src="" id="profileImg" width="50" height="50">&nbsp;&nbsp;user03       
-            </div>
-                
-            <div class="gosu_coment2_2">
-                &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="text" style="width: 700px; 
-                border: none; background: transparent;">
-            </div>    
-            
-            <div class="gosu_coment2_3">
-                <button type="submit" class="btn btn-primary" style="float: right;">견적요청</button>
-            </div>       
-                
-        </div>
-        
-        <div class="gosu_coment2">
-            
-                <div class="gosu_coment2_1">
-                    <img src="" id="profileImg" width="50" height="50">&nbsp;&nbsp;user03       
-                </div>
-                    
-                <div class="gosu_coment2_2">
-                    &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="text" style="width: 700px; 
-                    border: none; background: transparent;">
-                </div>    
-                
-                <div class="gosu_coment2_3">
-                    <button class="btn btn-primary" style="float: right;">견적요청</button>
-                </div>       
-                    
-        </div>    
+      
 	
         
         <div class="gosu_bottom">
+        
             <button type="submit" id="gosu_btn" class="btn btn-secondary" >목록가기</button>
         </div>
-        
-        
-
-    
+   	</div>
     	<jsp:include page="../../common/footer.jsp"/>
     
 </body>
-<script>
-
-
-
-</script>
+   <script>
+    	$(function() {
+    		
+    		// 댓글리스트 조회용 선언적 함수 호출
+    		selectReplyList();
+		
+    	});
+    	
+    	function addReply() {
+    		
+    		// 댓글 작성 요청용 ajax 요청
+    		
+    		// 댓글내용이 있는지 먼저 검사 후
+    		// 댓글 내용 중 공백 제거 후 길이가 0 이 아닌 경우
+    		// => textarea 가 form 태그 내부에 있지 않음
+    		//    (required 속성으로 필수 입력값임을 나타낼 수 없음)
+    		if($("#coment").val().trim().length != 0) {
+    			
+    			$.ajax({
+    				url : "rinsert.bo",
+    				type : "get",
+    				data: {
+    				    refBoardNo: ${ requestScope.b.boardNo },
+    				    replyContent: $("#coment").val()
+    				},
+    				success : function(result) { 
+    					
+    					if(result == "success") {
+    						
+    						// 댓글 작성 성공 시
+    						selectReplyList();
+    						$("#coment").val("");
+    						
+    					}
+    					
+    				},
+    				error : function() {
+    					console.log("댓글 작성용 ajax 통신 실패!");
+    				}
+    			});
+    			
+    		} else {
+    			
+    			alertify.alert("Alert", "댓글 작성 후 등록을 요청해주세요.", function(){ alertify.success('Ok'); });	
+    		}
+    	}
+    	
+    	function selectReplyList() {
+    		
+    		// 해당 게시글에 딸린 댓글 조회 요청용 ajax 요청
+    		$.ajax({
+    			url : "rlist.bo",
+    			type : "get",
+    			data : {bno : ${ requestScope.b.boardNo }},
+    			success : function(result) {
+    				
+    				// console.log(result);
+    				
+    				let resultStr = "";
+    				
+    				for(let i = 0; i < result.length; i++) {
+    					
+    					resultStr += "<tr>"    							  	
+    							   + 	"<td>" + result[i].replyContent + "</td>"
+    							   +	"<td>" + result[i].createDate + "</td>"
+    							   + "</tr>";
+    				}
+    				
+    				$("#replyArea").html(resultStr);
+    				
+    			},
+    			error : function() {
+    				console.log("댓글리스트 조회용 ajax 통신 실패!");
+    			}
+    		});
+    	}
+    </script>
 </html>

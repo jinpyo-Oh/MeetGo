@@ -1,9 +1,6 @@
 package com.kh.meetgo.board.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -23,6 +20,7 @@ import com.google.gson.Gson;
 import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
+import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 
@@ -32,7 +30,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-
+	
+	@Autowired
+	private S3Uploader s3Uploader;
 
 	@RequestMapping("gosuList.bo")
 	public String test() {
@@ -63,7 +63,7 @@ public class BoardController {
 		return "board/tip/tipWrite";
 	}
 	
-	@GetMapping("list.bo")
+	@GetMapping("gosuList.bo")
 	public ModelAndView selectList(
 			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
 			ModelAndView mv) {
@@ -82,7 +82,6 @@ public class BoardController {
 		mv.addObject("list", list)
 		  .addObject("pi", pi)
 		  .setViewName("board/gosuRequest/gosuList");
-		  
 		return mv;
 	}
 	
@@ -166,14 +165,7 @@ public class BoardController {
 		int result = boardService.deleteBoard(bno);
 		
 		if(result > 0) { // 삭제 성공
-			// => alert 문구를 담아 게시판 리스트 페이지로 url 재요청
 			
-			// 기존에 첨부파일이 있었을 경우
-			// 서버로부터 해당 첨부파일 삭제하기
-			
-			// filePath 라는 매개변수에는
-			// 기존에 첨부파일이 있었을 경우 수정파일명
-			// 기존에 첨부파일이 없었을 경우 "" 이 들어가 있음
 			if(!filePath.equals("")) {
 				// 기존에 첨부파일이 있었을 경우
 				// => 해당 파일을 삭제처리
@@ -196,6 +188,10 @@ public class BoardController {
 			
 			return "common/errorPage";
 		}
+	
+		
+	
+	
 	}
 	
 	// 포트폴리오 게시판
@@ -218,5 +214,32 @@ public class BoardController {
 	public String pofolDetail() {
 		return "board/portfolio/pofolDetail";
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "rlist.bo", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int bno) {
+		
+		ArrayList<Reply> list = boardService.selectReplyList(bno);
+		
+		// Gson gson = new Gson();
+		// return gson.toJson(list);
+		
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "rinsert.bo", produces = "text/html; charset=UTF-8")
+	public String ajaxInsertReply(Reply r) {
+		
+		// System.out.println(r);
+		
+		int result = boardService.insertReply(r);
+		
+		return (result > 0) ? "success" : "fail";
+	}
+	
+	
+	
 	
 }

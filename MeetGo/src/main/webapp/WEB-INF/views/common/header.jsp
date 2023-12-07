@@ -256,7 +256,7 @@
                 </div>
                 <nav class="nav-list">
                     <li>
-                        <a href="">공지사항</a>
+                        <a href="noticeList.bo">공지사항</a>
                     </li>
                     <li>
                         <a href="searchMain.go">
