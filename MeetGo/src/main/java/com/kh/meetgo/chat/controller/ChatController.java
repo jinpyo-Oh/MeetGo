@@ -32,10 +32,19 @@ public class ChatController {
     @GetMapping(value = "/chat.ct")
     public String chatViewForm(String type, Model model, HttpSession session) {
         model.addAttribute("type", type);
-        Member m = (Member) session.getAttribute("loginUser");
-        ArrayList<ChatListDto> chatroomList = chatService.selectChatroomList(m);
-        model.addAttribute("chatroomList", chatroomList);
         return "chat/chat";
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/chatroomList", produces = "text/json; charset=UTF-8")
+    public String selectChatroomList(String type, Model model, String userNo, String userStatus) {
+        model.addAttribute("type", type);
+        Member m = new Member();
+        m.setUserNo(Integer.parseInt(userNo));
+        m.setUserStatus(Integer.parseInt(userStatus));
+        System.out.println("m = " + m);
+        ArrayList<ChatListDto> chatroomList = chatService.selectChatroomList(m, type);
+        return new Gson().toJson(chatroomList);
     }
 
     @ResponseBody

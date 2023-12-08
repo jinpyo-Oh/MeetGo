@@ -20,7 +20,7 @@ public class ChatServiceImpl implements ChatService{
     private final ChatDao chatDao;
     private final SqlSessionTemplate sqlSession;
     @Override
-    public ArrayList<ChatListDto> selectChatroomList(Member m) {
+    public ArrayList<ChatListDto> selectChatroomList(Member m, String type) {
         return chatDao.selectChatroomList(sqlSession, m);
     }
 

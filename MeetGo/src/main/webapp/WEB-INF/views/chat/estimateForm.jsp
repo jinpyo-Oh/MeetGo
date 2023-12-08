@@ -176,6 +176,11 @@
 		width: 80px;
 		height: 80px;
 	}
+	.card-style {
+		border: 1px solid lightgray;
+		border-radius: 10px;
+		background-color: whitesmoke;
+	}
 </style>
 <body>
 
@@ -186,10 +191,12 @@
 			<h1>견적서</h1>
 			<img id="est-cancel" onclick="displayNone()" src="https://cdn.icon-icons.com/icons2/1524/PNG/512/x_106506.png">
 		</div>
-		<h4>서비스 종류</h4>
-		<div class="form__group field">
-			<select id="est-service" name="est-service">
-			</select>
+		<div class="card-style">
+			<h4>서비스 종류</h4>
+			<div class="form__group field">
+				<select id="est-service" name="est-service">
+				</select>
+			</div>
 		</div>
 		<script>
 			$(function (){
@@ -213,71 +220,80 @@
 			});
 		</script>
 		<hr>
-		<h4>금액</h4>
-		<div class="form__group field">
-			<input type="text" class="form__field" id="estPrice" name="estPrice" placeholder="Name" oninput="formatNumber()" required>
-			<label for="estPrice" class="form__label">책정 금액</label>
-		</div>
-		<hr>
-		<h4>계약 날짜</h4>
-		<div class="form__group field">
-			<input type="date" class="form__field" id="startDate" name="startDate" required>
-			<label for="startDate" class="form__label"></label>
-		</div>
-		<div class="form__group field">
-			<input type="text" class="form__field" id="endDate" name="endDate" placeholder="Name" required>
-			<label for="endDate"  class="form__label">계약 이행일</label>
-			<p>ex) 계약일로부터 x일</p>
-		</div>
-		
-		<hr>
-		
-		<h4>주소</h4>
-		<div class="form__group field" style="display: flex">
-			<input type="text" class="form__field" id="address" placeholder="주소" disabled required>
-			<label for="address" class="form__label">주소</label>
-		</div>
-		<div style="display: flex; width: 80%; margin: auto">
-			<div class="form__group field" style="display: flex; margin: auto; text-align: center;align-items: center">
-				<input type="text" class="form__field" id="detailAddress" name="detailAddress" placeholder="상세주소" >
-				<label for="detailAddress" class="form__label">상세주소</label>
+		<div class="card-style">
+			<h4>금액</h4>
+			<div class="form__group field">
+				<input type="text" class="form__field" id="estPrice" name="estPrice" placeholder="Name" oninput="formatNumber()" required>
+				<label for="estPrice" class="form__label">책정 금액</label>
 			</div>
-			<input type="button" class="meetgo-btn" id="search-addr" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+			<hr>
 		</div>
-		<hr>
 		
-		<h4>상세 설명</h4>
-		<div class="form__group field" >
-			<textarea type="text" class="form__field" id="estContent" name="estContent" placeholder="상세 설명"></textarea>
-			<p>서비스 설명, 수행 지역, 시간 등을 설명해 주세요</p>
-		</div>
-		<script>
-            const DEFAULT_HEIGHT = 5; // textarea 기본 height
-            const $textarea = document.querySelector('#estContent');
-            $textarea.oninput = (event) => {
-                const $target = event.target;
-
-                $target.style.height = 0;
-                $target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px';
-            };
-		</script>
-		<hr>
-		<div class="contract_user">
-			<div class="est-card">
-				<div class="est-card-img">
-					<img src="https://mblogthumb-phinf.pstatic.net/MjAxOTA1MTRfMjA4/MDAxNTU3ODMxODUwNTk1.n1rndszUf2R_V0tChOSZ64vTQ7IBklPuA8cCnKgBS38g.SFeTe0aTlNDz1MwpburhuVDbXJHWcDhIjIk4s7e5JDkg.JPEG.onasis555/cats.jpg?type=w800">
-				</div>
-				<div class="est-card-info">
-					<p>수지 고객님</p>
-				</div>
+		<div class="card-style">
+			<h4>계약 날짜</h4>
+			<div class="form__group field">
+				<input type="date" class="form__field" id="startDate" name="startDate" required>
+				<label for="startDate" class="form__label"></label>
 			</div>
-			<img id="deal-icon" src="<%=request.getContextPath()%>/resources/images/chat/deal-icon.png">
-			<div class="est-card">
-				<div class="est-card-img">
-					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2nv2D1cgY7TLqc9Sz-doVLhZoMPergR36xbzncThfnYSZaxwwPejTKUOKA&s">
+			<div class="form__group field">
+				<input type="text" class="form__field" id="endDate" name="endDate" placeholder="Name" required>
+				<label for="endDate"  class="form__label">계약 이행일</label>
+				<p>ex) 계약일로부터 x일</p>
+			</div>
+		</div>
+		<hr>
+		<div class="card-style">
+			<h4>주소</h4>
+			<div class="form__group field" style="display: flex">
+				<input type="text" class="form__field" id="address" placeholder="주소" disabled required>
+				<label for="address" class="form__label">주소</label>
+			</div>
+			<div style="display: flex; width: 80%; margin: auto">
+				<div class="form__group field" style="display: flex; margin: auto; text-align: center;align-items: center">
+					<input type="text" class="form__field" id="detailAddress" name="detailAddress" placeholder="상세주소" >
+					<label for="detailAddress" class="form__label">상세주소</label>
 				</div>
-				<div class="est-card-info">
-					<p>윤아 고수님</p>
+				<input type="button" class="meetgo-btn" id="search-addr" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+			</div>
+		</div>
+		
+		<hr>
+		<div class="card-style">
+			<h4>상세 설명</h4>
+			<div class="form__group field" >
+				<textarea type="text" class="form__field" id="estContent" name="estContent" placeholder="상세 설명"></textarea>
+				<p>서비스 설명, 수행 지역, 시간 등을 설명해 주세요</p>
+			</div>
+			<script>
+				const DEFAULT_HEIGHT = 5; // textarea 기본 height
+				const $textarea = document.querySelector('#estContent');
+				$textarea.oninput = (event) => {
+					const $target = event.target;
+	
+					$target.style.height = 0;
+					$target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px';
+				};
+			</script>
+		</div>
+		<hr>
+		<div class="card-style">
+			<div class="contract_user">
+				<div class="est-card">
+					<div class="est-card-img">
+						<img src="https://mblogthumb-phinf.pstatic.net/MjAxOTA1MTRfMjA4/MDAxNTU3ODMxODUwNTk1.n1rndszUf2R_V0tChOSZ64vTQ7IBklPuA8cCnKgBS38g.SFeTe0aTlNDz1MwpburhuVDbXJHWcDhIjIk4s7e5JDkg.JPEG.onasis555/cats.jpg?type=w800">
+					</div>
+					<div class="est-card-info">
+						<p>수지 고객님</p>
+					</div>
+				</div>
+				<img id="deal-icon" src="<%=request.getContextPath()%>/resources/images/chat/deal-icon.png">
+				<div class="est-card">
+					<div class="est-card-img">
+						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2nv2D1cgY7TLqc9Sz-doVLhZoMPergR36xbzncThfnYSZaxwwPejTKUOKA&s">
+					</div>
+					<div class="est-card-info">
+						<p>윤아 고수님</p>
+					</div>
 				</div>
 			</div>
 		</div>

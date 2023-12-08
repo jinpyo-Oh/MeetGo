@@ -67,6 +67,7 @@
         align-items: center;
         background-color: white;
         z-index: 50;
+		margin-top: 10px;
         left: 50%;
         transform: translate(-50%, 0);
         top : 0;
@@ -86,6 +87,7 @@
     .logo{
         align-items: center;
         height: 100%;
+		cursor: pointer;
     }
     .logo>a {
         height: 100%;
@@ -93,7 +95,8 @@
     .logo img {
         width: 120px;
         margin-right: 60px;
-        margin-left: 20px   ;
+        margin-left: 20px;
+		margin-top: 5px;
     }
     .nav-list li:nth-child(n+2) a {
         margin-left: 15px;
@@ -105,7 +108,7 @@
         justify-content: center;
     }
     .search-bar {
-        width: 350px;
+        width: 300px;
         height: 40px;
         border-radius: 6px;
         background-color: #f4f4f4;
@@ -253,26 +256,70 @@
 		width: 50px;
 		height: 50px;
 	}
+	
+    .user-status-card {
+        width: 80px;
+        height: 60px;
+        perspective: 1000px;
+		cursor: pointer;
+    }
+
+    .card-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.450s;
+    }
+
+    .user-status-card:hover .card-inner {
+        transform: rotateX(180deg);
+    }
+
+    .card-front,
+    .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+		padding-top: 2px;
+        backface-visibility: hidden;
+    }
+
+    .card-front {
+        background-color: transparent;
+        color: black;
+        display: flex;
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        justify-content: center;
+        font-size: 17px;
+        transform: rotateY(0deg);
+    }
+
+    .card-back {
+        background-color: transparent;
+        color: black;
+        display: flex;
+        align-items: center;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        justify-content: center;
+        font-size: 17px;
+        transform: rotateX(180deg);
+    }
 </style>
 <body>
     <header class="global-header">
         <div class="global-navigation-bar">
             <div class="left-section">
-                <div class="logo">
+                <div class="logo" onclick="location.href='<%=request.getContextPath()%>'">
                     <a style="height: 100%;"><img src="<%=request.getContextPath()%>/resources/images/common/meetgo_logo.png" alt=""></a>
                 </div>
                 <nav class="nav-list">
-                    <li>
-                        <a href="noticeList.bo">공지사항</a>
-                    </li>
-                    <li>
-                        <a href="searchMain.go">
-                        	고수찾기
-                        </a>
-                    </li>
-                    <li>
-                        <a href="gosuList.bo">커뮤니티</a>
-                    </li>
+                    <li><a href="noticeList.bo">공지사항</a></li>
+                    <li><a href="searchMain.go">고수찾기</a></li>
+                    <li><a href="gosuList.bo">커뮤니티</a></li>
                 </nav>
             </div>
             <div class="center-section">
@@ -286,14 +333,7 @@
                         </div>
                     </form>
                 </div>
-				<c:choose>
-					<c:when test="${sessionScope.loginUser.userStatus eq 1}">
-						<div><img class="status-icon" src="<%=request.getContextPath()%>/resources/images/common/clients-icon.png"></div>
-					</c:when>
-					<c:otherwise>
-						<div><img class="status-icon" src="<%=request.getContextPath()%>/resources/images/common/specialis-icon.png"></div>
-					</c:otherwise>
-				</c:choose>
+				
             </div>
             <div class="right-section">
                 <nav class="nav-list">
@@ -311,7 +351,7 @@
 		
 							</li>
 							<li><a href="estimate.me?cPage=1">견적 목록</a></li>
-							<li><a href="chat.ct">채팅</a></li>
+							<li><a href="chat.ct?type=all">채팅</a></li>
 							<li>
 
 								<div class="menu-userInfo" data-toggle="collapse" data-target="#user-info-collapse">
@@ -362,6 +402,34 @@
 										</c:when>
 									</c:choose>
 								</div>
+							</li>
+							<li>
+								<c:choose>
+									<c:when test="${sessionScope.loginUser.userStatus eq 1}">
+										<div class="user-status-card"  onclick="location.href='changeStatus.me'">
+											<div class="card-inner">
+												<div class="card-front">
+													Customer
+												</div>
+												<div class="card-back" style="text-align: center">
+													Gosu <br>전환
+												</div>
+											</div>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="user-status-card"  onclick="location.href='changeStatus.me'">
+											<div class="card-inner">
+												<div class="card-front">
+													Gosu
+												</div>
+												<div class="card-back" style="text-align: center">
+													Customer <br> 전환
+												</div>
+											</div>
+										</div>
+									</c:otherwise>
+								</c:choose>
 							</li>
 						</c:otherwise>
 					</c:choose>

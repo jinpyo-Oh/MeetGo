@@ -16,6 +16,6 @@ import lombok.Setter;
 public class ChatListDto {
     private Chatroom chatroom;
     private String userName;
-    private String lastChat;
+    private Chat chat;
     private String userProfile;
 }

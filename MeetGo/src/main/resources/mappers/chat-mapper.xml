@@ -17,20 +17,20 @@
         <result column="USER_NO" property="userNo"/>
     </resultMap>
     <resultMap id="memberResultSet" type="member">
-        <result column="USER_NO" property="userNo" />
-        <result column="USER_NAME" property="userName" />
-        <result column="USER_ID" property="userId" />
-        <result column="USER_PWD" property="userPwd" />
-        <result column="USER_EMAIL" property="userEmail" />
-        <result column="USER_NICKNAME" property="userNickname" />
-        <result column="USER_GENDER" property="userGender" />
-        <result column="USER_PHONE" property="userPhone" />
-        <result column="USER_PROFILE" property="userProFile" />
-        <result column="CREATE_DATE" property="createDate" />
+        <result column="USER_NO" property="userNo"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="USER_PWD" property="userPwd"/>
+        <result column="USER_EMAIL" property="userEmail"/>
+        <result column="USER_NICKNAME" property="userNickname"/>
+        <result column="USER_GENDER" property="userGender"/>
+        <result column="USER_PHONE" property="userPhone"/>
+        <result column="USER_PROFILE" property="userProFile"/>
+        <result column="CREATE_DATE" property="createDate"/>
         <result column="ADDRESS" property="address"/>
-        <result column="LAST_ACCESS_DATE" property="lastAccessDate" />
+        <result column="LAST_ACCESS_DATE" property="lastAccessDate"/>
         <result column="ADDRESS" property="address"/>
-        <result column="USER_STATUS" property="userStatus" />
+        <result column="USER_STATUS" property="userStatus"/>
     </resultMap>
     <resultMap id="chatroomResultSet" type="chatroom">
         <result column="CHATROOM_NO" property="chatroomNo"/>
@@ -56,26 +56,43 @@
 
     <select id="selectChatRoomList" parameterType="member" resultType="com.kh.meetgo.chat.model.dto.ChatListDto">
         SELECT
-        cr.chatroom_no as "chatroom.chatroomNo",
-        cr.create_at as "chatroom.createAt",
-        cr.user_no as "chatroom.userNo",
-        cr.gosu_no as "chatroom.gosuNo",
-        M.user_name as "userName",
-        M.USER_PROFILE as "userProfile"
+            cr.chatroom_no as "chatroom.chatroomNo",
+            cr.create_at as "chatroom.createAt",
+            cr.user_no as "chatroom.userNo",
+            cr.gosu_no as "chatroom.gosuNo",
+            M.user_name as "userName",
+            M.USER_PROFILE as "userProfile",
+            C.CHAT_NO AS "chat.chatNo",
+            C.CONTENT as "chat.content",
+            C.TYPE as "chat.type",
+            C.CHATROOM_NO as "chat.chatroomNo"
         FROM CHATROOM cr
         LEFT JOIN (
-        SELECT USER_NAME, USER_NO, USER_PROFILE
-        FROM MEMBER
+            SELECT chat_no, content, type, CHATROOM_NO
+            FROM CHAT
+            where (chat_no, CHATROOM_NO) in (
+                SELECT MIN(CHAT_NO) AS CHAT_NO, CHATROOM_NO
+                FROM CHAT
+                GROUP BY CHATROOM_NO
+            )
+        )C ON cr.CHATROOM_NO = c.CHATROOM_NO
         <choose>
             <when test="userStatus == 1">
+                LEFT JOIN (
+                SELECT USER_NAME, USER_NO, USER_PROFILE
+                FROM MEMBER
                 ) M ON CR.GOSU_NO = M.USER_NO
-                WHERE CR.USER_NO =  #{userNo}
+                WHERE CR.USER_NO = #{userNo}
             </when>
             <otherwise>
+                LEFT JOIN (
+                SELECT USER_NAME, USER_NO, USER_PROFILE
+                FROM MEMBER
                 ) M ON CR.USER_NO = M.USER_NO
                 WHERE CR.GOSU_NO = #{userNo}
             </otherwise>
         </choose>
+
     </select>
 
     <select id="selectChatList" parameterType="_int" resultMap="chatResultSet">
@@ -139,26 +156,26 @@
         SET STATUS = #{status}
         WHERE EST_NO = #{estNo}
     </update>
-    <select id="selectChatGosuInfo"  parameterType="_int" resultMap="memberResultSet">
+    <select id="selectChatGosuInfo" parameterType="_int" resultMap="memberResultSet">
         SELECT *
         FROM MEMBER M
         LEFT JOIN (
-            SELECT *
-            FROM GOSU
+        SELECT *
+        FROM GOSU
         ) G USING (USER_NO)
         WHERE USER_NO = (
-            SELECT GOSU_NO
-            FROM CHATROOM
-            WHERE CHATROOM_NO = #{chatroomNo}
+        SELECT GOSU_NO
+        FROM CHATROOM
+        WHERE CHATROOM_NO = #{chatroomNo}
         )
     </select>
     <select id="selectServiceList" parameterType="_int" resultMap="categorySmallResultSet">
         SELECT *
         FROM SERVICE_CATEGORY_SMALL A
         JOIN (
-            SELECT CATEGORY_SMALL_NO
-            FROM "GOSU-SERVICE"
-            WHERE GOSU_NO = ${userNo}
+        SELECT CATEGORY_SMALL_NO
+        FROM "GOSU-SERVICE"
+        WHERE GOSU_NO = ${userNo}
         ) B USING (CATEGORY_SMALL_NO)
     </select>
     <select id="selectGosu" parameterType="_int" resultType="com.kh.meetgo.member.model.vo.Gosu">
@@ -173,25 +190,25 @@
     </select>
     <select id="selectReviewList" parameterType="_int" resultType="com.kh.meetgo.chat.model.dto.ChatReviewDto">
         SELECT R.rev_no AS "review.revNo",
-                R.rev_content AS "review.revContent",
-                R.rev_point AS "review.revPoint",
-                R.rev_date AS "review.revDate",
-                R.rev_status AS "review.revStatus",
-                R.est_no AS "review.estNo",
-                R.user_no AS "review.userNo",
-                R.gosu_no AS "review.gosuNo",
-                RI.rev_img_url AS "reviewImg.revImgUrl",
-                RI.IMG_NO AS "reviewImg.imgNo"
+        R.rev_content AS "review.revContent",
+        R.rev_point AS "review.revPoint",
+        R.rev_date AS "review.revDate",
+        R.rev_status AS "review.revStatus",
+        R.est_no AS "review.estNo",
+        R.user_no AS "review.userNo",
+        R.gosu_no AS "review.gosuNo",
+        RI.rev_img_url AS "reviewImg.revImgUrl",
+        RI.IMG_NO AS "reviewImg.imgNo"
         FROM REVIEW R
-            LEFT JOIN (
-                SELECT REV_NO, rev_img_url, IMG_NO
-                FROM REVIEW_IMG
-                WHERE (REV_NO, IMG_NO) IN (
-                    SELECT REV_NO, MIN(IMG_NO) AS min_img_no
-                    FROM REVIEW_IMG
-                    GROUP BY REV_NO
-                )
-            ) RI ON R.REV_NO = RI.REV_NO
+        LEFT JOIN (
+        SELECT REV_NO, rev_img_url, IMG_NO
+        FROM REVIEW_IMG
+        WHERE (REV_NO, IMG_NO) IN (
+        SELECT REV_NO, MIN(IMG_NO) AS min_img_no
+        FROM REVIEW_IMG
+        GROUP BY REV_NO
+        )
+        ) RI ON R.REV_NO = RI.REV_NO
         WHERE R.GOSU_NO = ${userNo}
     </select>
 

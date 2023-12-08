@@ -40,6 +40,24 @@
         .overlay-right-box{
 			position: relative;
 		}
+		.hide-all-content {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 999;
+
+		}
+		.hide-all-content-area{
+            width:100%; height:100%;display: flex;align-items: center; text-align: center; line-height : 100%;
+		}
+		#image-detail{
+            max-width: 1200px;
+            max-height: 800px;
+			object-fit: cover;
+            vertical-align:middle;
+			margin: auto;
+		}
 		.hide-right-box{
 			position: absolute;
 			width: 100%;
@@ -49,35 +67,64 @@
 			align-items: center;
 			padding-top: 30%;
 		}
+		#close-icon{
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			right: 70px;
+			top: 70px;
+            cursor: pointer;
+			color: whitesmoke;
+		}
 	</style>
 </head>
-<body>
+<body style="position: relative; height: 100%">
+<script>
+	$(function (){
+        selectChatList("all");
+	});
+</script>
+<div class="hide-all-content display-none">
+	<div class="hide-all-content-area">
+		<img id="close-icon" src="<%=request.getContextPath()%>/resources/images/chat/close-icon.png">
+		<img id="image-detail" src="">
+	</div>
+	<script>
+        $(window).click(function(e) {
+            if (e.target.classList.contains('hide-all-content')) {
+                $('.hide-all-content').addClass("display-none");
+                $('#image-detail').attr("src", "");
+            }
+        });
+        
+		$('#close-icon').click(function (){
+           $('.hide-all-content').addClass("display-none");
+           $('#image-detail').attr("src","");
+		});
+	</script>
+</div>
 <jsp:include page="../common/header.jsp"/>
 <jsp:include page="estimateForm.jsp"/>
+
 <div class="chat-content">
 	<div class="left-box">
 		<div class="left-box-input-search" >
 			<div class="view-type" id="view-type" data-toggle="collapse" data-target="#type-collapse">
+				<input type="hidden" id="chat-view-type" value="${requestScope.type}">
 				<div style="width: 80%; text-align: center">
 					<c:choose>
-						<c:when test="${requestScope.type == 'noread'}">
-							안 읽음
-						</c:when>
-						<c:when test="${requestScope.type == 'chating'}">
-							협의중
-						</c:when>
-						<c:when test="${requestScope.type == 'complete'}">
-							완료
+						<c:when test="${requestScope.type == 'noRead'}">
+							안 읽은 채팅
 						</c:when>
 						<c:otherwise>
-							전체
+							최신순
 						</c:otherwise>
 					</c:choose>
 				</div>
+
 				<img src="<%=request.getContextPath()%>/resources/images/chat/wing-icon.png" style="width: 50px; height: 50px">
 			</div>
 			<div class="chat-search-input display-none" id="search-type">
-				<b>이름 또는 내용으로 검색</b>
 				<input type="text" placeholder="검색어를 입력하세요.">
 			</div>
 			<div class="chat-search">
@@ -100,10 +147,8 @@
             });
 		</script>
 		<div id="type-collapse" class="collapse">
-			<a>전체</a>
-			<a>안 읽음</a>
-			<a>협의 중</a>
-			<a>완료</a>
+			<a onclick='selectChatList("all")'>최신순</a>
+			<a onclick='selectChatList("noRead")'>안 읽은 채팅</a>
 		</div>
 		<script>
             var links = document.querySelectorAll('#type-collapse a');
@@ -116,8 +161,32 @@
                 });
             });
 		</script>
-		
+		<script>
+            function selectChatList(type){
+                $.ajax({
+                    url : "chatroomList",
+                    method : "get",
+                    dataType:"json",
+                    headers: {
+                        "Content-Type":"application/json"  //전달하는 데이터가 JSON형태임을 알려줌
+                    },
+                    data : {
+                        type : type,
+                        userNo : '${sessionScope.loginUser.userNo}',
+                        userStatus : '${sessionScope.loginUser.userStatus}'
+                    },
+                    success : function (roomList){
+                   		console.log(roomList);
+                           
+                    },
+                    error : function (){
+                        console.log("채팅 목록 조회 실패")
+                    }
+                })
+            }
+		</script>
 		<div class="left-box-chatList">
+		
 			<c:forEach var="b" items="${requestScope.chatroomList}">
 				<div class="chat-card">
 					<input type="hidden" class="chatroomNo" value="${b.chatroom.chatroomNo}">
@@ -126,7 +195,20 @@
 					</div>
 					<div class="chat-card-info">
 						<p>${b.userName}</p>
-						<p>마지막 채팅 불러오기</p>
+						<c:choose>
+							<c:when test="${b.chat.type == 'M'}">
+								<p>${b.chat.content}</p>
+							</c:when>
+							<c:when test="${b.chat.type == 'P'}">
+								<p>사진</p>
+							</c:when>
+							<c:when test="${b.chat.type == 'E'}">
+								<p>견적서</p>
+							</c:when>
+							<c:otherwise>
+								<p></p>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 			</c:forEach>
@@ -140,6 +222,7 @@
             let estNo;
             let estNumber;
             let check=false;
+
             $(function () {
                 $('.chat-card').click(function () {
                     $('.hide-right-box').css("display", "none");
@@ -205,10 +288,7 @@
 											+'</div>'
 										+'</div>';
 									$('.right-box-info').append(userInfo);
-									$('.review-img-area').slick({
-										slidesToShow: 2,
-										slidesToScroll: 2,
-									});
+
                             },
                             error : function () {
                                 alert("오른쪽 회원 정보 조회 실패");
@@ -233,10 +313,6 @@
                                     '<div class="info-profile">' +
 										'<img class="info-profile-img" src="'+member.userProFile+'">' +
 										'<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">' +
-										'<div class="info-profile-more-list">' +
-											'<div>고수 상세 조회</div>' +
-											'<div></div>' +
-										'</div>' +
 										'<h3>'+ member.userName +'</h3>'+
 										'<table>' +
 											'<tr>' +
@@ -256,7 +332,6 @@
                                     '</div>' +
                                     '<div class="info-detail">' +
 										'<div class="info-service">' +
-										'<h5 style="margin-left: 20px">제공 서비스</h5>' +
 										'<div class="info-service-list">';
 								for (let i = 0; i < serviceList.length; i++) {
 									userInfo += '<button class="meetgo-btn" value="'+ serviceList[i].categorySmallNo +'">'
@@ -268,7 +343,7 @@
                                     '<h5 style="margin-left: 20px">소개 이미지</h5>' +
                                     '<div class="info-img-area">';
                                 for (let i = 0; i < gosuImgList.length; i++) {
-									userInfo += '<div style="width: 100px!important;"><img class="info-img" data-value="' +gosuImgList[i].gosuImgNo+ '" src="'+ gosuImgList[i].gosuImgUrl +'"></div>'
+									userInfo += '<div style="width: 100px!important;"><img class="info-img show-detail-img" data-value="' +gosuImgList[i].gosuImgNo+ '" src="'+ gosuImgList[i].gosuImgUrl +'"></div>'
                                 }
                                 if(gosuImgList.length == 0) {
                                     userInfo += '<div style="width:100%!important;"><p style="margin-top: 20px; width: 100%">소개 이미지가 없습니다.</p></div>'
@@ -283,24 +358,31 @@
                                     '</div>';
 								$('.right-box-info').append(userInfo);
 
-                                $('.info-pofol').slick({
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2,
-                                });
-                                $('.review-img-area').slick({
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2,
-                                });
-                                $('.info-img-area').slick({
-                                    slidesToShow: 2,
-                                    slidesToScroll: 2,
-                                });
+
+
                             },
                             error : function () {
                                 alert("오른쪽 고수 정보 조회 실패");
                             }
 						})
                     }
+                    $('.show-detail-img').click(function (){
+                     	$('#image-detail').attr("src", $(this).attr("src"));
+						$('.hide-all-content').removeClass('display-none');
+					});
+
+                    $('.info-pofol').slick({
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                    });
+                    $('.review-img-area').slick({
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                    });
+                    $('.info-img-area').slick({
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                    });
 					if(check) {
                         disconnect();
                     }
@@ -308,7 +390,7 @@
                     scrollToBottom();
                 });
             });
-		
+
             function CheckLR(data){
                 const lr = (data.sender == ${sessionScope.loginUser.userNo}) ? "receiver" : "sender";
                 appendChat(lr, data);

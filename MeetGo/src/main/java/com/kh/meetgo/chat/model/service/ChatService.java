@@ -11,7 +11,7 @@ import com.kh.meetgo.member.model.vo.Member;
 import java.util.ArrayList;
 
 public interface ChatService {
-    ArrayList<ChatListDto> selectChatroomList(Member m);
+    ArrayList<ChatListDto> selectChatroomList(Member m, String type);
 
     ArrayList<Chat> selectChatList(int roomNo);
 

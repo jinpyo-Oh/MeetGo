@@ -1,7 +1,6 @@
 package com.kh.meetgo.common.model.dto;
 
 import com.kh.meetgo.gosu.model.vo.Pofol;
-import com.kh.meetgo.gosu.model.vo.PofolImg;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
