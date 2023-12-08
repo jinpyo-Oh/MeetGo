@@ -9,30 +9,44 @@ import com.kh.meetgo.gosu.model.dto.PofolOpt;
 
 public interface BoardService {
 	
-	// 게시글 목록 조회 서비스 + 페이징처리
-		// 게시글의 총 갯수 조회
-		int selectListCount();
+		// 고수찾아요 게시글 목록 조회 서비스 + 페이징처리
+		// 고수찾아요 게시글의 총 갯수 조회
+		int selectGosuReqListCount();
 		
-		// 게시글 리스트 조회
-		ArrayList<Board> selectList(PageInfo pi);
+		// 고수찾아요 게시판 리스트 조회
+		ArrayList<Board> selectGosuReqList(PageInfo pi);
 		
-		// 게시글 작성하기 서비스
-		int insertBoard(Board m);
+		// 고수찾아요 작성하기 서비스
+		int insertGosuReqBoard(Board m);
 		
-		// 게시글 상세조회 서비스
-		// 게시글 조회수 증가
-		int increaseCount(int boardNo);
+		// 고수찾아요 상세조회 서비스
+		// 고수찾아요 조회수 증가
+		int increaseGosuReqCount(int boardNo);
 		
-		// 게시글 상세조회
-		Board selectBoard(int boardNo);
+		// 고수찾아요 게시글 상세조회
+		Board selectGosuReqBoard(int boardNo);
 		
-		// 게시글 삭제 서비스
-		int deleteBoard(int boardNo);
 		
-		// 게시글 수정 서비스
-		int updateBoard(Board m);
+		
+		// 팁노하우 게시판 리스트 조회		
+		ArrayList<Board> selectTipList(PageInfo pi);
+		
+		// 팁게시판 총 갯수 목록 조회 서비
+		int selectTipListCount();
 
-		int insertTipboard(Board m);
+		// 팁노하우 작성하기 서비스
+		int insertTipBoard(Board m);
+		
+		// 팁노하우 게시글 상세조회
+		Board selectTipBoard(int boardNo);
+		
+		// 팁노하우 상세조회 서비스
+		// 팁노하우 조회수 증가
+		int increaseTipCount(int boardNo);
+		
+	
+
+
 		
 		// 댓글 리스트 조회 서비스 (ajax)
 		ArrayList<Reply> selectReplyList(int boardNo);

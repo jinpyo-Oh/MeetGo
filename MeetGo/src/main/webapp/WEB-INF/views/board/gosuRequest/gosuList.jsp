@@ -143,7 +143,13 @@ table, th, td {
   background-color: #007bff; /* You can set the hover background color to your preference */
   color: #fff; /* You can set the hover text color to your preference */
 }
-      
+  
+  .gosu_content_2:hover {
+  	text-decoration : underline;
+  	cursor : pointer;
+  	
+   
+  }
 </style>
 </head>
 <body>
@@ -179,10 +185,8 @@ table, th, td {
         </div>
        
        <div class="gosu_main">
-        <script>
-			console.log(${requestScope.boardTitle});
-		</script>    
-		
+        
+			<!-- 공지사항 -->
             <table class="gosu_first">
                 <tr>
                     <th> &nbsp; &nbsp; &nbsp;
@@ -219,7 +223,7 @@ table, th, td {
             
        </div>
        <a href="gosuWrite.bo">
-        <button type="submit" class="btn btn-primary"  >글작성</button>
+        <button type="submit" class="btn btn-primary">글작성</button>
         </a>
        <div class="gosu_footer" >
     

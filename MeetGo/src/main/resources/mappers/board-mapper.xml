@@ -27,15 +27,15 @@
 		<result column="USER_NO" property="userNo" />		
 	</resultMap>
 
-	
-	<select id="selectListCount" resultType="_int">
+	<!-- 고수찾아요 게시글 총 갯수 -->
+	<select id="selectGosuReqListCount" resultType="_int">
 		SELECT COUNT(*)
 		  FROM BOARD
 		 WHERE BOARD_TYPE = 1
 	</select>
 	
-
-	<select id="selectList" resultMap="boardResultSet">
+	<!-- 고수찾아요 게시판 리스트 조회 -->
+	<select id="selectGosuReqList" resultMap="boardResultSet">
 		SELECT BOARD_NO
 		     , BOARD_TITLE
 		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
@@ -45,7 +45,8 @@
 		 ORDER BY BOARD_NO DESC
 	</select>
 	
-	<insert id="insertBoard" parameterType="Board">
+	<!-- 고수찾아요 게시판 작성하기 서비스 -->
+	<insert id="insertGosuReqBoard" parameterType="Board">
 			    INSERT INTO BOARD (
 			        BOARD_NO,
 			        BOARD_TITLE,
@@ -61,22 +62,18 @@
 			         , 1
 			         , 1
 			        )
-		</insert>	
-			<insert id="insertTipboard" parameterType="Board">
-			    INSERT INTO BOARD (
-			        BOARD_NO,
-			        BOARD_TITLE,
-			        BOARD_CONTENT,
-			        BOARD_CREATE_DATE )
-			         VALUES(SEQ_BOARD_NO.NEXTVAL
-			         ,#{boardTitle}
-			         ,#{boardContent}
-			         ,#{createDate}
-			         )
-		    
-		</insert>				
-
-	<select id="selectBoard" parameterType="_int" resultMap="boardResultSet">
+			        
+	</insert>	
+	
+	<update id="increaseGosuReqCount" parameterType="_int">
+		UPDATE BOARD
+		   SET BOARD_COUNT = BOARD_COUNT + 1
+		 WHERE BOARD_NO = #{boardNo}
+		   AND BOARD_TYPE = 1
+	</update>
+		
+	<!-- 고수찾아요 게시글 상세 -->	
+	<select id="selectGosuReqBoard" parameterType="_int" resultMap="boardResultSet">
 		SELECT BOARD_NO
 		     , BOARD_TITLE
 		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
@@ -85,13 +82,69 @@
 		 WHERE BOARD_NO = #{boardNo}
 		   AND BOARD_TYPE = 1
 	</select>
+		
 	
-	<update id="increaseCount" parameterType="_int">
+	
+	<!-- 팁 게시판 총 갯수 -->
+	<select id="selectTipListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM BOARD
+		 WHERE BOARD_TYPE = 2
+	</select>
+	
+	<!-- 팁노하우 게시판 리스트 -->
+	<select id="selectTipList" resultMap="boardResultSet">
+		SELECT BOARD_NO
+		     , BOARD_TITLE
+		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
+			 , BOARD_COUNT
+		  FROM BOARD
+		 WHERE BOARD_TYPE = 2
+		 ORDER BY BOARD_NO DESC
+	</select>		
+	
+	<!-- 팁노하우 작성하기 서비스 -->	
+	<insert id="insertTipBoard" parameterType="Board">
+			    INSERT INTO BOARD (
+			        BOARD_NO,
+			        BOARD_TITLE,
+			        BOARD_CONTENT,
+			        USER_NO,
+			        BOARD_TYPE
+			         )
+			         VALUES(SEQ_BOARD_NO.NEXTVAL
+			         ,#{boardTitle}
+			         ,#{boardContent}
+			         , 1
+			         , 2
+			         )
+		    
+	</insert>
+	
+	<update id="increaseTipCount" parameterType="_int">
 		UPDATE BOARD
 		   SET BOARD_COUNT = BOARD_COUNT + 1
 		 WHERE BOARD_NO = #{boardNo}
-		   AND BOARD_TYPE = 1
+		   AND BOARD_TYPE = 2
 	</update>
+
+		
+	
+	<!--  팁노하우 게시판 상세  -->
+	<select id="selectTipBoard" parameterType="_int" resultMap="boardResultSet">
+		SELECT BOARD_NO
+		     , BOARD_TITLE
+		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		     , BOARD_CONTENT
+		  FROM BOARD
+		 WHERE BOARD_NO = #{boardNo}
+		   AND BOARD_TYPE = 2
+	</select>	
+		
+
+
+	
+	
 	
 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT REPLY_NO		   

@@ -71,12 +71,13 @@ public class BoardController {
 		return "board/tip/tipWrite";
 	}
 	
+	// 고수찾아요 게시판리스트 조회
 	@GetMapping("gosuList.bo")
-	public ModelAndView selectList(
+	public ModelAndView selectGosuReqList(
 			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
 			ModelAndView mv) {
 		
-		int listCount = boardService.selectListCount();
+		int listCount = boardService.selectGosuReqListCount();
 		
 		int pageLimit = 5;
 		int boardLimit = 5;
@@ -84,7 +85,7 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 						currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Board> list = boardService.selectList(pi);
+		ArrayList<Board> list = boardService.selectGosuReqList(pi);
 		
 
 		mv.addObject("list", list)
@@ -93,13 +94,14 @@ public class BoardController {
 		return mv;
 	}
 	
+	// 고수찾아요 게시판 등록
 	@PostMapping("insert.bo")
-	public String insertBoard(Board m, 
+	public String insertGosuReqBoard(Board m, 
 							  MultipartFile upfile,
 							  HttpSession session,
 							  Model model) {
 		
-		int result = boardService.insertBoard(m);
+		int result = boardService.insertGosuReqBoard(m);
 		
 		if(result > 0) { 
 			
@@ -114,13 +116,65 @@ public class BoardController {
 		}
 	}
 	
+	// 고수찾아요 게시판 상세조회	
+	@RequestMapping("detail.bo")
+	public ModelAndView selectGosuReqBoard(int bno, 
+									ModelAndView mv) {
+		
+		
+		
+		int result = boardService.increaseGosuReqCount(bno);
+		
+		if(result > 0) { 
+			
+			Board m = boardService.selectGosuReqBoard(bno);
+			
+			mv.addObject("m", m)
+			  .setViewName("board/gosuRequest/gosuDetail"); 
+			
+			
+		} else { 
+			
+			mv.addObject("errorMsg", "게시글 상세조회 실패")
+			  .setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
+	// 팁 노하우 게시판 리스트 조회
+	@GetMapping("tipList.bo")
+	public ModelAndView selectTipList(
+			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+			ModelAndView mv) {
+		
+		int listCount = boardService.selectTipListCount();
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, 
+						currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Board> list = boardService.selectTipList(pi);
+		
+
+		mv.addObject("list", list)
+		  .addObject("pi", pi)
+		  .setViewName("board/tip/tipList");
+		return mv;
+	}
+	
+	
+	
+	// 팁 노하우 게시판 등록
 	@PostMapping("tipInsert.bo")
-	public String insertTipboard(Board m, 
+	public String insertTipBoard(Board m, 
 							  MultipartFile upfile,
 							  HttpSession session,
 							  Model model) {
 			
-		int result = boardService.insertTipboard(m);
+		int result = boardService.insertTipBoard(m);
 		
 		if(result > 0) { 
 			
@@ -135,21 +189,21 @@ public class BoardController {
 		}
 	}
 	
-	@RequestMapping("detail.bo")
-	public ModelAndView selectBoard(int bno, 
+	
+	// 팁노하우 게시판 상세 조회
+	@RequestMapping("tipDetail.bo")
+	public ModelAndView selectTipBoard(int bno, 
 									ModelAndView mv) {
+	
 		
-		// System.out.println(bno);
-		// bno 에는 상세조회하고자 하는 해당 게시글 번호가 담겨있음
-		
-		int result = boardService.increaseCount(bno);
+		int result = boardService.increaseTipCount(bno);
 		
 		if(result > 0) { 
 			
-			Board m = boardService.selectBoard(bno);
+			Board m = boardService.selectTipBoard(bno);
 			
 			mv.addObject("m", m)
-			  .setViewName("board/gosuRequest/gosuDetail"); 
+			  .setViewName("board/tip/tipDetail"); 
 			
 		} else { 
 			
@@ -160,47 +214,7 @@ public class BoardController {
 		return mv;
 	}
 	
-	
-	@RequestMapping("delete.bo")
-	public String deleteBoard(int bno,
-							  String filePath,
-							  Model model,
-							  HttpSession session) {
-		
-		// bno 에는 post 방식으로 넘겨받은 글번호가 들어가있음
-		
-		// 삭제 요청
-		int result = boardService.deleteBoard(bno);
-		
-		if(result > 0) { // 삭제 성공
-			
-			if(!filePath.equals("")) {
-				// 기존에 첨부파일이 있었을 경우
-				// => 해당 파일을 삭제처리
-				
-				// 해당 파일이 실제 저장되어있는 경로 알아내기
-				String realPath = session.getServletContext()
-								.getRealPath(filePath);
-				
-				new File(realPath).delete();
-			}
-			
-			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
-			
-			return "redirect:/list.bo";
-			
-		} else { // 삭제 실패
-			// => 에러문구를 담아서 에러페이지로 포워딩
-			
-			model.addAttribute("errorMsg", "게시글 삭제 실패");
-			
-			return "common/errorPage";
-		}
-	
-		
-	
-	
-	}
+
 	
 	@RequestMapping("sendPofol.po")
 	public String sendPofolList() {

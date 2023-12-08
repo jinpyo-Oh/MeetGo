@@ -149,7 +149,7 @@
             <!-- 만약 로그인이 안되었다면 막거나 하기 -->
                     
             <input type="text" name="coment" id="coment" style="width: 900px; height: 50px;" placeholder="&nbsp;내용을 입력하세요."> &nbsp; 
-            
+            	
              <button class="btn btn-primary" onclick="addReply();">댓글작성</button>        	
 	   
 	        </div>
@@ -169,7 +169,8 @@
         <div class="gosu_coment2_2">
             &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="text" style="width: 700px; 
-         	 background: transparent;">        	
+         	 background: transparent;">     
+         	 ${ requestScope.r.replyContent }   	
         </div> 
         	 <div class="gosu_coment2_3">        	 
         	  <button type="submit" class="btn btn-primary">견적요청</button>       	 

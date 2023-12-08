@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,13 +24,15 @@
        /*border : 1px solid red; */  
     }
     .wrap{
-    
+   	
+   	border : 1px solid red;
     width: 1000px;
     height: 1000px;
     margin: auto;
     }
 
     .content_1{
+    	border : 1px solid green;
         height: 1000px;
         width: 1000px;
         float: right;
@@ -36,59 +40,43 @@
 
     }
     .content_title{
+    	border : 1px solid pink;   	
         width: 1000px;
         height: 100px;
         box-sizing: border-box;
 
     }
     .content_1_1{
+    	border : 1px solid yellow;
         box-sizing: border-box;
         width: 1000px;
-        height: 50px;
+        height: 800px;
     }
     .content_1_2{
+        border : 1px solid red;
         box-sizing: border-box;
-        height: 850px;
+        height: 50px;
         width: 1000px;
 
     }
-    .content_main1_1{
+  	.content_1_3{
+  		border : 1px solid purple;
         box-sizing: border-box;
-        float: left;
-        width: 70%;
-        height: 20%;
-        
-    }
-    .content_main1_2{
-        width: 30%;
-        box-sizing: border-box;
-        text-align: center;
-        float: right;
-        height: 20%;
-        
-    }
-    .content_main2_1{
-        width: 70%;
-        box-sizing: border-box;
-        float: left;
-        height: 20%;
-        
-    }
-    .content_main2_2{
-        width: 30%;
-        box-sizing: border-box;
-        text-align: center;
-        float: right;
-        height: 20%;
-    }
-
-    .content_main3_1{
-        width: 70%;
-        box-sizing: border-box;
-        float: left;
-        height: 20%;
-        
-    }
+  		width: 1000px;
+  		height: 200px;
+  				
+  		}
+  	.content_1_title{
+  		border : 1px solid hotpink;
+  		box-sizing: border-box;
+  		width: 1000px;
+  		height: 50px;
+  		
+  		
+  	
+  	}		
+  		
+  
     .content_main3_2{
         width: 30%;
         box-sizing: border-box;
@@ -138,76 +126,74 @@
        
         <div class="content_1">
             
-            <div class="content_title" style="text-align: center; font-size: 28px;"  >        
-                <p>팁과 노하우</p>
-                
+            <div class="content_title" style="text-align: center; font-size: 28px;">        
+                <p>팁과 노하우</p>               
                 <hr>
             </div>
+          <table class="boardTipList">
+                <c:forEach var="m" items="${requestScope.list}">
+                        <tr>
+                            <td class="bno">${m.boardNo}</td>
+                            <td class="gosu_content_2">${m.boardTitle}</td>
+                            <td class="gosu_content_4" style="text-align: center;">${m.createDate}</td>
+                        </tr>
+                </c:forEach>
+            </table>   
             
-            <div class="content_1_1" style="text-align: right;">
-                 
-                <form action="test.do" method="get">             
-                    <select name="">
-                        <option value="new">최신순</option>
-                        <option value="writer">조회수</option>
-                     </select>
-                </form>    
-            </div>
-            
-                       
-            <div class="content_1_2">
+           
+           
+           
+           
+           
+           </div>
+           
+            <a href="tipWrite.bo">
+             <button type="submit" class="btn btn-primary">글작성</button>
+            </a>
+           </div>
+              <div id="pagingArea">
+                <ul class="pagination">
                 
-                <div class="content_main1_1">
-                    <h2>&nbsp;&nbsp; ${ m.boardTitle }</h2>
-                  
-                    <p>&nbsp;&nbsp; ${ m.boardContent }</p>
-                      
-                    &nbsp;&nbsp; &nbsp;&nbsp;<i class="bi bi-eye-fill"></i>                 
-                    &nbsp;&nbsp;
-                </div>   
-                <div class="content_main1_2">
-                    <img src="" id="titleImg" width="170" height="160" >    
-                </div> 
-         
-                    <div class="content_1_3_1" >
-                        
-                    <br><br><br><br><br>
-                    <div class="list-bar">
-                    <nav aria-label="Page navigation example" >
-                        <ul class="pagination">
-                          <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                            </a>
-                          </li>
-                          <li class="page-item"><a class="page-link" href="#">1</a></li>
-                          <li class="page-item"><a class="page-link" href="#">2</a></li>
-                          <li class="page-item"><a class="page-link" href="t">3</a></li>
-                          <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
-                    </div>
+                	<c:choose>
+                		<c:when test="${ requestScope.pi.currentPage eq 1 }">
+	                    	<li class="page-item disabled">
+	                    		<a class="page-link" href="#">Previous</a>
+	                    	</li>
+                    	</c:when>
+                    	<c:otherwise>
+	                    	<li class="page-item">
+	                    		<a class="page-link" href="tipList.bo?cpage=${ requestScope.pi.currentPage - 1 }">Previous</a>
+	                    	</li>
+                    	</c:otherwise>
+                    </c:choose>
                     
-                    <div class="content_1_3_2" >
+                    <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
+                    					 end="${ requestScope.pi.endPage }"
+                    					step="1">
+                    	<li class="page-item">
+                    		<a class="page-link" href="tipList.bo?cpage=${ p }">${ p }</a>
+                    	</li>
+                    </c:forEach>
                     
-                <a href="tipWrite.go">
-                <button type="submit" class="btn btn-primary" >글작성</button>
-            	</a>
-                    
-                    </div>
-     
+                    <c:choose>
+                    	<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
+		                    <li class="page-item disabled">
+		                    	<a class="page-link" href="#">Next</a>
+		                    </li>
+		                </c:when>
+		                <c:otherwise>
+		                    <li class="page-item">
+		                    	<a class="page-link" href="tipList.bo?cpage=${ requestScope.pi.currentPage + 1 }">Next</a>
+		                    </li>
+		                </c:otherwise>
+                	</c:choose>
                 
+                </ul>
             </div>
-                                   
-        </div>
+       </div>
+        
 
-    </div>
-    	<jsp:include page="../../common/footer.jsp"/>
+	    	<jsp:include page="../../common/footer.jsp"/>
     
 </body>
 </html>

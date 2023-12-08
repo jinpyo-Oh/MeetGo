@@ -26,49 +26,59 @@ public class BoardServiceImpl implements BoardService {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int selectListCount() {
-		return boardDao.selectListCount(sqlSession);
+	public int selectGosuReqListCount() {
+		return boardDao.selectGosuReqListCount(sqlSession);
 	}
-
+	
+	// 고수찾아요 게시판 리스트 
 	@Override
-	public ArrayList<Board> selectList(PageInfo pi) {
-		return boardDao.selectList(sqlSession, pi);
+	public ArrayList<Board> selectGosuReqList(PageInfo pi) {
+		return boardDao.selectGosuReqList(sqlSession, pi);
 	}
-
+	
+	// 고수찾아요 작성하기
 	@Override
 	@Transactional 
-
-	public int insertBoard(Board m) {
-		return boardDao.insertBoard(sqlSession, m);
+	public int insertGosuReqBoard(Board m) {
+		return boardDao.insertGosuReqBoard(sqlSession, m);
 	}
-
+	
 	@Override
 	@Transactional
-	public int increaseCount(int boardNo) {
-		return boardDao.increaseCount(sqlSession, boardNo);
+	public int increaseGosuReqCount(int boardNo) {
+		return boardDao.increaseGosuReqCount(sqlSession, boardNo);
 	}
-
+	
+	
 	@Override
-	public Board selectBoard(int boardNo) {
-		return boardDao.selectBoard(sqlSession, boardNo);
+	public int selectTipListCount() {
+		return boardDao.selectTipListCount(sqlSession);
 	}
-
+	
+	// 팁노하우 게시판 리스트 
+	@Override
+	public ArrayList<Board> selectTipList(PageInfo pi) {
+		return boardDao.selectTipList(sqlSession, pi);
+	}
+	
+	// 팁노하우 작성하기
+	@Override
+	@Transactional 
+	public int insertTipBoard(Board m) {
+		return boardDao.insertTipBoard(sqlSession, m);
+	}
+	
 	@Override
 	@Transactional
-	public int deleteBoard(int boardNo) {
-		return boardDao.deleteBoard(sqlSession, boardNo);
+	public int increaseTipCount(int boardNo) {
+		return boardDao.increaseTipCount(sqlSession, boardNo);
 	}
+	
+	
 
-	@Override
-	@Transactional
-	public int updateBoard(Board m) {
-		return boardDao.updateBoard(sqlSession, m);
-	}
 
-	@Override
-	public int insertTipboard(Board m) {
-		return boardDao.insertTipboard(sqlSession, m);
-	}
+	
+
 
 	@Override
 	public ArrayList<Reply> selectReplyList(int boardNo) {
@@ -93,6 +103,19 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<String> getLoginUserCtgName(int userNo) {
 		return boardDao.getLoginUserCtgName(sqlSession, userNo);
 	}
+
+	@Override
+	public Board selectGosuReqBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Board selectTipBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

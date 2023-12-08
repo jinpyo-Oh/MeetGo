@@ -16,68 +16,90 @@ import com.kh.meetgo.gosu.model.dto.PofolOpt;
 @Repository
 public class BoardDao {
 	
+	// 고수찾아요 게시글 총 갯수
 	
-	public int selectListCount(SqlSessionTemplate sqlSession) {
+	public int selectGosuReqListCount(SqlSessionTemplate sqlSession) {
 		
-		return sqlSession.selectOne("boardMapper.selectListCount");
+		return sqlSession.selectOne("boardMapper.selectGosuReqListCount");
 	}
 	
-	public ArrayList<Board> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	// 고수찾아요 리스트 조회 
+	public ArrayList<Board> selectGosuReqList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("boardMapper.selectGosuReqList", null, rowBounds);
 	}
 	
-	public int insertBoard(SqlSessionTemplate sqlSession, Board m) {
+	// 고수찾아요 게시판 작성
+	public int insertGosuReqBoard(SqlSessionTemplate sqlSession, Board m) {
 		
-		return sqlSession.insert("boardMapper.insertBoard", m);
+		return sqlSession.insert("boardMapper.insertGosuReqBoard", m);
 	}
 	
-	public int insertTipboard(SqlSessionTemplate sqlSession, Board m) {
+	// 카운트 
+	public int selectGosuReqListCount(SqlSessionTemplate sqlSession, int boardNo) {
 		
-		return sqlSession.insert("boardMapper.in"
-				+ "sertTipBoard", m);
+		return sqlSession.update("boardMapper.selectGosuReqListCount", boardNo);
 	}
 	
-	
-	public int increaseCount(SqlSessionTemplate sqlSession, int boardNo) {
+	// 고수찾아요 게시판 상세
+	public Board selectGosuReqBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		
-		return sqlSession.update("boardMapper.increaseCount", boardNo);
+		return sqlSession.selectOne("boardMapper.selectGosuReqBoard", boardNo);
 	}
 	
-	public Board selectBoard(SqlSessionTemplate sqlSession, int boardNo) {
+	public int increaseGosuReqCount(SqlSessionTemplate sqlSession, int boardNo) {
 		
-		return sqlSession.selectOne("boardMapper.selectBoard", boardNo);
+		return sqlSession.update("boardMapper.increaseGosuReqCount", boardNo);
+	}	
+
+		
+	// 팁노하우 게시글 총 갯수	
+	public int selectTipListCount(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("boardMapper.selectTipListCount");
 	}
 	
-	public int deleteBoard(SqlSessionTemplate sqlSession, int boardNo) {
+	// 팁노하우 리스트 조회 
+	public ArrayList<Board> selectTipList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
-		return sqlSession.update("boardMapper.deleteBoard", boardNo);
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectTipList", null, rowBounds);
 	}
 	
-	public int updateBoard(SqlSessionTemplate sqlSession, Board m) {
+	// 팁노하우 게시판 작성
+	public int insertTipBoard(SqlSessionTemplate sqlSession, Board m) {
 		
-		return sqlSession.update("boardMapper.updateBoard", m);
+		return sqlSession.insert("boardMapper.insertTipBoard", m);
 	}
 	
-	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+	// 카운트 
+	public int selectTipListCount(SqlSessionTemplate sqlSession, int boardNo) {
 		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList", boardNo);
+		return sqlSession.update("boardMapper.selectTipListCount", boardNo);
 	}
 	
-	public int insertReply(SqlSessionTemplate sqlSession, Reply r) {
+	// 고수찾아요 게시판 상세
+	public Board selectTipBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		
-		return sqlSession.insert("boardMapper.insertReply", r);
+		return sqlSession.selectOne("boardMapper.selectTipBoard", boardNo);
 	}
+		
+	public int increaseTipCount(SqlSessionTemplate sqlSession, int boardNo) {
+		
+		return sqlSession.update("boardMapper.increaseTipCount", boardNo);
+	}	
+
 	
-	public ArrayList<Board> selectTopBoardList(SqlSessionTemplate sqlSession) {
-		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectTopBoardList");
-	}
+	
 	
 	// 포폴리스트 전체카운트
 	public int countPofolList(SqlSessionTemplate sqlSession) {	
