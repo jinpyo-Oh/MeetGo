@@ -12,6 +12,7 @@ import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
+import com.kh.meetgo.gosu.model.vo.Pofol;
 
 @Repository
 public class BoardDao {
@@ -99,8 +100,23 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectPofolList", params, rowBounds);
 	}
 	
+	// 로그인 고수의 카테고리 이름 가져오기
 	public ArrayList<String> getLoginUserCtgName(SqlSessionTemplate sqlSession, int userNo) {
 		return (ArrayList)sqlSession.selectList("boardMapper.getLoginUserCtgName", userNo);
+	}
+	
+	// 포트폴리오 등록
+	public int insertPofol(SqlSessionTemplate sqlSession, Pofol pofol){
+		return sqlSession.insert("boardMapper.insertPofol", pofol);
+	}
+	
+	public int insertPofolImg(SqlSessionTemplate sqlSession, String pofolImgUrl, int pofolNo) {
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("pofolImgUrl", pofolImgUrl);
+		params.put("pofolNo", pofolNo);
+		
+		return sqlSession.insert("boardMapper.insertPofolImg", params);
 	}
 
 }

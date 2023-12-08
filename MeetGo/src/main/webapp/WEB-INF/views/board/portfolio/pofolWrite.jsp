@@ -234,7 +234,7 @@
             for (let i = 0; i < filesArr.length; i++) {
                 // 삭제되지 않은 파일만 폼데이터에 담기
                 if (!filesArr[i].is_delete) {
-                    formData.append("pofolImgUrl", filesArr[i]);
+                    formData.append("pofolImgArr", filesArr[i]);
                 }
             }
 
@@ -244,7 +244,6 @@
             formData.append("pofolPrice", $('#pofolPrice').val());
             formData.append("pofolContent", $('#pofolContent').val());
 			
-            console.log(formData);
             $.ajax({
             	type: "POST",
             	enctype: 'multipart/form-data',

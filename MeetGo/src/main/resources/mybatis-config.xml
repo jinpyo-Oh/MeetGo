@@ -21,6 +21,7 @@
    		<typeAlias type="com.kh.meetgo.board.model.vo.Board" alias="board"/>
    		<typeAlias type="com.kh.meetgo.board.model.vo.Reply" alias="reply" />
    		<typeAlias type="com.kh.meetgo.gosu.model.vo.Pofol" alias="pofol"/>
+   		<typeAlias type="com.kh.meetgo.gosu.model.vo.PofolImg" alias="pofolImg"/>
    		<typeAlias type="com.kh.meetgo.gosu.model.dto.PofolOpt" alias="pofolOpt"/>
 	</typeAliases>
 	

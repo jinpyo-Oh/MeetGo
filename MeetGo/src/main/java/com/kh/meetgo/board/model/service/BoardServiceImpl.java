@@ -13,6 +13,7 @@ import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
+import com.kh.meetgo.gosu.model.vo.Pofol;
 
 // @Component
 @Service
@@ -94,6 +95,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getLoginUserCtgName(sqlSession, userNo);
 	}
 	
+	@Override
+	public int insertPofol(Pofol pofol) {
+		return boardDao.insertPofol(sqlSession, pofol);
+	}
+	
+	@Override
+	public int insertPofolImg(String pofolImgUrl, int pofolNo) {
+		return boardDao.insertPofolImg(sqlSession, pofolImgUrl, pofolNo);
+	}
 
 }
 

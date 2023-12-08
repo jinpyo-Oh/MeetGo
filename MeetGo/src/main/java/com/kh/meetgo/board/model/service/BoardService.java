@@ -6,6 +6,7 @@ import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
+import com.kh.meetgo.gosu.model.vo.Pofol;
 
 public interface BoardService {
 	
@@ -49,4 +50,9 @@ public interface BoardService {
 		// 로그인한 고수의 등록된 카테고리 이름
 		ArrayList<String> getLoginUserCtgName(int userNo);
 	
+		// 포폴 정보 등록
+		int insertPofol(Pofol pofol);
+		
+		// 포폴 이미지 등록
+		int insertPofolImg(String pofolImgUrl, int pofolNo);
 }
