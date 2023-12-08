@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.Review;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.dao.MemberDao;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -106,7 +109,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<Estimate> selectCompleteEstimateList(PageInfo pi2, int userNo) {
+	public ArrayList<EstimateDto> selectCompleteEstimateList(PageInfo pi2, int userNo) {
 		return memberDao.selectCompleteEstimateList(sqlSession, pi2, userNo);
 	}
 
@@ -129,6 +132,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updateStatus(int estNo) {
 		return memberDao.updateStatus(sqlSession, estNo);
+	}
+
+	@Override
+	public int reviewEnroll(Review review) {
+		return memberDao.reviewEnroll(sqlSession, review);
+	}
+
+	@Override
+	public int reviewImageEnroll(ReviewImg reImg) {
+		return memberDao.reviewImageEnroll(sqlSession, reImg);
 	}
 
 

@@ -3,7 +3,10 @@ package com.kh.meetgo.member.model.service;
 import java.util.ArrayList;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.Review;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.vo.Member;
 
 public interface MemberService {
@@ -45,7 +48,7 @@ public interface MemberService {
     ArrayList<Estimate> selectIncompleteEstimateList(PageInfo pi1, int userNo);
     
     // 완료된 견적서 조회 (select)
-    ArrayList<Estimate> selectCompleteEstimateList(PageInfo pi2, int userNo);
+    ArrayList<EstimateDto> selectCompleteEstimateList(PageInfo pi2, int userNo);
     
     // 견적서 상세조회 (select)
     Estimate selectEstimateDetail(int eno);
@@ -58,6 +61,12 @@ public interface MemberService {
     
     // 견적서 상태 변경
     int updateStatus(int estNo);
+    
+    // 리뷰 등록
+    int reviewEnroll(Review review);
+    
+    // 리뷰 이미지 등록
+    int reviewImageEnroll(ReviewImg reImg);
 }
 
 

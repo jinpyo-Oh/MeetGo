@@ -70,7 +70,7 @@
                 <tr>
 					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
 					<td class="type" style="width:20%;"><h4><b>완료된 계약</b></h4> </td>
-					<td class="type" style="text-align: right; float:right;"><a href="myReview.me" class="">내 리뷰 보러가기</a></td>                
+					<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="myReview.me" class="">내 리뷰 보러가기</a></td>                
                 </tr>
             </table>
             
@@ -174,17 +174,29 @@
 			                <tbody>
 			                    <c:forEach var="b" items="${ requestScope.comList }">
 				                    <tr>
-				                        <td class="eno">${ b.estNo }</td>
-				                        <td>${ b.estContent }</td>
-				                        <td>${ b.gosuNo }</td>
-				                        <td>${ b.startDate}</td>
+				                        <td class="eno">${ b.estimate.estNo }</td>
+				                        <td>${ b.estimate.estContent }</td>
+				                        <td>${ b.estimate.gosuNo }</td>
+				                        <td>${ b.estimate.startDate}</td>
 				                        <td>완료</td>
-				                        <td id="review">
-				                        	<a type="button" class="btn btn-success btn-sm">
-				                        		리뷰작성
-				                        	</a>
-				                        	<input type="hidden" id="estNo" value="${ b.estNo }">
-				                        </td>
+			                        	<c:choose>
+											<c:when test="${ b.reviewCnt > 0 }">
+					                        	<td>
+						                        	<a type="button" class="btn btn-secondary btn-sm">
+						                        		작성 완료
+						                        	</a>
+					                        	</td>
+											</c:when>
+											<c:otherwise>
+												<td id="review">
+						                        	<a type="button" class="btn btn-success btn-sm">
+						                        		리뷰 작성
+						                        	</a>
+						                        	<input type="hidden" id="estNo" value="${ b.estimate.estNo }">
+						                        </td>
+											</c:otherwise>
+			                        	</c:choose>
+				                        
 				                    </tr>
 				            	</c:forEach>
 			                </tbody>
@@ -268,6 +280,7 @@
     		$("#review").click(function(){
     			let eno = $("#estNo").val();
     			// console.log(eno);
+    			
     			location.href = "reviewWrite.me?eno=" + eno;
     		});
     	});

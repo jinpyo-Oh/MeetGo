@@ -127,6 +127,9 @@
                     <c:when test="${ requestScope.est.status eq 3 }">
                         <button class="btn btn-success btn-sm" id="apibtn">결제</button> 
                     </c:when>
+                    <c:when test="${ requestScope.est.status eq 4 }">
+                        <button class="btn btn-success btn-sm" id="">서비스 완료</button> 
+                    </c:when>
                     <c:otherwise>
                         <button class="btn btn-success btn-sm" id="apibtn" style="display: none;">결제</button> 
                     </c:otherwise>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,23 +22,24 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
+import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.Review;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.service.MemberService;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Controller
 public class MemberController {
 	
-	
-	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	private MemberService memberService;
+	
 	@Autowired
 	private S3Uploader s3Uploader;
-	
 	
 	
 	@RequestMapping(value= "checkNumber.me")
@@ -326,7 +328,7 @@ public class MemberController {
 		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
 		
 		ArrayList<Estimate> list1 = memberService.selectIncompleteEstimateList(pi1, userNo);
-		ArrayList<Estimate> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
+		ArrayList<EstimateDto> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
 		
 		// System.out.println(list1);
 		// System.out.println(list2);
@@ -378,6 +380,57 @@ public class MemberController {
 		
 		return mv;
 	}
+	
+	@PostMapping("reviewEnroll.me")
+	public String reviewEnroll(String estNo, String userNo, String gosuNo, String revContent, String rating, 
+							 ArrayList<MultipartFile> upfile, HttpSession session) {
+		
+		Review review = new Review();
+		
+		review.setEstNo(Integer.parseInt(estNo));
+		review.setUserNo(Integer.parseInt(userNo));
+		review.setGosuNo(Integer.parseInt(gosuNo));
+		review.setRevContent(revContent);
+		review.setRevPoint(Integer.parseInt(rating));
+		
+		int result = memberService.reviewEnroll(review);
+		
+		int revNo = review.getRevNo();
+		
+		System.out.println(revNo);
+		
+		System.out.println(upfile);
+		
+		int aaa = 0;
+		try {
+			for(int i = 0; i < upfile.size(); i++) {
+				ReviewImg reImg = new ReviewImg();
+	
+				String content;
+				content = s3Uploader.upload(upfile.get(i), "reviewImg");
+				reImg.setRevNo(revNo);
+				reImg.setRevImgUrl(content);
+				
+				System.out.println(reImg);
+				
+				int rst = memberService.reviewImageEnroll(reImg);
+				if(rst == 1) {
+					aaa++;
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		if(aaa == upfile.size()) {
+			session.setAttribute("alertMsg", "리뷰가 성공적으로 등록되었습니다.");
+		} else {
+			session.setAttribute("alertMsg", "리뷰 등록에 실패했습니다. 관리자에게 문의해주세요." );
+		}
+		
+		return "estimate/myEstimateList";
+	}
+	
 	
 }
 

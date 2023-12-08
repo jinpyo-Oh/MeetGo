@@ -35,7 +35,7 @@
 		<result column="GOSU_NO" property="gosuNo"/>
 		<result column="USER_NO" property="userNo"/>
 	</resultMap>
-
+	
 	<!-- 로그인용 쿼리문 -->
 	<select id="loginMember" parameterType="member" 
 							 resultMap="memberResultSet">
@@ -123,7 +123,7 @@
 	<select id="selectIncompleteListCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*)
 		  FROM ESTIMATE
-		 WHERE (STATUS = '2' OR STATUS = '3' OR STATUS = '4') 
+		 WHERE (STATUS = '3' OR STATUS = '4') 
 		   AND USER_NO = #{userNo}
 	</select>
 	
@@ -137,21 +137,27 @@
 	<select id="selectIncompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
 		SELECT EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE, END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE, EST_PRICE, STATUS, TID, GOSU_NO, USER_NO
 		  FROM ESTIMATE
-		 WHERE (STATUS = '2' OR STATUS = '3' OR STATUS = '4')
+		 WHERE (STATUS = '3' OR STATUS = '4')
 		   AND USER_NO = #{userNo}
 	</select>
 	
-	<select id="selectCompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
-		SELECT EST_NO
-			 , EST_TITLE
-			 , EST_CONTENT
-			 , EST_ADDRESS
-			 , EST_SERVICE
-			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
-			 , END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
-			 , EST_PRICE, STATUS, TID
-			 , GOSU_NO
-			 , USER_NO
+	<select id="selectCompleteEstimateList" parameterType="_int" resultType="estimateDto">
+		SELECT EST_NO as "estimate.estNo"
+			 , EST_TITLE as "estimate.estTitle"
+			 , EST_CONTENT as "estimate.estContent"
+			 , EST_ADDRESS as "estimate.estAddress"
+			 , EST_SERVICE as "estimate.estService"
+			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+			 , END_DATE "estimate.endDate"
+			 , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+			 , EST_PRICE "estimate.estPrice"
+			 , STATUS "estimate.status"
+			 , TID "estimate.tid"
+			 , GOSU_NO "estimate.gosuNo"
+			 , USER_NO "estimate.userNo"
+			 , (SELECT COUNT(*)
+			 	FROM REVIEW
+			 	WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt" 
 	  	  FROM ESTIMATE
 		 WHERE STATUS = '5'
 		   AND USER_NO = #{userNo}
@@ -189,6 +195,35 @@
 		   SET STATUS = '4'
 		 WHERE EST_NO = #{estNo}
 	</update>
+	
+	<insert id="reviewEnroll" parameterType="review"
+	useGeneratedKeys="true" keyColumn="REV_NO" keyProperty="revNo">
+		INSERT INTO REVIEW(REV_NO
+						 , REV_CONTENT
+						 , REV_POINT
+						 , REV_DATE
+						 , REV_STATUS
+						 , EST_NO
+						 , USER_NO
+						 , GOSU_NO)
+					VALUES(SEQ_REV_NO.NEXTVAL
+					     , #{revContent}
+					     , #{revPoint}
+					     , SYSDATE
+					     , '1'
+					     , #{estNo}
+					     , #{userNo}
+					     , #{gosuNo})
+	</insert>
+	
+	<insert id="reviewImageEnroll" parameterType="reviewImg">
+		INSERT INTO REVIEW_IMG(IMG_NO
+							 , REV_IMG_URL
+							 , REV_NO)
+						VALUES(SEQ_REV_IMG_NO.NEXTVAL
+							 , #{revImgUrl}
+							 , #{revNo})
+	</insert>				
 </mapper>
 
 
