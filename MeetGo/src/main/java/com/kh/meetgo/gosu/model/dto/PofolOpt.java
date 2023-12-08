@@ -1,6 +1,7 @@
 package com.kh.meetgo.gosu.model.dto;
 
 import com.kh.meetgo.gosu.model.vo.Pofol;
+import com.kh.meetgo.member.model.vo.Gosu;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,8 +15,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class PofolOpt {
+	
 	private Pofol pofol;
+	private Gosu gosu;
+	private String userProFile;
+	private String userNickname;
 	private String categorySmallName;
 	private int categoryBigNo;
 	private String firstImg;
+	
 }

@@ -253,10 +253,11 @@
             	contentType: false,
             	cache: false,
                 success: function () {
-                    alert("파일업로드 성공");
+                    alert("포트폴리오 등록 성공");
+                    location.href = "sendPofol.po";
                 },
-                error: function (xhr, desc, err) {
-                    alert('에러가 발생 하였습니다.');
+                error: function () {
+                    alert('포트폴리오 등록에 실패했습니다.');
                     return;
                 }
             })

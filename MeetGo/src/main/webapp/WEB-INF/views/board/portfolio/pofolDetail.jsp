@@ -9,27 +9,26 @@
 <!-- swiper 연동 -->
 <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&family=Gamja+Flower&family=Poor+Story&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu&display=swap" rel="stylesheet">
+
 
     <style>
-        .outer{
-        width: 1000px;
-        margin: auto;
-        margin-top: 100px;
-        margin-bottom: 100px;
-        box-sizing: border-box;
-    }
+
        /* 폰트 */
        @font-face {
-        font-family: 'Pretendard-Regular';
-        src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-        font-weight: 400;
-        font-style: normal;
-    }
-    * { font-family: 'Pretendard-Regular'; }
+	        font-family: 'Pretendard-Regular';
+	        src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+	        font-weight: 400;
+	        font-style: normal;
+    	}
+    	
+        .outer {
+	        width: 1000px;
+	        margin: auto;
+	        margin-top: 100px;
+	        margin-bottom: 100px;
+	        box-sizing: border-box;
+	        font-family: 'Pretendard-Regular';
+    	}
 
         #titleText{width: 80%; margin: auto;}
         #titleText>p{font-size: 26px; margin-left: 20px;}
@@ -85,19 +84,22 @@
        }
 
        #btn-goList{
-        margin-top: 150px;
-        border: 0px;
-        border-radius: 5px;
-        background-color: #2A8FF7;
-        color: white;
-        width: 120px;
-        height: 40px;
+	        margin-top: 150px;
+	        border: 0px;
+	        border-radius: 5px;
+	        background-color: #2A8FF7;
+	        color: white;
+	        width: 120px;
+	        height: 40px;
        }
 
     </style>
 </head>
 <body>
+
 	<jsp:include page="../../common/header.jsp"/>
+	
+	<jsp:include page="../../common/side.jsp"/>
 	
     <div class="outer">
         <div id="titleText">
@@ -142,9 +144,9 @@
                     <!-- 슬라이드 이미지-->
                     <div class="swiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><img src="17374f4f6a3247a7aa00fbfe115b606b.png"></div>
-                            <div class="swiper-slide"><img src="스크린샷 2023-11-16 160735.png"></div>
-                            <div class="swiper-slide"><img src="optimize.jpg"></div>
+                            <div class="swiper-slide"><img src=""></div>
+                            <div class="swiper-slide"><img src=""></div>
+                            <div class="swiper-slide"><img src=""></div>
                         </div>
                         <div class="swiper-pagination"></div>
                         <div class="swiper-button-prev"></div>

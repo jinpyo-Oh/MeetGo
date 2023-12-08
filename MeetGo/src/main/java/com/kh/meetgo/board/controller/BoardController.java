@@ -244,7 +244,7 @@ public class BoardController {
 	
 	@ResponseBody
 	@PostMapping(value = "pofolWrite.po", produces = "text/json; charset=UTF-8")
-	public String pofolWrite(ArrayList<MultipartFile> pofolImgArr
+	public void pofolWrite(ArrayList<MultipartFile> pofolImgArr
 			  , @SessionAttribute("loginUser") Member loginUser
 			  , String categorySmallNo
 			  ,	String pofolTitle
@@ -263,41 +263,31 @@ public class BoardController {
 		pofol.setPofolContent(pofolContent);
 		
 		// 게시글 먼저 등록
-		int result1 = boardService.insertPofol(pofol);
+		boardService.insertPofol(pofol);
 		
 		int pofolNo = pofol.getPofolNo();
 		
 		System.out.println(pofolNo);
-		
-		int result2 = 0;
+
 				 
 		try {
 			for(int i = 0; i < pofolImgArr.size(); i++) {
 				String pofolImgUrl = s3Uploader.upload(pofolImgArr.get(i), "pofolImg");
-				result2 = boardService.insertPofolImg(pofolImgUrl, pofolNo);
+				boardService.insertPofolImg(pofolImgUrl, pofolNo);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		String alertMsg = "";
-		
-		if(result1 > 0 && result2 > 0) {
-			System.out.println("등록 성공");
-			alertMsg = "포트폴리오 등록 성공";
-		} else {
-			System.out.println("등록 실패");
-			alertMsg = ("포트폴리오 등록 실패");
-		}	
-		
-		model.addAttribute("alertMsg", alertMsg);
-		
-		return "board/portfolio/pofolList";
+
 		
 	}
 	
-	@RequestMapping("pofolDetail.po")
-	public String pofolDetail() {
+	@ResponseBody
+	@RequestMapping(value = "pofolDetail.po")
+	public String pofolDetail(String pno) {
+		
+		// pno는 포폴게시글 번호
+		
 		return "board/portfolio/pofolDetail";
 	}
 	

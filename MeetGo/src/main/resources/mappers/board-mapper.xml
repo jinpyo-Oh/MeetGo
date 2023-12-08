@@ -187,7 +187,8 @@
 		  WHERE M.USER_NO = #{userNo}
 	</select>
 
-	<insert id="insertPofol" parameterType="pofol" useGeneratedKeys="true" keyColumn="POFOL_NO" keyProperty="pofolNo">
+	<insert id="insertPofol" parameterType="pofol"
+	useGeneratedKeys="true" keyColumn="POFOL_NO" keyProperty="pofolNo">
 		INSERT INTO POFOL(POFOL_NO
                  , POFOL_SERVICE
                  , POFOL_TITLE
@@ -206,7 +207,7 @@
 		         , SYSDATE
 		         , 1
 		         , #{gosuNo}
-		);
+		)
 	</insert>
 	
 	<insert id="insertPofolImg" parameterType="hashMap">
