@@ -48,7 +48,7 @@
     .btn-cateMain{
         width: 120px;
         height: 30px;
-        margin-top: 10px;
+        margin-top: 20px;
         margin-left: 5px;
         margin-right: 5px;
         border: 0px;
@@ -60,11 +60,22 @@
     /* 게시글 영역 */
     .pofol-line{ margin: auto; margin-bottom: 80px; width:100%; min-height:1000px; }
     .pofol-obj { width:300px; text-align:center; margin-bottom:80px; }
-    .pofol-obj img:hover{ transform: scale(1.05); }
-    
-    .view-count{ display: inline-block; margin-left: 2px; font-size:20px;}
-    .pofol-title{ font-size:22px; margin-top:10px;}
+    .pofol-obj img:hover{ transform: scale(1.05); cursor:pointer; }
 
+	/* 포폴 제목 / 조회수 / 카테고리명 */
+	.pofol-title{ font-size:24px; margin-top:10px; }
+	.view-count{ display: inline-block; margin-left: 2px; font-size:24px; margin-top : -5px;}
+	.ctgrName {
+		border:0px;
+		border-radius:5px;
+		margin-top:20px;
+		font-size:18px;
+		background-color : #09a5098a;
+		box-sizing : border-box;
+		color:white;
+		width:100px;
+	}    
+ 
     #pagingBtn-area{margin-top: 80px;}
     .pagingBtn{
         border: 0;
@@ -98,12 +109,10 @@
 	            return false;
 	        }
 	        return true;
-	    }
-	    
+	    }   
 	</script>
 
 	<div class="outer">
-	    <a href="pofolDetail.po">ㅇㅇ</a>
 	    <p class="boardTitleText">포트폴리오</p>
 	    <div style="display:flex;">
 	        <div align="left" style="width:50%; margin-left:50px;">
@@ -147,7 +156,7 @@
         	<div style="display:flex; flex-wrap:wrap; width:900px; margin:auto;" id="wraper">
         	</div>
         </div>
-<!-- 현재 페이지번호 -->
+		<!-- 현재 페이지번호 -->
         <input type="hidden" id="currentPage" name="currentPage" value="1">
         
         <!-- ajax 통신으로 append해서 출력 -->
@@ -191,10 +200,15 @@
 		let category = 0;
 		let standard = $("#pofol-view-option").val();
 		
+	    function sendPofolDetail(pno) {
+	    	location.href = "pofolDetail.po?pno=" + pno;
+	    }
+		
 		$(function() {
 			
 			showpofolList(category, standard);
-
+			sendPofolDetail(pno);
+			 
 		})
 	
 		$("#pofol-view-option").on("change", function() {
@@ -205,6 +219,7 @@
 		$(".btn-cateMain").on("click", function() {
 		    category = $(this).val();
 		    showpofolList(category, standard);
+		    
 		});
 	
 		function showpofolList(num, option) {
@@ -231,14 +246,15 @@
 						
             		for(let i = 0; i < list.length; i++){
             			let resultStr = '<div class="pofol-obj">'
-			    						+ '<img src="' + list[i].firstImg + '" width="250px" height="250px"><br>'
+			    						+ '<img src="' + list[i].firstImg + '" width="250px" height="250px" onclick="sendPofolDetail('+ list[i].pofol.pofolNo + ');"><br>'
 			        					+ '<div style="width:250px; margin:auto; text-align:left;">'
+			        					+ '<button class="ctgrName" disabled>' + list[i].categorySmallName + '</button>'
 			        					+ '<p class="pofol-title">' + list[i].pofol.pofolTitle + '</p>'
 			               				+ '<span class="view-count">'
 				                        + '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2a91f7c0" class="bi bi-eye-fill" viewBox="0 0 16 16">'
 				                        + '<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>'
 				                        + '<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>'
-			                    		+ '</svg>'
+			                    		+ '</svg>&nbsp;'
 			                    		+ list[i].pofol.pofolVisited
 			                			+ '</span>'    
 			        					+ '</div>'    
