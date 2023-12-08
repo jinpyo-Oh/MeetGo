@@ -44,6 +44,9 @@ public class APIController {
 	public String kakaopay(String estNo, String userNo, String estTitle, String estPrice) {
 		
 		URL url;
+		
+		estPrice = estPrice.replaceAll(",", "");
+		estPrice = estPrice.replaceAll("원", "");
 		// System.out.println(kakaoKey);
 		String link = "http://localhost:8006/meetgo";
 		try {

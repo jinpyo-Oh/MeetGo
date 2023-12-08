@@ -7,7 +7,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
+import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.Review;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Repository // 저장소 (DAO 는 데이터 입출력이 일어나는 부분)
@@ -75,7 +78,7 @@ public class MemberDao {
     	return (ArrayList)sqlSession.selectList("memberMapper.selectIncompleteEstimateList", userNo, rowBounds);
     }
     
-    public ArrayList<Estimate> selectCompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi2, int userNo){
+    public ArrayList<EstimateDto> selectCompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi2, int userNo){
     	int limit = pi2.getBoardLimit();
     	int offset = (pi2.getCurrentPage() - 1) * limit;
     	
@@ -104,5 +107,13 @@ public class MemberDao {
 
 	public int updateStatus(SqlSessionTemplate sqlSession, int estNo) {
 		return sqlSession.update("memberMapper.updateStatus", estNo);
+	}
+
+	public int reviewEnroll(SqlSessionTemplate sqlSession, Review review) {
+		return sqlSession.insert("memberMapper.reviewEnroll", review);
+	}
+
+	public int reviewImageEnroll(SqlSessionTemplate sqlSession, ReviewImg reImg) {
+		return sqlSession.insert("memberMapper.reviewImageEnroll", reImg);
 	}
 }

@@ -59,8 +59,8 @@
             <h2>리뷰 작성</h2>
        
            <br><br>
-    
-            <form>
+    		
+            <form method="post" action="reviewEnroll.me" enctype="multipart/form-data">
                 <div style="border: 1px solid black; border-radius: 10px;">
                     <table class="detail" border="1px" style="border-color: black;" >
                             <tr class="cons">
@@ -89,7 +89,7 @@
                             <tr style="height: 320px;">
                                 <td style="background-color: #059862d1; color: white;">내용</td>
                                 <td colspan="3" style="text-align: left;">
-                                   <textarea id="content" class="form-control" rows="10" style="resize: none; height: 320px; width: 100%;" required></textarea>
+                                   <textarea id="content" name="revContent" class="form-control" rows="10" style="resize: none; height: 320px; width: 100%;" required></textarea>
                                 </td>
                             </tr>
                             <tr class="cons">
@@ -101,15 +101,21 @@
 	                                </td>
                             	</div>
                             </tr>
-                            
                     </table>
                     
+                    <input type="hidden" name="estNo" value="${ est.estNo }">
+                    <input type="hidden" name="userNo" value="${ est.userNo }">
+                    <input type="hidden" name="gosuNo" value="${ est.gosuNo }">
+                    
                 </div>
+                
                 
                 <br>
 
                 <a type="button" href="estimate.me" class="btn btn-warning btn-sm back">목록으로</a>
-                <button type="button"  class="btn btn-success btn-sm">등록</button>
+                <button type="submit" class="btn btn-success btn-sm">등록</button>
+                
+			</form>
                 
                 <!-- 파일 추가용 스크립트 -->
                 <script>
@@ -174,7 +180,6 @@
 
                 </script>
 
-            </form>
         </div>
     </div>	
 	
