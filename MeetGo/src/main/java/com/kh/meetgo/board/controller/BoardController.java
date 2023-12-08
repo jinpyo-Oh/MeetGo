@@ -1,6 +1,7 @@
 package com.kh.meetgo.board.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,7 @@ import com.kh.meetgo.common.model.service.CommonService;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
+import com.kh.meetgo.gosu.model.vo.Pofol;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Controller
@@ -214,11 +216,11 @@ public class BoardController {
 		return mv;
 	}
 	
-
+	
+	
 	
 	@RequestMapping("sendPofol.po")
 	public String sendPofolList() {
-		
 		return "board/portfolio/pofolList";
 	}
 	
@@ -260,14 +262,56 @@ public class BoardController {
 	
 	@ResponseBody
 	@PostMapping(value = "pofolWrite.po", produces = "text/json; charset=UTF-8")
-	public void pofolWrite(
-			  ArrayList<MultipartFile> pofolImgUrl
+	public String pofolWrite(ArrayList<MultipartFile> pofolImgArr
+			  , @SessionAttribute("loginUser") Member loginUser
+			  , String categorySmallNo
 			  ,	String pofolTitle
 			  , String pofolIntro
 			  , String pofolPrice
-			  , String pofolContent) {
-		System.out.println(pofolTitle);
-		System.out.println(pofolImgUrl);
+			  , String pofolContent, Model model) {
+		
+		int gosuNo = loginUser.getUserNo(); // 고수번호
+		
+		Pofol pofol = new Pofol();
+		pofol.setGosuNo(gosuNo);
+		pofol.setPofolService(categorySmallNo);
+		pofol.setPofolTitle(pofolTitle);
+		pofol.setPofolIntro(pofolIntro);
+		pofol.setPofolPrice(pofolPrice);
+		pofol.setPofolContent(pofolContent);
+		
+		// 게시글 먼저 등록
+		int result1 = boardService.insertPofol(pofol);
+		
+		int pofolNo = pofol.getPofolNo();
+		
+		System.out.println(pofolNo);
+		
+		int result2 = 0;
+				 
+		try {
+			for(int i = 0; i < pofolImgArr.size(); i++) {
+				String pofolImgUrl = s3Uploader.upload(pofolImgArr.get(i), "pofolImg");
+				result2 = boardService.insertPofolImg(pofolImgUrl, pofolNo);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String alertMsg = "";
+		
+		if(result1 > 0 && result2 > 0) {
+			System.out.println("등록 성공");
+			alertMsg = "포트폴리오 등록 성공";
+		} else {
+			System.out.println("등록 실패");
+			alertMsg = ("포트폴리오 등록 실패");
+		}	
+		
+		model.addAttribute("alertMsg", alertMsg);
+		
+		return "board/portfolio/pofolList";
+		
 	}
 	
 	@RequestMapping("pofolDetail.po")

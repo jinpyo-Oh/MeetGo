@@ -10,6 +10,7 @@ public class Pofol {
     private int pofolNo;
     private String pofolTitle;
     private String pofolService;
+    private String pofolIntro;
     private String pofolPrice;
     private String pofolContent;
     private int pofolVisited;

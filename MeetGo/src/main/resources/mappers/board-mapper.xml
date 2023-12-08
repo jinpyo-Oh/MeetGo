@@ -240,6 +240,37 @@
 		  WHERE M.USER_NO = #{userNo}
 	</select>
 
+	<insert id="insertPofol" parameterType="pofol" useGeneratedKeys="true" keyColumn="POFOL_NO" keyProperty="pofolNo">
+		INSERT INTO POFOL(POFOL_NO
+                 , POFOL_SERVICE
+                 , POFOL_TITLE
+                 , POFOL_INTRO
+                 , POFOL_PRICE
+                 , POFOL_CONTENT
+                 , POFOL_CREATE_DATE
+                 , POFOL_STATUS
+                 , GOSU_NO
+		) VALUES (SEQ_POFOL_NO.NEXTVAL
+		         , #{pofolService}
+		         , #{pofolTitle}
+		         , #{pofolIntro}
+		         , #{pofolPrice}
+		         , #{pofolContent}
+		         , SYSDATE
+		         , 1
+		         , #{gosuNo}
+		);
+	</insert>
+	
+	<insert id="insertPofolImg" parameterType="hashMap">
+		INSERT INTO POFOL_IMG( POFOL_IMG_NO
+                 , POFOL_IMG_URL
+                 , POFOL_NO
+			) VALUES ( SEQ_POFOL_IMG_NO.NEXTVAL
+			         , #{pofolImgUrl}
+			         , #{pofolNo}
+			)
+	</insert>
 
 </mapper>
 

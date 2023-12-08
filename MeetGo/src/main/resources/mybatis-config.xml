@@ -21,7 +21,11 @@
    		<typeAlias type="com.kh.meetgo.board.model.vo.Board" alias="board"/>
    		<typeAlias type="com.kh.meetgo.board.model.vo.Reply" alias="reply" />
    		<typeAlias type="com.kh.meetgo.gosu.model.vo.Pofol" alias="pofol"/>
+   		<typeAlias type="com.kh.meetgo.gosu.model.vo.PofolImg" alias="pofolImg"/>
    		<typeAlias type="com.kh.meetgo.gosu.model.dto.PofolOpt" alias="pofolOpt"/>
+   		<typeAlias type="com.kh.meetgo.gosu.model.vo.Review" alias="review"/>
+   		<typeAlias type="com.kh.meetgo.gosu.model.vo.ReviewImg" alias="reviewImg"/>
+   		<typeAlias type="com.kh.meetgo.gosu.model.dto.EstimateDto" alias="estimateDto"/>
 	</typeAliases>
 	
 

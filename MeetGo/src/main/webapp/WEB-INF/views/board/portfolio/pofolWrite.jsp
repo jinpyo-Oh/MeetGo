@@ -28,7 +28,7 @@
     #form-table>thead th{ width: 10%;}
     #categorySelect{ width: 150px;}
     #pofolTitle{ width: 400px;}
-    #servicePrice{display: inline-block; width: 227px;}
+    #pofolPrice{display: inline-block; width: 227px;}
     #priceOption{display: inline-block; width: 150px;}
     .pofolDescription{width: 100%;}
     #pofol-uploadFile{display: none;}
@@ -234,7 +234,7 @@
             for (let i = 0; i < filesArr.length; i++) {
                 // 삭제되지 않은 파일만 폼데이터에 담기
                 if (!filesArr[i].is_delete) {
-                    formData.append("pofolImgUrl", filesArr[i]);
+                    formData.append("pofolImgArr", filesArr[i]);
                 }
             }
 
@@ -244,7 +244,6 @@
             formData.append("pofolPrice", $('#pofolPrice').val());
             formData.append("pofolContent", $('#pofolContent').val());
 			
-            console.log(formData);
             $.ajax({
             	type: "POST",
             	enctype: 'multipart/form-data',
