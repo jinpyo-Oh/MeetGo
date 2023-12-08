@@ -28,7 +28,7 @@
     #form-table>thead th{ width: 10%;}
     #categorySelect{ width: 150px;}
     #pofolTitle{ width: 400px;}
-    #servicePrice{display: inline-block; width: 227px;}
+    #pofolPrice{display: inline-block; width: 227px;}
     #priceOption{display: inline-block; width: 150px;}
     .pofolDescription{width: 100%;}
     #pofol-uploadFile{display: none;}
