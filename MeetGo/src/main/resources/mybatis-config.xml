@@ -26,6 +26,7 @@
    		<typeAlias type="com.kh.meetgo.gosu.model.vo.Review" alias="review"/>
    		<typeAlias type="com.kh.meetgo.gosu.model.vo.ReviewImg" alias="reviewImg"/>
    		<typeAlias type="com.kh.meetgo.gosu.model.dto.EstimateDto" alias="estimateDto"/>
+   		<typeAlias type="com.kh.meetgo.gosu.model.dto.ReviewDto" alias="reviewDto"/>
 	</typeAliases>
 	
 

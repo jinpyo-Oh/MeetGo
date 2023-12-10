@@ -23,6 +23,7 @@ import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
+import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
@@ -85,11 +86,6 @@ public class MemberController {
 	@RequestMapping("changePassword.me")
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
-	}
-	
-	@RequestMapping("myReview.me")
-	public String myReview() {
-		return "member/memberMyReview";
 	}
 	
 	
@@ -311,35 +307,6 @@ public class MemberController {
 		}
 	}
 	
-	@RequestMapping("estimate.me")
-	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
-		
-		Member m = (Member)session.getAttribute("loginUser");
-		
-		int userNo = m.getUserNo();
-		
-		int listCount1 = memberService.selectIncompleteListCount(userNo);
-		int listCount2 = memberService.selectCompleteListCount(userNo);
-		
-		int pageLimit = 5;
-		int boardLimit = 5;
-		
-		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
-		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
-		
-		ArrayList<Estimate> list1 = memberService.selectIncompleteEstimateList(pi1, userNo);
-		ArrayList<EstimateDto> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
-		
-		// System.out.println(list1);
-		// System.out.println(list2);
-		
-		mv.addObject("incomList", list1).addObject("pi1", pi1)
-		  .addObject("comList", list2).addObject("pi2", pi2)
-		  .setViewName("estimate/myEstimateList");
-		
-		return mv;
-	}
-		
 	
 	@RequestMapping("estimateDetail.me")
 	public ModelAndView estimateDetail(String eno, ModelAndView mv) {
@@ -431,6 +398,59 @@ public class MemberController {
 		return "estimate/myEstimateList";
 	}
 	
+	@RequestMapping("estimate.me")
+	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int userNo = m.getUserNo();
+		
+		int listCount1 = memberService.selectIncompleteListCount(userNo);
+		int listCount2 = memberService.selectCompleteListCount(userNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
+		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Estimate> list1 = memberService.selectIncompleteEstimateList(pi1, userNo);
+		ArrayList<EstimateDto> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
+		
+		// System.out.println(list1);
+		// System.out.println(list2);
+		
+		mv.addObject("incomList", list1).addObject("pi1", pi1)
+		.addObject("comList", list2).addObject("pi2", pi2)
+		.setViewName("estimate/myEstimateList");
+		
+		return mv;
+	}
+	
+	@RequestMapping("myReview.me")
+	public ModelAndView myReviewList(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
+			
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int userNo = m.getUserNo();
+		
+		int listCount = memberService.reviewListCount(userNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<ReviewDto> list = memberService.myReviewList(pi, userNo);
+		
+//		System.out.println(m);
+//		System.out.println(userNo);
+//		System.out.println(list);
+
+		mv.addObject("list", list).addObject("pi", pi).setViewName("member/memberMyReview");
+		
+		return mv;
+	}
 	
 }
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +33,34 @@
 	.far{
 		-webkit-font-smoothing: antialiased;
 	}
+	#pagingBtn-area{margin-top: 80px;}
+    .pagingBtn{
+        border: 0;
+        border-radius: 5px;
+        width: 80px;
+        height: 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #2a91f7c0;
+    }
+    .pageBtn{
+        border: 0;
+        border-radius: 5px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #2a91f7c0;
+    }
+    .none{
+    	background-color: none;
+    }
+	
+	#pagingArea {width:fit-content; margin:auto;}
+	
+	table>tr>td{
+		size: absolute;
+	}
 </style>
 </head>
 <body>
@@ -52,107 +81,123 @@
 	
 		<div style="margin: auto;">
 
+			<c:choose>
+			<c:when test="${ not empty requestScope.list }">
+			<c:forEach var="r" items="${ requestScope.list }">
 	        <div class="aa" >
 				<div class="review-info">
 					<table>
 						<tr>
-							<td>계약번호 : &nbsp;</td>
-							<td>a-1234</td>
-							<td>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-							</td>
-							<td>
+							<td>계약서 번호 : &nbsp;</td>
+							<td style="width: 50px;">${ r.review.revNo }</td>
+							<td style="width: 300px;">
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								2023-11-20
+								${ r.review.revDate }
+							</td>
+							<td>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<c:choose>
+									<c:when test="${ r.review.revPoint == 0 }">
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+									</c:when>
+									<c:when test="${ r.review.revPoint == 1 }">
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+									</c:when>
+									<c:when test="${ r.review.revPoint == 2 }">
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+									</c:when>
+									<c:when test="${ r.review.revPoint == 3 }">
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="rating__star far fa-star"></i>
+										<i class="rating__star far fa-star"></i>
+									</c:when>
+									<c:when test="${ r.review.revPoint == 4 }">
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="rating__star far fa-star"></i>
+									</c:when>
+									<c:when test="${ r.review.revPoint == 5 }">
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
+									</c:when>
+								</c:choose>
 							</td>
 						</tr>
 					</table>
 					<br>
-					<p>정말 <br> 좋았습니다. <br> 심부름이 <br> 아주 빠릅니다. <br> 자주 이용할게요<div class=""></div></p>
+					<p>${ r.review.revContent }<div class=""></div></p>
 				</div>
 				<div class="review-img" >
-					<img src="<%=request.getContextPath()%>/resources/images/common/KakaoTalk_20231116_105754286.jpg"" id="titleImg">    
+					<c:choose>
+					<c:when test="${ not empty r.revImgUrl }">
+						<img src="${ r.revImgUrl }" id="titleImg">    
+					</c:when>
+					<c:otherwise>
+						<img src="<%=request.getContextPath()%>/resources/images/common/meetgo_logo.png"/>
+					</c:otherwise>
+					</c:choose>
 				</div> 
 			</div>
 
-			<div class="aa" >
-				<div class="review-info">
-					<table>
+			</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<div class="aa">
+					<table align="center">
 						<tr>
-							<td>계약번호 : &nbsp;</td>
-							<td>a-1234</td>
-							<td>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-							</td>
+							<td>리뷰가 존재하지 않습니다.</td>
 						</tr>
 					</table>
-					<br>
-					<p>정말 <br> 좋았습니다. <br> 심부름이 <br> 아주 빠릅니다. <br> 자주 이용할게요<div class=""></div></p>
 				</div>
-				<div class="review-img" >
-					<img src="<%=request.getContextPath()%>/resources/images/common/KakaoTalk_20231116_105754286.jpg"" id="titleImg">    
-				</div> 
-			</div> 	
-
-			<div class="aa" >
-				<div class="review-info">
-					<table>
-						<tr>
-							<td>계약번호 : &nbsp;</td>
-							<td>a-1234</td>
-							<td>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-							</td>
-						</tr>
-					</table>
-					<br>
-					<p>정말 <br> 좋았습니다. <br> 심부름이 <br> 아주 빠릅니다. <br> 자주 이용할게요<div class=""></div></p>
-				</div>
-				<div class="review-img" >
-					<img src="<%=request.getContextPath()%>/resources/images/common/KakaoTalk_20231116_105754286.jpg"" id="titleImg">    
-				</div> 
-			</div>
-
-			<div class="aa" >
-				<div class="review-info">
-					<table>
-						<tr>
-							<td>계약번호 : &nbsp;</td>
-							<td>a-1234</td>
-							<td>
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-								<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-							</td>
-						</tr>
-					</table>
-					<br>
-					<p>정말 <br> 좋았습니다. <br> 심부름이 <br> 아주 빠릅니다. <br> 자주 이용할게요<div class=""></div></p>
-				</div>
-				<div class="review-img" >
-					<img src="<%=request.getContextPath()%>/resources/images/common/KakaoTalk_20231116_105754286.jpg"" id="titleImg">    
-				</div> 
-			</div>
+			</c:otherwise>
+			</c:choose>
 			
 		</div>
+			<c:if test="${ not empty requestScope.list }">
+	            <div id="pagingArea">
+                	<c:choose>
+		        		<c:when test="${ requestScope.pi.currentPage eq 1 }">
+		        			<button class="pagingBtn" disabled style="display:none;">prev</button>
+		        		</c:when>
+		        		<c:otherwise>
+		        			<button class="pagingBtn" onclick="location.href='myReview.me?cPage=${ requestScope.pi.currentPage - 1 }'">prev</button>
+		        		</c:otherwise>
+		        	</c:choose>            
+		             <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
+		                    					end="${ requestScope.pi.endPage }"
+		                    					step="1">
+					<button class="pageBtn" onclick="location.href='myReview.me?cPage=${ p }'">${ p }</button>
+		            </c:forEach>          
+		            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
+		            <c:choose>
+			       		<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.endPage }">
+			       			<button class="pagingBtn" disabled style="display:none;">next</button>
+			       		</c:when>
+			       		<c:otherwise>
+			       			<button class="pagingBtn" onclick="location.href='myReview.me.me?cPage=${ requestScope.pi.currentPage + 1 }'">next</button>
+			       		</c:otherwise>
+		       		</c:choose> 
+            	</div>
+             </c:if>
 	</div>
 	<jsp:include page="../common/footer.jsp"/>
 </body>

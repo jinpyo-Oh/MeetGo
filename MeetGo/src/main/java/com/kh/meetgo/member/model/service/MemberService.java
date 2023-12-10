@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
+import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
@@ -67,6 +68,12 @@ public interface MemberService {
     
     // 리뷰 이미지 등록
     int reviewImageEnroll(ReviewImg reImg);
+    
+    // 내 리뷰 개수 조회 (select)
+    int reviewListCount(int userNo);
+    
+    // 내 리뷰 리스트 조회 (select)
+    ArrayList<ReviewDto> myReviewList(PageInfo pi, int userNo);
 }
 
 

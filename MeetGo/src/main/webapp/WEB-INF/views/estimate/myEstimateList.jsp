@@ -70,7 +70,7 @@
                 <tr>
 					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
 					<td class="type" style="width:20%;"><h4><b>완료된 계약</b></h4> </td>
-					<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="myReview.me" class="">내 리뷰 보러가기</a></td>                
+					<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="myReview.me?cPage=1" class="">내 리뷰 보러가기</a></td>                
                 </tr>
             </table>
             
@@ -165,7 +165,7 @@
 	                        <th style="width: 10%;">고수번호</th>
 	                        <th style="width: 20%;">시작일</th>
 	                        <th style="width: 15%;">현재상태</th>
-	                        <th style="width: 10%;"></th>
+	                        <th style="width: 10%;">리뷰</th>
 	                    </tr>
 	                </thead>
 	                <c:choose>
@@ -183,15 +183,14 @@
 											<c:when test="${ b.reviewCnt > 0 }">
 					                        	<td>
 						                        	<a type="button" class="btn btn-secondary btn-sm">
-						                        		작성 완료
+						                        		작성완료
 						                        	</a>
 					                        	</td>
 											</c:when>
 											<c:otherwise>
 												<td id="review">
 						                        	<a type="button" class="btn btn-success btn-sm">
-						                        		리뷰 작성
-						                        	</a>
+						                        		작성하기						                        	</a>
 						                        	<input type="hidden" id="estNo" value="${ b.estimate.estNo }">
 						                        </td>
 											</c:otherwise>

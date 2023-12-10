@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
+import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
@@ -115,5 +116,19 @@ public class MemberDao {
 
 	public int reviewImageEnroll(SqlSessionTemplate sqlSession, ReviewImg reImg) {
 		return sqlSession.insert("memberMapper.reviewImageEnroll", reImg);
+	}
+
+	public int reviewListCount(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("memberMapper.reviewListCount", userNo);
+	}
+
+	public ArrayList<ReviewDto> myReviewList(SqlSessionTemplate sqlSession, PageInfo pi, int userNo) {
+    	
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+    	
+    	RowBounds rowBounds = new RowBounds(offset, limit);
+    	
+    	return (ArrayList)sqlSession.selectList("memberMapper.myReviewList", userNo, rowBounds);
 	}
 }

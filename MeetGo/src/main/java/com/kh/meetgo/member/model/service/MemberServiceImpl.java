@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
+import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
@@ -142,6 +143,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int reviewImageEnroll(ReviewImg reImg) {
 		return memberDao.reviewImageEnroll(sqlSession, reImg);
+	}
+
+	@Override
+	public int reviewListCount(int userNo) {
+		return memberDao.reviewListCount(sqlSession, userNo);
+	}
+
+	@Override
+	public ArrayList<ReviewDto> myReviewList(PageInfo pi, int userNo) {
+		return memberDao.myReviewList(sqlSession, pi, userNo);
 	}
 
 

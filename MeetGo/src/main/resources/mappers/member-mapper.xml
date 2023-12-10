@@ -135,7 +135,19 @@
 	</select>
 	
 	<select id="selectIncompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
-		SELECT EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE, END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE, EST_PRICE, STATUS, TID, GOSU_NO, USER_NO
+		SELECT EST_NO
+			 , EST_TITLE
+			 , EST_CONTENT
+			 , EST_ADDRESS
+			 , EST_SERVICE
+			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
+			 , END_DATE
+			 , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
+			 , EST_PRICE
+			 , STATUS
+			 , TID
+			 , GOSU_NO
+			 , USER_NO
 		  FROM ESTIMATE
 		 WHERE (STATUS = '3' OR STATUS = '4')
 		   AND USER_NO = #{userNo}
@@ -224,6 +236,30 @@
 							 , #{revImgUrl}
 							 , #{revNo})
 	</insert>				
+	
+	<select id="reviewListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		  FROM review
+		 WHERE REV_STATUS = '1'
+		   AND USER_NO = #{userNo}
+	</select>
+	
+	<select id="myReviewList" parameterType="_int" resultType="reviewDto">
+		SELECT REV_NO as "review.revNo"
+		     , REV_CONTENT as "review.revContent"
+		     , REV_POINT as "review.revPoint"
+		     , TO_CHAR(REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+		     , GOSU_NO as "review.gosuNo"
+		     , EST_NO as "review.estNo"
+		     , (SELECT REV_IMG_URL
+		          FROM REVIEW_IMG
+		         WHERE REVIEW.REV_NO = REVIEW_IMG.REV_NO AND ROWNUM BETWEEN 0 AND 1) AS "revImgUrl" 
+		  FROM REVIEW
+		 WHERE REV_STATUS = '1'
+		   AND USER_NO = #{userNo}
+		 ORDER BY REV_NO DESC
+	</select>
+	
 </mapper>
 
 
