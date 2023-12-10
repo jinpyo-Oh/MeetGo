@@ -71,7 +71,7 @@
             SELECT chat_no, content, type, CHATROOM_NO
             FROM CHAT
             where (chat_no, CHATROOM_NO) in (
-                SELECT MIN(CHAT_NO) AS CHAT_NO, CHATROOM_NO
+                SELECT MAX(CHAT_NO) AS CHAT_NO, CHATROOM_NO
                 FROM CHAT
                 GROUP BY CHATROOM_NO
             )
@@ -92,8 +92,13 @@
                 WHERE CR.GOSU_NO = #{userNo}
             </otherwise>
         </choose>
-
     </select>
+
+    <update id="updateChatRead" parameterType="hashMap">
+        UPDATE CHAT
+        SET READ = 1
+        WHERE CHATROOM_NO = ${chatroomNo} AND SENDER != ${sender}
+    </update>
 
     <select id="selectChatList" parameterType="_int" resultMap="chatResultSet">
         SELECT CHAT_NO, CONTENT, SENDER, TYPE, TO_CHAR(CREATE_AT, 'YY-MM-DD HH24:MI') as CREATE_AT , CHATROOM_NO
@@ -109,8 +114,8 @@
     </select>
 
     <insert id="insertChat" parameterType="chat">
-        INSERT INTO CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO)
-        VALUES (SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo})
+        INSERT INTO CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO, READ)
+        VALUES (SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo}, ${read})
     </insert>
 
     <insert id="insertEstimate" parameterType="estimate" useGeneratedKeys="true" keyColumn="EST_NO" keyProperty="estNo">

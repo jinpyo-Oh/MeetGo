@@ -311,6 +311,7 @@
 						url : "selectMainPortfolio",
 						method : "get",
 						success : function (data){
+							console.log(data);
                             for (let i = 0; i < data.length; i++) {
 								let pofol = data[i].pofol;
                                 let pofolUrl = data[i].firstImg;

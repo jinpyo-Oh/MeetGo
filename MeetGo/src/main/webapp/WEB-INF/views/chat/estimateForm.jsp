@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-	<title>견적서</title>
+	<title>계약서</title>
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <style>
@@ -180,7 +180,50 @@
 		border: 1px solid lightgray;
 		border-radius: 10px;
 		background-color: whitesmoke;
+		margin-bottom: 20px;
 	}
+	.category-input {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		border-radius: 0.5rem;
+		background-color: #EEE;
+		margin: auto;
+		box-sizing: border-box;
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+		padding: 0.25rem;
+		width: 90%;
+		font-size: 20px;
+	}
+
+	.category-input .est-category {
+		flex: 1 1 auto;
+		text-align: center;
+	}
+	.est-category {
+		margin: 0;
+	}
+	.category-input .est-category input {
+		display: none;
+	}
+
+	.category-input .est-category .category-name {
+		display: flex;
+		cursor: pointer;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0.5rem;
+		border: none;
+		padding: .5rem 0;
+		color: rgba(51, 65, 85, 1);
+		transition: all .15s ease-in-out;
+	}
+
+	.category-input .est-category input:checked + .category-name {
+		background-color: #fff;
+		font-weight: 600;
+	}
+	
 </style>
 <body>
 
@@ -188,47 +231,46 @@
 	
 	<div class="estimate_content">
 		<div class="est-header">
-			<h1>견적서</h1>
+			<h1>계약서</h1>
 			<img id="est-cancel" onclick="displayNone()" src="https://cdn.icon-icons.com/icons2/1524/PNG/512/x_106506.png">
-		</div>
-		<div class="card-style">
-			<h4>서비스 종류</h4>
-			<div class="form__group field">
-				<select id="est-service" name="est-service">
-				</select>
-			</div>
 		</div>
 		<script>
 			$(function (){
-               $.ajax({
-				   url : "selectAllCategory",
-				   data : {
-                       gosuNo : ${sessionScope.loginUser.userNo}
-				   },
-				   success : function (data) {
-                       console.log(data);
-                       for (let i = 0; i < data.length; i++) {
-                           let option = '<option value="'+data[i].categorySmallNo+'">'+ data[i].categorySmallName +'</option>';
-                           console.log(option);
-                       		$('#est-service').append(option);
-                       }
-                   },
-				   error : function () {
-                   
-                   }
-			   })
+				$.ajax({
+					url : "selectAllCategory",
+					data : {
+						gosuNo : ${sessionScope.loginUser.userNo}
+					},
+					success : function (data) {
+						console.log(data);
+						for (let i = 0; i < data.length; i++) {
+							let estCategory =
+									'<label class="est-category">' +
+										'<input type="radio" name="est-category" class="est-service" value="'+data[i].categorySmallNo+'" checked="">' +
+										'<span class="category-name">'+data[i].categorySmallName+'</span>' +
+									'</label>';
+							$('.category-input').append(estCategory);
+						}
+					},
+					error : function () {
+
+					}
+				})
 			});
 		</script>
-		<hr>
+		<div class="card-style">
+			<h4>서비스 종류</h4><br>
+			<div class="category-input">
+			</div>
+			<br>
+		</div>
 		<div class="card-style">
 			<h4>금액</h4>
 			<div class="form__group field">
 				<input type="text" class="form__field" id="estPrice" name="estPrice" placeholder="Name" oninput="formatNumber()" required>
 				<label for="estPrice" class="form__label">책정 금액</label>
 			</div>
-			<hr>
 		</div>
-		
 		<div class="card-style">
 			<h4>계약 날짜</h4>
 			<div class="form__group field">
@@ -241,7 +283,6 @@
 				<p>ex) 계약일로부터 x일</p>
 			</div>
 		</div>
-		<hr>
 		<div class="card-style">
 			<h4>주소</h4>
 			<div class="form__group field" style="display: flex">
@@ -255,9 +296,8 @@
 				</div>
 				<input type="button" class="meetgo-btn" id="search-addr" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
 			</div>
+			<br>
 		</div>
-		
-		<hr>
 		<div class="card-style">
 			<h4>상세 설명</h4>
 			<div class="form__group field" >
@@ -275,28 +315,6 @@
 				};
 			</script>
 		</div>
-		<hr>
-		<div class="card-style">
-			<div class="contract_user">
-				<div class="est-card">
-					<div class="est-card-img">
-						<img src="https://mblogthumb-phinf.pstatic.net/MjAxOTA1MTRfMjA4/MDAxNTU3ODMxODUwNTk1.n1rndszUf2R_V0tChOSZ64vTQ7IBklPuA8cCnKgBS38g.SFeTe0aTlNDz1MwpburhuVDbXJHWcDhIjIk4s7e5JDkg.JPEG.onasis555/cats.jpg?type=w800">
-					</div>
-					<div class="est-card-info">
-						<p>수지 고객님</p>
-					</div>
-				</div>
-				<img id="deal-icon" src="<%=request.getContextPath()%>/resources/images/chat/deal-icon.png">
-				<div class="est-card">
-					<div class="est-card-img">
-						<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH2nv2D1cgY7TLqc9Sz-doVLhZoMPergR36xbzncThfnYSZaxwwPejTKUOKA&s">
-					</div>
-					<div class="est-card-info">
-						<p>윤아 고수님</p>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="est-button">
 			<button class="meetgo-btn" onclick="insertEstimate()">작성하기</button>
 			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
@@ -306,7 +324,7 @@
 
 <script>
 	function insertEstimate(){
-        let estService = $('#est-service').val();
+        let estService = $('.est-service').val();
         let estPrice = $('#estPrice').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
@@ -338,7 +356,7 @@
                 sendMessage('E');
 			},
 			error : function (){
-                console.log("견적서 저장 실패");
+                console.log("계약서 저장 실패");
 			}
 		});
 	}

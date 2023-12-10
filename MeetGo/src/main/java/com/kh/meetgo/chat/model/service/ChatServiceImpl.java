@@ -13,6 +13,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -107,6 +108,11 @@ public class ChatServiceImpl implements ChatService{
     @Override
     public double selectReviewAvg(int userNo) {
         return chatDao.selectReviewAvg(sqlSession,userNo);
+    }
+
+    @Override
+    public int updateChatRead(Map<String, Object> params) {
+        return chatDao.updateChatRead(sqlSession, params);
     }
 
 }

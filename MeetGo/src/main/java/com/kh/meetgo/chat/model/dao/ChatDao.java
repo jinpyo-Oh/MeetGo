@@ -12,6 +12,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 @Repository
 public class ChatDao {
@@ -87,5 +88,9 @@ public class ChatDao {
 
     public double selectReviewAvg(SqlSessionTemplate sqlSession, int userNo) {
         return sqlSession.selectOne("chatMapper.selectReviewAvg", userNo);
+    }
+
+    public int updateChatRead(SqlSessionTemplate sqlSession, Map<String, Object> params) {
+        return sqlSession.update("chatMapper.updateChatRead", params);
     }
 }

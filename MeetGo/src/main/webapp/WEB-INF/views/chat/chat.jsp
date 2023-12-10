@@ -80,6 +80,12 @@
 </head>
 <body style="position: relative; height: 100%">
 <script>
+	let chatroomNo;
+	let userNo;
+	let gosuNo;
+	let estNo;
+	let estNumber;
+	let check=false;
 	$(function (){
         selectChatList("all");
 	});
@@ -163,6 +169,7 @@
 		</script>
 		<script>
             function selectChatList(type){
+				$('.left-box-chatList').empty();
                 $.ajax({
                     url : "chatroomList",
                     method : "get",
@@ -177,7 +184,35 @@
                     },
                     success : function (roomList){
                    		console.log(roomList);
-                           
+						for (let i = 0; i < roomList.length; i++) {
+							console.log(roomList[i]);
+							let chat =
+							'<div class="chat-card">' +
+							'<input type="hidden" class="chatroomNo" value="'+roomList[i].chatroom.chatroomNo+'">' +
+							'<div class="chat-card-img">' +
+							'<img src="'+roomList[i].userProfile+'">' +
+							'</div>' +
+							'<div class="chat-card-info">' +
+							'<p>'+roomList[i].userName+'</p>';
+							if(roomList[i].chat != null){
+								if (roomList[i].chat.type == null){
+									chat += '<p></p>';
+								} else if (roomList[i].chat.type == 'P') {
+									chat += '<p>사진</p>';
+								} else if (roomList[i].chat.type == 'E'){
+									chat += '<p>계약서</p>';
+								} else {
+									chat +='<p>'+roomList[i].chat.content+'</p>';
+								}
+							} else {
+								chat += '<p></p>';
+							}
+							chat +=
+							'<p></p>' +
+							'</div>' +
+							'</div>';
+							$('.left-box-chatList').append(chat);
+						}
                     },
                     error : function (){
                         console.log("채팅 목록 조회 실패")
@@ -203,7 +238,7 @@
 								<p>사진</p>
 							</c:when>
 							<c:when test="${b.chat.type == 'E'}">
-								<p>견적서</p>
+								<p>계약서</p>
 							</c:when>
 							<c:otherwise>
 								<p></p>
@@ -216,25 +251,20 @@
 		
 		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 		<script>
-			let chatroomNo;
-            let userNo;
-            let gosuNo;
-            let estNo;
-            let estNumber;
-            let check=false;
-
             $(function () {
-                $('.chat-card').click(function () {
+                $(document).on('click','.chat-card' ,function () {
                     $('.hide-right-box').css("display", "none");
                     $('.right-box-info').empty();
                     $('.chat-card').removeClass('select');
                     $(this).addClass('select');
                     $('.chat-area').empty();
                     chatroomNo = $(this).find('.chatroomNo').val();
+
 					$.ajax({
 						url : "chatlist",
 						data : {
-                            chatroomNo : chatroomNo
+                            chatroomNo : chatroomNo,
+							userNo : '${sessionScope.loginUser.userNo}'
 						},
                         async:false,
 						dataType:"json",
@@ -423,7 +453,7 @@
                             insertEstChat(data, lr,createAt);
 						},
 						error : function () {
-      						console.log("견적서 채팅 입력 실패");
+      						console.log("계약서 채팅 입력 실패");
 						}
 					})
                 
@@ -436,7 +466,7 @@
                 let estStatus = data.status;
                 let chat = '<div class="chat-bubble">'
 					+ '<div class="chat-estimate '+lr+'">'
-					+ '<h5 class="est-title">견적서</h5>'
+					+ '<h5 class="est-title">계약서</h5>'
 					+ '<p class="est-content">'
 						+ '고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
 					+ '</p>'
@@ -456,25 +486,25 @@
   
                 switch (estStatus) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
 					case '1' :
-                        chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
+                        chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
 							'<div style="display: flex"><button class="meetgo-btn w-50 changeEstBtn" onclick="changeEstStatus('+data.estNo+', 3)">확정하기</button>' +
 							'<button class="meetgo-btn meetgo-red w-50 changeEstBtn" onclick="changeEstStatus('+data.estNo+', 2)">취소하기</button></div>'
 						break;
 					case '2' :
-                        chat += '<p>취소된 견적서 입니다.</p>'
+                        chat += '<p>취소된 계약서 입니다.</p>'
                         break;
 					case '3' :
-                        chat += '<p>확정된 견적서 입니다.</p>'
+                        chat += '<p>확정된 계약서 입니다.</p>'
 							+ '<div style="display: flex">'
 							+ '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
 							+ '<button class="meetgo-btn meetgo-red w-50 changeEstBtn"  onclick="changeEstStatus('+data.estNo+', 2)" style="width: 268px; margin: 5px; ">취소하기</button>'
                         break;
 					case '4' :
-                        chat += '<p>취소된 견적서 입니다.</p>'
+                        chat += '<p>취소된 계약서 입니다.</p>'
                         break;
 					case '5' :
-                        chat += '<p>거래 완료된 견적서 입니다.</p>'
-						+'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                        chat += '<p>거래 완료된 계약서 입니다.</p>'
+						+'<div style="display: flex"><button class="meetgo-btn w-50">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
                         break;
 				}
                 chat += '</div>'
@@ -526,7 +556,7 @@
 							<input type="file" id="chat-file" name="file" style="display: none" onchange="setChatImg(event);">
 							<button class="meetgo-btn" id="chat-file-upload"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">사진 첨부</button>
 							<c:if test="${sessionScope.loginUser.userStatus == 2}">
-								<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">견적서 첨부</button>
+								<button class="meetgo-btn" id="chat-estimate-button"><img src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">계약서 첨부</button>
 							</c:if>
 						</div>
 						<div class="input-button">
@@ -594,6 +624,7 @@
 					// * 1 메시지 전송
 					function sendMessage(type){
 						let jsonData;
+						selectChatList('${requestScope.type}');
 						if(type == 'M'){ // 메시지일 경우
 							let message = $('#chat-textarea').val();
 							const data = {
@@ -642,7 +673,7 @@
 							$('#send-message-btn').attr('onclick', "sendMessage('M')");
 							
 							
-						} else if (type == 'E') { // 견적서 일경우
+						} else if (type == 'E') { // 계약서 일경우
 							const data = {
 								"chatroomNo" : chatroomNo,
 								"sender" : ${sessionScope.loginUser.userNo},
@@ -682,31 +713,31 @@
 								let chat = "";
 								switch (result.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
 									case '1' :
-										chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">견적서 상세보기</button>' +
+										chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
 											'<div style="display: flex"><button class="meetgo-btn w-50" onclick="changeEstStatus('+result.estNo+', 3)">확정하기</button>' +
 											'<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus('+result.estNo+', 2)">취소하기</button></div>'
 										break;
 									case '2' :
-										chat += '<p>취소된 견적서 입니다.</p>'
+										chat += '<p>취소된 계약서 입니다.</p>'
 										break;
 									case '3' :
-										chat += '<p>확정된 견적서 입니다.</p>'
+										chat += '<p>확정된 계약서 입니다.</p>'
 											+ '<div style="display: flex">'
 											+ '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
 											+ '<button class="meetgo-btn meetgo-red w-50"  onclick="changeEstStatus('+result.estNo+', 2)" style="width: 268px; margin: 5px; ">취소하기</button>'
 										break;
 									case '4' :
-										chat += '<p>취소된 견적서 입니다.</p>'
+										chat += '<p>취소된 계약서 입니다.</p>'
 										break;
 									case '5' :
-										chat += '<p>거래 완료된 견적서 입니다.</p>'
-											+'<div style="display: flex"><button class="meetgo-btn w-50">견적 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+										chat += '<p>거래 완료된 계약서 입니다.</p>'
+											+'<div style="display: flex"><button class="meetgo-btn w-50">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
 										break;
 								}
 								$(estBtnContent).append(chat);
 							},
 							error : function () {
-								console.log("견적서 상태 변경 실패");
+								console.log("계약서 상태 변경 실패");
 							}
 						})
 					}

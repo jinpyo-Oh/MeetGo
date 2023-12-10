@@ -9,6 +9,7 @@ import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface ChatService {
     ArrayList<ChatListDto> selectChatroomList(Member m, String type);
@@ -47,4 +48,6 @@ public interface ChatService {
     ArrayList<PofolImg> selectPofolList(int userNo);
 
     double selectReviewAvg(int userNo);
+
+    int updateChatRead(Map<String, Object> params);
 }

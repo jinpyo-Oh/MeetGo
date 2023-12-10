@@ -310,6 +310,8 @@
     }
 </style>
 <body>
+<jsp:include page="tawk.jsp"/>
+
     <header class="global-header">
         <div class="global-navigation-bar">
             <div class="left-section">

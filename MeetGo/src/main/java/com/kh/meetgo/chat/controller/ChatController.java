@@ -21,6 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,15 +46,22 @@ public class ChatController {
         m.setUserStatus(Integer.parseInt(userStatus));
         System.out.println("m = " + m);
         ArrayList<ChatListDto> chatroomList = chatService.selectChatroomList(m, type);
+        System.out.println(chatroomList);
         return new Gson().toJson(chatroomList);
     }
 
     @ResponseBody
     @GetMapping(value = "/chatlist")
-    public String selectChatList(String chatroomNo) {
+    public String selectChatList(String chatroomNo, String userNo) {
         ArrayList<Chat> chatList = null;
-        if (chatroomNo != null) {
+
+        if (chatroomNo != null && userNo != null) {
+            Map<String, Object> params = new HashMap<>();
             int roomNo = Integer.parseInt(chatroomNo);
+            params.put("chatroomNo", roomNo);
+            params.put("sender", Integer.parseInt(userNo));
+            System.out.println(params);
+            chatService.updateChatRead(params);
             chatList = chatService.selectChatList(roomNo);
         }
         return new Gson().toJson(chatList);

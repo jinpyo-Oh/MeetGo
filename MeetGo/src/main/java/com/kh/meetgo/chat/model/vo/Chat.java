@@ -16,4 +16,5 @@ public class Chat {
     private String type;
     private String createAt;
     private int chatroomNo;
+    private int read;
 }
