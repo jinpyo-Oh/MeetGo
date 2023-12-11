@@ -77,11 +77,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int pwdCheck(String checkPwd) {
 		return memberDao.pwdCheck(sqlSession, checkPwd);
-		
 	}
+
 	public int emailCheck(String checkEmail) {
 		return memberDao.emailCheck(sqlSession, checkEmail);
-		
 	}
 
 	@Override
@@ -124,7 +123,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.getName(sqlSession, userNo);
 	}
 
-
 	@Override
 	public int payService(String estNo, String tid) {
 		return memberDao.payService(sqlSession, estNo, tid);
@@ -153,6 +151,21 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<ReviewDto> myReviewList(PageInfo pi, int userNo) {
 		return memberDao.myReviewList(sqlSession, pi, userNo);
+	}
+
+	@Override
+	public ReviewDto myReviewDetail(int revNo) {
+		return memberDao.myReviewDetail(sqlSession, revNo);
+	}
+
+	@Override
+	public ArrayList<ReviewImg> myReviewDetailImg(int revNo) {
+		return memberDao.myReviewDetailImg(sqlSession, revNo);
+	}
+
+	@Override
+	public int deleteReview(int revNo) {
+		return memberDao.deleteReview(sqlSession, revNo);
 	}
 
 

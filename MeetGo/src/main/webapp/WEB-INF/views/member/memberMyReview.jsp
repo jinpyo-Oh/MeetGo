@@ -89,7 +89,7 @@
 					<table>
 						<tr>
 							<td>계약서 번호 : &nbsp;</td>
-							<td style="width: 50px;">${ r.review.revNo }</td>
+							<td style="width: 50px;" class="rno">${ r.review.revNo }</td>
 							<td style="width: 300px;">
 								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								${ r.review.revDate }
@@ -152,7 +152,7 @@
 						<img src="${ r.revImgUrl }" id="titleImg">    
 					</c:when>
 					<c:otherwise>
-						<img src="<%=request.getContextPath()%>/resources/images/common/meetgo_logo.png"/>
+						<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/meetgo_logo.png"/>
 					</c:otherwise>
 					</c:choose>
 				</div> 
@@ -199,6 +199,21 @@
             	</div>
              </c:if>
 	</div>
+	<script>
+		$(function(){
+			
+			$(".review-info").click(function(){
+				
+				let rno = $(this).find(".rno").text();
+				
+				console.log(rno);
+				
+				location.href = "reviewDetail.me?rno=" + rno; 
+				
+			});
+			
+		});
+	</script>
 	<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

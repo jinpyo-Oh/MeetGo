@@ -50,7 +50,8 @@ CREATE TABLE MEMBER
     ADDRESS          VARCHAR2(100)                               NULL,                                     -- 주소
     CREATE_DATE      DATE           DEFAULT SYSDATE,                                                       -- 생성일자
     LAST_ACCESS_DATE DATE           DEFAULT SYSDATE,                                                       -- 최근 접속일
-    USER_STATUS      NUMBER CHECK (USER_STATUS IN (1, 2, 3, 4))  NULL                                      -- 1: 일반사용자,  2: 고수,  3: 고수 비활성화 4: 회원 탈퇴(비활성화)
+    USER_STATUS      NUMBER CHECK (USER_STATUS IN (1, 2))  NULL,                                      -- 1: 일반사용자,  2: 고수,  3: 고수 비활성화 4: 회원 탈퇴(비활성화)
+    ENROLL_STATUS    NUMBER CHECK (ENROLL_STATUS IN (1, 2, 3, 4) )                                         -- 1: 일반사용자(고수등록),  2: 고수(고수 비활성화,  3: 고수 비활성화(고수 활성화) 4: 회원 탈퇴(회원 비활성화)
 );
 CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
 
@@ -284,6 +285,7 @@ CREATE TABLE "CHAT"
     "CHAT_NO"     NUMBER PRIMARY KEY,                        -- 1대1 채팅 번호
     "CONTENT"     VARCHAR2(1000) NOT NULL,                   -- 내용
     "SENDER"      NUMBER         NOT NULL,                   -- 발신자
+    "READ"        NUMBER CHECK ( READ IN (0, 1) ),           -- 수신 여부
     "TYPE"        CHAR(1) CHECK ( TYPE IN ('P', 'M', 'E') ), -- P:사진 , M:메세지, E:견적서
     "CREATE_AT"   DATE DEFAULT SYSDATE,                      -- 작성시간
     "CHATROOM_NO" NUMBER         NOT NULL,                   -- 채팅방 번호

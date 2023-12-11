@@ -28,6 +28,7 @@
             display: flex;
             float: right;
 			margin-right: 50px;
+			color: white;
 		}
 		.footer-section a {
             color : #FFFFFF;
@@ -65,7 +66,7 @@
 			<section class="footer-section">
 				<div class="footer-header">
 					<div class="footer-logo">
-						<a><img src="<%=request.getContextPath()%>/resources/images/common/meetgo_logo.png" alt=""></a>
+						<a><img src="<%=request.getContextPath()%>/resources/images/common/mainPage/meetgo_logo.png" alt=""></a>
 					</div>
 					<nav class="footer-nav-list">
 						<li>
@@ -99,16 +100,16 @@
 					</div>
 					<div class="footer-icon">
 						<a href="https://www.youtube.com/@user-jt1ep9tq9l">
-							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/youtubeLogo.png" >
+							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/mainPage/youtubeLogo.png" >
 						</a>
 						<a href="https://instagram.com/ming_my.seaweed?igshid=OGQ5ZDc2ODk2ZA%3D%3D&utm_source=qr">
-							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/instagramLogo.png" >
+							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/mainPage/instagramLogo.png" >
 						</a>
 						<a href="">
-							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/facebookLogo.png" >
+							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/mainPage/facebookLogo.png" >
 						</a>
 						<a href="https://blog.naver.com/programming_my00">
-							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/blogLogo.png">
+							<img class="logo-size" src="<%=request.getContextPath()%>/resources/images/common/mainPage/blogLogo.png">
 						</a>
 					</div>
 				</div>

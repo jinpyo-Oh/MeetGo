@@ -34,6 +34,9 @@ public class ChatController {
     @GetMapping(value = "/chat.ct")
     public String chatViewForm(String type, Model model, HttpSession session) {
         model.addAttribute("type", type);
+        if(session.getAttribute("loginUser") == null){
+            return "common/errorPage";
+        }
         return "chat/chat";
     }
 
@@ -58,8 +61,6 @@ public class ChatController {
         if (chatroomNo != null && userNo != null) {
             Map<String, Object> params = new HashMap<>();
             int roomNo = Integer.parseInt(chatroomNo);
-            params.put("chatroomNo", roomNo);
-            params.put("sender", Integer.parseInt(userNo));
             System.out.println(params);
             chatService.updateChatRead(params);
             chatList = chatService.selectChatList(roomNo);
