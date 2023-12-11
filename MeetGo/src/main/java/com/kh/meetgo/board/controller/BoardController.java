@@ -1,6 +1,5 @@
 package com.kh.meetgo.board.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +29,7 @@ import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
+import com.kh.meetgo.gosu.model.vo.PofolImg;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Controller
@@ -300,13 +300,23 @@ public class BoardController {
 		
 	}
 	
+	// 포폴 상세보기
 	@ResponseBody
 	@RequestMapping(value = "pofolDetail.po")
-	public String pofolDetail(String pno) {
+	public ModelAndView pofolDetail(String pno, ModelAndView mv) {
 		
 		// pno는 포폴게시글 번호
+		int pofolNo = Integer.parseInt(pno);
+		int result = boardService.increasePofolCount(pofolNo);
 		
-		return "board/portfolio/pofolDetail";
+		ArrayList<PofolOpt> list = boardService.pofolDetail(pofolNo);
+		ArrayList<PofolImg> imgList = boardService.pofolDetailImg(pofolNo);
+
+		mv.addObject("list", list)
+		.addObject("imgList", imgList)
+		.setViewName("board/portfolio/pofolDetail");;
+		
+		return mv;
 	}
 	
 	

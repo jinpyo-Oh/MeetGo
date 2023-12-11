@@ -19,6 +19,7 @@ public class PofolOpt {
 	private Pofol pofol;
 	private Gosu gosu;
 	private String userProFile;
+	private String pofolImgUrl;
 	private String userNickname;
 	private String categorySmallName;
 	private int categoryBigNo;

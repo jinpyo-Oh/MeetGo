@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -28,6 +29,7 @@
 	        margin-bottom: 100px;
 	        box-sizing: border-box;
 	        font-family: 'Pretendard-Regular';
+	        font-size: 20px;
     	}
 
         #titleText{width: 80%; margin: auto;}
@@ -39,8 +41,7 @@
             height: 420px;
             box-sizing: border-box;
         }
-        #profile-area table p{font-size: 18px; margin-left: 10px;}
-
+        #profile-area table p{font-size: 18px; margin-left: 10px;}	
         #profile-area button{
         border: 0px;
         border-radius: 5px;
@@ -103,33 +104,29 @@
 	
     <div class="outer">
         <div id="titleText">
-            <p>글 제목</p>
+            <p>${ requestScope.list[0].pofol.pofolTitle }</p>
             <hr>
                 <div style="display: flex;">
                     <div id="profile-area">
                         <div style="width: 100%; height: 30%;">
-                            <table>
+                            <table class="pofolInfoTable"> 
                                 <tr>
                                     <td>
-                                        <img src="images.jpg" width="100px" height="100px">
+                                        <img src="${ requestScope.list[0].userProFile }" width="100px" height="100px">
                                     </td>
                                     <td>
-                                        <p id="gosuName">gosuName</p>
-                                        <p style="font-size: 16px;">서울시 영등포구<br>20km 이동가능</p>
+                                        <p style="font-size: 20px; color : #2A8FF7; font-weight:700;">${ requestScope.list[0].userNickname }</p>
+                                        <p style="font-size: 16px;">${ requestScope.list[0].gosu.region }<br>${ requestScope.list[0].gosu.moveDistance }</p>
                                     </td>
                                 </tr>
                             </table>
                         </div>
                         <div style="width: 100%; height: 50%;">
-                            <p style="font-size: 16px; font-style: italic; margin: 0; color: rgb(135, 135, 135);">
-                                "메이크업헤어 + 모델 시간당 포토샵 포함시<br>
-                                10만원으로 진행 합니다.<br>
-                                촬영 끝나고 5일 안에 보정본 보내드립니다<br>
-                                포토샵 as가능합니다."
+                            <p style="font-size: 20px; font-style: italic; margin: 0; color: rgb(135, 135, 135);">
+                               "${ requestScope.list[0].pofol.pofolIntro }"
                             </p>
                             <br>
-                            <p>가격 : 협의 후 결정</p>
-                            <p>소요시간 : 5일 미만</p>
+                            <p>가격 : ${ requestScope.list[0].pofol.pofolPrice }</p>
                         </div>
 
                         <!-- 견적 요청 버튼 -->
@@ -144,9 +141,9 @@
                     <!-- 슬라이드 이미지-->
                     <div class="swiper">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide"><img src=""></div>
-                            <div class="swiper-slide"><img src=""></div>
-                            <div class="swiper-slide"><img src=""></div>
+                        <c:forEach var="item" items="${ requestScope.imgList }" >
+                        	<div class="swiper-slide"><img src="${item.pofolImgUrl}"></div>
+                        </c:forEach>
                         </div>
                         <div class="swiper-pagination"></div>
                         <div class="swiper-button-prev"></div>
@@ -158,18 +155,11 @@
                 <hr>
                 <!-- 포폴내용 영역 -->
                 <span>
-                    안녕하세요. 프로듀스 101 출신의 아이돌을 트레이닝하고 있는 보컬 트레이너 민이쌤이라고 합니다. 그간 많은 수강생들을 가르치며 트레이닝업계에서 너무 많은 수강생분들이 피해를 입는 것 같아 이렇게 글을 남기게 되었습니다.
-                    첫째, 감각을 말로 알려주려는 트레이너는 피하자.
-                    첫째, 트레이너 본인이 노래를 잘하게 된 방법을 그대로 주입코자 하는 트레이너는 피하셔야 합니다. 하다보면 나온다식의 말씀을 하는 분들이 계신데 피하셔야 합니다. 감각의 영역이기 때문입니다.
-                    사람마다 느끼는 방식이 다 다르기 때문에 이런트레이닝을 받는경우 나의 실력상승에 큰 효과가 미미할 가능성이 높습니다.
-                    "이런 느낌으로 하면됩니다X, 자 이거 해보세요~ 어떤느낌이에요? 그쵸 바로 그느낌입니다!O" 체험시켜주는 트레이너를 만나야 합니다.
-                    단 한번이라도, 아니 이게 왜 안되지 라는 말을 하는 트레이너는 피해야 합니다.
-                    어떤 감각이던 느낄 수 있도록 설계된 수많은 훈련들이 있습니다. 공부를 하지 않은 트레이너는 이 훈련을 소개해줄 수 없고, 감각만을 설명해줄 수 있습니다.
-                    "아 로 여기까지 올리세요! 더 힘! 뒤로돌리세요!!" No
+                    ${ requestScope.list[0].pofol.pofolContent }
                 </span>
 
                 <div align="center">
-                    <button type="button" id="btn-goList">목록으로</button>
+                    <button type="button" id="btn-goList" onclick="history.back();">목록으로</button>
                 </div>
 
             </div>
@@ -177,6 +167,7 @@
     </div>
 
     <script>
+    
         const swiper = new Swiper('.swiper', {
             autoplay : {
                 delay : 5000 // 5초마다 이미지 변경

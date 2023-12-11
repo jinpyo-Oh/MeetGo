@@ -9,10 +9,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.meetgo.board.model.vo.Board;
-import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
+import com.kh.meetgo.gosu.model.vo.PofolImg;
 
 @Repository
 public class BoardDao {
@@ -139,6 +139,17 @@ public class BoardDao {
 		params.put("pofolNo", pofolNo);
 		
 		return sqlSession.insert("boardMapper.insertPofolImg", params);
+	}
+	
+	// 포폴 상세조회
+	public int increasePofolCount(SqlSessionTemplate sqlSession, int pofolNo) {
+		return sqlSession.update("boardMapper.increasePofolCount", pofolNo);
+	}
+	public ArrayList<PofolOpt> pofolDetail(SqlSessionTemplate sqlSession, int pofolNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.pofolDetail", pofolNo);
+	}
+	public ArrayList<PofolImg> pofolDetailImg(SqlSessionTemplate sqlSession, int pofolNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.pofolDetailImg", pofolNo);
 	}
 
 }

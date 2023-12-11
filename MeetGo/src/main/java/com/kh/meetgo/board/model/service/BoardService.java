@@ -7,6 +7,7 @@ import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
+import com.kh.meetgo.gosu.model.vo.PofolImg;
 
 public interface BoardService {
 	
@@ -69,4 +70,10 @@ public interface BoardService {
 		
 		// 포폴 이미지 등록
 		int insertPofolImg(String pofolImgUrl, int pofolNo);
+		
+		// 포폴 상세조회
+		int increasePofolCount(int pofolNo);
+		ArrayList<PofolOpt> pofolDetail(int pofolNo);
+		ArrayList<PofolImg> pofolDetailImg(int pofolNo);
+		
 }

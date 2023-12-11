@@ -273,6 +273,43 @@
 			)
 	</insert>
 
+	<select id="pofolDetail" parameterType="_int" resultType="pofolOpt">
+		SELECT USER_PROFILE AS "userProfile",
+		       USER_NICKNAME AS "userNickname",
+		       REGION AS "gosu.region",
+		       MOVE_DISTANCE AS "gosu.moveDistance",
+		       P.POFOL_TITLE AS "pofol.pofolTitle",
+		       P.POFOL_INTRO AS "pofol.pofolIntro",
+		       P.POFOL_PRICE AS "pofol.pofolPrice",
+		       P.POFOL_CONTENT AS "pofol.pofolContent"
+		  FROM POFOL P 
+		  JOIN (
+		  SELECT GOSU_NO, REGION, MOVE_DISTANCE
+		    FROM GOSU
+		  ) G ON G.GOSU_NO = P.GOSU_NO
+		  JOIN (
+		  SELECT USER_NO, USER_NICKNAME, USER_PROFILE
+		    FROM MEMBER
+		  ) M ON M.USER_NO = G.GOSU_NO
+		  WHERE P.POFOL_NO = #{pofolNo}
+	</select>
+	
+	<select id="pofolDetailImg" parameterType="_int" resultType="pofolImg">
+		SELECT DISTINCT PI.POFOL_IMG_URL AS "pofolImgUrl"
+		  FROM POFOL_IMG PI
+		  JOIN (
+		  SELECT POFOL_NO
+		    FROM POFOL_IMG
+		  ) P ON P.POFOL_NO = PI.POFOL_NO
+		  WHERE P.POFOL_NO = #{pofolNo}
+	</select>
+	
+	<update id="increasePofolCount">
+		UPDATE POFOL
+		   SET POFOL_VISITED = POFOL_VISITED + 1
+		 WHERE POFOL_NO = #{pofolNo}
+	</update>
+
 </mapper>
 
 
