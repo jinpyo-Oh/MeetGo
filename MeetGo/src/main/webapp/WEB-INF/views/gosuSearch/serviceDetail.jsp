@@ -165,6 +165,17 @@
         	cursor:pointer;
         	transform: scale(1.05);
         }
+        #backToListBtn{ margin-top : 100px; }
+        #backToListBtn button{
+	        border: 0px;
+	        border-radius: 5px;
+	        font-size:20px;
+	        background-color: #2a91f7c0;
+	        color: white;
+	        width: 150px;
+	        height: 50px;
+        }
+        #backToListBtn button:hover{ background-color: #2A8FF7; }
 	
 	</style>
 </head>
@@ -410,6 +421,10 @@
 		</c:forEach>			
 		</div>
 	
+	</div>
+	
+	<div align="center" id="backToListBtn">
+		<button type="button" onclick="history.back();">목록으로</button>
 	</div>
 </div>
 
