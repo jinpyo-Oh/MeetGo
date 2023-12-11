@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 
@@ -29,4 +30,7 @@ public interface GosuService {
 	// 고수로 상태변경
 	int changeStatus(int userNo);
 	
+	// 고수찾기 - 해당 고수 포폴정보조회
+	ArrayList<PofolOpt> showGosuPofol(int gosuNo);
+			
 }

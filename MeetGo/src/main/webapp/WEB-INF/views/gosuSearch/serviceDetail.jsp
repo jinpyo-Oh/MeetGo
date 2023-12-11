@@ -161,6 +161,21 @@
             color: rgb(148, 219, 42);
         }
         .rate{ margin-bottom: 10px; }
+        .pofolThumbnail:hover {
+        	cursor:pointer;
+        	transform: scale(1.05);
+        }
+        #backToListBtn{ margin-top : 100px; }
+        #backToListBtn button{
+	        border: 0px;
+	        border-radius: 5px;
+	        font-size:20px;
+	        background-color: #2a91f7c0;
+	        color: white;
+	        width: 150px;
+	        height: 50px;
+        }
+        #backToListBtn button:hover{ background-color: #2A8FF7; }
 	
 	</style>
 </head>
@@ -248,7 +263,6 @@
 				<p><b>경력 사항</b></p>
 				<p>총 경력 : <b style="color: #2A8FF7;">${ requestScope.list[0].gosu.career }</b></p>
 				<br>
-				<p>세부경력내용이들어갈자리	</p>
 				<br><br>
 				<p><b>최종학력</b></p>
 				<p>${ requestScope.list[0].gosu.education }</p>
@@ -396,27 +410,30 @@
 		
 		<br>
 		
-		<div style="display: flex; width: 600px;">
+		<div style="display: flex; flex-wrap: wrap; width:800px;">
+		
+		<c:forEach var="item" items="${ requestScope.pofolList }">
 			<div align="center" style="margin-left: 5px; margin-right: 5px;">
-				<img src="" width="220px" height="150px">
-				<p>포트폴리오 게시글제목</p>
+				<img class="pofolThumbnail" src="${ item.firstImg }" onclick="linkPofol(${ item.pofol.pofolNo });" style="width: 220px; height: 150px; object-fit: cover;">
+				<p>${ item.pofol.pofolTitle }</p>
 			</div>
-			<div align="center" style="margin-left: 5px; margin-right: 5px;">
-				<img src="" width="220px" height="150px">
-				<p>포트폴리오 게시글제목</p>
-			</div>
-			<div align="center" style="margin-left: 5px; margin-right: 5px;">
-				<img src="" width="220px" height="150px">
-				<p>포트폴리오 게시글제목</p>
-			</div>
+		</c:forEach>			
 		</div>
 	
+	</div>
+	
+	<div align="center" id="backToListBtn">
+		<button type="button" onclick="history.back();">목록으로</button>
 	</div>
 </div>
 
 
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
+	function linkPofol(pno) {
+		location.href = "pofolDetail.po?pno=" + pno;
+	}
+
     $(function(){
 
         let $first = $("#tableMenu").find(".tableMenu").eq(0);
@@ -451,6 +468,7 @@
             $("#firstTb").hide();
             $("#secondTb").hide();
             $("#thirdTb").show();
+
         });
 
     });

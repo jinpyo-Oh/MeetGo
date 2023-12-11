@@ -607,7 +607,7 @@
 					               + '</tr>'
 					               + '</tbody>'
 					               + '</table>'
-					               + '</div>'  
+					               + '</div>';  
 					$('#result-area').append(resultStr);
 				}  
 						

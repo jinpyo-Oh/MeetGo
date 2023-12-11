@@ -9,7 +9,7 @@
                 SELECT COUNT(*)
   		  		  FROM GOSU G
                   LEFT JOIN MEMBER M ON M.USER_NO = G.USER_NO
-                  WHERE M.USER_STATUS = 2
+                  WHERE M.ENROLL_STATUS = 2
 			</when>
 			<when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
 				SELECT COUNT(*)
@@ -22,11 +22,11 @@
 				        GROUP BY GOSU_NO
 				    ) S ON S.GOSU_NO = G.GOSU_NO
 				    LEFT JOIN (
-                        SELECT USER_NO, USER_STATUS
+                        SELECT USER_NO, ENROLL_STATUS
                         FROM MEMBER
                     ) M ON M.USER_NO = G.USER_NO
 				WHERE S.CATEGORY_SMALL_NO = #{categorySmallNo}
-				  AND M.USER_STATUS = 2
+				  AND M.ENROLL_STATUS = 2
 				)
 			</when>
 			<otherwise>
@@ -40,7 +40,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -64,7 +64,7 @@
 						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
 					</otherwise>
 				</choose>
-				AND M.USER_STATUS = 2
+				AND M.ENROLL_STATUS = 2
 						)
 			</otherwise>
 		</choose>
@@ -84,7 +84,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -104,7 +104,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -125,7 +125,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -149,7 +149,7 @@
 						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
 					</otherwise>
 				</choose>
-					AND M.USER_STATUS = 2
+					AND M.ENROLL_STATUS = 2
 					 )	
 			</otherwise>
 		</choose>
@@ -186,6 +186,7 @@
 		)
 	</select>	
 	
+	<!-- 고수이미지 불러오기 -->
 	<select id="getGosuImg" parameterType="_int" resultType="gosuImg">
 		SELECT GOSU_IMG_NO AS "gosuImgNo",
 			   GOSU_IMG_URL AS "gosuImgUrl",
@@ -195,6 +196,21 @@
 		 WHERE GOSU_NO = #{gosuNo}
 		   AND STATUS = 1
 	</select>
+	
+	<select id="showGosuPofol" parameterType="_int" resultType="pofolOpt">
+		SELECT P.POFOL_NO AS "pofol.pofolNo"
+			 , P.POFOL_TITLE AS "pofol.pofolTitle"
+			 , PI.POFOL_IMG_URL AS "firstImg"
+		  FROM POFOL P 
+		  LEFT JOIN (SELECT *
+		FROM POFOL_IMG
+		WHERE (POFOL_NO, POFOL_IMG_NO) IN (SELECT POFOL_NO, MIN(POFOL_IMG_NO)
+		FROM POFOL_IMG
+		GROUP BY POFOL_NO)
+		) PI ON P.POFOL_NO = PI.POFOL_NO
+		WHERE P.GOSU_NO = #{gosuNo}
+	</select>
+
 	
 	<insert id="insertGosu" parameterType="gosu">
 		INSERT INTO GOSU(GOSU_NO
