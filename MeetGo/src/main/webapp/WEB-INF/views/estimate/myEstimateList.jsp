@@ -169,7 +169,6 @@
 	                    </tr>
 	                </thead>
 	                <c:choose>
-	                	
 		                <c:when test="${ not empty requestScope.comList }">
 			                <tbody>
 			                    <c:forEach var="b" items="${ requestScope.comList }">
@@ -179,22 +178,45 @@
 				                        <td>${ b.estimate.gosuNo }</td>
 				                        <td>${ b.estimate.startDate}</td>
 				                        <td>완료</td>
-			                        	<c:choose>
-											<c:when test="${ b.reviewCnt > 0 }">
-					                        	<td>
-						                        	<a type="button" class="btn btn-secondary btn-sm">
-						                        		작성완료
-						                        	</a>
-					                        	</td>
-											</c:when>
-											<c:otherwise>
-												<td id="review">
-						                        	<a type="button" class="btn btn-success btn-sm">
-						                        		작성하기						                        	</a>
-						                        	<input type="hidden" id="estNo" value="${ b.estimate.estNo }">
-						                        </td>
-											</c:otherwise>
-			                        	</c:choose>
+				                       <c:choose>
+				                        	<c:when test="${ sessionScope.loginUser.userNo ne b.estimate.gosuNo }">
+					                        	<c:choose>
+													<c:when test="${ b.reviewCnt > 0 }">
+							                        	<td>
+								                        	<a type="button" class="btn btn-secondary btn-sm">
+								                        		작성완료
+								                        	</a>
+							                        	</td>
+													</c:when>
+													<c:otherwise>
+														<td id="review">
+								                        	<a type="button" class="btn btn-success btn-sm">
+								                        		작성하기						                        	</a>
+								                        	<input type="hidden" id="estNo" value="${ b.estimate.estNo }">
+								                        </td>
+													</c:otherwise>
+					                        	</c:choose>
+				                        	</c:when>
+				                        	<c:otherwise>
+				                        		<c:choose>
+													<c:when test="${ b.reviewCnt > 0 }">
+							                        	<td class="review-info">
+								                        	<a type="button" class="btn btn-success btn-sm">
+								                        		리뷰보기
+								                        	</a>
+								                        	<input type="hidden" class="revNo" value="${ b.revNo }">
+							                        	</td>
+													</c:when>
+													<c:otherwise>
+														<td>
+								                        	<a type="button" class="btn btn-success btn-sm">
+								                        		리뷰대기
+				                       					  	</a>
+								                        </td>
+													</c:otherwise>
+					                        	</c:choose>
+				                        	</c:otherwise>
+				                        </c:choose>
 				                        
 				                    </tr>
 				            	</c:forEach>
@@ -281,6 +303,15 @@
     			// console.log(eno);
     			
     			location.href = "reviewWrite.me?eno=" + eno;
+    		});
+
+    		$(".review-info").click(function(){
+    			
+    			let rno = $(this).closest('tr').find(".revNo").val();
+
+    			// console.log(rno);
+    			
+    			location.href = "reviewDetail.me?rno=" + rno; 
     		});
     	});
     	

@@ -143,4 +143,8 @@ public class MemberDao {
 	public int deleteReview(SqlSessionTemplate sqlSession, int revNo) {
 		return sqlSession.update("memberMapper.deleteReview", revNo);
 	}
+
+	public int completeEstimate(SqlSessionTemplate sqlSession, int eno) {
+		return sqlSession.update("memberMapper.completeEstimate", eno);
+	}
 }

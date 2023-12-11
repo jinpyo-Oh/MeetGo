@@ -83,6 +83,9 @@ public interface MemberService {
     
     // 내 리뷰 삭제
     int deleteReview(int revNo);
+    
+    // 서비스 이행 완료
+    int completeEstimate(int eno);
 }
 
 

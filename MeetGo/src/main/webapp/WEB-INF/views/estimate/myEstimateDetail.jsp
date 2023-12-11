@@ -52,11 +52,11 @@
             <br>
             <br>
             <br>
-
-            <h2>견적서</h2>
+			<div align="center">
+	            <h2>계약서</h2>
+			</div>
        
-           <br>
-    
+    		<br>
 
                 <div style="border: 1px solid black; border-radius: 10px;">
                     <table class="detail" border="1px" style="border-color: black;" >
@@ -82,7 +82,7 @@
                                 </td>
                             </tr>
                             <tr class="cons">
-                                <td class="fix" style="width: 15%;" >고수번호</td>
+                                <td class="fix" style="width: 15%;" >고수명</td>
                                 <td style="width: 35%;">${ requestScope.gosuName }</td>
                                 <td class="fix"  style="width: 15%;">고객명</td>
                                 <td style="width: 35%;">${ requestScope.userName }</td>
@@ -122,18 +122,27 @@
                 <br>
                 
                 <a class="btn btn-warning btn-sm" style="float: left;" href="estimate.me?">뒤로가기</a>
-            
-                <c:choose>
-                    <c:when test="${ requestScope.est.status eq 3 }">
-                        <button class="btn btn-success btn-sm" id="apibtn">결제</button> 
-                    </c:when>
-                    <c:when test="${ requestScope.est.status eq 4 }">
-                        <button class="btn btn-success btn-sm" id="">서비스 완료</button> 
-                    </c:when>
-                    <c:otherwise>
-                        <button class="btn btn-success btn-sm" id="apibtn" style="display: none;">결제</button> 
-                    </c:otherwise>
-                    </c:choose>
+            	
+            	<c:choose>
+            		<c:when test="${ sessionScope.loginUser.userNo ne requestScope.est.gosuNo }">
+		                <c:choose>
+		                   <c:when test="${ requestScope.est.status eq 3 }">
+		                       <button class="btn btn-success btn-sm" id="apibtn">결제</button> 
+		                   </c:when>
+		                   <c:when test="${ requestScope.est.status eq 4 }">
+		                       <button class="btn btn-success btn-sm" id="combtn">서비스 완료</button> 
+		                       <br><br>
+		                      
+						       <div style="float : right;">서비스 완료 시 버튼을 꼭 눌러주세요.</div>
+		                   </c:when>
+		                   <c:otherwise>
+		                       <button class="btn btn-success btn-sm" id="apibtn" style="display: none;">결제</button> 
+		                   </c:otherwise>
+						</c:choose>	
+            		</c:when>
+            		<c:otherwise>
+            		</c:otherwise>
+            	</c:choose>
 
         </div>
         
@@ -161,10 +170,32 @@
         				}
         			});
         		});
+        		
+        		$("#combtn").click(function(){
+        			
+        			$.ajax({
+						url: "complete.me",
+						type: 'get',
+						data : {
+							estNo : '${ requestScope.est.estNo }'
+						}, success : function(){
+							alert("서비스 완료 등록 성공!")
+							location.reload(true);
+							
+						}, error : function(){
+							alert("서비스 완료 등록 오류! 관리자에게 문의하세요.");
+						}
+						
+        			});
+        			
+        		});
+        		
         	});
+        	
+        	
         </script>
         
-        <br><br><br><br><br><br>
+        <br><br><br><br>
         
         <!-- The Modal -->
         <div class="modal fade" id="myModal">

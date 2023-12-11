@@ -18,6 +18,7 @@
 		<result column="LAST_ACCESS_DATE" property="lastAccessDate" />
 		<result column="ADDRESS" property="address"/>
 		<result column="USER_STATUS" property="userStatus" />
+		<result column="ENROLL_STATUS" property="enrollStatus"/>
 	</resultMap>
 	
 	<resultMap id="estimateResultSet" type="estimate">
@@ -117,8 +118,8 @@
 		UPDATE MEMBER
 		SET USER_STATUS = #{userStatus}
 		WHERE USER_ID = #{userId}
-		
 	</update>
+
 	<update id="uplodaimg" parameterType="string"  >
 		UPDATE MEMBER	
 		SET USER_PROFILE = #{userProFile}
@@ -130,14 +131,14 @@
 		SELECT COUNT(*)
 		  FROM ESTIMATE
 		 WHERE (STATUS = '3' OR STATUS = '4') 
-		   AND USER_NO = #{userNo}
+		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
 	</select>
 	
 	<select id="selectCompleteListCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*)
 		  FROM ESTIMATE
 		 WHERE STATUS = '5'
-		   AND USER_NO = #{userNo}
+		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
 	</select>
 	
 	<select id="selectIncompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
@@ -156,7 +157,7 @@
 			 , USER_NO
 		  FROM ESTIMATE
 		 WHERE (STATUS = '3' OR STATUS = '4')
-		   AND USER_NO = #{userNo}
+		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
 	</select>
 	
 	<select id="selectCompleteEstimateList" parameterType="_int" resultType="estimateDto">
@@ -174,11 +175,14 @@
 			 , GOSU_NO "estimate.gosuNo"
 			 , USER_NO "estimate.userNo"
 			 , (SELECT COUNT(*)
-			 	FROM REVIEW
-			 	WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt" 
+			 	  FROM REVIEW
+			 	 WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt"
+			 , (SELECT REV_NO
+			 	  FROM REVIEW
+			 	 WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
 	  	  FROM ESTIMATE
 		 WHERE STATUS = '5'
-		   AND USER_NO = #{userNo}
+		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
 	</select>
 	
 	<select id="selectEstimateDetail" parameterType="_int" resultMap="estimateResultSet">
@@ -204,7 +208,8 @@
 	
 	<update id="payService" parameterType="estimate">
 		UPDATE ESTIMATE 
-		   SET TID = #{tid}
+		   SET TID = #{tid},
+		   	   CONFIRMATION_DATE = SYSDATE
 		 WHERE EST_NO = #{estNo}
 	</update>
 	
@@ -299,6 +304,12 @@
 		   SET REV_STATUS = '2'
 		 WHERE REV_NO = #{revNo}
 	</update> 
+	
+	<update id="completeEstimate" parameterType="_int">
+		UPDATE ESTIMATE
+		   SET STATUS = '5'
+		 WHERE EST_NO = #{eno}
+	</update>
 	
 </mapper>
 

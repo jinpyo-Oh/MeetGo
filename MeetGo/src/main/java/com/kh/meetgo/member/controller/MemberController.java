@@ -494,6 +494,18 @@ public class MemberController {
 			return "redirect:/myReview.me";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping("complete.me")
+	public void completeEstimate(String estNo) {
+		
+		// System.out.println(estNo);
+		
+		int eno = Integer.parseInt(estNo);
+		
+		int result = memberService.completeEstimate(eno);
+		
+	}
 }
 
 

@@ -154,8 +154,15 @@
                 
                 <br>
 
-                <a type="button" href="myReview.me" class="btn btn-warning btn-sm back">목록으로</a>
-                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">삭제</button>
+                <c:choose>
+                	<c:when test="${ requestScope.list.review.gosuNo ne sessionScope.loginUser.userNo }">
+		                <a type="button" href="myReview.me" class="btn btn-warning btn-sm back">목록으로</a>
+		                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">삭제</button>
+                	</c:when>
+                	<c:otherwise>
+		                <a type="button" href="estimate.me" class="btn btn-warning btn-sm back">목록으로</a>
+                	</c:otherwise>
+                </c:choose>
                 
                 <!-- The Modal -->
 				  <div class="modal fade" id="myModal">

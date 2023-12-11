@@ -25,6 +25,7 @@ public class Member {
     private Date createDate;
     private Date lastAccessDate;
     private int userStatus;
+    private int enrollStatus;
 
 	/*USER_NO	NUMBER	No		1
 	USER_NAME	VARCHAR2(30 BYTE)	No		2
