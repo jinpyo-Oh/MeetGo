@@ -168,5 +168,10 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.deleteReview(sqlSession, revNo);
 	}
 
+	@Override
+	public int completeEstimate(int eno) {
+		return memberDao.completeEstimate(sqlSession, eno);
+	}
+
 
 }

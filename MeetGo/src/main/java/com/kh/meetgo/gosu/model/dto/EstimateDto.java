@@ -12,4 +12,5 @@ import lombok.Setter;
 public class EstimateDto {
 	private Estimate estimate;
 	private int reviewCnt;
+	private int revNo;
 }
