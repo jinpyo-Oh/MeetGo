@@ -74,6 +74,15 @@ public interface MemberService {
     
     // 내 리뷰 리스트 조회 (select)
     ArrayList<ReviewDto> myReviewList(PageInfo pi, int userNo);
+
+    // 내 리뷰 상세 조회 (select)
+    ReviewDto myReviewDetail(int revNo);
+    
+    // 내 리뷰 상세 이미지 조회
+    ArrayList<ReviewImg> myReviewDetailImg(int revNo);
+    
+    // 내 리뷰 삭제
+    int deleteReview(int revNo);
 }
 
 

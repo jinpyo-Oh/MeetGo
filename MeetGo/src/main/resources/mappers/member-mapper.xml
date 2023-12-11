@@ -36,6 +36,12 @@
 		<result column="USER_NO" property="userNo"/>
 	</resultMap>
 	
+	<resultMap id="reviewImgResultSet" type="reviewImg">
+		<result column="IMG_NO" property="imgNo"/>
+		<result column="REV_IMG_URL" property="revImgUrl"/>
+		<result column="REV_NO" property="revNo"/>
+	</resultMap>
+	
 	<!-- 로그인용 쿼리문 -->
 	<select id="loginMember" parameterType="member" 
 							 resultMap="memberResultSet">
@@ -259,6 +265,40 @@
 		   AND USER_NO = #{userNo}
 		 ORDER BY REV_NO DESC
 	</select>
+	
+	<select id="myReviewDetail" parameterType="_int" resultType="reviewDto">
+		SELECT REV_NO AS "review.revNo"
+		     , REV_CONTENT AS "review.revContent"
+		     , REV_POINT AS "review.revPoint"
+		     , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
+		     , REV_STATUS AS "review.revStatus"
+		     , EST_NO AS "review.estNo"
+		     , USER_NO AS "review.userNo"
+		     , GOSU_NO AS "review.gosuNo"
+		     , (SELECT USER_NAME
+		          FROM MEMBER
+		         WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
+		     , (SELECT USER_NAME
+		          FROM MEMBER
+		         WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
+		     , (SELECT EST_TITLE
+		          FROM ESTIMATE
+		         WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
+		  FROM REVIEW R
+		 WHERE R.REV_NO = #{revNo}
+	</select>
+	
+	<select id="myReviewDetailImg" parameterType="_int" resultMap="reviewImgResultSet">
+		SELECT *
+		  FROM REVIEW_IMG
+		 WHERE REV_NO = #{revNo}
+	</select>
+	
+	<update id="deleteReview" parameterType="_int">
+		UPDATE REVIEW
+		   SET REV_STATUS = '2'
+		 WHERE REV_NO = #{revNo}
+	</update> 
 	
 </mapper>
 

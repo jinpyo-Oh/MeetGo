@@ -452,6 +452,48 @@ public class MemberController {
 		return mv;
 	}
 	
+	@RequestMapping("reviewDetail.me")
+	public ModelAndView myReviewDetail(String rno, ModelAndView mv) {
+		
+		int revNo = 0;
+		if(!rno.isEmpty()) {
+			revNo = Integer.parseInt(rno);
+		}
+		
+		ReviewDto list = memberService.myReviewDetail(revNo);
+		ArrayList<ReviewImg> imgList = memberService.myReviewDetailImg(revNo);
+		
+//		System.out.println(list);
+//		System.out.println(imgList);
+		
+		if(!imgList.isEmpty()) {
+			
+			mv.addObject("list", list).addObject("imgList", imgList)
+			.setViewName("estimate/reviewDetail");
+		} else {
+			
+			mv.addObject("list", list).setViewName("estimate/reviewDetail");
+		}
+		
+		return mv;
+	}
+	
+	@RequestMapping("deleteReview.me")
+	public String deleteReview(String rno, HttpSession session) {
+		
+		// System.out.println(rno);
+		int revNo = Integer.parseInt(rno);
+		
+		int result = memberService.deleteReview(revNo); 
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "리뷰가 성공적으로 삭제되었습니다.");
+			return "redirect:/myReview.me";
+		} else {
+			session.setAttribute("alertMsg", "리뷰 삭제에 실패하였습니다. 다시 시도해보세요.");
+			return "redirect:/myReview.me";
+		}
+	}
 }
 
 

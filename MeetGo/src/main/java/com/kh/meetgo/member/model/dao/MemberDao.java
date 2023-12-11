@@ -131,4 +131,16 @@ public class MemberDao {
     	
     	return (ArrayList)sqlSession.selectList("memberMapper.myReviewList", userNo, rowBounds);
 	}
+
+	public ReviewDto myReviewDetail(SqlSessionTemplate sqlSession, int revNo) {
+		return (ReviewDto)sqlSession.selectOne("memberMapper.myReviewDetail", revNo);
+	}
+
+	public ArrayList<ReviewImg> myReviewDetailImg(SqlSessionTemplate sqlSession, int revNo) {
+		return (ArrayList)sqlSession.selectList("memberMapper.myReviewDetailImg", revNo);
+	}
+
+	public int deleteReview(SqlSessionTemplate sqlSession, int revNo) {
+		return sqlSession.update("memberMapper.deleteReview", revNo);
+	}
 }

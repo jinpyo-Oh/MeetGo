@@ -44,6 +44,10 @@
         height: 30px;
         color: black;
     }
+    #content{
+    	background-color: white;
+    	border: 0;
+    }
 </style>
 
 </head>
