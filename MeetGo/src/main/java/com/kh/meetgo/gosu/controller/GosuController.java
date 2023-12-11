@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.service.GosuServiceImpl;
 import com.kh.meetgo.gosu.model.vo.GosuImg;
+import com.kh.meetgo.gosu.model.vo.Pofol;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -28,6 +31,9 @@ public class GosuController {
     
     @Autowired
     private GosuServiceImpl gosuService;
+    
+    @Autowired
+	private BoardService boardService;
     
     // 고수 등록페이지로 이동
     @RequestMapping("gosuEnrollForm.go")
@@ -155,14 +161,16 @@ public class GosuController {
     	
     	ArrayList<GosuOpt> list = gosuService.gosuDetail(gosuNo);
     	ArrayList<GosuImg> imageList = gosuService.getGosuImg(gosuNo);
+    	ArrayList<PofolOpt> pofolList = gosuService.showGosuPofol(gosuNo);
 
     	// gno의 고수정보와 고수 이미지 리턴
     	mv.addObject("list", list)
-    	.addObject("imageList", imageList)
+    	.addObject("imageList", imageList).addObject("pofolList", pofolList)
     	.setViewName("gosuSearch/serviceDetail");
     	
     	return mv;
     }
+    
 
     
 }

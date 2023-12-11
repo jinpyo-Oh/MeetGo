@@ -296,7 +296,6 @@ public class BoardController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		
 	}
 	
@@ -314,7 +313,7 @@ public class BoardController {
 
 		mv.addObject("list", list)
 		.addObject("imgList", imgList)
-		.setViewName("board/portfolio/pofolDetail");;
+		.setViewName("board/portfolio/pofolDetail");
 		
 		return mv;
 	}

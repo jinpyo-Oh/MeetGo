@@ -186,6 +186,7 @@
 		)
 	</select>	
 	
+	<!-- 고수이미지 불러오기 -->
 	<select id="getGosuImg" parameterType="_int" resultType="gosuImg">
 		SELECT GOSU_IMG_NO AS "gosuImgNo",
 			   GOSU_IMG_URL AS "gosuImgUrl",
@@ -195,6 +196,21 @@
 		 WHERE GOSU_NO = #{gosuNo}
 		   AND STATUS = 1
 	</select>
+	
+	<select id="showGosuPofol" parameterType="_int" resultType="pofolOpt">
+		SELECT P.POFOL_NO AS "pofol.pofolNo"
+			 , P.POFOL_TITLE AS "pofol.pofolTitle"
+			 , PI.POFOL_IMG_URL AS "firstImg"
+		  FROM POFOL P 
+		  LEFT JOIN (SELECT *
+		FROM POFOL_IMG
+		WHERE (POFOL_NO, POFOL_IMG_NO) IN (SELECT POFOL_NO, MIN(POFOL_IMG_NO)
+		FROM POFOL_IMG
+		GROUP BY POFOL_NO)
+		) PI ON P.POFOL_NO = PI.POFOL_NO
+		WHERE P.GOSU_NO = #{gosuNo}
+	</select>
+
 	
 	<insert id="insertGosu" parameterType="gosu">
 		INSERT INTO GOSU(GOSU_NO

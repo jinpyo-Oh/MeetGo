@@ -396,19 +396,14 @@
 		
 		<br>
 		
-		<div style="display: flex; width: 600px;">
+		<div style="display: flex; width:600px;">
+		
+		<c:forEach var="item" items="${ requestScope.pofolList }">
 			<div align="center" style="margin-left: 5px; margin-right: 5px;">
-				<img src="" width="220px" height="150px">
-				<p>포트폴리오 게시글제목</p>
+				<img src="${ item.firstImg }" style="width: 220px; height: 150px; object-fit: cover;">
+				<p>${ item.pofol.pofolTitle }</p>
 			</div>
-			<div align="center" style="margin-left: 5px; margin-right: 5px;">
-				<img src="" width="220px" height="150px">
-				<p>포트폴리오 게시글제목</p>
-			</div>
-			<div align="center" style="margin-left: 5px; margin-right: 5px;">
-				<img src="" width="220px" height="150px">
-				<p>포트폴리오 게시글제목</p>
-			</div>
+		</c:forEach>			
 		</div>
 	
 	</div>
@@ -451,6 +446,7 @@
             $("#firstTb").hide();
             $("#secondTb").hide();
             $("#thirdTb").show();
+
         });
 
     });

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 
@@ -55,6 +56,11 @@ public class GosuDao {
 	public ArrayList<GosuImg> getGosuImg(SqlSessionTemplate sqlSession, int gosuNo) {
 		return (ArrayList)sqlSession.selectList("gosuMapper.getGosuImg", gosuNo);
 	}
+	
+	// 고수찾기 상세 - 포트폴리오 정보 불러오기
+	public ArrayList<PofolOpt> showGosuPofol(SqlSessionTemplate sqlSession, int gosuNo) {
+		return (ArrayList)sqlSession.selectList("gosuMapper.showGosuPofol", gosuNo);
+	}
 
 	// 고수 등록용 메소드
 	public int insertGosu(SqlSessionTemplate sqlSession, Gosu gosu) {
@@ -74,7 +80,7 @@ public class GosuDao {
 	
 	// 고수로 상태변경용 메소드
 	public int changeStatus(SqlSessionTemplate sqlSession, int userNo) {
-		
 		return sqlSession.update("gosuMapper.changeStatus", userNo);
 	}
+	
 }

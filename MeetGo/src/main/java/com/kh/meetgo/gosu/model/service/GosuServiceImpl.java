@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dao.GosuDao;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
+import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 
@@ -60,13 +61,14 @@ public class GosuServiceImpl implements GosuService {
 	// 고수로 상태변경용 메소드
 	@Override
 	public int changeStatus(int userNo) {
-		
 		return gosuDao.changeStatus(sqlSession, userNo);
 	}
 
-
-
-
+	// 고수찾기 상세 - 포트폴리오 정보 불러오기
+	@Override
+	public ArrayList<PofolOpt> showGosuPofol(int gosuNo){
+		return gosuDao.showGosuPofol(sqlSession, gosuNo);
+	}
 
 	
 }

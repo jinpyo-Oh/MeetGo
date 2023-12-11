@@ -75,5 +75,6 @@ public interface BoardService {
 		int increasePofolCount(int pofolNo);
 		ArrayList<PofolOpt> pofolDetail(int pofolNo);
 		ArrayList<PofolImg> pofolDetailImg(int pofolNo);
+
 		
 }
