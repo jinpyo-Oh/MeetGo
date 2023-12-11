@@ -31,14 +31,15 @@ public class GosuDao {
 	}
 	// 고수 회원 조회결과
 	public ArrayList<GosuOpt> selectOptionalGosu(SqlSessionTemplate sqlSession, String region
-			  , String regionSub, int categoryBigNo, int categorySmallNo, PageInfo pi){
+			  , String regionSub, int categoryBigNo, int categorySmallNo, String filter, PageInfo pi){
 		
 		Map<String, Object> params = new HashMap<>();
 	    params.put("region", region);
 	    params.put("regionSub", regionSub);
 	    params.put("categoryBigNo", categoryBigNo);
 	    params.put("categorySmallNo", categorySmallNo);
-		
+		params.put("filter", filter);
+	    
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
 		

@@ -1,6 +1,8 @@
 package com.kh.meetgo.gosu.model.dto;
 
 
+import java.sql.Date;
+
 import com.kh.meetgo.member.model.vo.Gosu;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +23,11 @@ public class GosuOpt {
 	private String userNickname;
 	private int categorySmallNo;
 	private String categorySmallName;
+    private int estimateCount;
+    private Date createDate;
+    private int reviewCount;
+    private int totalRevPoint;
+    private int avgRevPoint;
 
 	// 나중에 별점 추가
 }

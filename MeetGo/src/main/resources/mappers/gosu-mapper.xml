@@ -3,156 +3,222 @@
 <mapper namespace="gosuMapper">
 
 	<!-- 총 고수회원 수 -->
-	<select id="selectOptionalGosuCount" parameterType="hashMap" resultType="_int">
-		<choose>
-			<when test="(region == '전체') and (categoryBigNo == 0)"> <!-- 전국 | 전체 서비스 -->
+	<select id="selectOptionalGosuCount" parameterType="hashMap" resultType="_int" >       	
                 SELECT COUNT(*)
-  		  		  FROM GOSU G
-                  LEFT JOIN MEMBER M ON M.USER_NO = G.USER_NO
-                  WHERE M.ENROLL_STATUS = 2
-			</when>
-			<when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
-				SELECT COUNT(*)
-				FROM (
-				    SELECT DISTINCT G.GOSU_NO
-				    FROM GOSU G
-				    LEFT JOIN (
-				        SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
-				        FROM "GOSU-SERVICE"
-				        GROUP BY GOSU_NO
-				    ) S ON S.GOSU_NO = G.GOSU_NO
-				    LEFT JOIN (
-                        SELECT USER_NO, ENROLL_STATUS
-                        FROM MEMBER
-                    ) M ON M.USER_NO = G.USER_NO
-				WHERE S.CATEGORY_SMALL_NO = #{categorySmallNo}
-				  AND M.ENROLL_STATUS = 2
-				)
-			</when>
-			<otherwise>
-				SELECT COUNT(*)
-				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
-				        G.INTRODUCTION AS "gosu.introduction",
-				        G.REGION AS "gosu.region",
-				        G.CAREER AS "gosu.career",
-				        M.USER_PROFILE AS "userProfile",
-				        M.USER_NICKNAME AS "userNickname",
-				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
-		 		  FROM GOSU G
-				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
-				   FROM MEMBER
-				) M ON M.USER_NO = G.GOSU_NO
-				  LEFT JOIN (
-				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
-			        FROM "GOSU-SERVICE"
-			        GROUP BY GOSU_NO
-				) S ON S.GOSU_NO = G.GOSU_NO
-				<choose>
-					<when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
-						WHERE G.REGION LIKE #{region} || '%'
-					</when>
-					<when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
-						WHERE G.REGION = #{region}
-					</when>
-					<when test="(regionSub == '전체') and (categoryBigNo != 0)"> <!-- 시/도 전체 | 특정 서비스 -->
-						WHERE G.REGION LIKE #{region} || '%'
-						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
-					</when>
-					<otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
-						WHERE G.REGION = #{region}
-						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
-					</otherwise>
-				</choose>
-				AND M.ENROLL_STATUS = 2
-						)
-			</otherwise>
+                FROM (
+                SELECT DISTINCT
+                    G.GOSU_NO AS "gosu.gosuNo",
+                    G.INTRODUCTION AS "gosu.introduction",
+                    G.EMPLOYEES AS "gosu.employees",
+                    G.EDUCATION AS "gosu.education",
+                    G.CAREER AS "gosu.career",
+                    G.ELABORATE AS "gosu.elaborate",
+                    G.REGION AS "gosu.region",
+                    G.MOVE_DISTANCE AS "gosu.moveDistance",
+                    G.AVAILABLE_TIME AS "gosu.availableTime",
+                    M.USER_PROFILE AS "userProfile",
+                    M.USER_NICKNAME AS "userNickname",
+                    M.CREATE_DATE AS "createDate",
+                    GS.CATEGORY_SMALL_NAME AS "categorySmallName",
+                    COALESCE(E.estimateCount, 0) AS "estimateCount",
+                    COALESCE(R.reviewCount, 0) AS "reviewCount",
+                    COALESCE(R.totalRevPoint, 0) AS "totalRevPoint",
+                    COALESCE(R.avgRevPoint, 0) AS "avgRevPoint"
+                FROM GOSU G
+                LEFT JOIN (
+                    SELECT USER_NO, USER_PROFILE, USER_NICKNAME, CREATE_DATE, ENROLL_STATUS
+                    FROM MEMBER
+                ) M ON M.USER_NO = G.GOSU_NO
+                LEFT JOIN (
+                    SELECT GOSU_NO, COUNT(*) AS estimateCount
+                    FROM ESTIMATE
+                    GROUP BY GOSU_NO
+                ) E ON E.GOSU_NO = G.GOSU_NO
+                LEFT JOIN (
+                    SELECT
+                    GOSU_NO,
+                    COUNT(*) AS reviewCount,
+                    SUM(REV_POINT) AS totalRevPoint,
+                    AVG(REV_POINT) AS avgRevPoint
+                    FROM REVIEW
+                    GROUP BY GOSU_NO
+                ) R ON R.GOSU_NO = G.GOSU_NO
+            <choose>
+            <when test="(categoryBigNo == 0)"> <!-- 전체서비스 -->
+                LEFT JOIN (
+                    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+                    FROM "GOSU-SERVICE"
+                    GROUP BY GOSU_NO
+                ) S ON S.GOSU_NO = G.GOSU_NO
+                LEFT JOIN SERVICE_CATEGORY_SMALL GS ON GS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO 
+                <trim prefix="WHERE" prefixOverrides="AND | OR">
+                    <choose>
+                        <when test="(region == '전체') and (categoryBigNo == 0)"> <!-- 전국 | 전체 서비스 -->
+                        </when>
+                        <when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
+                            AND G.REGION LIKE #{region} || '%'
+                        </when>
+                        <when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
+                            AND G.REGION = #{region}
+                        </when>
+                    </choose>
+                </trim>
+            </when>
+            <otherwise> <!-- 특정서비스 -->
+                LEFT JOIN (
+                    SELECT GOSU_NO, CATEGORY_SMALL_NO
+                    FROM "GOSU-SERVICE"
+                ) S ON S.GOSU_NO = G.GOSU_NO
+                LEFT JOIN SERVICE_CATEGORY_SMALL GS ON GS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO
+                <trim prefix="WHERE" prefixOverrides="AND | OR">
+                    <choose>
+                        <when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
+                            AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+                        </when>
+                        <when test="(regionSub == '전체') and (categoryBigNo != 0)"> <!-- 시/도 전체 | 특정 서비스 -->
+                            AND G.REGION LIKE #{region} || '%'
+                            AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+                        </when>
+                        <otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
+                            AND G.REGION = #{region}
+                            AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+                        </otherwise>  
+                    </choose>
+                </trim>
+            </otherwise>	        
 		</choose>
+            GROUP BY
+            G.GOSU_NO,
+            G.INTRODUCTION,
+            G.EMPLOYEES,
+            G.EDUCATION,
+            G.CAREER,
+            G.ELABORATE,
+            G.REGION,
+            G.MOVE_DISTANCE,
+            G.AVAILABLE_TIME,
+            M.USER_PROFILE,
+            M.USER_NICKNAME,
+            M.ENROLL_STATUS,
+            M.CREATE_DATE,
+            S.CATEGORY_SMALL_NO,
+            GS.CATEGORY_SMALL_NAME,
+            E.estimateCount,
+            R.reviewCount,
+            R.totalRevPoint,
+            R.avgRevPoint
+            HAVING M.ENROLL_STATUS = 2
+        ) 
 	</select>
 
 	<!-- 고수 회원 -->
-	<select id="selectOptionalGosu" parameterType="hashMap" resultType="gosuOpt" >
-		<choose>
-			<when test="(region == '전체') and (categoryBigNo == 0)"> <!-- 전국 | 전체 서비스 -->
-				SELECT *
-				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
-				        G.INTRODUCTION AS "gosu.introduction",
-				        G.REGION AS "gosu.region",
-				        G.CAREER AS "gosu.career",
-				        M.USER_PROFILE AS "userProfile",
-				        M.USER_NICKNAME AS "userNickname",
-				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
-		 		  FROM GOSU G
-				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
-				   FROM MEMBER
-				) M ON M.USER_NO = G.GOSU_NO
-				  LEFT JOIN (
-				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
-			        FROM "GOSU-SERVICE"
-			        GROUP BY GOSU_NO
-				) S ON S.GOSU_NO = G.GOSU_NO )
-			</when>
-			<when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
-				SELECT *
-				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
-				        G.INTRODUCTION AS "gosu.introduction",
-				        G.REGION AS "gosu.region",
-				        G.CAREER AS "gosu.career",
-				        M.USER_PROFILE AS "userProfile",
-				        M.USER_NICKNAME AS "userNickname",
-				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
-		 		  FROM GOSU G
-				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
-				   FROM MEMBER
-				) M ON M.USER_NO = G.GOSU_NO
-				  LEFT JOIN (
-				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
-			        FROM "GOSU-SERVICE"
-			        GROUP BY GOSU_NO
-				) S ON S.GOSU_NO = G.GOSU_NO
-				WHERE S.CATEGORY_SMALL_NO = #{categorySmallNo} )
-			</when>
-			<otherwise>
-				SELECT *
-				  FROM (SELECT DISTINCT G.GOSU_NO AS "gosu.gosuNo",
-				        G.INTRODUCTION AS "gosu.introduction",
-				        G.REGION AS "gosu.region",
-				        G.CAREER AS "gosu.career",
-				        M.USER_PROFILE AS "userProfile",
-				        M.USER_NICKNAME AS "userNickname",
-				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
-		 		  FROM GOSU G
-				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
-				   FROM MEMBER
-				) M ON M.USER_NO = G.GOSU_NO
-				  LEFT JOIN (
-				    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
-			        FROM "GOSU-SERVICE"
-			        GROUP BY GOSU_NO
-				) S ON S.GOSU_NO = G.GOSU_NO
-				<choose>
-					<when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
-						WHERE G.REGION LIKE #{region} || '%'
-					</when>
-					<when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
-						WHERE G.REGION = #{region}
-					</when>
-					<when test="(regionSub == '전체') and (categoryBigNo != 0)"> <!-- 시/도 전체 | 특정 서비스 -->
-						WHERE G.REGION LIKE #{region} || '%'
-						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
-					</when>
-					<otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
-						WHERE G.REGION = #{region}
-						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
-					</otherwise>
-				</choose>
-					AND M.ENROLL_STATUS = 2
-					 )	
-			</otherwise>
+	<select id="selectOptionalGosu" parameterType="hashMap" resultType="gosuOpt" >       	
+                SELECT *
+                FROM (
+                SELECT DISTINCT
+                    G.GOSU_NO AS "gosu.gosuNo",
+                    G.INTRODUCTION AS "gosu.introduction",
+                    G.EMPLOYEES AS "gosu.employees",
+                    G.EDUCATION AS "gosu.education",
+                    G.CAREER AS "gosu.career",
+                    G.ELABORATE AS "gosu.elaborate",
+                    G.REGION AS "gosu.region",
+                    G.MOVE_DISTANCE AS "gosu.moveDistance",
+                    G.AVAILABLE_TIME AS "gosu.availableTime",
+                    M.USER_PROFILE AS "userProfile",
+                    M.USER_NICKNAME AS "userNickname",
+                    M.CREATE_DATE AS "createDate",
+                    GS.CATEGORY_SMALL_NAME AS "categorySmallName",
+                    COALESCE(E.estimateCount, 0) AS "estimateCount",
+                    COALESCE(R.reviewCount, 0) AS "reviewCount",
+                    COALESCE(R.totalRevPoint, 0) AS "totalRevPoint",
+                    COALESCE(R.avgRevPoint, 0) AS "avgRevPoint"
+                FROM GOSU G
+                LEFT JOIN (
+                    SELECT USER_NO, USER_PROFILE, USER_NICKNAME, CREATE_DATE, ENROLL_STATUS
+                    FROM MEMBER
+                ) M ON M.USER_NO = G.GOSU_NO
+                LEFT JOIN (
+                    SELECT GOSU_NO, COUNT(*) AS estimateCount
+                    FROM ESTIMATE
+                    GROUP BY GOSU_NO
+                ) E ON E.GOSU_NO = G.GOSU_NO
+                LEFT JOIN (
+                    SELECT
+                    GOSU_NO,
+                    COUNT(*) AS reviewCount,
+                    SUM(REV_POINT) AS totalRevPoint,
+                    AVG(REV_POINT) AS avgRevPoint
+                    FROM REVIEW
+                    GROUP BY GOSU_NO
+                ) R ON R.GOSU_NO = G.GOSU_NO
+            <choose>
+            <when test="(categoryBigNo == 0)"> <!-- 전체서비스 -->
+                LEFT JOIN (
+                    SELECT GOSU_NO, MIN(CATEGORY_SMALL_NO) AS CATEGORY_SMALL_NO
+                    FROM "GOSU-SERVICE"
+                    GROUP BY GOSU_NO
+                ) S ON S.GOSU_NO = G.GOSU_NO
+                LEFT JOIN SERVICE_CATEGORY_SMALL GS ON GS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO 
+                <trim prefix="WHERE" prefixOverrides="AND | OR">
+                    <choose>
+                        <when test="(region == '전체') and (categoryBigNo == 0)"> <!-- 전국 | 전체 서비스 -->
+                        </when>
+                        <when test="(regionSub == '전체') and (categoryBigNo == 0)"> <!-- 시/도 전체 | 전체 서비스 -->
+                            AND G.REGION LIKE #{region} || '%'
+                        </when>
+                        <when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
+                            AND G.REGION = #{region}
+                        </when>
+                    </choose>
+                </trim>
+            </when>
+            <otherwise> <!-- 특정서비스 -->
+                LEFT JOIN (
+                    SELECT GOSU_NO, CATEGORY_SMALL_NO
+                    FROM "GOSU-SERVICE"
+                ) S ON S.GOSU_NO = G.GOSU_NO
+                LEFT JOIN SERVICE_CATEGORY_SMALL GS ON GS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO
+                <trim prefix="WHERE" prefixOverrides="AND | OR">
+                    <choose>
+                        <when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
+                            AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+                        </when>
+                        <when test="(regionSub == '전체') and (categoryBigNo != 0)"> <!-- 시/도 전체 | 특정 서비스 -->
+                            AND G.REGION LIKE #{region} || '%'
+                            AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+                        </when>
+                        <otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
+                            AND G.REGION = #{region}
+                            AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
+                        </otherwise>  
+                    </choose>
+                </trim>
+            </otherwise>	        
 		</choose>
+            GROUP BY
+            G.GOSU_NO,
+            G.INTRODUCTION,
+            G.EMPLOYEES,
+            G.EDUCATION,
+            G.CAREER,
+            G.ELABORATE,
+            G.REGION,
+            G.MOVE_DISTANCE,
+            G.AVAILABLE_TIME,
+            M.USER_PROFILE,
+            M.USER_NICKNAME,
+            M.ENROLL_STATUS,
+            M.CREATE_DATE,
+            S.CATEGORY_SMALL_NO,
+            GS.CATEGORY_SMALL_NAME,
+            E.estimateCount,
+            R.reviewCount,
+            R.totalRevPoint,
+            R.avgRevPoint
+            HAVING M.ENROLL_STATUS = 2
+        ) 
+        ORDER BY "${filter}" DESC
 	</select>
 	
 	<!-- 고수찾기 상세정보 조회 -->

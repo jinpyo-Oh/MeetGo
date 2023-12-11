@@ -14,7 +14,7 @@ public interface GosuService {
 	int selectOptionalGosuCount(String region, String regionSub, int categoryBigNo, int categorySmallNo);
 	
 	// 고수찾기
-	ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, PageInfo pi);
+	ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, String filter, PageInfo pi);
 
 	// 고수찾기 상세정보
 	ArrayList<GosuOpt> gosuDetail(int gosuNo);

@@ -29,8 +29,8 @@ public class GosuServiceImpl implements GosuService {
 	
 	// 고수찾기 조회결과
 	@Override
-	public ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, PageInfo pi) {
-		return gosuDao.selectOptionalGosu(sqlSession, region, regionSub, categoryBigNo, categorySmallNo, pi);
+	public ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, String filter, PageInfo pi) {
+		return gosuDao.selectOptionalGosu(sqlSession, region, regionSub, categoryBigNo, categorySmallNo, filter, pi);
 	}
 	
 	// 고수찾기 상세정보 조회

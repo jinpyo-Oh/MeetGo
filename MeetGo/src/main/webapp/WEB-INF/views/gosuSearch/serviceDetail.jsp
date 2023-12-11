@@ -273,15 +273,15 @@
 			<p><b>사진 및 상세설명</b></p>
 			
 			<div align="center"
-				 style="display:flex; margin: auto;">
+				 style="display:flex; flex-wrap: wrap; margin: auto;">
 				<c:choose>
 					<c:when test="${ not empty requestScope.imageList }">
 						<c:forEach var="p" begin="1"
 								   end="${ requestScope.imageList.size() }"
 								   step="1">
 							<img class="gosuImgThumb" src="${ requestScope.imageList[p-1].gosuImgUrl }"
-								 width="200px" height="150px"
-								 style="margin-right:5px; margin-left:5px;" data-toggle="modal" data-target="#myModal" >
+								 width="320px" height="250px" 
+								 style=" object-fit: cover; margin-right:10px; margin-left:10px; margin-bottom: 20px" data-toggle="modal" data-target="#myModal" >
 						</c:forEach>
 					</c:when>
 					<c:otherwise>

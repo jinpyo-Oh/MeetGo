@@ -110,9 +110,12 @@
     
     #career{ 
 	    border:0px;
+	    padding:0;
 	    border-radius:5px;
 	    font-weight:700;
 	    color : white;
+	    width: 150px;
+	    height:35px;
 	    background-color : rgb(169, 20, 20);
     }
     
@@ -227,10 +230,10 @@
         	</div>
         	<div align="right">
 	            <select id="filter" class="form-control">
-	                <option value="review" selected>리뷰많은순</option>
-	                <option value="rate">평점높은순</option>
-	                <option value="hire">고용순</option>
-	                <option value="recent">최신순</option>
+	                <option value="reviewCount" selected>리뷰많은순</option>
+	                <option value="avgRevPoint">평점높은순</option>
+	                <option value="estimateCount">고용순</option>
+	                <option value="createDate">최신순</option>
 	            </select>
             </div>
         </div>
@@ -357,6 +360,11 @@
 	    	$("#currentPage").val(1);
 	    	optionSelect();
 	    });
+	    
+	    $("#filter").on("change", function(){
+	    	$("#currentPage").val(1);
+			optionSelect();
+		});
 		
 	    updateSubRegionOptions();
 	    updateSubCategoryUpdate();
@@ -547,6 +555,7 @@
 		$categoryMain = $("#category-main").val();
 		$categorySub = $("#category-sub").val();
 		$currentPage = $("#currentPage").val();
+		$filter = $("#filter").val();
 		
 		// 페이지 이동 시 초기화
 		$("#result-area").empty();
@@ -560,7 +569,8 @@
 					 regionSub : $regionSub,
 					 categoryMain : $categoryMain,
 					 categorySub : $categorySub,
-					 currentPage : $currentPage
+					 currentPage : $currentPage,
+					 filter : $filter
 			},
 			success : function(result) {
 				
@@ -599,7 +609,7 @@
 					               + '<td style="text-align: center;">'
 					               + '<br>별점</td>'
 					               + '<td colspan="2">'
-					               + '<br>리뷰<b>00</b>건'
+					               + '<br>리뷰<b style="font-size:18px;">&nbsp;'+ list[i].reviewCount + '&nbsp;</b>건'
 					               + '</td>'
 					               + '</tr>'
 					               + '<tr>'

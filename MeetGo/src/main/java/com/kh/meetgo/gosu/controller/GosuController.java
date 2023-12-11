@@ -111,6 +111,7 @@ public class GosuController {
     							   , String regionSub
     							   , @RequestParam(value = "categoryMain", defaultValue = "0") String categoryMain
     							   , String categorySub
+    							   , String filter
     							   , @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
     	
        int listCount = 0; // 전체 리스트 초기화
@@ -122,7 +123,6 @@ public class GosuController {
        int boardLimit = 5; // 버튼 5개, 리스트 출력 5개 제한
        
        // 고수의 지역(시/도 - 전체 시 or 전국)
-       
        if(regionSub.equals("전체") || regionMain.equals("전체")) {
     	   region = regionMain;
        } else {
@@ -142,7 +142,8 @@ public class GosuController {
        pi = Pagination.getPageInfo(listCount, 
             currentPage, pageLimit, boardLimit);
        
-       list = gosuService.selectOptionalGosu(region, regionSub, categoryBigNo, categorySmallNo, pi);
+       list = gosuService.selectOptionalGosu(region, regionSub, categoryBigNo, categorySmallNo, filter, pi);
+       
        Map<String, Object> map = new HashMap<>();
 
        map.put("list", list);
