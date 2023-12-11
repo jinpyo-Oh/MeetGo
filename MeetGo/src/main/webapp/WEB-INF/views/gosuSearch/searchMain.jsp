@@ -229,7 +229,7 @@
 			<span for="4-stars" class="star"><i class="bi bi-star-fill"></i></span>
 			<span for="3-stars" class="star"><i class="bi bi-star-fill"></i></span>
 			<span for="2-stars" class="star"><i class="bi bi-star-fill"></i></span>
-			<span for="1-stars" class="star"><i class="bi bi-star-fill"></i></span>
+			<span for="1-stars" class="star"><i class="bi bi-star-half"></i></span>
 		</div>
         
         <div style="width: 50%; margin:auto;">
