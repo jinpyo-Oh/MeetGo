@@ -62,7 +62,7 @@
             
 
         }
-        .label {
+        .loginLabel {
             font-size: .875rem;
             line-height: 1.43;
             letter-spacing: -.0125rem;
