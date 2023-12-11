@@ -161,6 +161,10 @@
             color: rgb(148, 219, 42);
         }
         .rate{ margin-bottom: 10px; }
+        .pofolThumbnail:hover {
+        	cursor:pointer;
+        	transform: scale(1.05);
+        }
 	
 	</style>
 </head>
@@ -396,11 +400,11 @@
 		
 		<br>
 		
-		<div style="display: flex; width:600px;">
+		<div style="display: flex; flex-wrap: wrap; width:800px;">
 		
 		<c:forEach var="item" items="${ requestScope.pofolList }">
 			<div align="center" style="margin-left: 5px; margin-right: 5px;">
-				<img src="${ item.firstImg }" style="width: 220px; height: 150px; object-fit: cover;">
+				<img class="pofolThumbnail" src="${ item.firstImg }" onclick="linkPofol(${ item.pofol.pofolNo });" style="width: 220px; height: 150px; object-fit: cover;">
 				<p>${ item.pofol.pofolTitle }</p>
 			</div>
 		</c:forEach>			
@@ -412,6 +416,10 @@
 
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
+	function linkPofol(pno) {
+		location.href = "pofolDetail.po?pno=" + pno;
+	}
+
     $(function(){
 
         let $first = $("#tableMenu").find(".tableMenu").eq(0);
