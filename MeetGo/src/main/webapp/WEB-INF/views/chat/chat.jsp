@@ -76,6 +76,13 @@
             cursor: pointer;
 			color: whitesmoke;
 		}
+		.remove-chat-style {
+			background-color: transparent;
+			padding: 0 !important;
+            margin-top: auto!important;
+			margin-left: 0!important;
+			margin-right: 0!important;
+		}
 	</style>
 </head>
 <body style="position: relative; height: 100%">
@@ -221,32 +228,6 @@
             }
 		</script>
 		<div class="left-box-chatList">
-		
-			<c:forEach var="b" items="${requestScope.chatroomList}">
-				<div class="chat-card">
-					<input type="hidden" class="chatroomNo" value="${b.chatroom.chatroomNo}">
-					<div class="chat-card-img">
-						<img src="${b.userProfile}">
-					</div>
-					<div class="chat-card-info">
-						<p>${b.userName}</p>
-						<c:choose>
-							<c:when test="${b.chat.type == 'M'}">
-								<p>${b.chat.content}</p>
-							</c:when>
-							<c:when test="${b.chat.type == 'P'}">
-								<p>사진</p>
-							</c:when>
-							<c:when test="${b.chat.type == 'E'}">
-								<p>계약서</p>
-							</c:when>
-							<c:otherwise>
-								<p></p>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-			</c:forEach>
 		</div>
 		
 		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -429,23 +410,40 @@
                 let chat = "";
                 let est;
                 let createAt = data.createAt;
+                console.log(data);
+
                 if (data.type == 'M') {
-                    chat = '<div class="chat-bubble">'
-								+ '<p class="'+lr+'">' + data.content +'</p>'
-								+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
-							+ '</div>';
+                    if(lr == "receiver"){
+                        chat = '<div class="chat-bubble" style="justify-content: flex-end;" >'
+                            + '<p class="chat-createAt">'+data.createAt+'</p>'
+                            + '<p class="'+lr+'">' + data.content +'</p>'
+                            + '</div>';
+                    } else {
+                        chat = '<div class="chat-bubble" style="">'
+                            + '<p class="'+lr+'">' + data.content +'</p>'
+                            + '<p class="chat-createAt">'+data.createAt+'</p>'
+                            + '</div>';
+					}
                     $('.chat-area').append(chat);
                     scrollToBottom();
                 } else if (data.type == 'P') {
-                    chat = '<div class="chat-bubble">'
-							+ '<img class="'+lr+'" src="'+data.content+'">'
-							+ '<p class="chat-createAt p-'+lr+'">'+data.createAt+'</p>'
-                        + '</div>';
+                    if(lr == "receiver") {
+                        chat = '<div class="chat-bubble" style="justify-content: flex-end;">'
+                            + '<p class="chat-createAt">'+data.createAt+'</p>'
+                            + '<img class="'+lr+'" src="'+data.content+'">'
+                            + '</div>';
+                    } else {
+                        chat = '<div class="chat-bubble">'
+                            + '<img class="'+lr+'" src="'+data.content+'">'
+                            + '<p class="chat-createAt">'+data.createAt+'</p>'
+                            + '</div>';
+					}
                     $('.chat-area').append(chat);
                     scrollToBottom();
                 } else if (data.type == 'E') {
                     $.ajax({
 						url : "searchEstimate",
+                        async:false,
 						data : {
                             estimateNo : data.content
 						},
@@ -464,8 +462,14 @@
             }
             function insertEstChat(data, lr,createAt){
                 let estStatus = data.status;
-                let chat = '<div class="chat-bubble">'
-					+ '<div class="chat-estimate '+lr+'">'
+                let chat = '';
+                if(lr == "receiver") {
+                  	chat += '<div class="chat-bubble">' +
+						'<p class="chat-createAt">' + createAt +'</p>'
+                } else {
+                    chat += '<div class="chat-bubble">';
+                }
+				chat += '<div class="chat-estimate '+lr+'">'
 					+ '<h5 class="est-title">계약서</h5>'
 					+ '<p class="est-content">'
 						+ '고객님 안녕하세요. 요청서에 따른 예상금액입니다.'
@@ -508,9 +512,11 @@
                         break;
 				}
                 chat += '</div>'
-                    + '</div>'
-                    + '<p class="chat-createAt p-' + lr + '">' + createAt +'</p>'
                     + '</div>';
+                if(lr == "sender") {
+				chat +='<p class="chat-createAt">' + createAt +'</p>';
+                }
+                chat += '</div>';
                 $('.chat-area').append(chat);
                 scrollToBottom();
 			}
@@ -561,7 +567,7 @@
 						</div>
 						<div class="input-button">
 							<button id="send-message-btn" onclick="sendMessage('M')" class="meetgo-btn">전송</button>
-							<button class="meetgo-btn">채팅방 나가기</button>
+							<button class="meetgo-btn" onclick="deleteChat()">채팅방 나가기</button>
 						</div>
 					</div>
 				</div>
@@ -590,6 +596,13 @@
 					function previewClose(){
 						$('.preview-img').remove();
 						$('#send-message-btn').attr('onclick', "sendMessage('M')");
+					}
+                    function deleteChat(){
+                        if(confirm("채팅방을 나가시겠습니까? 기존 대화 내역은 삭제됩니다.")) {
+                            alert("나가기");
+						} else {
+                            alert("나가기 취소");
+						}
 					}
 				</script>
 				
@@ -624,19 +637,23 @@
 					// * 1 메시지 전송
 					function sendMessage(type){
 						let jsonData;
-						selectChatList('${requestScope.type}');
 						if(type == 'M'){ // 메시지일 경우
+       
 							let message = $('#chat-textarea').val();
-							const data = {
-								"chatroomNo" : chatroomNo,
-								"sender" : ${sessionScope.loginUser.userNo},
-								"type" : 'M',
-								"content"   : message,
-								"createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
-							};
-							jsonData = JSON.stringify(data);
-							$('#chat-textarea').val('');
-							websocket.send(jsonData);
+                            if(message.replaceAll(" ", "").length == 0){
+                                alert("메시지를 입력해 주세요");
+							} else {
+                                const data = {
+                                    "chatroomNo" : chatroomNo,
+                                    "sender" : ${sessionScope.loginUser.userNo},
+                                    "type" : 'M',
+                                    "content"   : message,
+                                    "createAt" : "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+                                };
+                                jsonData = JSON.stringify(data);
+                                $('#chat-textarea').val('');
+                                websocket.send(jsonData);
+							}
 						} else if (type == 'P') { // 사진일 경우
 							console.log("채팅 메세지 전송");
 							var form = $('#chat-file')[0].files[0];
@@ -664,6 +681,7 @@
 									};
 									jsonData = JSON.stringify(data);
 									websocket.send(jsonData);
+         
 								},
 								error: function (e) {
 									alert("실패");
@@ -685,6 +703,11 @@
 							jsonData = JSON.stringify(data);
 							websocket.send(jsonData);
 						}
+
+                        setTimeout(function (){
+                            selectChatList('${requestScope.type}')
+                        	}, 1000);
+                        
 					}
 	
 					// * 2 메세지 수신
@@ -697,6 +720,9 @@
 							"content"   : obj.content,
 							"createAt" : obj.createAt
 						}
+                        setTimeout(function (){
+                            selectChatList('${requestScope.type}')
+                        }, 1000);
 						CheckLR(data);
 					}
 					function changeEstStatus(changeEstNo, changeStatus){

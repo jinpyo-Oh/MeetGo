@@ -61,13 +61,13 @@
     }
     .global-navigation-bar {
         width: 1200px;
-        height: 72px;
+        height: 82px;
+		padding-top: 10px;
         position : fixed;
         display: flex;
         align-items: center;
         background-color: white;
         z-index: 50;
-		margin-top: 10px;
         left: 50%;
         transform: translate(-50%, 0);
         top : 0;
@@ -316,7 +316,7 @@
         <div class="global-navigation-bar">
             <div class="left-section">
                 <div class="logo" onclick="location.href='<%=request.getContextPath()%>'">
-                    <a style="height: 100%;"><img src="<%=request.getContextPath()%>/resources/images/common/meetgo_logo.png" alt=""></a>
+                    <a style="height: 100%;"><img src="<%=request.getContextPath()%>/resources/images/common/mainPage/meetgo_logo.png" alt=""></a>
                 </div>
                 <nav class="nav-list">
                     <li><a href="noticeList.bo">공지사항</a></li>

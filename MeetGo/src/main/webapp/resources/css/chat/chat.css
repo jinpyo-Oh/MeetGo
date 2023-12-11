@@ -211,7 +211,7 @@ html {
 
 .chat-bubble {
     width: 100%;
-    display: inline-block;
+    display: flex;
     align-items: flex-end;
     color: black;
     position: relative;
@@ -309,17 +309,15 @@ html {
     align-items: center;
 }
 .chat-createAt {
-    position: absolute;
-    bottom: 0;
+    /*position: absolute;*/
+    /*bottom: 0;*/
     padding: 0 !important;
-    margin:60px 0 0 0 !important;
+    margin: 0 0 20px 0 !important;
     font-size: 0.9em;
 }
 .p-receiver {
-    right: 20px;
 }
 .p-sender {
-    left: 20px;
 }
 .info-img-area, .info-pofol, .review-img-area {
     margin: auto;

@@ -152,7 +152,7 @@
 						<img src="${ r.revImgUrl }" id="titleImg">    
 					</c:when>
 					<c:otherwise>
-						<img src="<%=request.getContextPath()%>/resources/images/common/meetgo_logo.png"/>
+						<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/meetgo_logo.png"/>
 					</c:otherwise>
 					</c:choose>
 				</div> 
