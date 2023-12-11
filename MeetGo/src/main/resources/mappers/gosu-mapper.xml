@@ -9,7 +9,7 @@
                 SELECT COUNT(*)
   		  		  FROM GOSU G
                   LEFT JOIN MEMBER M ON M.USER_NO = G.USER_NO
-                  WHERE M.USER_STATUS = 2
+                  WHERE M.ENROLL_STATUS = 2
 			</when>
 			<when test="(region == '전체') and (categoryBigNo != 0)"> <!-- 전국 | 특정서비스 -->
 				SELECT COUNT(*)
@@ -22,11 +22,11 @@
 				        GROUP BY GOSU_NO
 				    ) S ON S.GOSU_NO = G.GOSU_NO
 				    LEFT JOIN (
-                        SELECT USER_NO, USER_STATUS
+                        SELECT USER_NO, ENROLL_STATUS
                         FROM MEMBER
                     ) M ON M.USER_NO = G.USER_NO
 				WHERE S.CATEGORY_SMALL_NO = #{categorySmallNo}
-				  AND M.USER_STATUS = 2
+				  AND M.ENROLL_STATUS = 2
 				)
 			</when>
 			<otherwise>
@@ -40,7 +40,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -64,7 +64,7 @@
 						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
 					</otherwise>
 				</choose>
-				AND M.USER_STATUS = 2
+				AND M.ENROLL_STATUS = 2
 						)
 			</otherwise>
 		</choose>
@@ -84,7 +84,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -104,7 +104,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -125,7 +125,7 @@
 				        S.CATEGORY_SMALL_NO AS "categorySmallNo"
 		 		  FROM GOSU G
 				  LEFT JOIN (
-				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, USER_STATUS
+				   SELECT USER_NO, USER_PROFILE, USER_NICKNAME, ENROLL_STATUS
 				   FROM MEMBER
 				) M ON M.USER_NO = G.GOSU_NO
 				  LEFT JOIN (
@@ -149,7 +149,7 @@
 						AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
 					</otherwise>
 				</choose>
-					AND M.USER_STATUS = 2
+					AND M.ENROLL_STATUS = 2
 					 )	
 			</otherwise>
 		</choose>

@@ -263,7 +263,6 @@
 				<p><b>경력 사항</b></p>
 				<p>총 경력 : <b style="color: #2A8FF7;">${ requestScope.list[0].gosu.career }</b></p>
 				<br>
-				<p>세부경력내용이들어갈자리	</p>
 				<br><br>
 				<p><b>최종학력</b></p>
 				<p>${ requestScope.list[0].gosu.education }</p>
