@@ -167,6 +167,7 @@ public class GosuController {
     	// gno의 고수정보와 고수 이미지 리턴
     	mv.addObject("list", list)
     	.addObject("imageList", imageList).addObject("pofolList", pofolList)
+        .addObject("gno", gosuNo)
     	.setViewName("gosuSearch/serviceDetail");
     	
     	return mv;

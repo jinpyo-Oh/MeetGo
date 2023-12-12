@@ -2,14 +2,13 @@ package com.kh.meetgo.chat.controller;
 
 import com.google.gson.Gson;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
-import com.kh.meetgo.chat.model.dto.ChatReviewDto;
 import com.kh.meetgo.chat.model.dto.GosuProfileDto;
 import com.kh.meetgo.chat.model.service.ChatService;
 import com.kh.meetgo.chat.model.vo.Chat;
+import com.kh.meetgo.chat.model.vo.Chatroom;
 import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.gosu.model.vo.CategorySmall;
 import com.kh.meetgo.gosu.model.vo.Estimate;
-import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.member.model.service.MemberService;
 import com.kh.meetgo.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +31,17 @@ public class ChatController {
     private final S3Uploader s3Uploader;
 
     @GetMapping(value = "/chat.ct")
-    public String chatViewForm(String type, Model model, HttpSession session) {
+    public String chatViewForm(String type, Model model, HttpSession session, String chatroomNo) {
         model.addAttribute("type", type);
         if(session.getAttribute("loginUser") == null){
             return "common/errorPage";
         }
+        if(chatroomNo != null){
+            model.addAttribute("chatroomNo", chatroomNo);
+        }
         return "chat/chat";
     }
+
 
     @ResponseBody
     @GetMapping(value = "/chatroomList", produces = "text/json; charset=UTF-8")
@@ -47,7 +50,6 @@ public class ChatController {
         Member m = new Member();
         m.setUserNo(Integer.parseInt(userNo));
         m.setUserStatus(Integer.parseInt(userStatus));
-        System.out.println("m = " + m);
         ArrayList<ChatListDto> chatroomList = chatService.selectChatroomList(m, type);
         System.out.println(chatroomList);
         return new Gson().toJson(chatroomList);
@@ -57,10 +59,11 @@ public class ChatController {
     @GetMapping(value = "/chatlist")
     public String selectChatList(String chatroomNo, String userNo) {
         ArrayList<Chat> chatList = null;
-
         if (chatroomNo != null && userNo != null) {
             Map<String, Object> params = new HashMap<>();
             int roomNo = Integer.parseInt(chatroomNo);
+            params.put("chatroomNo", roomNo);
+            params.put("sender", Integer.parseInt(userNo));
             System.out.println(params);
             chatService.updateChatRead(params);
             chatList = chatService.selectChatList(roomNo);
@@ -161,5 +164,28 @@ public class ChatController {
             System.out.println("에러");
             return "";
         }
+    }
+
+    @GetMapping(value = "/insertChatRoom")
+    public String insertChatRoom(HttpSession session, String gno){
+        if(session.getAttribute("loginUser") != null && gno != null){
+            Map<String, Integer> params = new HashMap<>();
+            params.put("userNo", ((Member)session.getAttribute("loginUser")).getUserNo());
+            params.put("gosuNo", Integer.valueOf(gno));
+            Chatroom chatroom = chatService.checkChatRoom(params);
+            if(chatroom == null) {
+                chatroom = new Chatroom();
+                chatroom.setGosuNo(Integer.parseInt(gno));
+                chatroom.setUserNo(((Member)session.getAttribute("loginUser")).getUserNo());
+                int result = chatService.insertChatRoom(chatroom);
+                if(result > 0) {
+                    return "redirect:/chat.ct?type=All&chatroomNo="+chatroom.getChatroomNo();
+                } else {
+                    return "commom/errorPage";
+                }
+            }
+            return "redirect:/chat.ct?type=All&chatroomNo="+chatroom.getChatroomNo();
+        }
+        return "commom/errorPage";
     }
 }

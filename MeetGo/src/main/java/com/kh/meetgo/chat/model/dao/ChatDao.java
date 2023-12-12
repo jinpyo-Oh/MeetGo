@@ -93,4 +93,12 @@ public class ChatDao {
     public int updateChatRead(SqlSessionTemplate sqlSession, Map<String, Object> params) {
         return sqlSession.update("chatMapper.updateChatRead", params);
     }
+
+    public int insertChatRoom(SqlSessionTemplate sqlSession, Chatroom chatroom) {
+        return sqlSession.insert("chatMapper.insertChatRoom", chatroom);
+    }
+
+    public Chatroom checkChatRoom(SqlSessionTemplate sqlSession, Map<String, Integer> params) {
+        return sqlSession.selectOne("chatMapper.checkChatRoom", params);
+    }
 }

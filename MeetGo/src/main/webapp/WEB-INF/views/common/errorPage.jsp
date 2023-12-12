@@ -1,4 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@  page language="java" contentType="text/html; charset=UTF-8"
+          pageEncoding="UTF-8"%>
+<%@ page isErrorPage="true" %>
  <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,52 +8,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>에러페이지</title>
     <style>
-        .error {
+        .clearfix:before,
+        .clearfix:after {
+            display: table;
+            
+            content: ' ';
+        }
+        .clearfix:after {
+            clear: both;
+        }
+        body {
+        }
+        .page-404 .outer {
+            margin-top: 250px;
+            display: table;
+            width: 100%;
+        }
+        .page-404 .outer .middle {
+            display: table-cell;
+            
+            vertical-align: middle;
+        }
+        .page-404 .outer .middle .inner {
+            width: 300px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .page-404 .outer .middle .inner .inner-circle {
+            height: 300px;
+            
+            border-radius: 50%;
+            background-color: lightgray;
+        }
+        .page-404 .outer .middle .inner .inner-circle:hover i {
+            color: #39bbdb!important;
+            background-color: black;
+            box-shadow: 0 0 0 15px #39bbdb;
+        }
+        .page-404 .outer .middle .inner .inner-circle:hover span {
+            color: whitesmoke;
+        }
+        .page-404 .outer .middle .inner .inner-circle i {
+            font-size: 5em;
+            line-height: 1em;
+            
+            float: right;
+            
+            width: 1.6em;
+            height: 1.6em;
+            margin-top: -.7em;
+            margin-right: -.5em;
+            padding: 20px;
+            
+            -webkit-transition: all .4s;
+            transition: all .4s;
             text-align: center;
+            
+            color: #f5f5f5!important;
+            border-radius: 50%;
+            background-color: #39bbdb;
+            box-shadow: 0 0 0 15px #f0f0f0;
         }
-        h1 {
-            font-size: 50px;
-            color:#2A8FF7;
-        }
-        p {
-            color: gray;
+        .page-404 .outer .middle .inner .inner-circle span {
+            font-size: 11em;
+            font-weight: 700;
+            line-height: 1.2em;
+            
+            display: block;
+            
+            -webkit-transition: all .4s;
+            transition: all .4s;
             text-align: center;
+            
+            color: #e0e0e0;
         }
-        button{
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            background-color: #2A8FF7;
-            color: white;
-
+        .page-404 .outer .middle .inner .inner-status {
+            font-size: 20px;
+            
+            display: block;
+            
+            margin-top: 20px;
+            margin-bottom: 5px;
+            
+            text-align: center;
+            
+            color: black;
         }
-       .title{
-            font-size: 100px;
-            color:#2A8FF7;
-       }
-       .ww{
-       width: 200px;
-        position: relative;
-        top: -200px; /* Adjust this value as needed */
-        margin-left: -20px;
-    }
+        .page-404 .outer .middle .inner .inner-detail {
+            line-height: 1.4em;
+            
+            display: block;
+            
+            margin-bottom: 10px;
+            
+            text-align: center;
+            
+            color: #999999;
+        }
     </style>
 </head>
 <body>
- 
-    <div class="error">
-        <div class="w2">
-        <img src="https://i1.ruliweb.com/ori/22/12/21/18533f33f622edef1.gif">
-        <img src="img/[믿고] Untitled.png" class="ww">
+<jsp:include page="header.jsp"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="page-404" onclick="">
+        <div class="outer" >
+            <div class="middle">
+                <div class="inner">
+                    <!--BEGIN CONTENT-->
+                    <div class="inner-circle" style="cursor:pointer;" onclick="location.href = <%=request.getContextPath()%>/"><i class="fa fa-home"></i><span style="color: black">404</span></div>
+                    <span class="inner-status">Oops! You're lost</span>
+                    <span class="inner-detail">
+                    We can not find the page you're looking for.<br><br>
+                </span>
+                </div>
+            </div>
+        </div>
     </div>
-        <h1>페이지를 찾을 수 없습니다.</h1>
-        <p>찾으시려는 페이지의 주소가 잘못 입력되었거나,<br>
-            주소의 변경 혹은 삭제로 인해 사용하실 수 없습니다.<br>
-            입력하신 페이지의 주소가 정확한지 다시 한번 확인해 주세요.
-        </p>
-        <button type="submit" href="">메인으로</button>
-    </div>
-
-
 </body>
 </html>

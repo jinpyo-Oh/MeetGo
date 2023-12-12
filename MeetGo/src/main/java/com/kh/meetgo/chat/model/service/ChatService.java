@@ -50,4 +50,9 @@ public interface ChatService {
     double selectReviewAvg(int userNo);
 
     int updateChatRead(Map<String, Object> params);
+
+    int insertChatRoom(Chatroom chatroom);
+
+
+    Chatroom checkChatRoom(Map<String, Integer> params);
 }

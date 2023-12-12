@@ -60,6 +60,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         Chat chat = new ObjectMapper().readValue(msg, Chat.class);
 
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());
+        String text = new Gson().toJson(chat);
+        TextMessage textMessage = new TextMessage(text);
 
         // 채팅방 세션 목록에 채팅방 x, 처음 들어옴, DB에 채팅방 있음 => 채팅방 생성
         if (roomList.get(chatroom.getChatroomNo()) == null && chat.getContent().equals("ENTER_CHAT")) {
@@ -82,11 +84,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
         }
         // 채팅 일시
         else {
-            String text = new Gson().toJson(chat);
-            TextMessage textMessage = new TextMessage(text);
-            for (WebSocketSession sess : roomList.get(chat.getChatroomNo())) {
-                sess.sendMessage(textMessage);
-            }
             int personCnt = roomList.get(chat.getChatroomNo()).size();
             int result = 0;
             if(personCnt > 1){ // 접속자 수가 1명보다 많을 경우 읽은 상태로 메세지 저장
@@ -102,6 +99,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 System.out.println("실패");
             }
         }
-
+        for (WebSocketSession sess : roomList.get(chat.getChatroomNo())) {
+            sess.sendMessage(textMessage);
+        }
     }
 }
