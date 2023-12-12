@@ -184,7 +184,7 @@
         }
         #backToListBtn button:hover{ background-color: #2A8FF7; }
         
-        #enlarge-background{
+        #enlargeImg-background{
 	        position: fixed; 
 	        z-index: 99;
 	        left: 0;
@@ -194,12 +194,12 @@
 	        background-color: rgba(0, 0, 0, 0.4);
 	        display:none;
         }
-        #enlarge-form{
-        	width: 700px;
+        #enlargeImg-form{
+        	width: 50%;
         	height: 90%;
         	background-color: white;
         	box-sizing: border-box;
-        	margin:2% auto 0 auto;
+        	margin: 2% auto 0 auto;
         	overflow: auto;
         }
 	
@@ -307,11 +307,13 @@
 								   step="1">
 							<img class="gosuImgThumb" src="${ requestScope.imageList[p-1].gosuImgUrl }"
 								 width="320px" height="250px" 
-								 style=" object-fit: cover; margin-right:10px; margin-left:10px; margin-bottom: 20px" data-toggle="modal" data-target="#myModal" >
+								 style="object-fit: cover; margin-right:10px; margin-left:10px; margin-bottom: 20px" data-toggle="modal" data-target="#myModal" >
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-						<p style="color:lightgray; margin-top:20px;">등록된 이미지가 없습니다.</p>
+					<div style="display:block; width:700px;" align="center">
+						<p style="color:lightgray; margin-top:20px;" >등록된 이미지가 없습니다.</p>
+					</div>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -358,14 +360,21 @@
 	
 			<div style="width:700px; margin-bottom:120px;">
 			<p style="font-size:22px;"><b>사진</b></p>
-				<img class="reviewImg" src="" width="150px" height="150px" onclick="openEnlarge();">
-				<img class="reviewImg" src="" width="150px" height="150px">
-				<img class="reviewImg" src="" width="150px" height="150px">
-				<img class="reviewImg" src="" width="150px" height="150px">
+			<c:choose>
+				<c:when test="${ not empty requestScope.reviewImgList }">
+					<c:forEach var="p" begin="1" end="4" step="1" >
+						<img class="reviewImg" src="${requestScope.reviewImgList[p-1].reviewImgUrl }"
+						onclick="openEnlarge();" width="150px" height="150px">	
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<p align="center" style="color:lightgray; margin-top:50px;">등록된 리뷰 이미지가 없습니다.</p>
+				</c:otherwise>
+			</c:choose>
 			</div>
 			
 		<div>
-			<p><b>총 리뷰<span>${requestScope.list[0].reviewCount}</span>건</b></p>
+			<p><b>총 리뷰&nbsp;<span style="color:#257acec7">${requestScope.list[0].reviewCount}</span>건</b></p>
 			<span id="star-rate">${requestScope.list[0].avgRevPoint}</span>
 
 			<script> // 별점 함수
@@ -398,15 +407,20 @@
 				<br><br>
 				
 				<!-- 리뷰 영역 -->
-				<span style="font-size: 18px; font-weight: bolder; margin-right: 20px;">
-                        정**</span>
-				<span style="font-size: 20px;">4.7</span>
-				<br>
-				<p style="width: 700px; font-size: 16px;">
-					내용내용내용내용내용내용내용내용내용내용내용
-					내용내용내용내용내용내용내용내용내용내용내용
-					내용내용내용내용내용내용내용내용내용내용내용
-				</p>
+				<c:choose>
+					<c:when test="${ not empty requestScope.reviewList}">
+						<c:forEach var="p" begin="1" end="${requestScope.reviewList.size()}" step="1">
+							<span style="font-size: 18px; font-weight: bolder; margin-right: 20px;">
+                        	${requestScope.reviewList[p-1].userNickname} (${requestScope.reviewList[p-1].userName.charAt(0)} **)</span>
+							<span style="font-size: 20px;">${requestScope.reviewList[p-1].reviewPoint}.0</span>
+							<br>
+							<p style="width: 700px; font-size: 16px;">
+								${requestScope.reviewList[p-1].reviewContent}
+							</p>
+						</c:forEach>
+					</c:when>
+				</c:choose>
+
 							
 				<a href="">more...</a>
 
@@ -442,33 +456,21 @@
 	</div>
 </div>
 
-	<!-- 리뷰확대 커스텀창 -->
-	<div id="enlarge-background">
-		<div id="enlarge-form">
-			
+	<!-- 리뷰이미지 확대 커스텀창 -->
+	<div id="enlargeImg-background">
+		<div id="enlargeImg-form">
+			<div class="enlargeImg-area">
+	
+			</div>
 		</div>
 	</div>
 
 
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
-	function linkPofol(pno) {
-		location.href = "pofolDetail.po?pno=" + pno;
-	}
-	
-	// 확대창 보이기
-	function openEnlarge() {	
-		$("#enlarge-background").css("display", "block");
-	}
-	
-	// 배경 누를 시 다시 숨기기
-	let modal = document.getElementById("enlarge-background");
-    window.addEventListener('click', (e) => {
-        e.target == modal ? $('#enlarge-background').css("display", "none") : false;
-    });
 
     $(function(){
-		
+    	
     	star(${requestScope.list[0].avgRevPoint});
     	
         let $first = $("#tableMenu").find(".tableMenu").eq(0);
@@ -507,6 +509,22 @@
         });
 
     });
+
+	function linkPofol(pno) {
+		location.href = "pofolDetail.po?pno=" + pno;
+	}
+	
+	// 확대창 보이기
+	function openEnlarge() {	
+		$("#enlargeImg-background").css("display", "block");
+	}
+	
+	// 배경 누를 시 다시 숨기기
+	let modal = document.getElementById("enlargeImg-background");
+    window.addEventListener('click', (e) => {
+        e.target == modal ? $('#enlargeImg-background').css("display", "none") : false;
+    });
+    
 </script>
 
 <jsp:include page="../common/footer.jsp"/>

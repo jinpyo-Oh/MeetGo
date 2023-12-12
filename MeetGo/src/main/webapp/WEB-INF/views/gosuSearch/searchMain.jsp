@@ -614,8 +614,6 @@
 				
 				// 조회된 데이터 화면에 출력
 				for(let i = 0; i < list.length; i++){
-
-					
 					
 					let resultStr = '<div align="center" class="service-object" onclick="sendDetail(' + list[i].gosu.gosuNo + ')">'
 					              + '<table class="service-table">'
@@ -663,8 +661,6 @@
 					
 				}  
 
-					
-	
 				// 페이징버튼 화면에 출력
 				
 				// 이전버튼

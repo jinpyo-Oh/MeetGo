@@ -54,7 +54,7 @@ public class BoardServiceImpl implements BoardService {
 	// 고수이미지
 	@Override
 	public int insertGosuReqImg(String filePath, int boardNo) {
-		return boardDao.insertPofolImg(sqlSession, filePath, boardNo);
+		return boardDao.insertGosuReqImg(sqlSession, filePath, boardNo);
 	}
 	
 	

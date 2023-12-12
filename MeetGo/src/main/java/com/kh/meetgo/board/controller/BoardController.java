@@ -78,7 +78,6 @@ public class BoardController {
 	// 고수찾아요 게시판 등록
 	@PostMapping("gosuInsert.bo")
 	public String insertGosuReqBoard(
-			
 							  HttpSession session,
 							  Model model,
 							  @SessionAttribute("loginUser") Member loginUser,

@@ -273,6 +273,7 @@
 		   AND STATUS = 1
 	</select>
 	
+	<!-- 포폴정보 불러오기 -->
 	<select id="showGosuPofol" parameterType="_int" resultType="pofolOpt">
 		SELECT P.POFOL_NO AS "pofol.pofolNo"
 			 , P.POFOL_TITLE AS "pofol.pofolTitle"
@@ -286,7 +287,28 @@
 		) PI ON P.POFOL_NO = PI.POFOL_NO
 		WHERE P.GOSU_NO = #{gosuNo}
 	</select>
-
+	
+	<!-- 리뷰정보 불러오기 - 내용, 사진 -->
+	<select id="getGosuReview" parameterType="_int" resultType="gosuOpt">
+	SELECT REV_CONTENT AS "reviewContent"
+	     , REV_POINT AS "reviewPoint"
+	     , M.USER_NICKNAME AS "userNickname"
+	     , M.USER_NAME AS "userName"
+	  FROM REVIEW R
+	  LEFT JOIN MEMBER M ON M.USER_NO =  R.USER_NO
+	  WHERE R.GOSU_NO = #{gosuNo}
+	    AND R.REV_STATUS = 1
+	  ORDER BY R.REV_DATE DESC
+	</select>
+	
+	<select id="getGosuReviewImg" parameterType="_int" resultType="gosuOpt">
+	  SELECT RI.REV_NO,
+	         RI.REV_IMG_URL AS "reviewImgUrl"
+	    FROM REVIEW_IMG RI
+	    LEFT JOIN REVIEW R ON R.REV_NO = RI.REV_NO
+	    LEFT JOIN MEMBER M ON M.USER_NO = R.USER_NO
+	   WHERE R.GOSU_NO = #{gosuNo}
+	</select>
 	
 	<insert id="insertGosu" parameterType="gosu">
 		INSERT INTO GOSU(GOSU_NO

@@ -69,6 +69,16 @@ public class GosuServiceImpl implements GosuService {
 	public ArrayList<PofolOpt> showGosuPofol(int gosuNo){
 		return gosuDao.showGosuPofol(sqlSession, gosuNo);
 	}
+	
+	// 고수찾기 상세 - 리뷰 정보 불러오기
+	@Override
+	public ArrayList<GosuOpt> getGosuReview(int gosuNo) {
+		return gosuDao.getGosuReview(sqlSession, gosuNo);
+	}
+	@Override
+	public ArrayList<GosuOpt> getGosuReviewImg(int gosuNo) {
+		return gosuDao.getGosuReviewImg(sqlSession, gosuNo);
+	}
 
 	
 }

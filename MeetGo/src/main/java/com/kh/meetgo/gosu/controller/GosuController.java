@@ -32,9 +32,6 @@ public class GosuController {
     @Autowired
     private GosuServiceImpl gosuService;
     
-    @Autowired
-	private BoardService boardService;
-    
     // 고수 등록페이지로 이동
     @RequestMapping("gosuEnrollForm.go")
     public String gosuEnroll() {
@@ -163,11 +160,15 @@ public class GosuController {
     	ArrayList<GosuOpt> list = gosuService.gosuDetail(gosuNo);
     	ArrayList<GosuImg> imageList = gosuService.getGosuImg(gosuNo);
     	ArrayList<PofolOpt> pofolList = gosuService.showGosuPofol(gosuNo);
-
+    	
+    	ArrayList<GosuOpt> reviewList = gosuService.getGosuReview(gosuNo);
+    	ArrayList<GosuOpt> reviewImgList = gosuService.getGosuReviewImg(gosuNo);
+    	
     	// gno의 고수정보와 고수 이미지 리턴
     	mv.addObject("list", list)
     	.addObject("imageList", imageList).addObject("pofolList", pofolList)
         .addObject("gno", gosuNo)
+        .addObject("reviewList", reviewList).addObject("reviewImgList", reviewImgList)
     	.setViewName("gosuSearch/serviceDetail");
     	
     	return mv;
