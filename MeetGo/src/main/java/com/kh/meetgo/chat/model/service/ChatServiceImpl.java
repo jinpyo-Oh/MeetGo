@@ -115,4 +115,15 @@ public class ChatServiceImpl implements ChatService{
         return chatDao.updateChatRead(sqlSession, params);
     }
 
+    @Override
+    public int insertChatRoom(Chatroom chatroom) {
+        return chatDao.insertChatRoom(sqlSession,chatroom);
+    }
+
+    @Override
+    public Chatroom checkChatRoom(Map<String, Integer> params) {
+        return chatDao.checkChatRoom(sqlSession,params);
+    }
+
+
 }
