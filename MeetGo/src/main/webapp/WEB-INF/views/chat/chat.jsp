@@ -535,6 +535,7 @@
                         break;
                     case '3' :
                         chat += '<p>확정된 계약서 입니다.</p>'
+							+ '<button class="meetgo-btn est-detail-btn"  value="'+data.estNo+'"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>'
                             + '<div style="display: flex">'
                             + '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
                             + '<button class="meetgo-btn meetgo-red w-50 changeEstBtn"  onclick="changeEstStatus(' + data.estNo + ', 2)" style="width: 268px; margin: 5px; ">취소하기</button>' +
@@ -599,7 +600,7 @@
 				</script>
 				<div class="chat-input-box">
 					<label for="chat-textarea"></label>
-					<textarea id="chat-textarea" maxlength="180" placeholder="메세지를 입력해 주세요."></textarea>
+					<textarea id="chat-textarea" maxlength="180" onkeyup="enterkey()" placeholder="메세지를 입력해 주세요."></textarea>
 					<div>
 						<div class="input-icon">
 							<input type="file" id="chat-file" name="file" style="display: none"
@@ -621,6 +622,11 @@
 					</div>
 				</div>
 				<script>
+                    function enterkey() {
+                        if (window.event.keyCode == 13) {
+                            $('#send-message-btn').click();
+                        }
+                    }
                     $('#chat-file-upload').click(function (e) {
                         $('#chat-file').click();
                     });

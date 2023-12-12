@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -161,6 +162,15 @@
         margin-left:5px;
         margin-right:5px;
     }
+   
+   	/* 별 div */
+    .star {
+	    color: gold;
+	    font-size:28px;
+	    display:inline;
+	    margin-right:20px;
+    }
+    
     </style>
 </head>
 <body>
@@ -223,18 +233,28 @@
         </div>
 
         <hr style="width: 50%;">
-        
-        <div class="stars">
-			<span for="5-stars" class="star"><i class="bi bi-star-fill"></i></span>
-			<span for="4-stars" class="star"><i class="bi bi-star-fill"></i></span>
-			<span for="3-stars" class="star"><i class="bi bi-star-fill"></i></span>
-			<span for="2-stars" class="star"><i class="bi bi-star-fill"></i></span>
-			<span for="1-stars" class="star"><i class="bi bi-star-half"></i></span>
-		</div>
+       
+       <!-- 별점 표시 함수 정의 -->
+		<script>			
+			function star(avg, idNo) {
+				// 소수점 첫째자리 정수로 할당
+				let halfPoint = parseInt((avg % 1 * 10).toFixed(0));
+				
+				for(let i = 0; i < 5; i++) {
+					
+					if(i < Math.floor(avg)) { // 정수 자리수만큼 별 채우기
+						$('#'+idNo).children().eq(i).addClass("bi-star-fill").removeClass("bi-star");
+					}
+					if(halfPoint != 0 && halfPoint > 4) { // 1~4일 경우 내림, 5이상 반개
+						$('#'+idNo).children().eq(Math.floor(avg)).addClass("bi-star-half").removeClass("bi-star");
+					} 
+					
+				}
+			}
+		</script>
         
         <div style="width: 50%; margin:auto;">
         	<div align="left" id="resultCount">
-        		
         	</div>
         	<div align="right">
 	            <select id="filter" class="form-control">
@@ -594,41 +614,57 @@
 				
 				// 조회된 데이터 화면에 출력
 				for(let i = 0; i < list.length; i++){
-					 let resultStr = '<div align="center" class="service-object" onclick="sendDetail(' + list[i].gosu.gosuNo + ')">'
-					               + '<table class="service-table">'
-					               + '<thead>'
-					               + '<tr>'
-					               + '<th rowspan="2">'
-					               + '<div align="center">'
-					               + '<img class="gosu-profile" width="150px" height="150px" src="' + list[i].userProfile + '">'
-					               + '</div>'
-					               + '</th>'
-					               + '<td style="width: 25%; font-weight:700;">' + list[i].userNickname + '</td>'
-					               + '<td>'
-					               +  '<button id="career" disabled>경력 ' +  list[i].gosu.career + '</button>'
-					               + '</td>'
-					               + '</tr>'
-					               + '<tr>'
-					               + '<td colspan="2" class="introduction">' + list[i].gosu.introduction+ '</td>'
-					               + '</tr>'
-					               +'</thead>'
-					               + '<tbody>'
-					               + '<tr>'
-					               + '<td style="text-align: center;">'
-					               + '<br>별점</td>'
-					               + '<td colspan="2">'
-					               + '<br>리뷰<b style="font-size:18px;">&nbsp;'+ list[i].reviewCount + '&nbsp;</b>건'
-					               + '</td>'
-					               + '</tr>'
-					               + '<tr>'
-					               + '<td>&nbsp;</td>'
-					               + '</tr>'
-					               + '</tbody>'
-					               + '</table>'
-					               + '</div>';  
+
+					
+					
+					let resultStr = '<div align="center" class="service-object" onclick="sendDetail(' + list[i].gosu.gosuNo + ')">'
+					              + '<table class="service-table">'
+					              + '<thead>'
+					              + '<tr>'
+					              + '<th rowspan="2">'
+					              + '<div align="center">'
+					              + '<img class="gosu-profile" width="150px" height="150px" src="' + list[i].userProfile + '">'
+					              + '</div>'
+					              + '</th>'
+					              + '<td style="width: 25%; font-weight:700;">' + list[i].userNickname + '</td>'
+					              + '<td>'
+					              +  '<button id="career" disabled>경력 ' +  list[i].gosu.career + '</button>'
+					              + '</td>'
+					              + '</tr>'
+					              + '<tr>'
+					              + '<td colspan="2" class="introduction">' + list[i].gosu.introduction+ '</td>'
+					              + '</tr>'
+					              +'</thead>'
+					              + '<tbody>'
+					              + '<tr>'
+					              + '<td colspan="2" style="padding-top:10px; padding-left:32px; text-align:left; font-size:25px;">'
+					              + '<div class="star" id="star'+ list[i].gosu.gosuNo +'">'
+					  	          + '<i class="bi-0 bi-star"></i>'
+						          + '<i class="bi-1 bi-star"></i>'
+						          + '<i class="bi-2 bi-star"></i>'
+						          + '<i class="bi-3 bi-star"></i>'
+						          + '<i class="bi-4 bi-star"></i>'
+					              + '</div>'
+					              + list[i].avgRevPoint.toFixed(1)
+					              + '</td>'
+					              + '<td style="font-size:20px;">'
+					              + '리뷰<b style="padding-top:10px; font-size:24px;">&nbsp;'+ list[i].reviewCount + '&nbsp;</b>건'
+					              + '</td>'
+					              + '</tr>'
+					              + '<tr>'
+					              + '<td>&nbsp;</td>'
+					              + '</tr>'
+					              + '</tbody>'
+					              + '</table>'
+					              + '</div>';  
+
 					$('#result-area').append(resultStr);
+					star(list[i].avgRevPoint.toFixed(1), "star" + list[i].gosu.gosuNo);
+					
 				}  
-						
+
+					
+	
 				// 페이징버튼 화면에 출력
 				
 				// 이전버튼

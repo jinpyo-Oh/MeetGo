@@ -223,7 +223,9 @@
 		background-color: #fff;
 		font-weight: 600;
 	}
-	
+	#modalWrapEstEnroll h4 {
+        margin : 30px 0 0 30px;
+	}
 </style>
 <body>
 

@@ -309,8 +309,6 @@ public class BoardController {
 		boardService.insertPofol(pofol);
 		
 		int pofolNo = pofol.getPofolNo();
-		
-		System.out.println(pofolNo);
 
 				 
 		try {
@@ -331,7 +329,7 @@ public class BoardController {
 		
 		// pno는 포폴게시글 번호
 		int pofolNo = Integer.parseInt(pno);
-		int result = boardService.increasePofolCount(pofolNo);
+		boardService.increasePofolCount(pofolNo);
 		
 		ArrayList<PofolOpt> list = boardService.pofolDetail(pofolNo);
 		ArrayList<PofolImg> imgList = boardService.pofolDetailImg(pofolNo);
