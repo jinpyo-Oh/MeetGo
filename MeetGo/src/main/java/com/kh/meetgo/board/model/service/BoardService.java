@@ -3,6 +3,7 @@ package com.kh.meetgo.board.model.service;
 import java.util.ArrayList;
 
 import com.kh.meetgo.board.model.vo.Board;
+import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
@@ -31,6 +32,10 @@ public interface BoardService {
 		// 고수이미지 
 		int insertGosuReqImg(String filePath, int boardNo);
 
+		ArrayList<Board_File> selectGosuReqImgList(int boardNo);
+		
+		
+		
 		
 		// 팁노하우 게시판 리스트 조회		
 		ArrayList<Board> selectTipList(PageInfo pi);
@@ -47,6 +52,7 @@ public interface BoardService {
 		// 팁노하우 상세조회 서비스
 		// 팁노하우 조회수 증가
 		int increaseTipCount(int boardNo);
+		
 		
 	
 

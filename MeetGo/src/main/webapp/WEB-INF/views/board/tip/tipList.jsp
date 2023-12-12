@@ -153,6 +153,7 @@
                 <p>팁과 노하우</p>               
                 <hr>
             </div>
+     
         <div class="tipmain">
 			    <table class="tipList">
 			        <thead>
@@ -164,11 +165,14 @@
 			        <tbody>
 			            <c:forEach var="m" items="${requestScope.list}">
 			                <tr>
-			                    <td class="bno"><b style="font-size:30px;">${m.boardNo}</b></td>
-			                    <td class="tip_content"><b style="font-size:30px;">${m.boardTitle}</b></td>
+			                    <td class="bno"><b style="font-size:30px; border:1px solid blue;">${m.boardNo}</b></td>
+			                    <td class="tip_content" style="height:50px; border:1px solid red;">			                
+			                    <b style="font-size:30px;">
+			                    ${m.boardTitle}</b></td>
+			                
 			                </tr>
 			                <tr>
-			                    <td colspan="2">${m.boardContent}</td>
+			                    <td colspan="2"  >${requestScope.m.boardContent}</td>
 			                </tr>
 			            </c:forEach>
 			        </tbody>

@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.meetgo.board.model.vo.Board;
+import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
@@ -49,6 +50,10 @@ public class BoardDao {
 		params.put("boardNo", boardNo);
 		
 		return sqlSession.insert("boardMapper.insertGosuReqImg", params);
+	}
+	
+	public ArrayList<Board_File>selectGosuReqImgList(SqlSessionTemplate sqlSession, int boardNo){
+		return (ArrayList)sqlSession.selectList("boardMapper.selectGosuReqImgList", boardNo);
 	}
 	
 	// 카운트 

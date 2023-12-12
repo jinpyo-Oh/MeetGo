@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.meetgo.board.model.dao.BoardDao;
 import com.kh.meetgo.board.model.vo.Board;
+import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
@@ -54,9 +55,12 @@ public class BoardServiceImpl implements BoardService {
 	// 고수이미지
 	@Override
 	public int insertGosuReqImg(String filePath, int boardNo) {
-		return boardDao.insertPofolImg(sqlSession, filePath, boardNo);
+		return boardDao.insertGosuReqImg(sqlSession, filePath, boardNo);
 	}
 	
+	public ArrayList<Board_File> selectGosuReqImgList(int boardNo){
+		return boardDao.selectGosuReqImgList(sqlSession, boardNo);
+	}
 	
 	
 	@Override

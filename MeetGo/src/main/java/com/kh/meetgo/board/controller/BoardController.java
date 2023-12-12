@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.board.model.vo.Board;
+import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.service.CommonService;
@@ -86,7 +87,7 @@ public class BoardController {
 							  String boardTitle,
 							  String boardContent
 							  ) {
-		
+		System.out.println(gosuReqImgArr);
 		
 		int userNo = loginUser.getUserNo();
 		
@@ -102,7 +103,7 @@ public class BoardController {
 		int boardNo = gosuReq.getBoardNo();
 		
 		int result2 = 0;
-		
+	
 		try {	
 		
 			for(int i = 0; i < gosuReqImgArr.size(); i++) {
@@ -135,20 +136,23 @@ public class BoardController {
 	
 	// 고수찾아요 게시판 상세조회	
 	@RequestMapping("gosuDetail.bo")
-	public ModelAndView selectGosuReqBoard(int bno, 
-									ModelAndView mv) {
+	public ModelAndView selectGosuReqBoard(String bno, 
+									ModelAndView mv
+									) {
 		
-		
-		
-		int result = boardService.increaseGosuReqCount(bno);
+		int boardNo = Integer.parseInt(bno); 
+				
+		int result = boardService.increaseGosuReqCount(boardNo);
 		
 		if(result > 0) { 
 			
-			Board m = boardService.selectGosuReqBoard(bno);
+			Board m = boardService.selectGosuReqBoard(boardNo);
+			
+			ArrayList<Board_File> imgList = boardService.selectGosuReqImgList(boardNo);
 			
 			mv.addObject("m", m)
+			  .addObject("imgList", imgList)
 			  .setViewName("board/gosuRequest/gosuDetail"); 
-			
 			
 		} else { 
 			
@@ -181,6 +185,7 @@ public class BoardController {
 		  .setViewName("board/tip/tipList");
 		return mv;
 	}
+	
 	@GetMapping("tipWrite.bo")
 	public String tipWrite() {
 		

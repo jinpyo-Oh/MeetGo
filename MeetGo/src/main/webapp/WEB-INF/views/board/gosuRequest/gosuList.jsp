@@ -202,7 +202,7 @@ table, th, td {
             </table>
            <table class="boardList">
             <c:forEach var="m" items="${ requestScope.list }">
-              		<tr>
+              		<tr onclick="sendGosuReqDetail( ${m.boardNo} )">
        
                     <td class="bno">
                         ${m.boardNo}
@@ -273,10 +273,12 @@ table, th, td {
 	
 	
 	<script>
-	$(".boardList tr").click(function() {
-	    let bno = $(this).children(".bno").text();
-	    location.href = "gosuDetail.bo?bno=" + bno;
-	});
+	function sendGosuReqDetail(bno) { 
+		location.href = "gosuDetail.bo?bno=" + bno;
+		
+	};
+		
+
 	</script>
 	
 </body>

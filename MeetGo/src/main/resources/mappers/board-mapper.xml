@@ -97,6 +97,13 @@
 			)
 	</insert>
 	
+	<select id="selectGosuReqImgList" parameterType="_int" resultType="boardFile">
+		SELECT BFILE_PATH AS "filePath"
+		FROM BOARD_FILE
+		WHERE BOARD_NO = #{boardNo}
+		
+	</select>
+	
 
 	
 	<!-- 팁 게시판 총 갯수 -->
@@ -110,6 +117,7 @@
 	<select id="selectTipList" resultMap="boardResultSet">
 		SELECT BOARD_NO
 		     , BOARD_TITLE
+		     , BOARD_CONTENT
 		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
 			 , BOARD_COUNT
 		  FROM BOARD
