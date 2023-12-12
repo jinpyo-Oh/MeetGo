@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -245,6 +246,9 @@
 	.event-block {
         pointer-events: none;
 	}
+	#modalWrapDetail h4 {
+		margin : 30px 0 0 30px;
+	}
 </style>
 <body>
 <script>
@@ -260,6 +264,14 @@
                 let estService = data.estService;
                 selectAllCategory(gosuNo, estService);
                 $('#confirmEstPrice').val(data.estPrice);
+                $('#confirmStartDate').val(data.startDate);
+                $('#confirmEndDate').val(data.endDate);
+                $('#confirmAddress').val(data.estAddress);
+                $('#confirmEstContent').val(data.estContent);
+                $('#confirm-btn').val(data.estNo);
+                $('#confirmTitle').val(data.estTitle);
+                $('#confirmUserNo').val(data.userNo);
+                insertEstBtn(data.status, data.estNo);
             },
             error: function () {
                 console.log("견적서 상세조회 실패")
@@ -292,6 +304,8 @@
         })
     }
 </script>
+<input type="hidden" id="confirmTitle" value="">
+<input type="hidden" id="confirmUserNo" value="">
 <div id="modalWrapDetail">
 	<div class="estimate_content">
 		<div class="est-header">
@@ -322,7 +336,6 @@
 			<div class="form__group field">
 				<input type="text" class="form__field" id="confirmEndDate" name="endDate" placeholder="Name" required>
 				<label for="confirmEndDate" class="form__label">계약 이행일</label>
-				<p>ex) 계약일로부터 x일</p>
 			</div>
 		</div>
 		<div class="card-style event-block">
@@ -341,57 +354,52 @@
 				<p>서비스 설명, 수행 지역, 시간 등을 설명해 주세요</p>
 			</div>
 			<script>
-                const DEFAULT_HEIGHT = 5; // textarea 기본 height
-                const $textarea = document.querySelector('#estContent');
-                $textarea.oninput = (event) => {
+                const DEFAULT_HEIGHT1 = 5; // textarea 기본 height
+                const $textarea1 = document.querySelector('#estContent');
+                $textarea1.oninput = (event) => {
                     const $target = event.target;
 
                     $target.style.height = 0;
-                    $target.style.height = DEFAULT_HEIGHT + $target.scrollHeight + 'px';
+                    $target.style.height = DEFAULT_HEIGHT1 + $target.scrollHeight + 'px';
                 };
 			</script>
 		</div>
 		<div class="est-button">
-			<button class="meetgo-btn" onclick="insertEstimate()">작성하기</button>
-			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
+			<script>
+				function insertEstBtn(status, estNo){
+                    console.log("status : "  + status);
+                    let estBtn = "";
+                    if (status == 2) {
+                        estBtn += '<button class="meetgo-btn" id="confirm-btn" value="" onClick="changeEstStatus($(this).val(), 3); displayNone($(this).val())">확정하기</button>';
+					} else if (status == 3) {
+                        estBtn += '<button class="meetgo-btn" value="" onClick="EstPayment('+estNo+'); displayNone($(this).val())">결제하기</button>'
+					}
+                    estBtn += '<button class="meetgo-btn" onClick="displayNone()">닫기</button>';
+                    $('.est-button').append(estBtn);
+				}
+			</script>
+			
 		</div>
 	</div>
 </div>
 
 <script>
-    function insertEstimate() {
-        let estService = $('.est-service').val();
-        let estPrice = $('#estPrice').val();
-        let startDate = $('#startDate').val();
-        let endDate = $('#endDate').val();
-        let estAddress = $('#address').val() + " " + $('#detailAddress').val();
-        let estContent = $('#estContent').val();
-
+    function EstPayment(estNo) {
         $.ajax({
-            url: "insertEstimate",
-            method: "post",
-            dataType: "json",
-            headers: {
-                "Content-Type": "application/json"  //전달하는 데이터가 JSON형태임을 알려줌
+            url: 'kakaopay.me',
+            method : 'post',
+            dataType: 'json',
+            data : {
+                userNo : $('#confirmUserNo').val(),
+                estTitle : $('#confirmTitle').val(),
+                estPrice : $('#confirmEstPrice').val(),
+                estNo : estNo
             },
-            data: JSON.stringify({
-                chatroomNo: chatroomNo,
-                estService: estService,
-                estPrice: estPrice,
-                startDate: startDate,
-                endDate: endDate,
-                estAddress: estAddress,
-                estContent: estContent,
-                gosuNo: ${sessionScope.loginUser.userNo},
-                userNo: userNo
-            }),
-            success: function (data) {
-                estNo = data;
-                displayNone();
-                sendMessage('E');
+            success: function(data){
+                console.log(data);
             },
-            error: function () {
-                console.log("계약서 저장 실패");
+            error: function(){
+                alert("카카오페이 ajax 실패");
             }
         });
     }
@@ -401,48 +409,12 @@
         $('#modalWrapDetail').css("display", "none");
     }
 
-    let modal = document.getElementById('modalWrapDetail');
+    let modalWrapDetail = document.getElementById('modalWrapDetail');
 
     window.addEventListener('click', (e) => {
-        e.target == modal ? $('#modalWrapDetail').css("display", "none") : false;
+        e.target == modalWrapDetail ? $('#modalWrapDetail').css("display", "none") : false;
     });
 
-    function formatNumber() {
-        // Get the input element
-        let inputElement = document.getElementById('estPrice');
-
-        // Remove non-numeric characters
-        let inputValue = inputElement.value.replace(/[^0-9]/g, '');
-
-        // Format the number with commas every 3 digits
-        let formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-        // Update the input value with the formatted number
-        inputElement.value = formattedValue;
-
-        // Add "원" at the end
-        if (formattedValue !== '') {
-            inputElement.value += '원';
-        }
-    }
-</script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function (data) {
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-                document.getElementById("address").value = addr;
-                document.getElementById("detailAddress").focus();
-            }
-        }).open();
-    }
 </script>
 </body>
 </html>
