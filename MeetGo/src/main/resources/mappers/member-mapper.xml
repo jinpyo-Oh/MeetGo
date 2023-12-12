@@ -2,330 +2,396 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
 
-	<!-- Member 테이블 조회 결과에 대한 resultMap -->
-	<resultMap id="memberResultSet" type="member">
-		<result column="USER_NO" property="userNo" />
-		<result column="USER_NAME" property="userName" />
-		<result column="USER_ID" property="userId" />
-		<result column="USER_PWD" property="userPwd" />
-		<result column="USER_EMAIL" property="userEmail" />
-		<result column="USER_NICKNAME" property="userNickname" />
-		<result column="USER_GENDER" property="userGender" />
-		<result column="USER_PHONE" property="userPhone" />
-		<result column="USER_PROFILE" property="userProFile" />
-		<result column="CREATE_DATE" property="createDate" />
-		<result column="ADDRESS" property="address"/>
-		<result column="LAST_ACCESS_DATE" property="lastAccessDate" />
-		<result column="ADDRESS" property="address"/>
-		<result column="USER_STATUS" property="userStatus" />
-		<result column="ENROLL_STATUS" property="enrollStatus"/>
-	</resultMap>
-	
-	<resultMap id="estimateResultSet" type="estimate">
-		<result column="EST_NO" property="estNo"/>
-		<result column="EST_TITLE" property="estTitle"/>
-		<result column="EST_CONTENT" property="estContent"/>
-		<result column="EST_ADDRESS" property="estAddress"/>
-		<result column="EST_SERVICE" property="estService"/>
-		<result column="START_DATE" property="startDate"/>
-		<result column="END_DATE" property="endDate"/>
-		<result column="CONFIRMATION_DATE" property="confirmationDate"/>
-		<result column="EST_PRICE" property="estPrice"/>
-		<result column="STATUS" property="status"/>
-		<result column="TID" property="tid"/>
+    <!-- Member 테이블 조회 결과에 대한 resultMap -->
+    <resultMap id="memberResultSet" type="member">
+       <result column="USER_NO" property="userNo" />
+       <result column="USER_NAME" property="userName" />
+       <result column="USER_ID" property="userId" />
+       <result column="USER_PWD" property="userPwd" />
+       <result column="USER_EMAIL" property="userEmail" />
+       <result column="USER_NICKNAME" property="userNickname" />
+       <result column="USER_GENDER" property="userGender" />
+       <result column="USER_PHONE" property="userPhone" />
+       <result column="USER_PROFILE" property="userProFile" />
+       <result column="CREATE_DATE" property="createDate" />
+       <result column="ADDRESS" property="address"/>
+       <result column="LAST_ACCESS_DATE" property="lastAccessDate" />
+       <result column="ADDRESS" property="address"/>
+       <result column="USER_STATUS" property="userStatus" />
+       <result column="ENROLL_STATUS" property="enrollStatus"/>
+    </resultMap>
+    
+    <resultMap id="estimateResultSet" type="estimate">
+       <result column="EST_NO" property="estNo"/>
+       <result column="EST_TITLE" property="estTitle"/>
+       <result column="EST_CONTENT" property="estContent"/>
+       <result column="EST_ADDRESS" property="estAddress"/>
+       <result column="EST_SERVICE" property="estService"/>
+       <result column="START_DATE" property="startDate"/>
+       <result column="END_DATE" property="endDate"/>
+       <result column="CONFIRMATION_DATE" property="confirmationDate"/>
+       <result column="EST_PRICE" property="estPrice"/>
+       <result column="STATUS" property="status"/>
+       <result column="TID" property="tid"/>
+       <result column="GOSU_NO" property="gosuNo"/>
+       <result column="USER_NO" property="userNo"/>
+    </resultMap>
+    <resultMap id="gosuResultSet" type="gosu">
 		<result column="GOSU_NO" property="gosuNo"/>
-		<result column="USER_NO" property="userNo"/>
+		<result column="INTRODUCTION" property="introduction"/>
+		<result column="EMPLOYEES" property="employees"/>
+		<result column="BUSINESS_STATUS" property="businessStatus"/>
+		<result column="EDUCATION" property="education"/>
+		<result column="CAREER" property="career"/>
+		<result column="ELABORATE" property="elaborate"/>
+		<result column="REGION" property="region"/>
+		<result column="MOVE_DISTANCE" property="moveDistance"/>
+		<result column="AVAILABLE_TIME" property="availableTime"/>
+		<result column="USER_NO" property="userNo"/>		
 	</resultMap>
-	
-	<resultMap id="reviewImgResultSet" type="reviewImg">
-		<result column="IMG_NO" property="imgNo"/>
-		<result column="REV_IMG_URL" property="revImgUrl"/>
-		<result column="REV_NO" property="revNo"/>
-	</resultMap>
-	
-	<!-- 로그인용 쿼리문 -->
-	<select id="loginMember" parameterType="member" 
-							 resultMap="memberResultSet">
-			SELECT *
-			FROM MEMBER
-			WHERE USER_ID = #{userId}
-			AND (USER_STATUS = '1' OR USER_STATUS = '2')
-	</select>
-	<insert id="insertMember" parameterType="member">
-		INSERT INTO MEMBER(USER_NO,
-					USER_ID,
-					USER_PWD,
-					USER_NAME,
-					USER_NICKNAME,
-					USER_EMAIL,
-					USER_GENDER,
-					ADDRESS,	
-					USER_PHONE,
-					USER_STATUS)
-			VALUES (SEQ_MEMBER_NO.NEXTVAL,
-					#{userId},
-					#{userPwd},
-					#{userName},
-					#{userNickname},
-					#{userEmail},			
-					#{userGender},
-					#{address},
-					#{userPhone},
-					1)
-	</insert>
-	<update id="updateMember" parameterType="member">
-		UPDATE MEMBER
-		SET USER_NICKNAME = #{userNickname},
-		USER_EMAIL = #{userEmail},
-		USER_PWD = #{userPwd},
-		USER_PROFILE = #{userProFile}
-		WHERE USER_ID = #{userId}
-		 AND (USER_STATUS = '1' OR USER_STATUS = '2')
-	</update>
-	
-	<update id="deleteMember" parameterType="string">
-		UPDATE MEMBER
-		SET USER_STATUS = '4'
-		WHERE USER_ID = #{userId}
-	</update>
-	<select id="idCheck" parameterType="string" resultType="_int">
-		SELECT COUNT(*)
-		FROM MEMBER
-		WHERE USER_ID = #{checkId}
-	</select>
-	<select id="pwdCheck" parameterType="string" resultType="_int">
-		SELECT COUNT(*)
-		FROM MEMBER
-		WHERE USER_PWD = #{checkPwd}
-	</select>
-	<select id="emailCheck" parameterType="string" resultType="_int">
-		SELECT COUNT(*)
-		FROM MEMBER
-		WHERE USER_EMAIL = #{checkEmail}
-	</select>
-	
-
-	<select id="selectChatUserInfo" parameterType="_int" resultMap="memberResultSet">
-		SELECT USER_NO, USER_NAME, USER_ID, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, LAST_ACCESS_DATE, USER_STATUS, ADDRESS
-		FROM MEMBER
-		WHERE USER_NO = (SELECT USER_NO
-				FROM CHATROOM
-				WHERE CHATROOM_NO = #{chatroomNo}
-		)
-	</select>
-	
-	<update id="changeStatus" parameterType="member">
-		UPDATE MEMBER
-		SET USER_STATUS = #{userStatus}
-		WHERE USER_ID = #{userId}
-	</update>
-
-	<update id="uplodaimg" parameterType="string"  >
-		UPDATE MEMBER	
-		SET USER_PROFILE = #{userProFile}
-		WHERE USER_NO = #{userNo}
-	</update>
-	
-
-	<select id="selectIncompleteListCount" parameterType="_int" resultType="_int">
-		SELECT COUNT(*)
-		  FROM ESTIMATE
-		 WHERE (STATUS = '3' OR STATUS = '4') 
-		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
-	</select>
-	
-	<select id="selectCompleteListCount" parameterType="_int" resultType="_int">
-		SELECT COUNT(*)
-		  FROM ESTIMATE
-		 WHERE STATUS = '5'
-		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
-	</select>
-	
-	<select id="selectIncompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
-		SELECT EST_NO
-			 , EST_TITLE
-			 , EST_CONTENT
-			 , EST_ADDRESS
-			 , EST_SERVICE
-			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
-			 , END_DATE
-			 , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
-			 , EST_PRICE
-			 , STATUS
-			 , TID
-			 , GOSU_NO
-			 , USER_NO
-		  FROM ESTIMATE
-		 WHERE (STATUS = '3' OR STATUS = '4')
-		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
-	</select>
-	
-	<select id="selectCompleteEstimateList" parameterType="_int" resultType="estimateDto">
-		SELECT EST_NO as "estimate.estNo"
-			 , EST_TITLE as "estimate.estTitle"
-			 , EST_CONTENT as "estimate.estContent"
-			 , EST_ADDRESS as "estimate.estAddress"
-			 , EST_SERVICE as "estimate.estService"
-			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
-			 , END_DATE "estimate.endDate"
-			 , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
-			 , EST_PRICE "estimate.estPrice"
-			 , STATUS "estimate.status"
-			 , TID "estimate.tid"
-			 , GOSU_NO "estimate.gosuNo"
-			 , USER_NO "estimate.userNo"
-			 , (SELECT COUNT(*)
-			 	  FROM REVIEW
-			 	 WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt"
-			 , (SELECT REV_NO
-			 	  FROM REVIEW
-			 	 WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
-	  	  FROM ESTIMATE
-		 WHERE STATUS = '5'
-		   AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
-	</select>
-	
-	<select id="selectEstimateDetail" parameterType="_int" resultMap="estimateResultSet">
-		SELECT EST_NO
-			 , EST_TITLE
-			 , EST_CONTENT
-			 , EST_ADDRESS
-			 , EST_SERVICE
-			 , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
-			 , END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
-			 , EST_PRICE, STATUS, TID
-			 , GOSU_NO
-			 , USER_NO
-	  	  FROM ESTIMATE
-		 WHERE EST_NO = #{eno}
-	</select>
-	
-	<select id="getName" parameterType="_int" resultType="string">
-		SELECT USER_NAME
-		  FROM MEMBER
-		 WHERE USER_NO = #{userNo}
-	</select>
-	
-	<update id="payService" parameterType="estimate">
-		UPDATE ESTIMATE 
-		   SET TID = #{tid},
-		   	   CONFIRMATION_DATE = SYSDATE
-		 WHERE EST_NO = #{estNo}
-	</update>
-	
-	<update id="updateStatus" parameterType="_int">
-		UPDATE ESTIMATE 
-		   SET STATUS = '4'
-		 WHERE EST_NO = #{estNo}
-	</update>
-	
-	<insert id="reviewEnroll" parameterType="review"
-	useGeneratedKeys="true" keyColumn="REV_NO" keyProperty="revNo">
-		INSERT INTO REVIEW(REV_NO
-						 , REV_CONTENT
-						 , REV_POINT
-						 , REV_DATE
-						 , REV_STATUS
-						 , EST_NO
-						 , USER_NO
-						 , GOSU_NO)
-					VALUES(SEQ_REV_NO.NEXTVAL
-					     , #{revContent}
-					     , #{revPoint}
-					     , SYSDATE
-					     , '1'
-					     , #{estNo}
-					     , #{userNo}
-					     , #{gosuNo})
-	</insert>
-	
-	<insert id="reviewImageEnroll" parameterType="reviewImg">
-		INSERT INTO REVIEW_IMG(IMG_NO
-							 , REV_IMG_URL
-							 , REV_NO)
-						VALUES(SEQ_REV_IMG_NO.NEXTVAL
-							 , #{revImgUrl}
-							 , #{revNo})
-	</insert>				
-	
-	<select id="reviewListCount" parameterType="_int" resultType="_int">
-		SELECT COUNT(*)
-		  FROM review
-		 WHERE REV_STATUS = '1'
-		   AND USER_NO = #{userNo}
-	</select>
-	
-	<select id="myReviewList" parameterType="_int" resultType="reviewDto">
-		SELECT REV_NO as "review.revNo"
-		     , REV_CONTENT as "review.revContent"
-		     , REV_POINT as "review.revPoint"
-		     , TO_CHAR(REV_DATE, 'YYYY-MM-DD') as "review.revDate"
-		     , GOSU_NO as "review.gosuNo"
-		     , EST_NO as "review.estNo"
-		     , (SELECT REV_IMG_URL
-		          FROM REVIEW_IMG
-		         WHERE REVIEW.REV_NO = REVIEW_IMG.REV_NO AND ROWNUM BETWEEN 0 AND 1) AS "revImgUrl" 
-		  FROM REVIEW
-		 WHERE REV_STATUS = '1'
-		   AND USER_NO = #{userNo}
-		 ORDER BY REV_NO DESC
-	</select>
-	
-	<select id="myReviewDetail" parameterType="_int" resultType="reviewDto">
-		SELECT REV_NO AS "review.revNo"
-		     , REV_CONTENT AS "review.revContent"
-		     , REV_POINT AS "review.revPoint"
-		     , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
-		     , REV_STATUS AS "review.revStatus"
-		     , EST_NO AS "review.estNo"
-		     , USER_NO AS "review.userNo"
-		     , GOSU_NO AS "review.gosuNo"
-		     , (SELECT USER_NAME
-		          FROM MEMBER
-		         WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
-		     , (SELECT USER_NAME
-		          FROM MEMBER
-		         WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
-		     , (SELECT EST_TITLE
-		          FROM ESTIMATE
-		         WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
-		  FROM REVIEW R
-		 WHERE R.REV_NO = #{revNo}
-	</select>
-	
-	<select id="myReviewDetailImg" parameterType="_int" resultMap="reviewImgResultSet">
+    
+    <resultMap id="reviewImgResultSet" type="reviewImg">
+       <result column="IMG_NO" property="imgNo"/>
+       <result column="REV_IMG_URL" property="revImgUrl"/>
+       <result column="REV_NO" property="revNo"/>
+    </resultMap>
+    
+    <select id="gosuInfoByUserNo" parameterType="_int" resultMap="gosuResultSet">
 		SELECT *
-		  FROM REVIEW_IMG
-		 WHERE REV_NO = #{revNo}
+		FROM GOSU
+		WHERE GOSU_NO = #{userNo}
+		
 	</select>
-	
-	<update id="deleteReview" parameterType="_int">
-		UPDATE REVIEW
-		   SET REV_STATUS = '2'
-		 WHERE REV_NO = #{revNo}
-	</update> 
-	
-	<update id="completeEstimate" parameterType="_int">
-		UPDATE ESTIMATE
-		   SET STATUS = '5'
-		 WHERE EST_NO = #{eno}
+    <!-- 로그인용 쿼리문 -->
+    <select id="loginMember" parameterType="member" 
+                       resultMap="memberResultSet">
+          SELECT *
+          FROM MEMBER
+          WHERE USER_ID = #{userId}
+          AND (USER_STATUS = '1' OR USER_STATUS = '2')
+    </select>
+    <insert id="insertMember" parameterType="member">
+       INSERT INTO MEMBER(USER_NO,
+                USER_ID,
+                USER_PWD,
+                USER_NAME,
+                USER_NICKNAME,
+                USER_EMAIL,
+                USER_GENDER,
+                ADDRESS,   
+                USER_PHONE,
+                USER_STATUS)
+          VALUES (SEQ_MEMBER_NO.NEXTVAL,
+                #{userId},
+                #{userPwd},
+                #{userName},
+                #{userNickname},
+                #{userEmail},        
+                #{userGender},
+                #{address},
+                #{userPhone},
+                1)
+    </insert>
+    <update id="updateMember" parameterType="member">
+       UPDATE MEMBER
+       SET USER_NICKNAME = #{userNickname},
+       USER_EMAIL = #{userEmail},
+       USER_PWD = #{userPwd},
+       USER_PROFILE = #{userProFile}
+       WHERE USER_ID = #{userId}
+        AND (USER_STATUS = '1' OR USER_STATUS = '2')
+    </update>
+    
+    <update id="deleteMember" parameterType="string">
+       UPDATE MEMBER
+       SET USER_STATUS = '4'
+       WHERE USER_ID = #{userId}
+    </update>
+    <select id="idCheck" parameterType="string" resultType="_int">
+       SELECT COUNT(*)
+       FROM MEMBER
+       WHERE USER_ID = #{checkId}
+    </select>
+    <select id="pwdCheck" parameterType="string" resultType="_int">
+       SELECT COUNT(*)
+       FROM MEMBER
+       WHERE USER_PWD = #{checkPwd}
+    </select>
+    <select id="emailCheck" parameterType="string" resultType="_int">
+       SELECT COUNT(*)
+       FROM MEMBER
+       WHERE USER_EMAIL = #{checkEmail}
+    </select>
+    
+
+    <select id="selectChatUserInfo" parameterType="_int" resultMap="memberResultSet">
+       SELECT USER_NO, USER_NAME, USER_ID, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, LAST_ACCESS_DATE, USER_STATUS, ADDRESS
+       FROM MEMBER
+       WHERE USER_NO = (SELECT USER_NO
+             FROM CHATROOM
+             WHERE CHATROOM_NO = #{chatroomNo}
+       )
+    </select>
+    
+    <update id="changeStatus" parameterType="member">
+       UPDATE MEMBER
+       SET USER_STATUS = #{userStatus}
+       WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="uplodaimg" parameterType="string"  >
+       UPDATE MEMBER  
+       SET USER_PROFILE = #{userProFile}
+       WHERE USER_NO = #{userNo}
+    </update>
+    
+
+    <select id="selectIncompleteListCount" parameterType="_int" resultType="_int">
+       SELECT COUNT(*)
+         FROM ESTIMATE
+        WHERE (STATUS = '3' OR STATUS = '4') 
+          AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+    </select>
+    
+    <select id="selectCompleteListCount" parameterType="_int" resultType="_int">
+       SELECT COUNT(*)
+         FROM ESTIMATE
+        WHERE STATUS = '5'
+          AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+    </select>
+    
+    <select id="selectIncompleteEstimateList" parameterType="_int" resultMap="estimateResultSet">
+       SELECT EST_NO
+           , EST_TITLE
+           , EST_CONTENT
+           , EST_ADDRESS
+           , EST_SERVICE
+           , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
+           , END_DATE
+           , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
+           , EST_PRICE
+           , STATUS
+           , TID
+           , GOSU_NO
+           , USER_NO
+         FROM ESTIMATE
+        WHERE (STATUS = '3' OR STATUS = '4')
+          AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+    </select>
+    
+    <select id="selectCompleteEstimateList" parameterType="_int" resultType="estimateDto">
+       SELECT EST_NO as "estimate.estNo"
+           , EST_TITLE as "estimate.estTitle"
+           , EST_CONTENT as "estimate.estContent"
+           , EST_ADDRESS as "estimate.estAddress"
+           , EST_SERVICE as "estimate.estService"
+           , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+           , END_DATE "estimate.endDate"
+           , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+           , EST_PRICE "estimate.estPrice"
+           , STATUS "estimate.status"
+           , TID "estimate.tid"
+           , GOSU_NO "estimate.gosuNo"
+           , USER_NO "estimate.userNo"
+           , (SELECT COUNT(*)
+               FROM REVIEW
+              WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt"
+           , (SELECT REV_NO
+               FROM REVIEW
+              WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
+         FROM ESTIMATE
+        WHERE STATUS = '5'
+          AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+    </select>
+    
+    <select id="selectEstimateDetail" parameterType="_int" resultMap="estimateResultSet">
+       SELECT EST_NO
+           , EST_TITLE
+           , EST_CONTENT
+           , EST_ADDRESS
+           , EST_SERVICE
+           , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
+           , END_DATE, TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
+           , EST_PRICE, STATUS, TID
+           , GOSU_NO
+           , USER_NO
+         FROM ESTIMATE
+        WHERE EST_NO = #{eno}
+    </select>
+    
+    <select id="getName" parameterType="_int" resultType="string">
+       SELECT USER_NAME
+         FROM MEMBER
+        WHERE USER_NO = #{userNo}
+    </select>
+    
+    <update id="payService" parameterType="estimate">
+       UPDATE ESTIMATE 
+          SET TID = #{tid},
+                 CONFIRMATION_DATE = SYSDATE
+        WHERE EST_NO = #{estNo}
+    </update>
+    
+    <update id="updateStatus" parameterType="_int">
+       UPDATE ESTIMATE 
+          SET STATUS = '4'
+        WHERE EST_NO = #{estNo}
+    </update>
+    
+    <insert id="reviewEnroll" parameterType="review"
+    useGeneratedKeys="true" keyColumn="REV_NO" keyProperty="revNo">
+       INSERT INTO REVIEW(REV_NO
+                    , REV_CONTENT
+                    , REV_POINT
+                    , REV_DATE
+                    , REV_STATUS
+                    , EST_NO
+                    , USER_NO
+                    , GOSU_NO)
+                VALUES(SEQ_REV_NO.NEXTVAL
+                     , #{revContent}
+                     , #{revPoint}
+                     , SYSDATE
+                     , '1'
+                     , #{estNo}
+                     , #{userNo}
+                     , #{gosuNo})
+    </insert>
+    
+    <insert id="reviewImageEnroll" parameterType="reviewImg">
+       INSERT INTO REVIEW_IMG(IMG_NO
+                       , REV_IMG_URL
+                       , REV_NO)
+                   VALUES(SEQ_REV_IMG_NO.NEXTVAL
+                       , #{revImgUrl}
+                       , #{revNo})
+    </insert>           
+    
+    <select id="reviewListCount" parameterType="_int" resultType="_int">
+       SELECT COUNT(*)
+         FROM review
+        WHERE REV_STATUS = '1'
+          AND USER_NO = #{userNo}
+    </select>
+    
+    <select id="myReviewList" parameterType="_int" resultType="reviewDto">
+       SELECT REV_NO as "review.revNo"
+            , REV_CONTENT as "review.revContent"
+            , REV_POINT as "review.revPoint"
+            , TO_CHAR(REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+            , GOSU_NO as "review.gosuNo"
+            , EST_NO as "review.estNo"
+            , (SELECT REV_IMG_URL
+                 FROM REVIEW_IMG
+                WHERE REVIEW.REV_NO = REVIEW_IMG.REV_NO AND ROWNUM BETWEEN 0 AND 1) AS "revImgUrl" 
+         FROM REVIEW
+        WHERE REV_STATUS = '1'
+          AND USER_NO = #{userNo}
+        ORDER BY REV_NO DESC
+    </select>
+    
+    <select id="myReviewDetail" parameterType="_int" resultType="reviewDto">
+       SELECT REV_NO AS "review.revNo"
+            , REV_CONTENT AS "review.revContent"
+            , REV_POINT AS "review.revPoint"
+            , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
+            , REV_STATUS AS "review.revStatus"
+            , EST_NO AS "review.estNo"
+            , USER_NO AS "review.userNo"
+            , GOSU_NO AS "review.gosuNo"
+            , (SELECT USER_NAME
+                 FROM MEMBER
+                WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
+            , (SELECT USER_NAME
+                 FROM MEMBER
+                WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
+            , (SELECT EST_TITLE
+                 FROM ESTIMATE
+                WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
+         FROM REVIEW R
+        WHERE R.REV_NO = #{revNo}
+    </select>
+    
+    <select id="myReviewDetailImg" parameterType="_int" resultMap="reviewImgResultSet">
+       SELECT *
+         FROM REVIEW_IMG
+        WHERE REV_NO = #{revNo}
+    </select>
+    
+    <update id="deleteReview" parameterType="_int">
+       UPDATE REVIEW
+          SET REV_STATUS = '2'
+        WHERE REV_NO = #{revNo}
+    </update> 
+    
+    <update id="completeEstimate" parameterType="_int">
+       UPDATE ESTIMATE
+          SET STATUS = '5'
+        WHERE EST_NO = #{eno}
+    </update>
+    <insert id="insertKakaoMember" parameterType="member">
+       insert into MEMBER (USER_NO, USER_NAME, USER_ID,
+       USER_PWD, USER_NICKNAME, USER_GENDER,
+       USER_EMAIL, USER_PHONE,
+       USER_PROFILE
+       ) values        (SEQ_MEMBER_NO.nextval, #{userName}, #{userId},
+       #{userPwd}, #{userNickname}, #{userGender},
+       #{userEmail}, #{userPhone},  #{userProFile})
+    </insert>
+    <select id="selectMember" parameterType="member" resultMap="memberResultSet">
+       select *
+       from member
+       where USER_EMAIL = #{userEmail}
+    </select>
+    <update id="elaborateUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET ELABORATE = #{elaborate}
+		WHERE GOSU_NO = #{userNo}
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 	</update>
-	<insert id="insertKakaoMember" parameterType="member">
-		insert into MEMBER (USER_NO, USER_NAME, USER_ID,
-		USER_PWD, USER_NICKNAME, USER_GENDER,
-		USER_EMAIL, USER_PHONE,
-		USER_PROFILE
-		) values        (SEQ_MEMBER_NO.nextval, #{userName}, #{userId},
-		#{userPwd}, #{userNickname}, #{userGender},
-		#{userEmail}, #{userPhone},  #{userProFile})
-	</insert>
-	<select id="selectMember" parameterType="member" resultMap="memberResultSet">
-		select *
-		from member
-		where USER_EMAIL = #{userEmail}
-	</select>
+	<update id="introductionUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET INTRODUCTION = #{introduction}
+		WHERE GOSU_NO = #{userNo}
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+	</update>
+		<update id="availableTimeUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET AVAILABLE_TIME = #{availableTime}
+		WHERE GOSU_NO = #{userNo}
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+	</update>
+		<update id="educationUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET	EDUCATION = #{education}
+		WHERE GOSU_NO = #{userNo}
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+	</update>
+	<update id="moveDistanceUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET	MOVE_DISTANCE= #{moveDistance}
+		WHERE GOSU_NO = #{userNo}
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		
+	</update>
+	<update id="employeesUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET	EMPLOYEES= #{employees}
+		WHERE GOSU_NO = #{userNo}
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		
+	</update>
+	<update id="regionUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET	REGION= #{region}
+		WHERE GOSU_NO = #{userNo}
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		
+	</update>
+		<update id="careerUpdate" parameterType="gosu">
+		UPDATE GOSU
+		SET	CAREER= #{career}
+		WHERE GOSU_NO = #{userNo}
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+	</update>
 </mapper>
-
-
-
-
