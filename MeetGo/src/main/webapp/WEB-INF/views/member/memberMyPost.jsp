@@ -1,69 +1,131 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-    <style>
-        .mypost-main {
-            padding: 50px;
-            margin: 0 auto;
-            width: 1000px;
-            height: 1000px;
-        }
-        .mypost-mode li{
-            list-style: none;
-            
-        }
-        .mypost-context {
-            text-align: center;
-            margin-top: 300px;
-        }
-        #myPostLink.underline {
-        text-decoration: underline;
-         }
-       
-         #myPostLink {
-        text-decoration: none;
-        position: relative;
-        color: gray;
-        transition: color 0.3s ease, border-bottom 0.3s ease;
-        }
-         #myPostLink.underline {
-         color: black; /* 변경된 색상 */
-         border-bottom: 2px solid black;
-        }
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <meta charset="UTF-8">
+  <title>내가 작성한 커뮤니티 게시글</title>
+  <style>
+    @font-face {
+      font-family: 'Pretendard-Regular';
+      src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+    }
 
-       
-    </style>
+    body {
+      font-family: 'Pretendard-Regular';
+      margin: 0;
+      padding: 0;
+    }
+
+    .wrap {
+      margin: auto;
+      width: 1000px;
+      
+      height: 1000px;
+      
+    }
+
+    .gosu_header {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    hr {
+      border: 1px solid #ddd;
+    }
+
+    .gosu_body_1 {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .gosu_body_1 div {
+      box-sizing: border-box;
+      padding: 10px;
+    }
+
+    .gosu_body_1_1, .gosu_body_1_3 {
+      width: 20%;
+    }
+
+    .gosu_body_1_2 {
+      width: 60%;
+      text-align: center;
+    }
+
+    .gosu_main {
+      width: 1000px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .boardList tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .boardList tr td.gosu_content_2 {
+      max-width: 500px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
-    <jsp:include page="../common/header.jsp"/>
+  <jsp:include page="../common/header.jsp"/>
 
-    <div class="mypost-main">
-        <div class="mypost-title">
-            <h1>커뮤니티 작성글/ 댓글</h1>
-        </div>
-        <div class="mypost-mode">
-            <HR>
-            <a href="myPost.me" id="myPostLink" onclick="toggleUnderline()">작성 글</a>
-            <a href="comment.me" id="myPostLink" onclick="toggleUnderline()">작성 댓글</a>    
-        </div>
-        <hr>
-        <div class="mypost-context">
-            <img src="https://assets.cdn.soomgo.com/icons/icon-coupon-empty.svg">
-            <h3>작성글이 없습니다</h3>
-            <p>생활서비스에 대한 정보와 질문을 올려보세요!</p>
-        </div>
+  <div class="wrap">
+    <div class="gosu_header">
+      <h2>내가 작성한 커뮤니티 게시글</h2>
+      
+      <a href="comment.me">내가 작성한 댓글창으로 가기</a>
+      <hr>
     </div>
-    <hr>
-    <jsp:include page="../common/footer.jsp"/>
-<script>
-      function toggleUnderline() {
-            var myPostLink = document.getElementById("myPostLink");
-            myPostLink.classList.toggle("underline");
-        }
-</script>
+
+    <div class="gosu_body_1">
+      <div class="gosu_body_1_1"><b>No</b></div>
+      <div class="gosu_body_1_2"><b>제목</b></div>
+    </div>
+
+    <div class="gosu_main">
+      <table class="boardList">
+        <c:forEach var="m" items="${ requestScope.list }">
+          <tr>
+            <td class="bno">${m.boardNo}</td>
+            <td class="gosu_content_2">${m.boardTitle}</td>
+            <td class="gosu_content_4">${m.createDate}</td>
+          </tr>
+        </c:forEach>
+      </table>
+    </div>
+    
+  </div>
+
+  <jsp:include page="../common/footer.jsp"/>
+
+  <script>
+    $(".boardList tr").click(function() {
+      let bno = $(this).children(".bno").text();
+      location.href = "detail.bo?bno=" + bno;
+    });
+  </script>
 </body>
 </html>

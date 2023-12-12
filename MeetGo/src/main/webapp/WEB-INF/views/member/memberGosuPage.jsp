@@ -27,9 +27,11 @@
             box-sizing: border-box;
             
             
+            
         }
         .profile {
             display: flex;
+            margin-top:100px;
         }
         .profile-img {
             width: 300px;
@@ -62,7 +64,7 @@
             
 
         }
-        .loginLabel {
+        .label {
             font-size: .875rem;
             line-height: 1.43;
             letter-spacing: -.0125rem;
@@ -282,86 +284,29 @@
             color: #737373;
             margin-top: 0.25rem;
         }
-        .modal{
-            position:absolute;
-            display:none;
-            
-            justify-content: center;
-            top:0;
-            left:0;
-
-            width:100%;
-            height:100%;
-
-            
-
-            background-color: rgba(0,0,0,0.4);
-        }
-        .main_service_modal{
-            position:absolute;
-            top:50%;  
-        
-
-            width:400px; 
-            height:600px; 
-
-            padding:40px;  
-
-            text-align: center;
-
-            background-color: rgb(255,255,255);
-            border-radius:10px;
-            box-shadow:0 2px 3px 0 rgba(34,36,38,0.15);
-
-            transform:translateY(-50%);
-            
-        }
-        .main_service_modal_body{
-            
-            height: 95%;
-        }
-        .modal_title {
-            border-bottom: 0.1rem solid darkgray;
-            text-align: center;
-            font-size: 20px;
-        }
-        .modal_btn {
-            float: left;
-        }
-        .modal_btn_info {
-            background-color: aquamarine;
-            color:white;
-            border-radius: 30px;
-            border-style: none;
-            padding:  10px 20px;
-            }
-        .modal-footer {
-            
-            border-top: 0.1rem solid darkgray;
-        }
-        .modal_footer_btn{
-            background-color: aquamarine;
-            padding: 10px 160px;
-            margin-top: 9px;
-            border-style: none;
-            border-radius: 5px;
-        }
-        .modal_delect_btn{
-            color: gray;
-            border-style: none;
-            background-color: white;
-            margin-top: 20px;
-            float: left;
-        }
-    
-
-            
-        
+	       .editable-field {
+	        width: 100%;
+	        padding: 10px;
+	        margin-bottom: 10px;
+	        border: 1px solid #ccc;
+	        border-radius: 5px;
+	        box-sizing: border-box;
+	    }
+	
+	    .save-button {
+	        padding: 10px 20px;
+	        background-color: #00c7ae;
+	        color: white;
+	        border: none;
+	        border-radius: 5px;
+	        cursor: pointer;
+	    }
+	    
+ 
     </style>
 </head>
 <body>
     <jsp:include page="../common/header.jsp"/>
-
     <div class="gosu-page">
         <div class="profile">
             <div class="profile-img">
@@ -369,7 +314,7 @@
                 <div class="my-profile-overview">
                     <div class="profile-img">
                     
-                        <img src="https://cdn.newsculture.press/news/photo/202207/509775_619054_128.jpg" class="img">
+                        <img src="${sessionScope.loginUser.userProFile}" class="img">
                     </div>
                 
                 </div>
@@ -404,224 +349,152 @@
                     <h2>숨고 활동명</h2>
                     <div class="action-group-wapper">
                         <div class="type">
-                            <div class="update" onclick="toggleEditMode()">
-                                수정
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
             <div class="info">
                 <div class="value">
-                    <div id="displayText">김찬영</div>
+                    <div id="displayText">${sessionScope.loginUser.userName}</div>
                     <input type="text" id="editInput" style="display: none;">
                     <button id="saveButton" style="display: none;" onclick="saveChanges()">저장</button>
                 </div>
             </div>
-        </div>
-        <div class="my-profile-name">
+        </div> 
+         <div class="my-profile-name">
             <div class="comp-hader">
                 <div class="hading">
                     <h2>대표서비스</h2>
                     <div class="action-group-wapper">
-                        <div class="modal">
-                            <div class="main_service_modal">
-                                <div class="main_service_modal_body">
-                                    <div class="modal_title">
-                                        대표서비스
-                                    </div>
-                                    <h2>고수님의 대표 서비스를 선택해</h2>
-                                        <div class="modal_btn">
-                                                <button class="modal_btn_info">편의점 심부름</button>
-                                                <div>
-                                                    <button class="modal_delect_btn">대표서비스 삭제</button>
-                                                </div>
-                                            </div>
-                                    </div>
-                                <div class="modal-footer">
-                                    <button class="modal_footer_btn">등록하기</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="type">
-                            <button class="update" onclick="openMainServiceModal()" style="border-style: none; background-color: white; cursor: pointer;">
-                                수정
-                            </button>
-
-                        </div>
+                        
                     </div>
                 </div>
-
             </div>
-            <div class="info">
-                <div class="value">
-                    
-                    편의점 심부름
+             <div class="info">
+        <div class="value">
+            <p>편의점 심부름</p>
+        </div>
+    </div>
+</div>
+
+		<div class="my-profile-name">
+		    <div class="comp-hader">
+		        <div class="hading">
+		            <h2>제공서비스</h2>
+		            <div class="action-group-wapper">
+		                <div class="type">
+		                    <div class="update" onclick="openServiceModal()">
+		                        수정
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		    <div class="info">
+		        <div class="value">
+		            <a class="service" href="addService.me">+서비스 추가</a>
+		        </div>
+		    </div>
+		</div>
+<form action="introductionUpdate.me">
+     <div class="my-profile-name">
+    <div class="comp-hader">
+        <div class="hading">
+            <h2>한줄소개</h2>
+            <div class="action-group-wapper">
+                <div class="type">
+                    <div class="update" onclick="toggleEditMode('intro')">
+                        수정
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>제공서비스</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
-                            </div>
-                        </div>
+    </div>
+    <div class="info">
+        <div class="value">
+            <div id="introDisplayText">${sessionScope.loginGosu.introduction}</div>
+            <input type="text" id="introEditInput"  name="introduction"style="display: none;" class="editable-field">
+            <button id="introSaveButton" style="display: none;" onclick="saveChanges('intro')" class="save-button">저장</button>
+        </div>
+    </div>
+</div>
+</form>
+<form action="emplyeesUpdate.me">
+ <div class="my-profile-name">
+    <div class="comp-hader">
+        <div class="hading">
+            <h2>직원수</h2>
+            <div class="action-group-wapper">
+                <div class="type">
+                    <div class="update" onclick="toggleEditMode('employeeCount')">
+                        수정
                     </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-                   <a class="service">+서비스 추가</a>
                 </div>
             </div>
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>한줄소개</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
-                            </div>
-                        </div>
+    </div>
+    <div class="info">
+        <div class="value">
+            <!-- 디스플레이 모드 내용 -->
+            <div id="employeeCountDisplayText">${sessionScope.loginGosu.employees}</div>
+            <!-- 편집 모드 내용 -->
+            <input type="text" name="employeesUpdate" id="employeeCountEditInput" style="display: none;" class="editable-field" placeholder="직원수를 입력하세요">
+            <button id="employeeCountSaveButton" style="display: none;" onclick="saveChanges('employeeCount')" class="save-button">저장</button>
+        </div>
+    </div>
+</div>
+</form>
+<form action="region.me">
+       <div class="my-profile-name">
+    <div class="comp-hader">
+        <div class="hading">
+            <h2>활동 지역</h2>
+            <div class="action-group-wapper">
+                <div class="type">
+                    <div class="update" onclick="toggleEditMode('activityArea')">
+                        수정
                     </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-                    편의점 ㅈㄴ 잘함
                 </div>
             </div>
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>본인인증</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                인증
-                            </div>
+    </div>
+    <div class="info">
+        <div class="value">
+            <!-- 디스플레이 모드 내용 -->
+            <div id="activityAreaDisplayText">${sessionScope.loginGosu.region}</div>
+            <!-- 편집 모드 내용 -->
+            <input type="text" name="regionUpdate" id="activityAreaEditInput" style="display: none;" class="editable-field" placeholder="활동 지역을 입력하세요">
+            <button id="activityAreaSaveButton" style="display: none;" onclick="saveChanges('activityArea')" class="save-button">저장</button>
+        </div>
+    </div>
+</div>
+</form>
+  <form action="moveDistanceUpdate.me">
+    <div class="my-profile-name">
+        <div class="comp-hader">
+            <div class="hading">
+                <h2>이동 가능 거리</h2>
+                <div class="action-group-wapper">
+                    <div class="type">
+                        <div class="update" onclick="toggleEditMode('moveDistance')">
+                            수정
                         </div>
                     </div>
                 </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-               
-                </div>
             </div>
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>활동 지역</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-                    관악구 남부순환로
-                </div>
+        <div class="info">
+            <div class="value">
+                <div id="moveDistanceDisplayText">${sessionScope.loginGosu.moveDistance}</div>
+                <input type="text" name="moveDistanceUpdate" id="moveDistanceEditInput" style="display: none;" placeholder="이동 가능 거리를 입력하세요" class="editable-field">
+                <button id="moveDistanceSaveButton" style="display: none;" onclick="saveChanges('moveDistance')" class="save-button">저장</button>
             </div>
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>연락가능시간</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-                    오전1시~오후12시
-                </div>
-            </div>
-        </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>자격증 및 기타 서류 등록</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                자격증 및 기타서류
-                <div class="container">
-                    <sapn><img src="">개인/민감 정보를 삭제 후 등록해야 하며, 허위정보에 대한 모든 책임은 본인에게 있습니다.</sapn>
-                </div>    
-                
-                </div>
-                <div class="media-body">
-                    <ul>
-                        <li>
-                            <div class="file-body">
-                                <label class="file-upload-container">
-                                    <span class="plus-icon">+</span>
-                                    <input type="file">
-                                </label>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>고수 서비스 상세설명</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-                    경력 잦됌~
-                </div>
-            </div>
-        </div>
+    </div>
+</form>
+      
+      
         <div class="my-profile-name">
             <div class="comp-hader">
                 <div class="hading">
@@ -629,27 +502,6 @@
                     <div class="action-group-wapper">
                         <div class="type">
                             <div class="update">
-                                 수정
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-                    오전1시~오후12시
-                </div>
-            </div>
-        </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>경력</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
                                 수정
                             </div>
                         </div>
@@ -659,40 +511,133 @@
             </div>
             <div class="info">
                 <div class="value">
-                   <div class="value-text">
-                        상세한 경력을 작성하고<br>
-                        경쟁력 있는 프로필을 만들어보세요!! <a class="value-text-btn">경력 등록하기</a>
-                   </DIV> 
-                   
+                    
+                    10000만원부터 시작
                 </div>
             </div>
         </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>학력</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                 수정
-                            </div>
+        
+        
+        
+     <form action="elaborateUpdate.me">  
+        
+       <div class="my-profile-name">
+	    <div class="comp-hader">
+	        <div class="hading">
+	            <h2>고수 서비스 상세설명</h2>
+	            <div class="action-group-wapper">
+	                <div class="type">
+	                    <div class="update" onclick="toggleEditMode('description')">
+	                        수정
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <div class="info">
+	    
+	        <div class="value">
+	            <div id="descriptionDisplayText"><p> ${sessionScope.loginGosu.elaborate}</p></div>
+	            <input type="text" name="elaborate"id="descriptionEditInput" style="display: none;" class="editable-field">
+	            <button id="descriptionSaveButton" style="display: none;" onclick="saveChanges('description')" class="save-button">저장</button>
+	        </div>
+	    </div>
+	</div>
+</form>
+
+
+<form action="availableTimeUpdate.me" >
+     <div class="my-profile-name">
+    <div class="comp-hader">
+        <div class="hading">
+            <h2>연락가능시간</h2>
+            <div class="action-group-wapper">
+                <div class="type">
+                    <div class="update" onclick="toggleEditAvailableTime()">
+                        수정
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info">
+        <div class="value">
+            <div id="availableTimeDisplayText">${sessionScope.loginGosu.availableTime}</div>
+            <input type="text" name="availableTimeUpdate" id="availableTimeEditInput" style="display: none;" placeholder="예시)오전0시~오후0시" class="editable-field">
+            <button id="availableTimeSaveButton" style="display: none;" onclick="saveChangesAvailableTime()" class="save-button">저장</button>
+        </div>
+    </div>
+</div>
+</form>
+<form action="careerUpdate.me" method="post">
+    <div class="my-profile-name">
+        <div class="comp-hader">
+            <div class="hading">
+                <h2>경력</h2>
+                <div class="action-group-wapper">
+                    <div class="type">
+                        <div class="update" onclick="toggleEditMode('career')">
+                            수정
                         </div>
                     </div>
                 </div>
-
             </div>
-            <div class="info">
-                <div class="value">
-                    <div class="Education-title">
-                        
-                        하버드대학교
-                    </div>
-                    <div class="Education-context">2026년 10월 ~ 2030년 10월</div>
-                    <div class="Education-body">학종이접기학과</div>
+        </div>
+        <div class="info">
+            <div class="value">
+                <!-- Display mode content -->
+                <div id="careerDisplayText">${sessionScope.loginGosu.career}</div>
+                <!-- Edit mode content -->
+                <select name="careerUpdate" id="careerEditInput" style="display: none;" class="editable-field">
+                    <option value="1년 미만">경력 1년 미만</option>
+                    <option value="1년 이상">경력 1년</option>
+                    <option value="2년 이상">경력 2년</option>
+                    <option value="3년 이상">경력 3년</option>
+                    <option value="4년 이상">경력 4년</option>
+                    <option value="5년 이상">경력 5년</option>
+                    <option value="6년 이상">경력 6년</option>
+                    <option value="7년 이상">경력 7년</option>
+                    <option value="8년 이상">경력 8년</option>
+                    <option value="9년 이상">경력 9년</option>
+                    <option value="10년 이상">경력 10년</option>
+                     <option value="15년 이상">경력 15년</option>
+                     <option value="20년 이상">경력 20년</option>
+              
                     
+                    <!-- 다른 경력 옵션들도 필요에 따라 추가 -->
+                </select>
+                <button id="careerSaveButton" style="display: none;" onclick="saveChanges('career')" class="save-button">저장</button>
+            </div>
+        </div>
+    </div>
+</form>
+<form action="educationUpdate.me" method="post">
+    <div class="my-profile-name">
+        <div class="comp-hader">
+            <div class="hading">
+                <h2>학력</h2>
+                <div class="action-group-wapper">
+                    <div class="type">
+                        <div class="update" onclick="toggleEditMode('education')">
+                            수정
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="info">
+            <div class="value">
+                <!-- Display mode content -->
+                <div id="educationDisplayText" class="Education-title">${sessionScope.loginGosu.education}</div>
+                <!-- Edit mode content -->
+                <input type="text" name="educationUpdate" id="educationEditInput" class="editable-field" style="display: none;" placeholder="대학교명 입학~졸업일 학과를 적으세요" class="editable-field">
+                <button id="educationSaveButton" class="save-button editable-field" style="display: none;" onclick="saveChanges('education')" class="save-button">저장</button>
+            </div>
+        </div>
+    </div>
+</form>
+        
         <div class="my-profile-name">
             <div class="comp-hader">
                 <div class="hading">
@@ -748,9 +693,11 @@
                                 <div class="file-body">
                                     <label class="file-upload-container">
                                         <span class="plus-icon">+</span>
-                                        <input type="file">
+       									 <input type="file" id="fileInput" onchange="displayImagePreview()">
                                     </label>
                                 </div>
+								<div id="imagePreview" style="margin-top: 10px;"></div>
+                                
                             </li>
                         </ul>
                         <div class="file-body-context">
@@ -769,27 +716,30 @@
         </div>
        
                     </div>
+            
+                   
+                    
+                  
 
     <jsp:include page="../common/footer.jsp"/>
     <script>
-   function openMainServiceModal() {
-        var modal = document.querySelector('.modal');
-        modal.style.display = 'flex';
-    }
+    function displayImagePreview() {
+        var fileInput = document.getElementById('fileInput');
+        var imagePreview = document.getElementById('imagePreview');
 
-    // 메인 서비스 모달을 닫기 위한 함수
-    function closeMainServiceModal() {
-        var modal = document.querySelector('.modal');
-        modal.style.display = 'none';
-    }
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
 
-    // 문서를 클릭했을 때 모달 외부를 클릭하면 모달을 닫기 위한 이벤트 리스너 추가
-    document.addEventListener('click', function (event) {
-        var modal = document.querySelector('.modal');
-        if (event.target === modal) {
-            closeMainServiceModal();
+            reader.onload = function (e) {
+                imagePreview.innerHTML = '<img src="' + e.target.result + '" style="max-width:100%; max-height:200px;" />';
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
         }
-    });
+    }
+</script>
+    <script>
+   
     function toggleEditMode() {
         var displayText = document.getElementById('displayText');
         var editInput = document.getElementById('editInput');
@@ -823,8 +773,226 @@
         editInput.style.display = 'none';
         saveButton.style.display = 'none';
     }
+	
+    function toggleEditMode(fieldName) {
+        var displayText = document.getElementById(fieldName + 'DisplayText');
+        var editInput = document.getElementById(fieldName + 'EditInput');
+        var saveButton = document.getElementById(fieldName + 'SaveButton');
 
+        displayText.style.display = 'none';
+        editInput.style.display = 'block';
+        saveButton.style.display = 'block';
+
+        // 입력 필드 값을 현재 표시 텍스트로 설정합니다.
+        editInput.value = displayText.innerText;
+    }
+
+    // 표시 텍스트 업데이트
+    function updateDisplayText(fieldName) {
+        // 입력 필드 값이 변경될 때마다 표시 텍스트 업데이트
+        var displayText = document.getElementById(fieldName + 'DisplayText');
+        var editInput = document.getElementById(fieldName + 'EditInput');
+        displayText.innerText = editInput.value;
+    }
+
+    // 변경 사항 저장
+    function saveChanges(fieldName) {
+        var displayText = document.getElementById(fieldName + 'DisplayText');
+        var editInput = document.getElementById(fieldName + 'EditInput');
+        var saveButton = document.getElementById(fieldName + 'SaveButton');
+
+        // 입력 필드 값으로 표시 텍스트를 업데이트합니다.
+        displayText.innerText = editInput.value;
+
+        // 저장 버튼과 입력 필드를 숨깁니다.
+        displayText.style.display = 'block';
+        editInput.style.display = 'none';
+        saveButton.style.display = 'none';
+    }
     </script>
+
+<script>
+    function toggleEditAvailableTime() {
+        var displayText = document.getElementById('availableTimeDisplayText');
+        var editInput = document.getElementById('availableTimeEditInput');
+        var saveButton = document.getElementById('availableTimeSaveButton');
+
+        displayText.style.display = 'none';
+        editInput.style.display = 'block';
+        saveButton.style.display = 'block';
+
+        // 입력 필드 값을 현재 표시 텍스트로 설정합니다.
+        editInput.value = displayText.innerText;
+    }
+
+    function saveChangesAvailableTime() {
+        var displayText = document.getElementById('availableTimeDisplayText');
+        var editInput = document.getElementById('availableTimeEditInput');
+        var saveButton = document.getElementById('availableTimeSaveButton');
+
+        // 입력 필드 값으로 표시 텍스트를 업데이트합니다.
+        displayText.innerText = editInput.value;
+
+        // 저장 버튼과 입력 필드를 숨깁니다.
+        displayText.style.display = 'block';
+        editInput.style.display = 'none';
+        saveButton.style.display = 'none';
+    }
+</script>
+    <script>
+        // Function to toggle between display and edit mode
+        function toggleEditMode(section) {
+            var displayElements = document.querySelectorAll('.value .Education-title, .value .Education-context, .value .Education-body');
+            var editElements = document.querySelectorAll('.value .editable-field');
+            var saveButton = document.querySelector('.value .save-button');
+
+            // Toggle display and edit mode
+            displayElements.forEach(function (element) {
+                element.style.display = 'none';
+            });
+
+            editElements.forEach(function (element) {
+                element.style.display = 'block';
+            });
+
+            saveButton.style.display = 'block';
+        }
+    </script>
+    <script>
+    function toggleEditMode(field) {
+        // Display the editable field and save button for the specified field
+        var displayText = document.getElementById(field + 'DisplayText');
+        var editInput = document.getElementById(field + 'EditInput');
+        var saveButton = document.getElementById(field + 'SaveButton');
+
+        // Set the input value to the current display text content
+        editInput.value = displayText.innerText;
+
+        // Toggle the display property
+        displayText.style.display = 'none';
+        editInput.style.display = 'block';
+        saveButton.style.display = 'block';
+    }
+
+    function saveChanges(field) {
+        // Save the changes for the specified field
+        var displayText = document.getElementById(field + 'DisplayText');
+        var editInput = document.getElementById(field + 'EditInput');
+        var saveButton = document.getElementById(field + 'SaveButton');
+
+        // Update the display text with the input value
+        displayText.innerText = editInput.value;
+
+        // Toggle the display property
+        displayText.style.display = 'block';
+        editInput.style.display = 'none';
+        saveButton.style.display = 'none';
+    }
+</script>
+<script>
+    // 직원수 섹션을 편집 모드로 전환하는 함수
+    function toggleEditMode(field) {
+        var displayText = document.getElementById(field + 'DisplayText');
+        var editInput = document.getElementById(field + 'EditInput');
+        var saveButton = document.getElementById(field + 'SaveButton');
+
+        // 디스플레이 모드 숨김, 편집 모드 표시
+        displayText.style.display = 'none';
+        editInput.style.display = 'block';
+        saveButton.style.display = 'block';
+
+        // 입력 필드에 현재 값을 표시
+        editInput.value = displayText.innerText;
+    }
+
+    // 변경 사항을 저장하는 함수
+    function saveChanges(field) {
+        var displayText = document.getElementById(field + 'DisplayText');
+        var editInput = document.getElementById(field + 'EditInput');
+        var saveButton = document.getElementById(field + 'SaveButton');
+
+        // 편집 모드 숨김, 디스플레이 모드 표시
+        displayText.style.display = 'block';
+        editInput.style.display = 'none';
+        saveButton.style.display = 'none';
+
+        // 입력 필드의 값을 디스플레이 모드에 적용
+        displayText.innerText = editInput.value;
+    }
+    // 활동지역 섹션을 편집 모드로 전환하는 함수
+    function toggleEditMode(field) {
+        var displayText = document.getElementById(field + 'DisplayText');
+        var editInput = document.getElementById(field + 'EditInput');
+        var saveButton = document.getElementById(field + 'SaveButton');
+
+        // 디스플레이 모드 숨김, 편집 모드 표시
+        displayText.style.display = 'none';
+        editInput.style.display = 'block';
+        saveButton.style.display = 'block';
+
+        // 입력 필드에 현재 값을 표시
+        editInput.value = displayText.innerText;
+    }
+
+    // 변경 사항을 저장하는 함수
+    function saveChanges(field) {
+        var displayText = document.getElementById(field + 'DisplayText');
+        var editInput = document.getElementById(field + 'EditInput');
+        var saveButton = document.getElementById(field + 'SaveButton');
+
+        // 편집 모드 숨김, 디스플레이 모드 표시
+        displayText.style.display = 'block';
+        editInput.style.display = 'none';
+        saveButton.style.display = 'none';
+
+        // 입력 필드의 값을 디스플레이 모드에 적용
+        displayText.innerText = editInput.value;
+    }
+</script>
+<script>
+    function toggleEditMode(fieldName) {
+        var displayText = document.getElementById(fieldName + 'DisplayText');
+        var editInput = document.getElementById(fieldName + 'EditInput');
+        var saveButton = document.getElementById(fieldName + 'SaveButton');
+
+        displayText.style.display = 'none';
+        editInput.style.display = 'block';
+        saveButton.style.display = 'block';
+
+        // 현재 표시 텍스트와 일치하는 드롭다운 값을 선택합니다.
+        var currentValue = displayText.innerText;
+        var dropdown = document.getElementById(fieldName + 'EditInput');
+        for (var i = 0; i < dropdown.options.length; i++) {
+            if (dropdown.options[i].value === currentValue) {
+                dropdown.selectedIndex = i;
+                break;
+            }
+        }
+    }
+
+    // 표시 텍스트 업데이트
+    function updateDisplayText(fieldName) {
+        // 선택된 드롭다운 값을 표시 텍스트에 업데이트
+        var displayText = document.getElementById(fieldName + 'DisplayText');
+        var editInput = document.getElementById(fieldName + 'EditInput');
+        displayText.innerText = editInput.value;
+    }
+
+    // 변경 사항 저장
+    function saveChanges(fieldName) {
+        var displayText = document.getElementById(fieldName + 'DisplayText');
+        var editInput = document.getElementById(fieldName + 'EditInput');
+        var saveButton = document.getElementById(fieldName + 'SaveButton');
+
+        // 선택된 드롭다운 값을 표시 텍스트에 업데이트
+        displayText.innerText = editInput.value;
+
+        // 저장 버튼과 드롭다운을 숨깁니다.
+        displayText.style.display = 'block';
+        editInput.style.display = 'none';
+        saveButton.style.display = 'none';
+    }
+</script>
 
 </body>
 </html>
