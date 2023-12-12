@@ -237,7 +237,9 @@
 		    G.AVAILABLE_TIME AS "gosu.availableTime",
 		    M.USER_PROFILE AS "userProfile",
 		    M.USER_NICKNAME AS "userNickname",
-		    GS.CATEGORY_SMALL_NAME AS "categorySmallName"
+		    GS.CATEGORY_SMALL_NAME AS "categorySmallName",
+		    R.avgRevPoint AS "avgRevPoint",
+		    R.reviewCount AS "reviewCount"
 		  FROM GOSU G
 		  LEFT JOIN (
 		    SELECT USER_NO, USER_PROFILE, USER_NICKNAME
@@ -248,6 +250,14 @@
 		    FROM "GOSU-SERVICE"
 		  ) S ON S.GOSU_NO = G.GOSU_NO
 		  LEFT JOIN SERVICE_CATEGORY_SMALL GS ON GS.CATEGORY_SMALL_NO = S.CATEGORY_SMALL_NO
+		  LEFT JOIN (
+            SELECT GOSU_NO,
+            	   COUNT(*) AS reviewCount,
+                   SUM(REV_POINT) AS totalRevPoint,
+                   AVG(REV_POINT) AS avgRevPoint
+              FROM REVIEW
+              GROUP BY GOSU_NO
+               ) R ON R.GOSU_NO = G.GOSU_NO
 		  WHERE G.GOSU_NO = #{gosuNo}
 		)
 	</select>	

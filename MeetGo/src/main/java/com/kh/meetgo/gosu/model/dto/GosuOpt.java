@@ -26,8 +26,8 @@ public class GosuOpt {
     private int estimateCount;
     private Date createDate;
     private int reviewCount;
-    private int totalRevPoint;
-    private int avgRevPoint;
+    private double totalRevPoint;
+    private double avgRevPoint;
 
 	// 나중에 별점 추가
 }
