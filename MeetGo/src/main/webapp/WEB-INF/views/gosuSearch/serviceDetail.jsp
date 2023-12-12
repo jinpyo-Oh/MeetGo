@@ -183,6 +183,25 @@
 	        height: 50px;
         }
         #backToListBtn button:hover{ background-color: #2A8FF7; }
+        
+        #enlarge-background{
+	        position: fixed; 
+	        z-index: 99;
+	        left: 0;
+	        top: 0;
+	        width: 100%;
+	        height: 100%;
+	        background-color: rgba(0, 0, 0, 0.4);
+	        display:none;
+        }
+        #enlarge-form{
+        	width: 700px;
+        	height: 90%;
+        	background-color: white;
+        	box-sizing: border-box;
+        	margin:2% auto 0 auto;
+        	overflow: auto;
+        }
 	
 	</style>
 </head>
@@ -337,16 +356,16 @@
 	<!-- 리뷰 -->
 	<div id="secondTb" style="display: none; width:700px;">
 	
-			<div style="width:700px;">
-			<p style="font-size:20px;"><b>사진</b></p>
-				<img src="" width="150px" height="150px">
-				<img src="" width="150px" height="150px">
-				<img src="" width="150px" height="150px">
-				<img src="" width="150px" height="150px">
+			<div style="width:700px; margin-bottom:120px;">
+			<p style="font-size:22px;"><b>사진</b></p>
+				<img class="reviewImg" src="" width="150px" height="150px" onclick="openEnlarge();">
+				<img class="reviewImg" src="" width="150px" height="150px">
+				<img class="reviewImg" src="" width="150px" height="150px">
+				<img class="reviewImg" src="" width="150px" height="150px">
 			</div>
 			
 		<div>
-			<p><b>총 리뷰 <span>${requestScope.list[0].reviewCount}</span>건</b></p>
+			<p><b>총 리뷰<span>${requestScope.list[0].reviewCount}</span>건</b></p>
 			<span id="star-rate">${requestScope.list[0].avgRevPoint}</span>
 
 			<script> // 별점 함수
@@ -423,12 +442,30 @@
 	</div>
 </div>
 
+	<!-- 리뷰확대 커스텀창 -->
+	<div id="enlarge-background">
+		<div id="enlarge-form">
+			
+		</div>
+	</div>
+
 
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
 	function linkPofol(pno) {
 		location.href = "pofolDetail.po?pno=" + pno;
 	}
+	
+	// 확대창 보이기
+	function openEnlarge() {	
+		$("#enlarge-background").css("display", "block");
+	}
+	
+	// 배경 누를 시 다시 숨기기
+	let modal = document.getElementById("enlarge-background");
+    window.addEventListener('click', (e) => {
+        e.target == modal ? $('#enlarge-background').css("display", "none") : false;
+    });
 
     $(function(){
 		
