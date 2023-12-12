@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -122,8 +124,9 @@
        
             <div class="main_title_1" style="float: left;">
             <br>
-            <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목</h4>
-        </div>
+            <h4 style="font-size:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${ requestScope.m.boardTitle }</h4>
+        
+        	</div>
            
             <div class="main_title_2" style="float: right;">
                
@@ -137,7 +140,7 @@
           
             <div class="main_body_1">
             <div class="main_body_1_1">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 조회수 : 10 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 조회수 : ${ requestScope.m.boardCount } 
             </div>
             
             <div class="main_body_1_2">

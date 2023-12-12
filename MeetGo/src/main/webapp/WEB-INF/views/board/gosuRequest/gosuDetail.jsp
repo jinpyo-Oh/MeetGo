@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+
     @font-face {
         font-family: 'Pretendard-Regular';
         src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -21,10 +25,12 @@
 
 .wrap{
     margin: auto;
-    height: 850px;
     width: 1000px;
+    min-height : 1200px;
+    
 }
 .gosu_header1{
+    margin: auto;
     height: 50px;
     width: 1000px;
 }
@@ -95,6 +101,19 @@
     outline: 0;
 }
 
+        .swiper-slide>img {
+            width : 100%;
+            height : 100%;
+        }
+        div[class^=swiper-button] {
+            color : white;
+			display : none;
+        }
+	
+		.category-img-wrapper img{
+			width: 80px;
+			height: 80px;
+}
 </style>
 </head>
 <body>
@@ -121,21 +140,28 @@
 		    ${requestScope.m.createDate} &nbsp; &nbsp;<i class="bi bi-eye-fill"></i>
 		</div>
         <hr>
-        <div class="swiper"> <!-- 슬라이드 이미지 시작 -->
-			<div class="swiper-wrapper">
-                <div class="swiper-slide"><img src=""></div>
-				<div class="swiper-slide"><img src=""></div>
-				<div class="swiper-slide"><img src=""></div>
-				<div class="swiper-slide"><img src=""></div>
-				<div class="swiper-slide"><img src=""></div>
-			</div>
-			<div class="swiper-pagination"></div>
+        <div class="swiper"> 
+			  <div class="swiper-wrapper">
+            <!-- 이미지 파일 경로를 반복문으로 처리 -->
+            <c:forEach var="image" items="${requestScope.imgList}">
+                <div class="swiper-slide" align="center">
+                    <img src="${image.filePath}" style="width:750px; height:400px; float:center;">
+                </div>
+                
+                <div class="swiper-pagination"></div>
 			<div class="swiper-button-prev"></div>
 			<div class="swiper-button-next"></div>
+            </c:forEach>
+        </div>
+			
 		</div>
         <div class="gosu_content2">
+        
+        <img src="${ requestScope.list[0].boardFile.filePath }">
+            
+            <div style="font-size:25px;">
             ${ requestScope.m.boardContent }
-	
+			</div>
         </div>
 			
 				 <table id="replyArea">
@@ -183,83 +209,26 @@
         </div>
    	</div>
     	<jsp:include page="../../common/footer.jsp"/>
-    
+   
+   
+     <script>   
+		    
+     const swiper = new Swiper('.swiper', {
+        autoplay : {
+            delay : 10000 // 3초마다 이미지 변경
+        },
+        loop : true, //반복 재생 여부
+        slidesPerView : 1, // 이전, 이후 사진 미리보기 갯수
+        pagination: { // 페이징 버튼 클릭 시 이미지 이동 가능
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        navigation: { 
+            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next'
+        }
+
+		    });
+		</script>
 </body>
-   <script>
-    	$(function() {
-    		
-    		// 댓글리스트 조회용 선언적 함수 호출
-    		selectReplyList();
-		
-    	});
-    	
-    	function addReply() {
-    		
-    		// 댓글 작성 요청용 ajax 요청
-    		
-    		// 댓글내용이 있는지 먼저 검사 후
-    		// 댓글 내용 중 공백 제거 후 길이가 0 이 아닌 경우
-    		// => textarea 가 form 태그 내부에 있지 않음
-    		//    (required 속성으로 필수 입력값임을 나타낼 수 없음)
-    		if($("#coment").val().trim().length != 0) {
-    			
-    			$.ajax({
-    				url : "rinsert.bo",
-    				type : "get",
-    				data: {
-    				    refBoardNo: ${ requestScope.b.boardNo },
-    				    replyContent: $("#coment").val()
-    				},
-    				success : function(result) { 
-    					
-    					if(result == "success") {
-    						
-    						// 댓글 작성 성공 시
-    						selectReplyList();
-    						$("#coment").val("");
-    						
-    					}
-    					
-    				},
-    				error : function() {
-    					console.log("댓글 작성용 ajax 통신 실패!");
-    				}
-    			});
-    			
-    		} else {
-    			
-    			alertify.alert("Alert", "댓글 작성 후 등록을 요청해주세요.", function(){ alertify.success('Ok'); });	
-    		}
-    	}
-    	
-    	function selectReplyList() {
-    		
-    		// 해당 게시글에 딸린 댓글 조회 요청용 ajax 요청
-    		$.ajax({
-    			url : "rlist.bo",
-    			type : "get",
-    			data : {bno : ${ requestScope.b.boardNo }},
-    			success : function(result) {
-    				
-    				// console.log(result);
-    				
-    				let resultStr = "";
-    				
-    				for(let i = 0; i < result.length; i++) {
-    					
-    					resultStr += "<tr>"    							  	
-    							   + 	"<td>" + result[i].replyContent + "</td>"
-    							   +	"<td>" + result[i].createDate + "</td>"
-    							   + "</tr>";
-    				}
-    				
-    				$("#replyArea").html(resultStr);
-    				
-    			},
-    			error : function() {
-    				console.log("댓글리스트 조회용 ajax 통신 실패!");
-    			}
-    		});
-    	}
-    </script>
 </html>
