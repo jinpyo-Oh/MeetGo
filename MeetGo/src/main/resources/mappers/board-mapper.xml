@@ -46,7 +46,8 @@
 	</select>
 	
 	<!-- 고수찾아요 게시판 작성하기 서비스 -->
-	<insert id="insertGosuReqBoard" parameterType="Board">
+	<insert id="insertGosuReqBoard" parameterType="Board"
+	useGeneratedKeys="true" keyColumn="BOARD_NO" keyProperty="boardNo">
 			    INSERT INTO BOARD (
 			        BOARD_NO,
 			        BOARD_TITLE,
@@ -58,9 +59,9 @@
 			         VALUES(SEQ_BOARD_NO.NEXTVAL
 			         ,#{boardTitle}
 			         ,#{boardContent}
-			         ,#{createDate}
-			         , 1
-			         , 1
+			         ,SYSDATE
+			         ,#{userNo}
+			         ,1
 			        )
 			        
 	</insert>	
@@ -83,7 +84,20 @@
 		   AND BOARD_TYPE = 1
 	</select>
 		
+	<!-- 고수이미지 -->
+	<insert id="insertGosuReqImg" parameterType="hashMap">
+		INSERT INTO BOARD_FILE( BFILE_NO
+                 , BFILE_PATH 
+                 , BOARD_NO 
+                 , BFILE_STATUS
+			) VALUES ( SEQ_BOARD_FILE_NO.NEXTVAL
+			         , #{filePath}
+			         , #{boardNo}
+			         , 1
+			)
+	</insert>
 	
+
 	
 	<!-- 팁 게시판 총 갯수 -->
 	<select id="selectTipListCount" resultType="_int">
@@ -115,7 +129,7 @@
 			         VALUES(SEQ_BOARD_NO.NEXTVAL
 			         ,#{boardTitle}
 			         ,#{boardContent}
-			         , 1
+			         , 1001
 			         , 2
 			         )
 		    
@@ -141,11 +155,7 @@
 		   AND BOARD_TYPE = 2
 	</select>	
 		
-
-
-	
-	
-	
+		
 	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
 		SELECT REPLY_NO		   
 		     , REPLY_CONTENT

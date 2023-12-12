@@ -19,7 +19,7 @@ public interface BoardService {
 		ArrayList<Board> selectGosuReqList(PageInfo pi);
 		
 		// 고수찾아요 작성하기 서비스
-		int insertGosuReqBoard(Board m);
+		int insertGosuReqBoard(Board gosuReq);
 		
 		// 고수찾아요 상세조회 서비스
 		// 고수찾아요 조회수 증가
@@ -28,7 +28,9 @@ public interface BoardService {
 		// 고수찾아요 게시글 상세조회
 		Board selectGosuReqBoard(int boardNo);
 		
-		
+		// 고수이미지 
+		int insertGosuReqImg(String filePath, int boardNo);
+
 		
 		// 팁노하우 게시판 리스트 조회		
 		ArrayList<Board> selectTipList(PageInfo pi);

@@ -36,9 +36,19 @@ public class BoardDao {
 	}
 	
 	// 고수찾아요 게시판 작성
-	public int insertGosuReqBoard(SqlSessionTemplate sqlSession, Board m) {
+	public int insertGosuReqBoard(SqlSessionTemplate sqlSession, Board gosuReq) {
 		
-		return sqlSession.insert("boardMapper.insertGosuReqBoard", m);
+		return sqlSession.insert("boardMapper.insertGosuReqBoard", gosuReq);
+	}
+	
+	// 고수찾아요 이미지 등록
+	public int insertGosuReqImg(SqlSessionTemplate sqlSession, String filePath, int boardNo) {
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("filePath", filePath);
+		params.put("boardNo", boardNo);
+		
+		return sqlSession.insert("boardMapper.insertGosuReqImg", params);
 	}
 	
 	// 카운트 

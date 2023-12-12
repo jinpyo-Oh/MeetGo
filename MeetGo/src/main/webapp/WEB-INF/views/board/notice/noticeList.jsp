@@ -164,25 +164,27 @@ table, th, td {
                 </tr>       
                         
             </table>
-           <table class="gosu_content">
-                <tr>
-                    <td class="gosu_content_1">
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        ${ m.boardNo }
-                    </td>
-                    <td class="gosu_content_2">
-                        &nbsp;&nbsp;
-                        ${ m.boardTitle } </td>
-                    <td class="gosu_content_3"style="text-align: center;">
-                        ${ m.userNo }
-                       
-                    </td>
-                    <td class="gosu_content_4"
-                    style="text-align: center;"
-                    > ${ m.createDate }
-                    </td>            
-               </tr>
-            </table>   
+	           <table class="gosu_content">
+	                <tr>
+	                    <td class="gosu_content_1">
+	                        &nbsp;&nbsp;&nbsp;&nbsp;
+	                        ${ m.boardNo }
+	                    </td>
+	                    <td class="gosu_content_2">
+	                        &nbsp;&nbsp;
+	                        ${ m.boardTitle } </td>
+	                    <td class="gosu_content_3"style="text-align: center;">
+	                        ${ m.userNo }
+	                       
+	                    </td>
+	                    <td class="gosu_content_4"
+	                    style="text-align: center;"
+	                    > ${ m.createDate }
+	                    </td>            
+	               </tr>
+	            </table>   
+            
+            
             <a href="noticeWrite.bo">
                 <button type="submit" class="btn btn-primary" >글작성</button>
             </a>

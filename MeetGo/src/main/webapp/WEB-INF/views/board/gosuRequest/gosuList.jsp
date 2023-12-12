@@ -275,7 +275,7 @@ table, th, td {
 	<script>
 	$(".boardList tr").click(function() {
 	    let bno = $(this).children(".bno").text();
-	    location.href = "detail.bo?bno=" + bno;
+	    location.href = "gosuDetail.bo?bno=" + bno;
 	});
 	</script>
 	

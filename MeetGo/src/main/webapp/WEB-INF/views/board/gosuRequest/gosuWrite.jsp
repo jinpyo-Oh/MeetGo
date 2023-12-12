@@ -108,8 +108,12 @@ textarea{
 	<jsp:include page="../../common/header.jsp"/>
 
     <div class="wrap">
-        <form id="gosuWrite" action="insert.bo" method="post" enctype="multipart/form-data"> 
+        <form id="gosuWrite" action="gosuInsert.bo" method="post" enctype="multipart/form-data"> 
+	     
+	     <input type="hidden" value="${sessionScope.loginUser}">
+        
         <div class="gosu_title">
+        
             <div class="gosu_title_1">
                 <h4><b>&nbsp;&nbsp;&nbsp;고수찾기</b></h4>  
             </div>
@@ -140,23 +144,23 @@ textarea{
             <hr>
             
             <label class="input-file-button1" for="gosutitle1">
-                <input type="file" multiple id="gosutitle1" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg1');" >
+                <input type="file" multiple id="gosutitle1" name="gosuReqImg" style="display: none;" onchange="loadImg(this, '#profileImg1');" >
             </label>
             
             <label class="input-file-button2" for="gosutitle2">
-                <input type="file" multiple id="gosutitle2" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg2');" >
+                <input type="file" multiple id="gosutitle2" name="gosuReqImg" style="display: none;" onchange="loadImg(this, '#profileImg2');" >
             </label>
             
             <label class="input-file-button3" for="gosutitle3">
-                <input type="file" multiple id="gosutitle3" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg3');"  >
+                <input type="file" multiple id="gosutitle3" name="gosuReqImg" style="display: none;" onchange="loadImg(this, '#profileImg3');"  >
             </label>
             
             <label class="input-file-button4" for="gosutitle4">
-                <input type="file" multiple id="gosutitle4" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg4');" >
+                <input type="file" multiple id="gosutitle4" name="gosuReqImg" style="display: none;" onchange="loadImg(this, '#profileImg4');" >
             </label>
             
             <label class="input-file-button5" for="gosutitle5">
-                <input type="file"  multiple id="gosutitle5" name="gosutitle" style="display: none;" onchange="loadImg(this, '#profileImg5');" >
+                <input type="file"  multiple id="gosutitle5" name="gosuReqImg" style="display: none;" onchange="loadImg(this, '#profileImg5');" >
             </label>
         </div>
         <br>
