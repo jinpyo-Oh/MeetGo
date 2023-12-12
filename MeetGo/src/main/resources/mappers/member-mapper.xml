@@ -310,7 +310,20 @@
 		   SET STATUS = '5'
 		 WHERE EST_NO = #{eno}
 	</update>
-	
+	<insert id="insertKakaoMember" parameterType="member">
+		insert into MEMBER (USER_NO, USER_NAME, USER_ID,
+		USER_PWD, USER_NICKNAME, USER_GENDER,
+		USER_EMAIL, USER_PHONE,
+		USER_PROFILE
+		) values        (SEQ_MEMBER_NO.nextval, #{userName}, #{userId},
+		#{userPwd}, #{userNickname}, #{userGender},
+		#{userEmail}, #{userPhone},  #{userProFile})
+	</insert>
+	<select id="selectMember" parameterType="member" resultMap="memberResultSet">
+		select *
+		from member
+		where USER_EMAIL = #{userEmail}
+	</select>
 </mapper>
 
 

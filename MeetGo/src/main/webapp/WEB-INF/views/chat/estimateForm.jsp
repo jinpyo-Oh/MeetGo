@@ -5,7 +5,7 @@
 	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <style>
-    #modalWrap {
+    #modalWrapEstEnroll {
         position: fixed; /* Stay in place */
         z-index: 99; /* Sit on top */
         left: 0;
@@ -227,7 +227,7 @@
 </style>
 <body>
 
-<div id="modalWrap">
+<div id="modalWrapEstEnroll">
 	
 	<div class="estimate_content">
 		<div class="est-header">
@@ -361,13 +361,14 @@
 		});
 	}
     function displayNone() {
-        $('#modalWrap').css("display", "none");
+        $('#modalWrapDetail').css("display", "none");
+        $('#modalWrapEstEnroll').css("display", "none");
     }
 
-    let modal = document.getElementById('modalWrap');
+    let modal = document.getElementById('modalWrapEstEnroll');
 
     window.addEventListener('click', (e) => {
-        e.target == modal ? $('#modalWrap').css("display", "none") : false;
+        e.target == modal ? $('#modalWrapEstEnroll').css("display", "none") : false;
     });
 
     function formatNumber() {

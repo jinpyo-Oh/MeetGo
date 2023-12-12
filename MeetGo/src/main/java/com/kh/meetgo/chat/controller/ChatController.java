@@ -147,14 +147,11 @@ public class ChatController {
     @ResponseBody
     @GetMapping(value = "/changeEstStatus", produces = "text/json; charset=UTF-8")
     public String changeEstStatus(String estNo, String status) {
-        System.out.println("estNo = " + estNo);
-        System.out.println("status = " + status);
         Estimate estimate = new Estimate();
         if (!estNo.isEmpty()) {
             estimate.setEstNo(Integer.parseInt(estNo));
             estimate.setStatus(status);
             int result = chatService.changeEstStatus(estimate);
-            System.out.println("result = " + result);
             if (result > 0) {
                 return new Gson().toJson(estimate);
             } else {
@@ -187,5 +184,11 @@ public class ChatController {
             return "redirect:/chat.ct?type=All&chatroomNo="+chatroom.getChatroomNo();
         }
         return "commom/errorPage";
+    }
+
+    @ResponseBody
+    @GetMapping(value = "selectEst", produces = "text/json; charset=UTF-8")
+    public String selectEst(String estNo){
+        return new Gson().toJson(memberService.selectEstimateDetail(Integer.parseInt(estNo)));
     }
 }

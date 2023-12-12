@@ -145,7 +145,7 @@
 
     </div>
 
-    <a class="kakaologin-btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=d43939779978e5373136817cf1d4cc5d&redirect_uri=http://localhost:9090/meetgo/kakao-login">
+    <a class="kakaologin-btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=d43939779978e5373136817cf1d4cc5d&redirect_uri=http://localhost:8006/meetgo/kakao-login">
     </a>
 
 

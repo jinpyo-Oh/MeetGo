@@ -173,5 +173,15 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.completeEstimate(sqlSession, eno);
 	}
 
+	@Override
+	public int insertKakaoMember(Member member) {
+		return memberDao.insertKakaoMember(sqlSession,member);
+	}
+
+	@Override
+	public Member selectMember(Member member) {
+		return memberDao.selectMember(sqlSession, member);
+	}
+
 
 }
