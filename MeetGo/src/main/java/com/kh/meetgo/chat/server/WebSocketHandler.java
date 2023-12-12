@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.kh.meetgo.chat.model.service.ChatService;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
-import com.kh.meetgo.member.model.vo.Member;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +31,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         person++;
-//        System.out.println("@@@@@@@@ 연결 성공 @@@@@@@@@");
     }
 
     // websocket 연결 종료 시
@@ -87,10 +84,10 @@ public class WebSocketHandler extends TextWebSocketHandler {
             int personCnt = roomList.get(chat.getChatroomNo()).size();
             int result = 0;
             if(personCnt > 1){ // 접속자 수가 1명보다 많을 경우 읽은 상태로 메세지 저장
-                chat.setRead(1);
+                chat.setChatRead(1);
                 result = chatService.insertChat(chat);
             } else {
-                chat.setRead(0);
+                chat.setChatRead(0);
                 result = chatService.insertChat(chat);
             }
             if (result > 0) {

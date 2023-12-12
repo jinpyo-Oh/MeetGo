@@ -46,6 +46,7 @@
         <result column="TYPE" property="type"/>
         <result column="CREATE_AT" property="createAt"/>
         <result column="CHATROOM_NO" property="chatroomNo"/>
+        <result column="CHAT_READ" property="chatRead"/>
     </resultMap>
 
     <resultMap id="categorySmallResultSet" type="categorySmall">
@@ -96,12 +97,12 @@
 
     <update id="updateChatRead" parameterType="hashMap">
         UPDATE CHAT
-        SET READ = 1
+        SET CHAT_READ = 1
         WHERE CHATROOM_NO = ${chatroomNo} AND SENDER != ${sender}
     </update>
 
     <select id="selectChatList" parameterType="_int" resultMap="chatResultSet">
-        SELECT CHAT_NO, CONTENT, SENDER, TYPE, TO_CHAR(CREATE_AT, 'YY-MM-DD HH24:MI') as CREATE_AT , CHATROOM_NO, READ
+        SELECT CHAT_NO, CONTENT, SENDER, TYPE, TO_CHAR(CREATE_AT, 'YY-MM-DD HH24:MI') as CREATE_AT , CHATROOM_NO, CHAT_READ
         FROM CHAT
         WHERE CHATROOM_NO = ${chatroomNo}
         ORDER BY CHAT_NO
@@ -114,8 +115,8 @@
     </select>
 
     <insert id="insertChat" parameterType="chat">
-        INSERT INTO CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO, READ)
-        VALUES (SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo}, ${read})
+        INSERT INTO CHAT (CHAT_NO, CONTENT, SENDER, TYPE, CHATROOM_NO, CHAT_READ)
+        VALUES (SEQ_CHAT_NO.nextval, #{content}, #{sender}, #{type}, #{chatroomNo}, ${chatRead})
     </insert>
 
     <insert id="insertEstimate" parameterType="estimate" useGeneratedKeys="true" keyColumn="EST_NO" keyProperty="estNo">

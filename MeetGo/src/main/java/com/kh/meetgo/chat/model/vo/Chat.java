@@ -2,8 +2,6 @@ package com.kh.meetgo.chat.model.vo;
 
 import lombok.*;
 
-import java.sql.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,5 +14,5 @@ public class Chat {
     private String type;
     private String createAt;
     private int chatroomNo;
-    private int read;
+    private int chatRead;
 }

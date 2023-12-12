@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -108,21 +108,18 @@
             <b>커뮤니티 > 고수찾기</b>
         </div>
         
-        <div class="gosu_header2">             
-       
-           &nbsp; &nbsp;<td><h2>&nbsp; ${ requestScope.m.boardTitle }</h2></td>
-            
-            &nbsp; &nbsp;
-        </div>
-        <div class="gosu_content1">
-            <br>
-            <img src="" id="profileImg" width="70" height="70">   
-            &nbsp; 
-            ${ requestScope.m.userNo }
-            
-            ${ requestScope.m.createDate } &nbsp; &nbsp;<i class="bi bi-eye-fill"></i> 20
-
-        </div>
+   <div class="gosu_header2">
+		    &nbsp; &nbsp;<h2>&nbsp; ${requestScope.m.boardTitle}</h2>
+		    &nbsp; &nbsp;
+		</div>
+		<div class="gosu_content1">
+		    <br>
+		    <img src="" id="profileImg" width="70" height="70">   
+		    &nbsp; 
+		    
+		    ${requestScope.m.userNo}
+		    ${requestScope.m.createDate} &nbsp; &nbsp;<i class="bi bi-eye-fill"></i>
+		</div>
         <hr>
         <div class="swiper"> <!-- 슬라이드 이미지 시작 -->
 			<div class="swiper-wrapper">

@@ -117,10 +117,33 @@
 
     }
     
+    .tipmain{
+    border : 1px solid pink;
+    width: 1000px;
+    height: 800px;
+    	}
+    .title{
+    border : 1px solid red;
+    width: 1000px;
+  	height: 70px;
+    
+    
+    }
+    
+    .content{
+    border : 1px solid blue;
+    width: 1000px;
+    height: 170px;
+    
+    }
+    .tip_content{
+  	cursor : pointer;
+    }
    </style>
 </head>
 <body>
 	<jsp:include page="../../common/header.jsp"/>
+	<jsp:include page="../../common/side.jsp"/>
 
 	  <div class="wrap">
        
@@ -130,22 +153,27 @@
                 <p>팁과 노하우</p>               
                 <hr>
             </div>
-          <table class="boardTipList">
-                <c:forEach var="m" items="${requestScope.list}">
-                        <tr>
-                            <td class="bno">${m.boardNo}</td>
-                            <td class="gosu_content_2">${m.boardTitle}</td>
-                            <td class="gosu_content_4" style="text-align: center;">${m.createDate}</td>
-                        </tr>
-                </c:forEach>
-            </table>   
-            
-           
-           
-           
-           
-           
-           </div>
+        <div class="tipmain">
+			    <table class="tipList">
+			        <thead>
+			            <tr>
+			                <th>No</th>			            
+			                <th>글제목</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <c:forEach var="m" items="${requestScope.list}">
+			                <tr>
+			                    <td class="bno"><b style="font-size:30px;">${m.boardNo}</b></td>
+			                    <td class="tip_content"><b style="font-size:30px;">${m.boardTitle}</b></td>
+			                </tr>
+			                <tr>
+			                    <td colspan="2">${m.boardContent}</td>
+			                </tr>
+			            </c:forEach>
+			        </tbody>
+			    </table>
+			</div>
            
             <a href="tipWrite.bo">
              <button type="submit" class="btn btn-primary">글작성</button>
@@ -194,6 +222,15 @@
         
 
 	    	<jsp:include page="../../common/footer.jsp"/>
+    
+    
+    <script>
+	$(".tipmain tr").click(function() {
+	    let bno = $(this).children(".bno").text();
+	    location.href = "tipDetail.bo?bno=" + bno;
+	});
+	</script>
+    
     
 </body>
 </html>

@@ -262,7 +262,7 @@
  			// 단, 우선 최소 5글자 이상으로 입력되어 있을 경우에만
  			console.log($idInput);
  			// ajax 를 요청해서 중복체크를 하도록 해보자
- 			if($idInput.val().length >= 5) {
+ 			if($idInput.val().length >= 6) {
  				
  				// 중복 체크 요청 보내기
  				$.ajax({

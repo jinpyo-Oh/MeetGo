@@ -16,10 +16,10 @@
 	<style>
         .preview-img {
             position: absolute;
-            background-color: #e1e1e1;
+            background-color: #939393;
             width: 650px;
             height: 400px;
-            top: 400px;
+            top: 278px;
             align-items: center;
             box-sizing: border-box;
             text-align: center;
@@ -132,6 +132,7 @@
 </div>
 <jsp:include page="../common/header.jsp"/>
 <jsp:include page="estimateForm.jsp"/>
+<jsp:include page="estimateDetail.jsp"/>
 
 <div class="chat-content">
 	<div class="left-box">
@@ -433,7 +434,7 @@
                 let chat = "";
                 let est;
                 let createAt = data.createAt;
-				let chatRead = data.read;
+				let chatRead = data.chatRead;
                 let checkMarkUrl = "";
                 
                 if(chatRead == 0){
@@ -525,7 +526,7 @@
 
                 switch (estStatus) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
                     case '1' :
-                        chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
+                        chat += '<button class="meetgo-btn est-detail-btn"  value="'+data.estNo+'"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
                             '<div style="display: flex"><button class="meetgo-btn w-50 changeEstBtn" onclick="changeEstStatus(' + data.estNo + ', 3)">확정하기</button>' +
                             '<button class="meetgo-btn meetgo-red w-50 changeEstBtn" onclick="changeEstStatus(' + data.estNo + ', 2)">취소하기</button></div>'
                         break;
@@ -544,7 +545,7 @@
                         break;
                     case '5' :
                         chat += '<p>거래 완료된 계약서 입니다.</p>'
-                            + '<div style="display: flex"><button class="meetgo-btn w-50">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                            + '<div style="display: flex"><button class="meetgo-btn w-50 est-detail-btn" value="'+data.estNo+'">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
                         break;
                 }
                 chat += '</div>'
@@ -624,9 +625,14 @@
                         $('#chat-file').click();
                     });
                     $('#chat-estimate-button').click(function () {
-                        $('#modalWrap').css("display", "block");
+                        $('#modalWrapEstEnroll').css("display", "block");
                     });
-
+                    $(document).on('click', '.est-detail-btn', function (){
+                        console.log("click");
+                        
+                        estDetailInfo($(this).val());
+                        $('#modalWrapDetail').css("display", "block");
+                    });
                     function setChatImg(event) {
                         var reader = new FileReader();
                         $('.preview-img').remove();
@@ -770,9 +776,9 @@
                             "sender": obj.sender,
                             "type": obj.type,
                             "content": obj.content,
-                            "createAt": obj.createAt
+                            "createAt": obj.createAt,
+							"chatRead": obj.chatRead
                         }
-                        console.log("메시지 수신, sender:"+data.sender + ", chatroomId:"+ chatroomId);
 						if(data.type != "ENTER"){
                             CheckLR(data);
 						}
@@ -795,7 +801,7 @@
                                 let chat = "";
                                 switch (result.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
                                     case '1' :
-                                        chat += '<button class="meetgo-btn"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
+                                        chat += '<button class="meetgo-btn est-detail-btn"  value="'+result.estNo+'" style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
                                             '<div style="display: flex"><button class="meetgo-btn w-50" onclick="changeEstStatus(' + result.estNo + ', 3)">확정하기</button>' +
                                             '<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus(' + result.estNo + ', 2)">취소하기</button></div>'
                                         break;
@@ -813,7 +819,7 @@
                                         break;
                                     case '5' :
                                         chat += '<p>거래 완료된 계약서 입니다.</p>'
-                                            + '<div style="display: flex"><button class="meetgo-btn w-50">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                                            + '<div style="display: flex"><button class="meetgo-btn w-50 est-detail-btn" value="'+result.estNo+'">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
                                         break;
                                 }
                                 $(estBtnContent).append(chat);

@@ -10,6 +10,11 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.kh.meetgo.member.model.dao.MemberDao;
+import com.kh.meetgo.member.model.vo.Member;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class KakaoLoginService {
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public String getAccessToken(String authorize_code) throws Exception {
         String access_Token = "";
@@ -38,7 +45,7 @@ public class KakaoLoginService {
             sb.append("grant_type=authorization_code");
 
             sb.append("&client_id=d43939779978e5373136817cf1d4cc5d"); // REST_API키 본인이 발급받은 key 넣어주기
-            sb.append("&redirect_uri=http://localhost:9090/meetgo/kakao-login"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
+            sb.append("&redirect_uri=http://localhost:8006/meetgo/kakao-login"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
 
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
@@ -79,9 +86,11 @@ public class KakaoLoginService {
     }
 
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> getUserInfo(String access_Token) throws Throwable {
+    public Member getUserInfo(String access_Token) throws Throwable {
         // 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         HashMap<String, Object> userInfo = new HashMap<String, Object>();
+        Member member = new Member();
+
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
         try {
@@ -121,8 +130,17 @@ public class KakaoLoginService {
                 String email = kakao_account.get("email").toString();
                 String userProfile = properties.get("profile_image").toString();
                 String userName = kakao_account.get("name").toString();
-                String userPhone = "0" + kakao_account.get("phone_number").toString().split(" ")[1];
+                String userPhone = "0" + (kakao_account.get("phone_number").toString().split(" ")[1]).replaceAll("-", "");
                 String userGender = (kakao_account.get("gender").toString().equals("male")) ? "M" : "F";
+
+                member.setUserId("kakao"+jsonMap.get("id").toString());
+                member.setUserNickname(nickname);
+                member.setUserEmail(email);
+                member.setUserProFile(userProfile);
+                member.setUserName(userName);
+                member.setUserPhone(userPhone);
+                member.setUserGender(userGender);
+                member.setUserPwd(bCryptPasswordEncoder.encode(jsonMap.get("id").toString() + nickname));
                 userInfo.put("userNickname", nickname);
                 userInfo.put("userEmail", email);
                 userInfo.put("userProfile", userProfile);
@@ -136,6 +154,6 @@ public class KakaoLoginService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return userInfo;
+        return member;
     }
 }

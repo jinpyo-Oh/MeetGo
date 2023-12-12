@@ -41,8 +41,8 @@ public class BoardServiceImpl implements BoardService {
 	// 고수찾아요 작성하기
 	@Override
 	@Transactional 
-	public int insertGosuReqBoard(Board m) {
-		return boardDao.insertGosuReqBoard(sqlSession, m);
+	public int insertGosuReqBoard(Board gosuReq) {
+		return boardDao.insertGosuReqBoard(sqlSession, gosuReq);
 	}
 	
 	@Override
@@ -50,6 +50,13 @@ public class BoardServiceImpl implements BoardService {
 	public int increaseGosuReqCount(int boardNo) {
 		return boardDao.increaseGosuReqCount(sqlSession, boardNo);
 	}
+	
+	// 고수이미지
+	@Override
+	public int insertGosuReqImg(String filePath, int boardNo) {
+		return boardDao.insertPofolImg(sqlSession, filePath, boardNo);
+	}
+	
 	
 	
 	@Override
@@ -82,17 +89,6 @@ public class BoardServiceImpl implements BoardService {
 	
 
 
-	@Override
-	public ArrayList<Reply> selectReplyList(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int insertReply(Reply r) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	public int countPofolList() {
 		return boardDao.countPofolList(sqlSession);
@@ -108,14 +104,12 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public Board selectGosuReqBoard(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDao.selectGosuReqBoard(sqlSession, boardNo);
 	}
 
 	@Override
 	public Board selectTipBoard(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return boardDao.selectTipBoard(sqlSession, boardNo);
 	}
 
 	
@@ -141,6 +135,18 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public ArrayList<PofolImg> pofolDetailImg(int pofolNo) {
 		return boardDao.pofolDetailImg(sqlSession, pofolNo);
+	}
+
+	@Override
+	public ArrayList<Reply> selectReplyList(int boardNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int insertReply(Reply r) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
