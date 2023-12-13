@@ -217,6 +217,7 @@
             R.totalRevPoint,
             R.avgRevPoint
             HAVING M.ENROLL_STATUS = 2
+            
         ) 
         ORDER BY "${filter}" DESC
 	</select>
