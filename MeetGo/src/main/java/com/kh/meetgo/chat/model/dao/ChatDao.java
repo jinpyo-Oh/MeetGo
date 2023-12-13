@@ -101,4 +101,12 @@ public class ChatDao {
     public Chatroom checkChatRoom(SqlSessionTemplate sqlSession, Map<String, Integer> params) {
         return sqlSession.selectOne("chatMapper.checkChatRoom", params);
     }
+
+    public int changeAllEstStatus(SqlSessionTemplate sqlSession, Estimate estimate) {
+        return sqlSession.update("chatMapper.changeAllEstStatus", estimate);
+    }
+
+    public ArrayList<ChatReviewDto> selectUserReviewList(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList)sqlSession.selectList("chatMapper.selectUserReviewList", userNo);
+    }
 }

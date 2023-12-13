@@ -259,7 +259,6 @@
                 estNo: estNo
             },
             success: function (data) {
-                console.log(data);
                 let gosuNo = data.gosuNo;
                 let estService = data.estService;
                 selectAllCategory(gosuNo, estService);
@@ -268,7 +267,7 @@
                 $('#confirmEndDate').val(data.endDate);
                 $('#confirmAddress').val(data.estAddress);
                 $('#confirmEstContent').val(data.estContent);
-                $('#confirm-btn').val(data.estNo);
+                $('#confirmEstNo').val(data.estNo);
                 $('#confirmTitle').val(data.estTitle);
                 $('#confirmUserNo').val(data.userNo);
                 insertEstBtn(data.status, data.estNo);
@@ -306,6 +305,7 @@
 </script>
 <input type="hidden" id="confirmTitle" value="">
 <input type="hidden" id="confirmUserNo" value="">
+<input type="hidden" id="confirmEstNo" value="">
 <div id="modalWrapDetail">
 	<div class="estimate_content">
 		<div class="est-header">
@@ -367,14 +367,14 @@
 		<div class="est-button">
 			<script>
 				function insertEstBtn(status, estNo){
-                    console.log("status : "  + status);
+                    $('.est-button').empty();
                     let estBtn = "";
                     if (status == 2) {
-                        estBtn += '<button class="meetgo-btn" id="confirm-btn" value="" onClick="changeEstStatus($(this).val(), 3); displayNone($(this).val())">확정하기</button>';
+                        estBtn += '<button class="meetgo-btn" id="confirm-btn" value="" onClick="changeEstStatus('+estNo +', 3); displayNone()">확정하기</button>';
 					} else if (status == 3) {
-                        estBtn += '<button class="meetgo-btn" value="" onClick="EstPayment('+estNo+'); displayNone($(this).val())">결제하기</button>'
+                        estBtn += '<button class="meetgo-btn" value="" onClick="EstPayment('+estNo+'); displayNone()">결제하기</button>'
 					}
-                    estBtn += '<button class="meetgo-btn" onClick="displayNone()">닫기</button>';
+                    estBtn += '<button class="meetgo-btn meetgo-red"  onClick="displayNone()">닫기</button>';
                     $('.est-button').append(estBtn);
 				}
 			</script>

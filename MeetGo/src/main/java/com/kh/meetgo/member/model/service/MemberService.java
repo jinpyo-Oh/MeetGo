@@ -86,4 +86,8 @@ public interface MemberService {
 
 	// 서비스 이행 완료
 	int completeEstimate(int eno);
+
+	Member selectMember(Member member);
+
+	int insertKakaoMember(Member member);
 }

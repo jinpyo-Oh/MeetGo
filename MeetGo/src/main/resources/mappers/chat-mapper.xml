@@ -66,7 +66,10 @@
             C.CHAT_NO AS "chat.chatNo",
             C.CONTENT as "chat.content",
             C.TYPE as "chat.type",
-            C.CHATROOM_NO as "chat.chatroomNo"
+            C.CHATROOM_NO as "chat.chatroomNo",
+            (SELECT COUNT(*)
+            FROM CHAT
+            WHERE CHAT_READ = 0 AND CHAT.CHATROOM_NO = CR.CHATROOM_NO AND SENDER != ${userNo}) as unReadCnt
         FROM CHATROOM cr
         LEFT JOIN (
             SELECT chat_no, content, type, CHATROOM_NO
@@ -122,8 +125,8 @@
     <insert id="insertEstimate" parameterType="estimate" useGeneratedKeys="true" keyColumn="EST_NO" keyProperty="estNo">
         INSERT INTO ESTIMATE (EST_NO, EST_TITLE, EST_CONTENT, EST_ADDRESS, EST_SERVICE, START_DATE, END_DATE,
         CONFIRMATION_DATE, EST_PRICE, STATUS, GOSU_NO, USER_NO)
-        VALUES (SEQ_ESTIMATE_NO.nextval, 'aa', #{estContent}, #{estAddress}, #{estService}, TO_DATE(#{startDate},
-        'YYYY-MM-DD'), #{endDate} , #{confirmationDate}, #{estPrice}, '1', #{gosuNo}, #{userNo})
+        VALUES (SEQ_ESTIMATE_NO.nextval, #{estTitle}, #{estContent}, #{estAddress}, #{estService}, TO_DATE(#{startDate},
+        'YYYY-MM-DD'), #{endDate} , #{confirmationDate}, #{estPrice}, '2', #{gosuNo}, #{userNo})
     </insert>
 
     <select id="searchEstimate" parameterType="_int" resultMap="estimateResultSet">
@@ -162,6 +165,11 @@
         SET STATUS = #{status}
         WHERE EST_NO = #{estNo}
     </update>
+    <update id="changeAllEstStatus" parameterType="estimate">
+        UPDATE ESTIMATE
+        SET STATUS = 1
+        WHERE USER_NO = ${userNo} AND GOSU_NO = ${gosuNo}
+    </update>
     <select id="selectChatGosuInfo" parameterType="_int" resultMap="memberResultSet">
         SELECT *
         FROM MEMBER M
@@ -185,14 +193,32 @@
         ) B USING (CATEGORY_SMALL_NO)
     </select>
     <select id="selectGosu" parameterType="_int" resultType="com.kh.meetgo.member.model.vo.Gosu">
-        SELECT *
+        SELECT gosu_no as gosuNo, introduction, employees, business_status as businessStatus, education, career, elaborate, region, move_distance as moveDistance, available_time as availableTime, user_no
         FROM GOSU
-        WHERE USER_NO = ${userNO}
+        WHERE USER_NO = ${userNo}
     </select>
     <select id="selectGosuImg" parameterType="_int" resultType="com.kh.meetgo.gosu.model.vo.GosuImg">
         SELECT gosu_img_no as gosuImgNo, gosu_img_url as gosuImgUrl, status as status, gosu_no as gosuNo
         FROM "GOSU-IMG"
         WHERE GOSU_NO = ${userNo}
+    </select>
+    <select id="selectUserReviewList" parameterType="_int" resultType="com.kh.meetgo.chat.model.dto.ChatReviewDto">
+        SELECT R.rev_no AS "review.revNo",
+        R.rev_content AS "review.revContent",
+        R.rev_point AS "review.revPoint",
+        R.rev_date AS "review.revDate",
+        R.rev_status AS "review.revStatus",
+        R.est_no AS "review.estNo",
+        R.user_no AS "review.userNo",
+        R.gosu_no AS "review.gosuNo",
+        RI.rev_img_url AS "reviewImg.revImgUrl",
+        RI.IMG_NO AS "reviewImg.imgNo"
+        FROM REVIEW R
+        LEFT JOIN (
+            SELECT REV_NO, rev_img_url, IMG_NO
+            FROM REVIEW_IMG
+        ) RI ON R.REV_NO = RI.REV_NO
+        WHERE R.USER_NO = ${userNo}
     </select>
     <select id="selectReviewList" parameterType="_int" resultType="com.kh.meetgo.chat.model.dto.ChatReviewDto">
         SELECT R.rev_no AS "review.revNo",

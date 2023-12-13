@@ -311,7 +311,7 @@
 
     			// console.log(rno);
     			
-    			location.href = "reviewDetail.me?rno=" + rno; 
+    			location.href = "reviewDetail.me?rno=" + rno;
     		});
     	});
     	

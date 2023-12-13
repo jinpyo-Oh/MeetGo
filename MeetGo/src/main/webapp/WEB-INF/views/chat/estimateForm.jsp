@@ -246,11 +246,13 @@
 					success : function (data) {
 						console.log(data);
 						for (let i = 0; i < data.length; i++) {
-							let estCategory =
-									'<label class="est-category">' +
-										'<input type="radio" name="est-category" class="est-service" value="'+data[i].categorySmallNo+'" checked="">' +
-										'<span class="category-name">'+data[i].categorySmallName+'</span>' +
-									'</label>';
+                            let isChecked = i === 0 ? 'checked' : ''; // 첫 번째 요소인 경우 checked 속성 추가
+
+                            let estCategory =
+                                '<label class="est-category">' +
+                                '<input type="radio" name="est-category" class="est-service" value="' + data[i].categorySmallNo + '" ' + isChecked + '>' +
+                                '<span class="category-name">' + data[i].categorySmallName + '</span>' +
+                                '</label>';
 							$('.category-input').append(estCategory);
 						}
 					},
@@ -326,13 +328,15 @@
 
 <script>
 	function insertEstimate(){
+        let estTitle = $('input[name="est-category"].est-service:checked').closest('label').find('.category-name').text() + " 계약";
         let estService = $('.est-service').val();
         let estPrice = $('#estPrice').val();
         let startDate = $('#startDate').val();
         let endDate = $('#endDate').val();
         let estAddress = $('#address').val() + " " + $('#detailAddress').val();
         let estContent = $('#estContent').val();
-
+        
+        if (!validateInputs(estTitle, estService, estPrice, startDate, endDate, estAddress, estContent)) return;
         $.ajax({
 			url : "insertEstimate",
 			method : "post",
@@ -342,6 +346,7 @@
             },
 			data : JSON.stringify({
                 chatroomNo : chatroomNo,
+                estTitle : estTitle,
                 estService : estService,
                 estPrice : estPrice,
                 startDate :  startDate,
@@ -362,6 +367,21 @@
 			}
 		});
 	}
+    
+    function validateInputs(estTitle, estService, estPrice, startDate, endDate, estAddress, estContent) {
+        if (!estTitle || !estService || !estPrice || !startDate || !endDate || !estAddress || !estContent) {
+            alert('입력값을 모두 입력해주세요.');
+            $('.form__field').each(function() {
+                if (!$(this).val()) {
+                    $(this).focus();
+                    return false;
+                }
+            });
+            return false;
+        }
+        return true;
+    }
+    
     function displayNone() {
         $('#modalWrapDetail').css("display", "none");
         $('#modalWrapEstEnroll').css("display", "none");

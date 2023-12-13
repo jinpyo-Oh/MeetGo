@@ -1,14 +1,18 @@
 package com.kh.meetgo.chat.controller;
 
+import com.amazonaws.Request;
 import com.google.gson.Gson;
 import com.kh.meetgo.chat.model.dto.ChatListDto;
+import com.kh.meetgo.chat.model.dto.ChatReviewDto;
 import com.kh.meetgo.chat.model.dto.GosuProfileDto;
+import com.kh.meetgo.chat.model.dto.RequestChatUserInfo;
 import com.kh.meetgo.chat.model.service.ChatService;
 import com.kh.meetgo.chat.model.vo.Chat;
 import com.kh.meetgo.chat.model.vo.Chatroom;
 import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.gosu.model.vo.CategorySmall;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.service.MemberService;
 import com.kh.meetgo.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +55,6 @@ public class ChatController {
         m.setUserNo(Integer.parseInt(userNo));
         m.setUserStatus(Integer.parseInt(userStatus));
         ArrayList<ChatListDto> chatroomList = chatService.selectChatroomList(m, type);
-        System.out.println(chatroomList);
         return new Gson().toJson(chatroomList);
     }
 
@@ -64,7 +67,6 @@ public class ChatController {
             int roomNo = Integer.parseInt(chatroomNo);
             params.put("chatroomNo", roomNo);
             params.put("sender", Integer.parseInt(userNo));
-            System.out.println(params);
             chatService.updateChatRead(params);
             chatList = chatService.selectChatList(roomNo);
         }
@@ -75,7 +77,12 @@ public class ChatController {
     @GetMapping(value = "/chatUserInfo")
     public String selectChatUserInfo(String chatroomNo) {
         Member m = chatService.selectChatUserInfo(chatroomNo);
-        return new Gson().toJson(m);
+
+        RequestChatUserInfo requestChatUserInfo = new RequestChatUserInfo();
+        requestChatUserInfo.setMember(m);
+        requestChatUserInfo.setReviewImgList(chatService.selectUserReviewList(m.getUserNo()));
+        requestChatUserInfo.setReviewCnt(memberService.reviewListCount(m.getUserNo()));
+        return new Gson().toJson(requestChatUserInfo);
     }
 
     @ResponseBody
@@ -85,7 +92,6 @@ public class ChatController {
 
         int no = 0;
         if(!chatroomNo.isEmpty()) no = Integer.parseInt(chatroomNo);
-
         gosuProfileDto.setMember(chatService.selectChatGosuInfo(no));
         int userNo = gosuProfileDto.getMember().getUserNo();
         gosuProfileDto.setGosu(chatService.selectGosu(userNo));
@@ -104,6 +110,7 @@ public class ChatController {
     @ResponseBody
     @PostMapping(value = "/insertEstimate")
     public String insertEstimate(@RequestBody Estimate estimate) {
+        System.out.println("estimate = " + estimate);
         int result = chatService.insertEstimate(estimate);
         return String.valueOf(estimate.getEstNo());
     }
@@ -140,19 +147,24 @@ public class ChatController {
         chat.setSender(userNo);
         chat.setChatroomNo(chatroomNo);
         chat.setType("P");
-        System.out.println(chat);
         return new Gson().toJson(content);
     }
 
     @ResponseBody
     @GetMapping(value = "/changeEstStatus", produces = "text/json; charset=UTF-8")
     public String changeEstStatus(String estNo, String status) {
-        Estimate estimate = new Estimate();
+        Estimate estimate = memberService.selectEstimateDetail(Integer.parseInt(estNo));
         if (!estNo.isEmpty()) {
             estimate.setEstNo(Integer.parseInt(estNo));
             estimate.setStatus(status);
-            int result = chatService.changeEstStatus(estimate);
-            if (result > 0) {
+            int result = 0;
+            if(estimate.getStatus().equals("3")){
+                System.out.println("estimate = " + estimate);
+                result = chatService.changeAllEstStatus(estimate);
+            }
+            int result2 = chatService.changeEstStatus(estimate);
+
+            if (result > 0 && result2 > 0) {
                 return new Gson().toJson(estimate);
             } else {
                 return new Gson().toJson("fail");

@@ -147,4 +147,12 @@ public class MemberDao {
     public int completeEstimate(SqlSessionTemplate sqlSession, int eno) {
         return sqlSession.update("memberMapper.completeEstimate", eno);
     }
+
+    public Member selectMember(SqlSessionTemplate sqlSession, Member member) {
+        return sqlSession.selectOne("memberMapper.selectMember", member);
+    }
+
+    public int insertKakaoMember(SqlSessionTemplate sqlSession, Member member) {
+        return sqlSession.insert("memberMapper.insertKakaoMember", member);
+    }
 }
