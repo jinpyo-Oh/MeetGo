@@ -643,10 +643,10 @@
 						          + '<i class="bi-3 bi-star"></i>'
 						          + '<i class="bi-4 bi-star"></i>'
 					              + '</div>'
-					              + list[i].avgRevPoint.toFixed(1)
+					              + '<span style="color:#2A8FF7;">' + list[i].avgRevPoint.toFixed(1) + '</span>'
 					              + '</td>'
-					              + '<td style="font-size:20px;">'
-					              + '리뷰<b style="padding-top:10px; font-size:24px;">&nbsp;'+ list[i].reviewCount + '&nbsp;</b>건'
+					              + '<td style="font-size:20px; padding-top:10px; ">'
+					              + '리뷰<b style="font-size:24px;">&nbsp;'+ list[i].reviewCount + '&nbsp;</b>건'
 					              + '</td>'
 					              + '</tr>'
 					              + '<tr>'

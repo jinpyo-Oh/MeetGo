@@ -122,9 +122,11 @@
         }
 
         #myModal { margin:auto; }
+        
         .modal-dialog{
             min-width:800px;
         }
+        
         .modal-content{
             margin:auto;
             width:800px;
@@ -132,7 +134,7 @@
             background-color:transparent;
             border:0px;
         }
-        .gosuImgThumb:hover{ cursor : pointer; }
+        .gosuImgThumb:hover{ cursor : zoom-in; }
         .fullImage {
             margin:auto;
             box-sizing:border-box;
@@ -155,10 +157,15 @@
             font-size:50px;
         }
         .slick-prev { left: -55px; }
+        
+        .reviewImg { margin-right:20px;}
+        .reviewImg:hover{ cursor:zoom-in; }
+        .showMoreTag:hover{ cursor:pointer; color:#2A8FF7; }
+        
         #star-rate{
             font-size: 28px;
             margin-right: 20px;
-            color: rgb(148, 219, 42);
+            color: #2A8FF7;
         }
         .rate{ margin-bottom: 10px; }
         .star {
@@ -166,6 +173,12 @@
 		    font-size:28px;
 		    display:inline;
 		    margin-right:20px;
+	    }
+	    .revListStar{
+	    	color: gold;
+		    font-size:24px;
+		    display:inline;
+		    margin-left:20px;
 	    }
     
         .pofolThumbnail:hover {
@@ -184,6 +197,7 @@
         }
         #backToListBtn button:hover{ background-color: #2A8FF7; }
         
+        /* 리뷰사진 */
         #enlargeImg-background{
 	        position: fixed; 
 	        z-index: 99;
@@ -196,6 +210,26 @@
         }
         #enlargeImg-form{
         	width: 50%;
+        	height: 90%;
+        	background-color: white;
+        	box-sizing: border-box;
+        	margin: 2% auto 0 auto;
+        	overflow: auto;
+        }
+        
+        /* 리뷰 */
+        #enlarge-background{
+	        position: fixed; 
+	        z-index: 99;
+	        left: 0;
+	        top: 0;
+	        width: 100%;
+	        height: 100%;
+	        background-color: rgba(0, 0, 0, 0.4);
+	        display:none;
+        }
+        #enlarge-form{
+        	width: 40%;
         	height: 90%;
         	background-color: white;
         	box-sizing: border-box;
@@ -321,19 +355,20 @@
 			<!-- 사진 크게보기 -->
 			<div class="modal" id="myModal">
 				<div class="modal-dialog" >
-					<div class="modal-content">
-						<div class="fullImage" >
-							<c:forEach var="p" begin="1"
-									   end="${ requestScope.imageList.size() }"
-									   step="1">
-								<div>
-									<img class="info-img" src="${ requestScope.imageList[p-1].gosuImgUrl }">
-								</div>
-							</c:forEach>
+				<div class="modal-content">
+				<div class="fullImage" >
+					<c:forEach var="p" begin="1"
+							   end="${ requestScope.imageList.size() }"
+							   step="1">
+						<div>
+							<img class="info-img" src="${ requestScope.imageList[p-1].gosuImgUrl }">
 						</div>
-					</div>
+					</c:forEach>
+				</div>
+				</div>
 				</div>
 			</div>
+			
 		</div>
 		
 		<!-- slick 연동 -->
@@ -358,25 +393,30 @@
 	<!-- 리뷰 -->
 	<div id="secondTb" style="display: none; width:700px;">
 	
-			<div style="width:700px; margin-bottom:120px;">
 			<p style="font-size:22px;"><b>사진</b></p>
+			<div align="center" style="width:700px; margin-bottom:120px;">
+			
 			<c:choose>
 				<c:when test="${ not empty requestScope.reviewImgList }">
 					<c:forEach var="p" begin="1" end="4" step="1" >
 						<img class="reviewImg" src="${requestScope.reviewImgList[p-1].reviewImgUrl }"
-						onclick="openEnlarge();" width="150px" height="150px">	
+						onclick="openEnlargeImg();" width="150px" height="150px">	
 					</c:forEach>
+					<div align="left">
+					<br>
+					<span class="showMoreTag" onclick="openEnlargeImg();">&raquo; more...</span>
+					</div>
 				</c:when>
 				<c:otherwise>
 					<p align="center" style="color:lightgray; margin-top:50px;">등록된 리뷰 이미지가 없습니다.</p>
 				</c:otherwise>
 			</c:choose>
 			</div>
-			
+	
 		<div>
-			<p><b>총 리뷰&nbsp;<span style="color:#257acec7">${requestScope.list[0].reviewCount}</span>건</b></p>
+			<p style="font-size:22px;"><b>리뷰&nbsp;<span>${requestScope.list[0].reviewCount}</span>건</b></p>
 			<span id="star-rate">${requestScope.list[0].avgRevPoint}</span>
-
+	
 			<script> // 별점 함수
 				function star(avg) {	
 					// 소수점 첫째자리 정수로 할당
@@ -393,6 +433,14 @@
 						
 					}
 				}
+					
+				function revStar(point, index){
+					for(let i = 0; i < 5; i++) {
+						if(i < Math.floor(point)) { // 정수 자리수만큼 별 채우기
+							$('#revStar' + index).children().eq(i).addClass("bi-star-fill").removeClass("bi-star");
+						}
+					}
+				}
 			</script>
 			
 			<!-- 별점 -->
@@ -404,26 +452,67 @@
 				 <i class="bi-4 bi-star"></i>
 			 </div>
 
-				<br><br>
+			<br><br>
 				
-				<!-- 리뷰 영역 -->
-				<c:choose>
-					<c:when test="${ not empty requestScope.reviewList}">
-						<c:forEach var="p" begin="1" end="${requestScope.reviewList.size()}" step="1">
-							<span style="font-size: 18px; font-weight: bolder; margin-right: 20px;">
-                        	${requestScope.reviewList[p-1].userNickname} (${requestScope.reviewList[p-1].userName.charAt(0)} **)</span>
-							<span style="font-size: 20px;">${requestScope.reviewList[p-1].reviewPoint}.0</span>
+			<!-- 리뷰 영역 -->
+			<c:choose>
+				<c:when test="${ not empty requestScope.reviewList}">
+					<c:forEach var="p" begin="1" end="${requestScope.reviewList.size()}" step="1">
+						<span style="font-size: 18px; font-weight: bolder; margin-right: 20px;">
+                       	${requestScope.reviewList[p-1].userNickname}
+                       	(${requestScope.reviewList[p-1].userName.charAt(0)}**)</span>
+						<span style="font-size: 20px;">${requestScope.reviewList[p-1].reviewPoint}.0</span>
+						<br>
+						<p style="width: 700px; font-size: 16px;">
+							${requestScope.reviewList[p-1].reviewContent}
+						</p>
+					</c:forEach>
+				</c:when>
+			</c:choose>
+							
+			<span onclick="openEnlargeRev();" class="showMoreTag">&raquo; more...</span>
+
+		</div>
+	</div>
+	
+	<!-- 리뷰이미지 확대 커스텀창 -->
+	<div id="enlargeImg-background">
+		<div id="enlargeImg-form">
+			<div class="enlargeImg-area" align="center">
+				<c:forEach var="item" items="${requestScope.reviewImgList}">
+					<img src="${item.reviewImgUrl}" style="margin:20px; width:430px; height:430px;">
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 리뷰리스트 커스텀창 -->
+	<div id="enlarge-background">
+		<div id="enlarge-form">
+			<div class="enlarge-area">
+				<c:forEach var="item" items="${requestScope.reviewList}">
+					<div align="left" style="width:95%; margin:auto;">
+					<br>
+						<span style="font-size: 18px; font-weight: bolder;">
+	                       	${item.userNickname}
+	                       	(${item.userName.charAt(0)}**)</span>
+							<span style="font-size: 20px;">${item.reviewPoint}.0</span>
+							<span id="revStar${item.reviewNo}" class="revListStar">
+					  	         <i class="bi-0 bi-star"></i>
+						         <i class="bi-1 bi-star"></i>
+						         <i class="bi-2 bi-star"></i>
+						         <i class="bi-3 bi-star"></i>
+								 <i class="bi-4 bi-star"></i>
+							</span>
+							<span>(${item.reviewDate })</span>
 							<br>
 							<p style="width: 700px; font-size: 16px;">
-								${requestScope.reviewList[p-1].reviewContent}
+								${item.reviewContent}
 							</p>
-						</c:forEach>
-					</c:when>
-				</c:choose>
-
-							
-				<a href="">more...</a>
-
+					<br>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 	</div>
 	
@@ -456,14 +545,7 @@
 	</div>
 </div>
 
-	<!-- 리뷰이미지 확대 커스텀창 -->
-	<div id="enlargeImg-background">
-		<div id="enlargeImg-form">
-			<div class="enlargeImg-area">
-	
-			</div>
-		</div>
-	</div>
+
 
 
 <!-- 고수 상세메뉴 이벤트핸들링 -->
@@ -476,6 +558,8 @@
         let $first = $("#tableMenu").find(".tableMenu").eq(0);
         let $second = $("#tableMenu").find(".tableMenu").eq(1);
         let $third = $("#tableMenu").find(".tableMenu").eq(2);
+        
+        
 
         $first.click(function(){
             $(this).css("border-bottom", "3px solid #2A8FF7");
@@ -515,14 +599,28 @@
 	}
 	
 	// 확대창 보이기
-	function openEnlarge() {	
+	function openEnlargeImg() {	
 		$("#enlargeImg-background").css("display", "block");
 	}
 	
+	function openEnlargeRev() {
+		$("#enlarge-background").css("display", "block");
+        <c:forEach var="p" begin="1" end="${requestScope.reviewList.size()}" step="1">
+	        var reviewPoint = ${requestScope.reviewList[p-1].reviewPoint};
+	        var index = ${requestScope.reviewList[p-1].reviewNo};
+	        revStar(reviewPoint, index);
+	    </c:forEach>
+	}
+	
 	// 배경 누를 시 다시 숨기기
-	let modal = document.getElementById("enlargeImg-background");
+	let enImg = document.getElementById("enlargeImg-background");
     window.addEventListener('click', (e) => {
-        e.target == modal ? $('#enlargeImg-background').css("display", "none") : false;
+        e.target == enImg ? $('#enlargeImg-background').css("display", "none") : false;
+    });
+    
+	let enRev = document.getElementById("enlarge-background");
+    window.addEventListener('click', (e) => {
+        e.target == enRev ? $('#enlarge-background').css("display", "none") : false;
     });
     
 </script>

@@ -292,6 +292,8 @@
 	<select id="getGosuReview" parameterType="_int" resultType="gosuOpt">
 	SELECT REV_CONTENT AS "reviewContent"
 	     , REV_POINT AS "reviewPoint"
+	     , REV_DATE AS "reviewDate"
+	     , REV_NO AS "reviewNo"
 	     , M.USER_NICKNAME AS "userNickname"
 	     , M.USER_NAME AS "userName"
 	  FROM REVIEW R

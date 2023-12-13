@@ -30,7 +30,9 @@ public class GosuOpt {
     private double totalRevPoint;
     private double avgRevPoint;
     private String reviewContent;
+    private Date reviewDate;
     private int reviewPoint;
+    private int reviewNo;
     private String reviewImgUrl;
 
 	// 나중에 별점 추가
