@@ -74,6 +74,15 @@ public class ChatServiceImpl implements ChatService{
     public int changeEstStatus(Estimate estimate) {
         return chatDao.changeEstStatus(sqlSession,estimate);
     }
+    @Override
+    public int changeAllEstStatus(Estimate estimate) {
+        return chatDao.changeAllEstStatus(sqlSession,estimate);
+    }
+
+    @Override
+    public ArrayList<ChatReviewDto> selectUserReviewList(int userNo) {
+        return chatDao.selectUserReviewList(sqlSession, userNo);
+    }
 
     @Override
     public Member selectChatGosuInfo(int chatroomNo) {
@@ -124,6 +133,8 @@ public class ChatServiceImpl implements ChatService{
     public Chatroom checkChatRoom(Map<String, Integer> params) {
         return chatDao.checkChatRoom(sqlSession,params);
     }
+
+
 
 
 }

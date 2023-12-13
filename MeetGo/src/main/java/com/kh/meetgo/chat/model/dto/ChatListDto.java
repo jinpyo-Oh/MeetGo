@@ -17,5 +17,6 @@ public class ChatListDto {
     private Chatroom chatroom;
     private String userName;
     private Chat chat;
+    private int unReadCnt;
     private String userProfile;
 }

@@ -481,7 +481,6 @@ public class MemberController {
 	@RequestMapping("deleteReview.me")
 	public String deleteReview(String rno, HttpSession session) {
 
-		// System.out.println(rno);
 		int revNo = Integer.parseInt(rno);
 
 		int result = memberService.deleteReview(revNo);

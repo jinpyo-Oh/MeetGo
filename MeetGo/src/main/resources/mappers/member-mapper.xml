@@ -388,7 +388,7 @@
 			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 		
 	</update>
-		<update id="careerUpdate" parameterType="gosu">
+    <update id="careerUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	CAREER= #{career}
 		WHERE GOSU_NO = #{userNo}

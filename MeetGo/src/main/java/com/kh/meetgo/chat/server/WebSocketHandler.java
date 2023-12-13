@@ -53,9 +53,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         // 전달받은 메세지
         String msg = message.getPayload();
         // Json객체 → Java객체hgfds.,mn
-        // 출력값 : [roomId=123, messageId=null, message=asd, name=천동민, email=cheon@gmail.com, unReadCount=0]
         Chat chat = new ObjectMapper().readValue(msg, Chat.class);
-
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());
         String text = new Gson().toJson(chat);
         TextMessage textMessage = new TextMessage(text);
@@ -78,6 +76,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
             // sessionList에 추가
             sessionList.put(session, chatroom.getChatroomNo());
 //            System.out.println("채팅방 입장");
+        } else if (chat.getType().equals("CHANGE")){
+            System.out.println("계약서 상태 변경");
         }
         // 채팅 일시
         else {
