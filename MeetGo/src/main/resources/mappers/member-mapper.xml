@@ -36,6 +36,7 @@
        <result column="GOSU_NO" property="gosuNo"/>
        <result column="USER_NO" property="userNo"/>
     </resultMap>
+    
     <resultMap id="gosuResultSet" type="gosu">
 		<result column="GOSU_NO" property="gosuNo"/>
 		<result column="INTRODUCTION" property="introduction"/>

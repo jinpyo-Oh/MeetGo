@@ -231,10 +231,6 @@ public class MemberDao {
         return (ArrayList) sqlSession.selectList("memberMapper.selectAllGosuImg", userNo);
     }
 
-
-
-
-}
 	public int WrittenReviewToMeCount(SqlSessionTemplate sqlSession, int gosuNo) {
 		return sqlSession.selectOne("memberMapper.WrittenReviewToMeCount", gosuNo);
 	}

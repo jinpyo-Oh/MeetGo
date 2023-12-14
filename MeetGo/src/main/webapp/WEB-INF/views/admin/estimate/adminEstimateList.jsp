@@ -43,16 +43,17 @@
     .pagingBtn{
         border: 0;
         border-radius: 5px;
-        width: 80px;
+        width: 30px;
         height: 40px;
         font-size: 20px;
         color: white;
         background-color: #2a91f7c0;
     }
     .pageBtn{
+    	
         border: 0;
         border-radius: 5px;
-        width: 40px;
+        width: 30px;
         height: 40px;
         font-size: 20px;
         color: white;
@@ -66,6 +67,7 @@
 </head>
 <body>
 	
+	<jsp:include page="../../common/header.jsp" />
 	<br>	
 	
     <div style="width: 80%; margin: auto; min-height: 400px;">
@@ -75,14 +77,6 @@
                 <tr>
 					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
 					<td class="type" style="width:20%;"><h4><b>완료된 계약</b></h4> </td>
-					<c:choose>
-						<c:when test="${ sessionScope.loginUser.userStatus eq 1 }">
-							<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="myReview.me?cPage=1" style="color:#2a91f7c0;" class="">내 리뷰 보러가기</a></td>                
-						</c:when>
-						<c:when test="${ sessionScope.loginUser.userStatus eq 2 }">
-							<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="WrittenReview.me?cPage=1" style="color:#2a91f7c0;" class="">내게 작성된 리뷰 보러가기</a></td>                
-						</c:when>						
-					</c:choose>
                </tr>
             </table>
 			
@@ -97,7 +91,6 @@
 	                        <th style="width: 10%;">고객번호</th>
 	                        <th style="width: 20%;">시작일</th>
 	                        <th style="width: 15%;">현재상태</th>
-	                        <th style="width: 10%;">채팅</th>
 	                    </tr>
 	                </thead>
 	                <c:choose>
@@ -124,7 +117,6 @@
 					                        	</c:otherwise>
 				                        	</c:choose>
 				                        </td>
-				                        <td>채팅</td>
 				                    </tr>
 				            	</c:forEach>
 			                </tbody>
@@ -144,25 +136,25 @@
 	             <c:if test="${ not empty requestScope.incomList }">
 		            <div id="pagingArea">
 	                	<c:choose>
-			        		<c:when test="${ requestScope.pi1.currentPage eq 1 }">
-			        			<button class="pagingBtn" disabled style="display:none;">prev</button>
+			        		<c:when test="${ requestScope.pi2.currentPage eq 1 }">
+			        			<button class="pagingBtn" disabled style="display:none;">&lt;</button>
 			        		</c:when>
 			        		<c:otherwise>
-			        			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi1.currentPage - 1 }'">prev</button>
+			        			<button class="pagingBtn" onclick="location.href='adminEstimateList.ad?cPage=${ requestScope.pi2.currentPage - 1 }'">&lt;</button>
 			        		</c:otherwise>
 			        	</c:choose>            
-			             <c:forEach var="p" begin="${ requestScope.pi1.startPage }" 
-			                    					end="${ requestScope.pi1.endPage }"
+			             <c:forEach var="p" begin="${ requestScope.pi2.startPage }" 
+			                    					end="${ requestScope.pi2.endPage }"
 			                    					step="1">
-						<button class="pageBtn" onclick="location.href='estimate.me?cPage=${ p }'">${ p }</button>
+						<button class="pageBtn" onclick="location.href='adminEstimateList.ad?cPage=${ p }'">${ p }</button>
 			            </c:forEach>          
 			            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
 			            <c:choose>
-				       		<c:when test="${ requestScope.pi1.currentPage eq requestScope.pi1.endPage }">
-				       			<button class="pagingBtn" disabled style="display:none;">next</button>
+				       		<c:when test="${ requestScope.pi2.currentPage eq requestScope.pi2.endPage }">
+				       			<button class="pagingBtn" disabled style="display:none;">&gt;</button>
 				       		</c:when>
 				       		<c:otherwise>
-				       			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi1.currentPage + 1 }'">next</button>
+				       			<button class="pagingBtn" onclick="location.href='adminEstimateList.ad?cPage=${ requestScope.pi2.currentPage + 1 }'">&gt;</button>
 				       		</c:otherwise>
 			       		</c:choose> 
 	            	</div>
@@ -252,25 +244,25 @@
 	             <c:if test="${ not empty requestScope.comList }">
 		            <div id="pagingArea">
 	                	<c:choose>
-			        		<c:when test="${ requestScope.pi2.currentPage eq 1 }">
-			        			<button class="pagingBtn" disabled style="display:none;">prev</button>
+			        		<c:when test="${ requestScope.pi1.currentPage eq 1 }">
+			        			<button class="pagingBtn" disabled style="display:none;">&lt;</button>
 			        		</c:when>
 			        		<c:otherwise>
-			        			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi2.currentPage - 1 }'">prev</button>
+			        			<button class="pagingBtn" onclick="location.href='adminEstimateList.ad?cPage=${ requestScope.pi1.currentPage - 1 }'">&lt;</button>
 			        		</c:otherwise>
 			        	</c:choose>            
-			             <c:forEach var="p" begin="${ requestScope.pi2.startPage }" 
-			                    					end="${ requestScope.pi2.endPage }"
+			             <c:forEach var="p" begin="${ requestScope.pi1.startPage }" 
+			                    					end="${ requestScope.pi1.endPage }"
 			                    					step="1">
-						<button class="pageBtn" onclick="location.href='estimate.me?cPage=${ p }'">${ p }</button>
+						<button class="pageBtn" onclick="location.href='adminEstimateList.ad?cPage=${ p }'">${ p }</button>
 			            </c:forEach>          
 			            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
 			            <c:choose>
-				       		<c:when test="${ requestScope.pi2.currentPage eq requestScope.pi2.endPage }">
-				       			<button class="pagingBtn" disabled style="display:none;">next</button>
+				       		<c:when test="${ requestScope.pi1.currentPage eq requestScope.pi1.endPage }">
+				       			<button class="pagingBtn" disabled style="display:none;">&gt;</button>
 				       		</c:when>
 				       		<c:otherwise>
-				       			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi2.currentPage + 1 }'">next</button>
+				       			<button class="pagingBtn" onclick="location.href='adminEstimateList.ad?cPage=${ requestScope.pi1.currentPage + 1 }'">&gt;</button>
 				       		</c:otherwise>
 			       		</c:choose> 
 	            	</div>
@@ -292,6 +284,7 @@
     			
     			$("#inCom").show();
     			$("#com").hide();
+
     		});
     		
     		$com.click(function(){
@@ -300,8 +293,12 @@
     			
     			$("#com").show();
     			$("#inCom").hide();
+
     		});
     	});
+    	
+    	
+    	
     	
     	$(function() {
     		
@@ -328,9 +325,11 @@
     			
     			location.href = "reviewDetail.me?rno=" + rno;
     		});
-    	});
     	
+    	});
+		    	
     </script>
 	<br><br><br><br>
+	<jsp:include page="../../common/footer.jsp" />
 </body>
 </html>

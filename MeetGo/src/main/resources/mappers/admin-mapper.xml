@@ -1,21 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="adminMapper">
-
+	
+   	<resultMap id="estimateResultSet" type="estimate">
+       <result column="EST_NO" property="estNo"/>
+       <result column="EST_TITLE" property="estTitle"/>
+       <result column="EST_CONTENT" property="estContent"/>
+       <result column="EST_ADDRESS" property="estAddress"/>
+       <result column="EST_SERVICE" property="estService"/>
+       <result column="START_DATE" property="startDate"/>
+       <result column="END_DATE" property="endDate"/>
+       <result column="CONFIRMATION_DATE" property="confirmationDate"/>
+       <result column="EST_PRICE" property="estPrice"/>
+       <result column="STATUS" property="status"/>
+       <result column="TID" property="tid"/>
+       <result column="GOSU_NO" property="gosuNo"/>
+       <result column="USER_NO" property="userNo"/>
+    </resultMap>
 
 
 	<!-- 관리자 계약관리용 -->
-	<select id="adminEstimateComplListCount" resultType="_int">
+	<select id="adminEstimateInComplListCount" resultType="_int">
 		SELECT COUNT(*)
 		  FROM ESTIMATE
 		 WHERE (STATUS = '3' OR STATUS = '4')
 	</select>
 		
-	<select id="adminEstimateInComplListCount" resultType="_int">
+	<select id="adminEstimateComplListCount" resultType="_int">
 		SELECT COUNT(*)
 		  FROM ESTIMATE
 		 WHERE STATUS = '5'
 	</select>
 	
+	<select id="adminEstimateInComplList" resultMap="estimateResultSet">
+		SELECT EST_NO
+		     , EST_TITLE
+		     , EST_CONTENT
+		     , EST_ADDRESS
+		     , EST_SERVICE
+		     , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
+		     , END_DATE
+		     , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
+		     , EST_PRICE
+		     , STATUS
+		     , TID
+		     , GOSU_NO
+		     , USER_NO
+		  FROM ESTIMATE
+		 WHERE (STATUS = '3' OR STATUS = '4')
+    </select>
+    
+    <select id="adminEstimateComplList" resultType="estimateDto">
+		SELECT EST_NO as "estimate.estNo"
+		     , EST_TITLE as "estimate.estTitle"
+		     , EST_CONTENT as "estimate.estContent"
+		     , EST_ADDRESS as "estimate.estAddress"
+		     , EST_SERVICE as "estimate.estService"
+		     , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+		     , END_DATE "estimate.endDate"
+		     , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+		     , EST_PRICE "estimate.estPrice"
+		     , STATUS "estimate.status"
+		     , TID "estimate.tid"
+		     , GOSU_NO "estimate.gosuNo"
+		     , USER_NO "estimate.userNo"
+		     , (SELECT COUNT(*)
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt"
+		     , (SELECT REV_NO
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
+		  FROM ESTIMATE
+		 WHERE STATUS = '5'
+    </select>
 	
 </mapper>

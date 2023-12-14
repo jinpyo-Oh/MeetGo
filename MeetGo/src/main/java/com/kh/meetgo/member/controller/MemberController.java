@@ -439,8 +439,8 @@ public class MemberController {
 		// System.out.println(list2);
 
 		mv.addObject("incomList", list1).addObject("pi1", pi1)
-				.addObject("comList", list2).addObject("pi2", pi2)
-				.setViewName("estimate/myEstimateList");
+	      .addObject("comList", list2).addObject("pi2", pi2)
+		  .setViewName("estimate/myEstimateList");
 
 		return mv;
 	}
@@ -540,14 +540,18 @@ public class MemberController {
 
 	@ResponseBody
 	@RequestMapping("complete.me")
-	public void completeEstimate(String estNo) {
+	public void completeEstimate(String estNo, HttpSession session) {
 
 		// System.out.println(estNo);
 
 		int eno = Integer.parseInt(estNo);
 
 		int result = memberService.completeEstimate(eno);
-
+		
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "서비스가 정상적으로 완료되었습니다!");
+		}
 	}
 	@RequestMapping("elaborateUpdate.me")
 	public String elaborateUpdate(Model model, HttpSession session, String elaborate) {
