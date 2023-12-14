@@ -235,3 +235,21 @@ public class MemberDao {
 
 
 }
+	public int WrittenReviewToMeCount(SqlSessionTemplate sqlSession, int gosuNo) {
+		return sqlSession.selectOne("memberMapper.WrittenReviewToMeCount", gosuNo);
+	}
+
+	public ArrayList<ReviewDto> WrittenReviewToMeCount(SqlSessionTemplate sqlSession, PageInfo pi, int gosuNo) {
+		
+		int limit = pi.getBoardLimit();
+        int offset = (pi.getCurrentPage() - 1) * limit;
+
+        RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.WrittenReviewToMe", gosuNo, rowBounds);
+	}
+	
+	public ReviewDto WrittenReviewDetail(SqlSessionTemplate sqlSession, int revNo) {
+		return sqlSession.selectOne("memberMapper.WrittenReviewDetail", revNo);
+	}
+}

@@ -39,6 +39,7 @@
 		<mapper resource="/mappers/gosu-mapper.xml"/>
 		<mapper resource="/mappers/common-mapper.xml"/>
 		<mapper resource="/mappers/board-mapper.xml"/>
+		<mapper resource="/mappers/admin-mapper.xml"/>
 	</mappers>
 </configuration>
 

@@ -124,12 +124,14 @@ public class MemberServiceImpl implements MemberService {
 	public String getName(int userNo) {
 		return memberDao.getName(sqlSession, userNo);
 	}
-
+	
+	
+	// 결제 관련 서비스
 	@Override
 	public int payService(String estNo, String tid) {
 		return memberDao.payService(sqlSession, estNo, tid);
 	}
-
+	
 	@Override
 	public int updateStatus(int estNo) {
 		return memberDao.updateStatus(sqlSession, estNo);
@@ -265,7 +267,22 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int insertKakaoMember(Member member) {
-		return memberDao.insertKakaoMember(sqlSession,member);
+		return memberDao.insertKakaoMember(sqlSession, member);
+	}
+
+	@Override
+	public int WrittenReviewToMeCount(int gosuNo) {
+		return memberDao.WrittenReviewToMeCount(sqlSession, gosuNo);
+	}
+
+	@Override
+	public ArrayList<ReviewDto> WrittenReviewToMe(PageInfo pi, int gosuNo) {
+		return memberDao.WrittenReviewToMeCount(sqlSession, pi, gosuNo);
+	}
+
+	@Override
+	public ReviewDto WrittenReviewDetail(int revNo) {
+		return memberDao.WrittenReviewDetail(sqlSession, revNo);
 	}
 
 	

@@ -431,5 +431,54 @@
 		WHERE GOSU_NO = #{userNo}
     </select>
 
+    <select id="WrittenReviewToMeCount" parameterType="_int" resultType="_int">
+       SELECT COUNT(*)
+         FROM review
+        WHERE REV_STATUS = '1'
+          AND GOSU_NO = #{gosuNo}
+    </select>
+
+	<select id="WrittenReviewToMe" parameterType="_int" resultType="reviewDto">
+		 SELECT REV_NO as "review.revNo"
+            , REV_CONTENT as "review.revContent"
+            , REV_POINT as "review.revPoint"
+            , TO_CHAR(REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+            , GOSU_NO as "review.gosuNo"
+            , EST_NO as "review.estNo"
+            , (SELECT USER_NAME
+		         FROM MEMBER M
+		        WHERE M.USER_NO = REVIEW.USER_NO) AS "userName"
+            , (SELECT REV_IMG_URL
+                 FROM REVIEW_IMG
+                WHERE REVIEW.REV_NO = REVIEW_IMG.REV_NO AND ROWNUM BETWEEN 0 AND 1) AS "revImgUrl" 
+         FROM REVIEW
+        WHERE REV_STATUS = '1'
+          AND GOSU_NO = #{gosuNo}
+        ORDER BY REV_NO DESC
+	</select>
+	
+	<select id="WrittenReviewDetail" parameterType="_int" resultType="reviewDto">
+		SELECT REV_NO AS "review.revNo"
+             , REV_CONTENT AS "review.revContent"
+             , REV_POINT AS "review.revPoint"
+             , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
+             , REV_STATUS AS "review.revStatus"
+             , EST_NO AS "review.estNo"
+             , USER_NO AS "review.userNo"
+             , GOSU_NO AS "review.gosuNo"
+             , (SELECT USER_NAME
+                  FROM MEMBER
+                 WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
+             , (SELECT USER_NAME
+                  FROM MEMBER
+                 WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
+             , (SELECT EST_TITLE
+                  FROM ESTIMATE
+                 WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
+          FROM REVIEW R
+         WHERE R.REV_NO = #{revNo}
+	</select>
+
+
 
 </mapper>

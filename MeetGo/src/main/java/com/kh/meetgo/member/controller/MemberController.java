@@ -469,6 +469,32 @@ public class MemberController {
 
 		return mv;
 	}
+	
+	@RequestMapping("WrittenReview.me")
+	public ModelAndView WrittenReviewToMe(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
+
+		Member m = (Member)session.getAttribute("loginUser");
+
+		int gosuNo = m.getUserNo();
+
+		int listCount = memberService.WrittenReviewToMeCount(gosuNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+		ArrayList<ReviewDto> list = memberService.WrittenReviewToMe(pi, gosuNo);
+
+		System.out.println(m);
+		System.out.println(gosuNo);
+		System.out.println(listCount);
+		System.out.println(list);
+
+		mv.addObject("list", list).addObject("pi", pi).setViewName("gosu/gosuWrittenReviewList");
+
+	    return mv;
+	}
 
 	@RequestMapping("reviewDetail.me")
 	public ModelAndView myReviewDetail(String rno, ModelAndView mv) {
@@ -495,7 +521,7 @@ public class MemberController {
 
 		return mv;
 	}
-
+	
 	@RequestMapping("deleteReview.me")
 	public String deleteReview(String rno, HttpSession session) {
 

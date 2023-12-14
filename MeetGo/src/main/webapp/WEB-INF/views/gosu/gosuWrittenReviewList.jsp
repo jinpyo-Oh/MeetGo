@@ -76,9 +76,10 @@
 			<table>
 				<tr>
 					<td><h3><b style="color:#2a91f7c0;">${ sessionScope.loginUser.userName }</b></h3></td>
-					<td style="padding-top:10px;"><h5>&nbsp;&nbsp;님이 작성하신 리뷰입니다.</h5></td>
+					<td style="padding-top:10px;"><h5>&nbsp;&nbsp;고수님에게 작성된 리뷰입니다.</h5></td>
 				</tr>
 			</table>
+              
         </div>
         
 		<br>
@@ -211,7 +212,7 @@
 				
 				let rno = $(this).find(".rno").text();
 				
-				console.log(rno);
+				// console.log(rno);
 				
 				location.href = "reviewDetail.me?rno=" + rno; 
 				
