@@ -72,7 +72,7 @@
     <div style="width: 80%; margin: auto; min-height: 400px;">
         
             <br>
-            <a href="adminEstimateList.ad">관리자 계약관리페이지</a>
+            <a href="adminEstimateList.ad?cPage=1">관리자 계약관리페이지</a>
             <table style="width: 70%; margin: auto; text-align:center;" id="type">
                 <tr>
 					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                

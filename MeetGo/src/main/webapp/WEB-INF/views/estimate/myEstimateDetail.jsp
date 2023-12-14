@@ -179,9 +179,7 @@
 						data : {
 							estNo : '${ requestScope.est.estNo }'
 						}, success : function(){
-							alert("서비스가 성공적으로 완료되었습니다!")
 							location.reload(true);
-							
 						}, error : function(){
 							alert("서비스 완료에 실패하였습니다! 관리자에게 문의하세요.");
 						}
