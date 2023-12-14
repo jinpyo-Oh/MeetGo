@@ -20,6 +20,9 @@ public interface GosuService {
 	ArrayList<GosuOpt> gosuDetail(int gosuNo);
 	// 고수 이미지 가져오기
 	ArrayList<GosuImg> getGosuImg(int gosuNo);
+	// 리뷰가져오기
+	ArrayList<GosuOpt> getGosuReview(int gosuNo);
+	ArrayList<GosuOpt> getGosuReviewImg(int gosuNo);
 	
 	// 고수등록
 	int insertGosu(Gosu gosu);

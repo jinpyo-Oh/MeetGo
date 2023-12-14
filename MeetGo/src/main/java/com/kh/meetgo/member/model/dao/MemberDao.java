@@ -1,6 +1,8 @@
 package com.kh.meetgo.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -10,8 +12,10 @@ import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
+import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Repository // 저장소 (DAO 는 데이터 입출력이 일어나는 부분)
@@ -147,4 +151,85 @@ public class MemberDao {
     public int completeEstimate(SqlSessionTemplate sqlSession, int eno) {
         return sqlSession.update("memberMapper.completeEstimate", eno);
     }
+
+    public Member selectMember(SqlSessionTemplate sqlSession, Member member) {
+        return sqlSession.selectOne("memberMapper.selectMember", member);
+    }
+
+    public int insertKakaoMember(SqlSessionTemplate sqlSession, Member member) {
+        return sqlSession.insert("memberMapper.insertKakaoMember", member);
+    }
+}
+
+public int elaborateUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.elaborateUpdate",g);
+}
+
+public int introductionUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.introductionUpdate",g);
+}
+
+public Gosu getGosuInfoByUserNo(SqlSessionTemplate sqlSession, int userNo) {
+	// TODO Auto-generated method stub
+	return sqlSession.selectOne("memberMapper.gosuInfoByUserNo",userNo);
+}
+
+public int availableTimeUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.availableTimeUpdate",g);
+}
+
+public int educationUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.educationUpdate",g);
+}
+
+public int moveDistanceUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.moveDistanceUpdate",g);
+}
+
+public int employeesUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.employeesUpdate",g);
+}
+
+public int regionUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.regionUpdate",g);
+}
+
+public int careerUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+	// TODO Auto-generated method stub
+	return sqlSession.update("memberMapper.careerUpdate",g);
+}
+
+
+
+/*
+ * public int potoAdd(SqlSessionTemplate sqlSession, String gosuImgUrl, int
+ * gosuImgNo) { // TODO Auto-generated method stub Map<String, Object> params =
+ * new HashMap<>(); params.put("gosuImgUrl", gosuImgUrl);
+ * params.put("gosuImgNo", gosuImgNo); return
+ * sqlSession.insert("memberMapper.insertPotoImg" , params); }
+ */
+/*
+ * public int potoupdate(SqlSessionTemplate sqlSession, Gosu g) { // TODO
+ * Auto-generated method stub return sqlSession.update(memberMapper.); }
+ */
+
+public int uploadFile(SqlSessionTemplate sqlSession, GosuImg gosuImg) {
+	// TODO Auto-generated method stub
+	return sqlSession.insert("memberMapper.insertGosuImg", gosuImg);
+}
+
+public ArrayList<GosuImg> selectAllGosuImg(SqlSessionTemplate sqlSession, int userNo) {
+	// TODO Auto-generated method stub
+	return (ArrayList)sqlSession.selectList("memberMapper.selectAllGosuImg",userNo);
+}
+
+
+
 }

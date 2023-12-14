@@ -56,9 +56,22 @@
        <result column="REV_NO" property="revNo"/>
     </resultMap>
     
+     <resultMap id="gosuImgResultSet" type="gosuImg">
+    	<result column="GOSU_IMG_NO" property="gosuImgNo"/>
+    	<result column="GOSU_IMG_URL" property="gosuImgUrl"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="GOSU_NO" property="gosuNo"/>
+    </resultMap>
+    
     <select id="gosuInfoByUserNo" parameterType="_int" resultMap="gosuResultSet">
 		SELECT *
 		FROM GOSU
+		WHERE GOSU_NO = #{userNo}
+		
+	</select>
+	   <select id="gosuImgInfoByUserNo" parameterType="_int" resultMap="gosuImgResultSet">
+		SELECT *
+		FROM GOSUIMG
 		WHERE GOSU_NO = #{userNo}
 		
 	</select>
@@ -349,12 +362,14 @@
 		WHERE GOSU_NO = #{userNo}
 		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 	</update>
+	
 	<update id="introductionUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET INTRODUCTION = #{introduction}
 		WHERE GOSU_NO = #{userNo}
 		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 	</update>
+	
 		<update id="availableTimeUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET AVAILABLE_TIME = #{availableTime}
@@ -388,10 +403,33 @@
 			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 		
 	</update>
+
+		
+	
 		<update id="careerUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	CAREER= #{career}
 		WHERE GOSU_NO = #{userNo}
 			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
-	</update>
+		</update>
+
+
+	
+	   <insert id="insertGosuImg" parameterType="gosuImg">
+		  INSERT INTO "GOSU-IMG" (GOSU_IMG_NO,
+		  GOSU_IMG_URL, 
+		  STATUS,
+		  GOSU_NO) 
+		values (SEQ_GOSU_IMG.nextval,
+		 #{gosuImgUrl},
+		  1,
+		#{gosuNo})
+    </insert>
+    <select id="selectAllGosuImg" parameterType="_int" resultMap="gosuImgResultSet">
+    	SELECT *
+		FROM "GOSU-IMG"
+		WHERE GOSU_NO = #{userNo}
+    </select>
+
+
 </mapper>

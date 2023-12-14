@@ -62,6 +62,14 @@ public class GosuDao {
 	public ArrayList<PofolOpt> showGosuPofol(SqlSessionTemplate sqlSession, int gosuNo) {
 		return (ArrayList)sqlSession.selectList("gosuMapper.showGosuPofol", gosuNo);
 	}
+	
+	// 고수찾기 상세 - 리뷰 정보 불러오기
+	public ArrayList<GosuOpt> getGosuReview(SqlSessionTemplate sqlSession, int gosuNo) {
+		return (ArrayList)sqlSession.selectList("gosuMapper.getGosuReview", gosuNo);
+	}
+	public ArrayList<GosuOpt> getGosuReviewImg(SqlSessionTemplate sqlSession, int gosuNo) {
+		return (ArrayList)sqlSession.selectList("gosuMapper.getGosuReviewImg", gosuNo);
+	}
 
 	// 고수 등록용 메소드
 	public int insertGosu(SqlSessionTemplate sqlSession, Gosu gosu) {

@@ -55,4 +55,8 @@ public interface ChatService {
 
 
     Chatroom checkChatRoom(Map<String, Integer> params);
+
+    int changeAllEstStatus(Estimate estimate);
+
+    ArrayList<ChatReviewDto> selectUserReviewList(int userNo);
 }

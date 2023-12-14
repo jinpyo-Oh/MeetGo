@@ -95,19 +95,34 @@
             height: 20px;
             margin: 0 5px 20px 5px !important;
         }
-
+		.unReadCnt {
+            background-color: red;
+            color: white !important;
+            border-radius: 50%;
+            text-align: center;
+            display: inline-block;
+            width: 20px;
+			
+            height: 20px;
+            line-height: 20px;
+            margin: 0;
+		}
+		.checkGosu {
+			
+		}
 	</style>
 </head>
 <body style="position: relative; height: 100%">
 <script>
     let chatroomNo;
     let userNo;
-    let gosuNo;
     let estNo;
     let estNumber;
     let chatroomId;
     let check = false;
+    let checkGosu;
     $(function () {
+        checkGosu = (${sessionScope.loginUser.userStatus == 2} ? true:false);
         selectChatList("all");
     });
 </script>
@@ -191,6 +206,9 @@
             });
 		</script>
 		<script>
+            function gosuClick(gno){
+                window.open('gosuDetail.go?gno='+gno, '_blank');
+            }
             function clearChatList() {
 				$('.left-box-chatList').empty();
             }
@@ -216,13 +234,18 @@
                             } else {
                                 chat += '<div class="chat-card" id="chatroomId' + roomList[i].chatroom.chatroomNo + '">';
                             }
-                            chat +=
-								'<input type="hidden" class="chatroomNo" value="' + roomList[i].chatroom.chatroomNo + '">' +
-                                '<div class="chat-card-img">' +
-                                '<img src="' + roomList[i].userProfile + '">' +
-                                '</div>' +
-                                '<div class="chat-card-info">' +
-                                '<p>' + roomList[i].userName + '</p>';
+								chat +=
+									'<input type="hidden" class="chatroomNo" value="' + roomList[i].chatroom.chatroomNo + '">' +
+									'<div class="chat-card-img">' +
+									'<img src="' + roomList[i].userProfile + '">' +
+									'</div>' +
+									'<div class="chat-card-info" style="width: 200px">' +
+									'<div style="display: flex; justify-content: space-between;">' +
+										'<p align="left">' + roomList[i].userName + '</p>';
+								if(roomList[i].unReadCnt > 0){
+                                    chat += '<p class="unReadCnt" align="right">' + roomList[i].unReadCnt + '</p>';
+                                }
+								chat +=	'</div>';
                             if (roomList[i].chat != null) {
                                 if (roomList[i].chat.type == null) {
                                     chat += '<p></p>';
@@ -231,7 +254,8 @@
                                 } else if (roomList[i].chat.type == 'E') {
                                     chat += '<p>계약서</p>';
                                 } else {
-                                    chat += '<p>' + roomList[i].chat.content + '</p>';
+                                    let chatContent = roomList[i].chat.content.length > 11 ? roomList[i].chat.content.substring(0, 10) + ".." : roomList[i].chat.content;
+                                    chat += '<p>' + chatContent + '</p>';
                                 }
                             } else {
                                 chat += '<p></p>';
@@ -254,6 +278,30 @@
 		
 		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 		<script>
+			function addChatList(chatroomNo){
+                $('.chat-area').empty();
+                $.ajax({
+                    url: "chatlist",
+                    data: {
+                        chatroomNo: chatroomNo,
+                        userNo: '${sessionScope.loginUser.userNo}'
+                    },
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        for (let i = 0; i < data.length; i++) {
+                            CheckLR(data[i]);
+                        }
+                        scrollToBottom();
+                    },
+                    error: function () {
+                        console.log("채팅 목록 불러오기 에러");
+                    }
+                })
+			}
+            function reviewDetail(revNo){
+                location.href = "reviewDetail.me?rno=" + revNo;
+            }
             $(function () {
                 $(document).on('click', '.chat-card', function () {
                     $('.hide-right-box').css("display", "none");
@@ -262,27 +310,9 @@
                     chatroomId = $(this).attr("id");
                     console.log("chatroomId : " + chatroomId);
                     $('#'+chatroomId).addClass('select');
-                    $('.chat-area').empty();
                     chatroomNo = $(this).find('.chatroomNo').val();
 
-                    $.ajax({
-                        url: "chatlist",
-                        data: {
-                            chatroomNo: chatroomNo,
-                            userNo: '${sessionScope.loginUser.userNo}'
-                        },
-                        async: false,
-                        dataType: "json",
-                        success: function (data) {
-                            for (let i = 0; i < data.length; i++) {
-                                CheckLR(data[i]);
-                            }
-                            scrollToBottom();
-                        },
-                        error: function () {
-                            console.log("채팅 목록 불러오기 에러");
-                        }
-                    })
+                    addChatList(chatroomNo);
 
                     if (${sessionScope.loginUser.userStatus == 2}) { <!-- 로그인 유저가 고수상태이면 회원 정보 붙이기 -->
                         $.ajax({
@@ -293,36 +323,42 @@
                             async: false,
                             dataType: "json",
                             success: function (data) {
-                                userNo = data.userNo;
+                                console.log(data);
+                                userNo = data.member.userNo;
+                                
+                                let member = data.member;
+                                let revImgList = data.reviewImgList;
                                 let userInfo =
                                     '<div class="info-profile">'
-                                    + '<img class="info-profile-img" src="' + data.userProFile + '">'
+                                    + '<img class="info-profile-img" src="' + member.userProFile + '">'
                                     + '<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">'
                                     + '<div clas="info-profile-more-list">'
-                                    + '<div>회원 상세 조회</div>'
                                     + '</div>'
-                                    + '<h3>' + data.userName + '</h3>'
+                                    + '<h3>' + member.userName + '</h3>'
                                     + '<table>'
                                     + '<tr>'
                                     + '<td width="40%">지역</td>'
-                                    + '<td>' + data.address + '</td>'
+                                    + '<td>' + member.address + '</td>'
                                     + '</tr>'
                                     + '<tr>'
                                     + '<td>믿고 횟수</td>'
-                                    + '<td>15 회</td>'
+                                    + '<td>'+data.reviewCnt+' 회</td>'
                                     + '</tr>'
                                     + '</table>'
                                     + '<hr style="border : 1px solid lightgray; width: 80%;">'
                                     + '</div>'
                                     + '<div class="info-detail">'
                                     + '<h5 style="margin-left: 20px">리뷰 목록</h5>'
-                                    + '<div class="review-img-area">'
-                                    + '<div style="width: 100px!important;"><img class="info-img" src="https://news.nateimg.co.kr/orgImg/xs/2020/04/09/1586412414197720.jpg"></div>'
-                                    + '<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNDAg/MDAxNjE0MDY5MTYxNzE1.ID-uK_t73wGeNH9TGMIeWKJZsQq9KDg_nySZdlKTLBQg.eOm-EdEw-i_NbPvPA5qdAOeLpwlhqEu5PMVGu5DqXr8g.JPEG/4-2.jpg?type=w1200"></div>'
-                                    + '<div style="width: 100px!important;"><img class="info-img" src="https://post-phinf.pstatic.net/MjAyMTAyMjNfNzQg/MDAxNjE0MDY5MTk5NDk2.RuWcBaRHnRUgGHlf-PHJAfsE54JjUD3DheHMskaeGsUg.wETZ4LxUQwZ6n6UErBz_2QqIATZk6sDvtx5bdlew304g.JPEG/5-3.jpg?type=w1200"></div>'
-                                    + '</div>'
+                                    + '<div class="review-img-area">';
+                                for (let i = 0; i < revImgList.length; i++) {
+                                    userInfo +='<div style="width: 100px!important;"><img class="info-img" onclick="reviewDetail('+revImgList[i].review.revNo+')" src="'+revImgList[i].reviewImg.revImgUrl+'"></div>'
+                                }
+                                userInfo +=
+									'</div>'
                                     + '</div>';
                                 $('.right-box-info').append(userInfo);
+                                
+                                
 
                             },
                             error: function () {
@@ -344,15 +380,18 @@
                                 let gosuImgList = data.gosuImgList;
                                 let serviceList = data.serviceList;
                                 let pofolImgList = data.pofolImgList;
+                                
+
+                                
                                 let userInfo =
                                     '<div class="info-profile">' +
-                                    '<img class="info-profile-img" src="' + member.userProFile + '">' +
+                                    '<img class="info-profile-img" style="cursor : pointer" onclick="gosuClick('+data.gosu.gosuNo+')" id="gosu-profile-img" src="' + member.userProFile + '">' +
                                     '<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">' +
                                     '<h3>' + member.userName + '</h3>' +
                                     '<table>' +
                                     '<tr>' +
                                     '<td width="30%">지역</td>' +
-                                    '<td width="70%">대전 중구</td>' +
+                                    '<td width="70%">'+gosu.region+'</td>' +
                                     '</tr>' +
                                     '<tr>' +
                                     '<td>리뷰</td>' +
@@ -393,13 +432,14 @@
                                     '</div>';
                                 $('.right-box-info').append(userInfo);
 
-
+								
                             },
                             error: function () {
                                 alert("오른쪽 고수 정보 조회 실패");
                             }
                         })
                     }
+
                     $('.show-detail-img').click(function () {
                         $('#image-detail').attr("src", $(this).attr("src"));
                         $('.hide-all-content').removeClass('display-none');
@@ -525,12 +565,12 @@
                     + '<div class="chat-est-button" id="est-btn-content' + data.estNo + '">';
 
                 switch (estStatus) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
-                    case '1' :
-                        chat += '<button class="meetgo-btn est-detail-btn"  value="'+data.estNo+'"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
-                            '<div style="display: flex"><button class="meetgo-btn w-50 changeEstBtn" onclick="changeEstStatus(' + data.estNo + ', 3)">확정하기</button>' +
-                            '<button class="meetgo-btn meetgo-red w-50 changeEstBtn" onclick="changeEstStatus(' + data.estNo + ', 2)">취소하기</button></div>'
-                        break;
                     case '2' :
+                        chat += '<button class="meetgo-btn est-detail-btn"  value="'+data.estNo+'"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
+                            '<div style="display: flex"><button class="meetgo-btn w-50 changeEstBtn checkGosu" onclick="changeEstStatus(' + data.estNo + ', 3)">확정하기</button>' +
+                            '<button class="meetgo-btn meetgo-red w-50 changeEstBtn" onclick="changeEstStatus(' + data.estNo + ', 1)">취소하기</button></div>'
+                        break;
+                    case '1' :
                         chat += '<p>취소된 계약서 입니다.</p>'
                         break;
                     case '3' :
@@ -538,7 +578,7 @@
 							+ '<button class="meetgo-btn est-detail-btn"  value="'+data.estNo+'"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>'
                             + '<div style="display: flex">'
                             + '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
-                            + '<button class="meetgo-btn meetgo-red w-50 changeEstBtn"  onclick="changeEstStatus(' + data.estNo + ', 2)" style="width: 268px; margin: 5px; ">취소하기</button>' +
+                            + '<button class="meetgo-btn meetgo-red w-50 changeEstBtn"  onclick="changeEstStatus(' + data.estNo + ', 1)" style="width: 268px; margin: 5px; ">취소하기</button>' +
 							'</div>'
                         break;
                     case '4' :
@@ -790,12 +830,16 @@
 						}
                         if(data.sender != ${sessionScope.loginUser.userNo}){
                             console.log("ㅇㅅㅇ");
-                            $('#'+chatroomId).click();
+                            addChatList(chatroomNo);
                         }
                         
                     }
                     function changeEstStatus(changeEstNo, changeStatus) {
+                        if(changeStatus == 3 && !confirm("확정하면 남은 모든 견적서가 취소됩니다")){
+                            return;
+						}
                         let estBtnContent = '#est-btn-content' + changeEstNo;
+                        console.log("eno : " + changeEstNo);
                         $(estBtnContent).empty();
                         $.ajax({
                             url: "changeEstStatus",
@@ -806,19 +850,19 @@
                             success: function (result) {
                                 let chat = "";
                                 switch (result.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
-                                    case '1' :
+                                    case '2' :
                                         chat += '<button class="meetgo-btn est-detail-btn"  value="'+result.estNo+'" style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
                                             '<div style="display: flex"><button class="meetgo-btn w-50" onclick="changeEstStatus(' + result.estNo + ', 3)">확정하기</button>' +
-                                            '<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus(' + result.estNo + ', 2)">취소하기</button></div>'
+                                            '<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus(' + result.estNo + ', 1)">취소하기</button></div>'
                                         break;
-                                    case '2' :
+                                    case '1' :
                                         chat += '<p>취소된 계약서 입니다.</p>'
                                         break;
                                     case '3' :
                                         chat += '<p>확정된 계약서 입니다.</p>'
                                             + '<div style="display: flex">'
                                             + '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
-                                            + '<button class="meetgo-btn meetgo-red w-50"  onclick="changeEstStatus(' + result.estNo + ', 2)" style="width: 268px; margin: 5px; ">취소하기</button>'
+                                            + '<button class="meetgo-btn meetgo-red w-50"  onclick="changeEstStatus(' + result.estNo + ', 1)" style="width: 268px; margin: 5px; ">취소하기</button>'
                                         break;
                                     case '4' :
                                         chat += '<p>취소된 계약서 입니다.</p>'
@@ -828,7 +872,16 @@
                                             + '<div style="display: flex"><button class="meetgo-btn w-50 est-detail-btn" value="'+result.estNo+'">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
                                         break;
                                 }
-                                $(estBtnContent).append(chat);
+                                const data = {
+                                    "chatroomNo": chatroomNo,
+                                    "sender": ${sessionScope.loginUser.userNo},
+                                    "type": 'CHANGE',
+                                    "content": 'CHANGE_ESTMATE',
+                                    "createAt": "<%= new SimpleDateFormat("yy-MM-dd HH:mm").format(new java.sql.Date(System.currentTimeMillis()))%>"
+                                };
+                                let jsonData = JSON.stringify(data);
+                                websocket.send(jsonData);
+                                $('#'+chatroomId).click();
                             },
                             error: function () {
                                 console.log("계약서 상태 변경 실패");
