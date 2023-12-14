@@ -3,13 +3,15 @@ package com.kh.meetgo.common.commonController;
 import com.google.gson.Gson;
 import com.kh.meetgo.common.model.dto.PoFolRequest;
 import com.kh.meetgo.common.model.service.CommonService;
+import com.kh.meetgo.common.model.vo.Report;
+import com.kh.meetgo.member.model.vo.Gosu;
+import com.kh.meetgo.member.model.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -25,18 +27,17 @@ public class CommonController {
         ArrayList<PoFolRequest> list = commonService.selectMainPortfolio();
         return new Gson().toJson(list);
     }
-
-    @GetMapping("/error404")
-    public String Error404(HttpServletResponse res, Model model) {
-//        LOGGER.warn("========== ERROR 404 PAGE ==========");
-        model.addAttribute("code", "ERROR_404");
-        return "common/errorPage";
+    @ResponseBody
+    @GetMapping(value = "selectReportedGosuInfo", produces = "text/json; charset=UTF-8")
+    public String selectGosuInfo(String gosuNo){
+        return new Gson().toJson((Member)commonService.selectGosuInfo(Integer.parseInt(gosuNo)));
     }
 
-    @GetMapping("/error500")
-    public String Error500(HttpServletResponse res, Model model) {
-//        LOGGER.warn("========== ERROR 500 PAGE ==========");
-        model.addAttribute("code", "ERROR_500");
-        return "common/errorPage";
+    @ResponseBody
+    @PostMapping(value = "insertReport", produces = "text/json; charset=UTF-8")
+    public String insertReport(@RequestBody Report report){
+        int result = commonService.insertReport(report);
+        return new Gson().toJson(report);
     }
+
 }

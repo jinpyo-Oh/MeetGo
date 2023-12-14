@@ -624,6 +624,35 @@
             <div class="info">
                 <div class="value">
                     <div>사진을 등록하고 더욱 성장한 고수가 되어보세요</div>
+                    <div class="portfolio">
+                        <h4 class="portfolio-title">고수님의 멋진 작업물을 보여주세욘!</h4>
+                        <div class="portfolio-context">
+                            작업사진과 과정을 포함한 포트폴리오를<br>
+                            등록할 경우 고수님을 선택할 확률이 과연 높아갈까? 
+                            <div><a class="portfolio-btn">포트폴리오 작성하기</a></div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="my-profile-name">
+            <div class="comp-hader">
+                <div class="hading">
+                    <h2>사진 및 동영상</h2>
+                    <div class="action-group-wapper">
+                        <div class="type">
+                            <div class="update">
+                                 수정
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="info">
+                <div class="value">
+                    <div><img src="https://img2.quasarzone.com/editor/2023/08/05/aa0f36449037644f47d4a2d3f120dada.jpg" class="profile-img-body">평균 고수들이8개의 사진/동영상을고수들이 등록했어요!</div>
                     <div class="media-body">
                         <ul>
                             <li>
