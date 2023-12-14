@@ -1,4 +1,4 @@
-package com.kh.meetgo.board.controller;
+	package com.kh.meetgo.board.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,7 +45,34 @@ public class BoardController {
 	private CommonService commonService;
 
 
+	@RequestMapping("gosuList.bo")
+	public String test() {
+		return "board/gosuRequest/gosuList";
+	}
 	
+	@RequestMapping("noticeWrite.bo")
+	public String noticeForm() {
+		return "board/notice/noticeWrite";
+	}
+	
+	@RequestMapping("tipList.bo")
+	public String tipList() {
+		return "board/tip/tipList";
+	}
+	@RequestMapping("noticeList.bo")
+	public String noticeList() {
+		return "board/notice/noticeList";
+	}
+	
+	@GetMapping("gosuWrite.bo")
+	public String enrollForm() {
+		return "board/gosuRequest/gosuWrite";
+	}
+	
+	@GetMapping("tipWrite.bo")
+	public String tipForm() {
+		return "board/tip/tipWrite";
+	}
 	
 	// 고수찾아요 게시판리스트 조회
 	@GetMapping("gosuList.bo")
@@ -56,7 +83,7 @@ public class BoardController {
 		int listCount = boardService.selectGosuReqListCount();
 		
 		int pageLimit = 5;
-		int boardLimit = 20;
+		int boardLimit = 5;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 						currentPage, pageLimit, boardLimit);
@@ -68,12 +95,6 @@ public class BoardController {
 		  .addObject("pi", pi)
 		  .setViewName("board/gosuRequest/gosuList");
 		return mv;
-	}
-	
-	@GetMapping("gosuWrite.bo")
-	public String gosuWrite() {
-		
-		return "board/gosuRequest/gosuWrite";
 	}
 	
 	// 고수찾아요 게시판 등록
@@ -119,6 +140,15 @@ public class BoardController {
 		}
 
 		if(result1 * result2 > 0) { 
+	@PostMapping("insert.bo")
+	public String insertGosuReqBoard(Board m, 
+							  MultipartFile upfile,
+							  HttpSession session,
+							  Model model) {
+		
+		int result = boardService.insertGosuReqBoard(m);
+		
+		if(result > 0) { 
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
 			
@@ -129,15 +159,12 @@ public class BoardController {
 			
 			return "common/errorPage";
 		}
-		
 	}
-
 	
 	// 고수찾아요 게시판 상세조회	
-	@RequestMapping("gosuDetail.bo")
-	public ModelAndView selectGosuReqBoard(String bno, 
-									ModelAndView mv
-									) {
+	@RequestMapping("detail.bo")
+	public ModelAndView selectGosuReqBoard(int bno, 
+									ModelAndView mv) {
 		
 		int boardNo = Integer.parseInt(bno); 
 				
@@ -171,7 +198,7 @@ public class BoardController {
 		int listCount = boardService.selectTipListCount();
 		
 		int pageLimit = 5;
-		int boardLimit = 7;
+		int boardLimit = 5;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 						currentPage, pageLimit, boardLimit);
@@ -308,6 +335,8 @@ public class BoardController {
 		boardService.insertPofol(pofol);
 		
 		int pofolNo = pofol.getPofolNo();
+		
+		System.out.println(pofolNo);
 
 				 
 		try {
@@ -328,7 +357,7 @@ public class BoardController {
 		
 		// pno는 포폴게시글 번호
 		int pofolNo = Integer.parseInt(pno);
-		boardService.increasePofolCount(pofolNo);
+		int result = boardService.increasePofolCount(pofolNo);
 		
 		ArrayList<PofolOpt> list = boardService.pofolDetail(pofolNo);
 		ArrayList<PofolImg> imgList = boardService.pofolDetailImg(pofolNo);

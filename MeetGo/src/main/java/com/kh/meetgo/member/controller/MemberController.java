@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,20 +21,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.kh.meetgo.board.model.service.BoardService;
+import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.service.MemberService;
+import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Controller
 public class MemberController {
-
+	@Autowired
+	private BoardService boardService;
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -67,10 +76,7 @@ public class MemberController {
 	public String mypagemini() {
 		return "member/memberMyPageInfo";
 	}
-	@RequestMapping("gosuPage.me")
-	public String gosuPageForm() {
-		return "member/memberGosuPage";
-	}
+
 	@RequestMapping("portfolio.me")
 	public String memberPortFolio() {
 		return "member/memberPortFolio";
@@ -87,7 +93,19 @@ public class MemberController {
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
 	}
+	
+	
+	
+	@RequestMapping("gosuPage.me")
+	public String loginGosu(HttpSession session, Model model) {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// UserNo를 이용하여 DB에서 Gosu 정보 조회
+		Gosu gosu = memberService.getGosuInfoByUserNo(loginUser.getUserNo());
+		// 조회된 Gosu 정보를 세션에 저장
+		session.setAttribute("loginGosu", gosu);
+		return "member/memberGosuPage";
 
+	}
 
 	@RequestMapping("login.me")
 	public ModelAndView loginMember(Member m,
@@ -505,4 +523,215 @@ public class MemberController {
 		int result = memberService.completeEstimate(eno);
 
 	}
+	@RequestMapping("elaborateUpdate.me")
+	public String elaborateUpdate(Model model, HttpSession session, String elaborate) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+		g.setElaborate(elaborate);
+		System.out.println(g);
+		int result = memberService.elaborateUpdate(g);
+		if (result > 0) {
+
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+
+			return "redirect:/gosuPage.me";
+
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+
+		}
+	}
+
+	@RequestMapping("introductionUpdate.me")
+	public String introductionUpdate(Model model, HttpSession session, String introduction) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+
+		g.setIntroduction(introduction);
+		int result = memberService.introductionUpdate(g);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			return "redirect:/gosuPage.me";
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+		}
+
+	}
+
+	@RequestMapping("availableTimeUpdate.me")
+	public String availableTimeUpdate(Model model, HttpSession session, String availableTimeUpdate) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+		g.setAvailableTime(availableTimeUpdate);
+		int result = memberService.availableTimeUpdate(g);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			return "redirect:/gosuPage.me";
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+		}
+	}
+
+	@RequestMapping("educationUpdate.me")
+	public String educationUpdate(Model model, HttpSession session, String educationUpdate) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+		g.setEducation(educationUpdate);
+		int result = memberService.educationUpdate(g);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			return "redirect:/gosuPage.me";
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+		}
+	}
+
+	@RequestMapping("moveDistanceUpdate.me")
+	public String moveDistanceUpdate(Model model, HttpSession session, String moveDistanceUpdate) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+		g.setMoveDistance(moveDistanceUpdate);
+		int result = memberService.moveDistanceUpdate(g);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			return "redirect:/gosuPage.me";
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+		}
+	}
+	@RequestMapping("emplyeesUpdate.me")
+	public String emplyeesUpdate(Model model, HttpSession session, int employeesUpdate) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+		g.setEmployees(employeesUpdate);
+		int result = memberService.employeesUpdate(g);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			return "redirect:/gosuPage.me";
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+		}
+	}
+	@RequestMapping("region.me")
+	public String region(Model model, HttpSession session, String regionUpdate) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+		g.setRegion(regionUpdate);
+		int result = memberService.regionUpdate(g);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			return "redirect:/gosuPage.me";
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+		}
+	}
+	@RequestMapping("careerUpdate.me")
+	public String careerUpdate(Model model, HttpSession session, String careerUpdate) {
+
+		Gosu g = new Gosu();
+		g.setUserNo(((Member) session.getAttribute("loginUser")).getUserNo());
+		g.setCareer( careerUpdate);
+		int result = memberService.careerUpdate(g);
+		if (result > 0) {
+			session.setAttribute("alertMsg", "성공적으로 회원정보가 변경되었습니다.");
+			return "redirect:/gosuPage.me";
+		} else { // 수정 실패 // => 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "회원정보 변경 실패");
+
+			return "common/errorPage";
+		}
+	}
+
+	/*
+	 * @RequestMapping("homeServiceForm") public String homeservice (String
+	 * homeservice, Model model) {
+	 * 
+	 * ArrayList<CategoryBig> bigCategoryList
+	 * =memberService.SelectCategoryBigList(0);
+	 * model.addAttribute("bigCategoryList", bigCategoryList); for (CategoryBig cb:
+	 * bigCategoryList) {
+	 * 
+	 * }
+	 * 
+	 * 
+	 * ArrayList<CategorySmall> smallCategoryList
+	 * =memberService.SelectCategorySmallList(0);
+	 * model.addAttribute("smallCategoryList", smallCategoryList);
+	 * 
+	 * return homeservice;
+	 * 
+	 * }
+	 */
+	@GetMapping("myPost.me")
+	public ModelAndView selectGosuReqList(
+			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+			ModelAndView mv) {
+		
+		int listCount = boardService.selectGosuReqListCount();
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, 
+						currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Board> list = boardService.selectGosuReqList(pi);
+		
+
+		mv.addObject("list", list)
+		  .addObject("pi", pi)
+		  .setViewName("member/memberMyPost");
+		return mv;
+	}
+	/*
+	 * @RequestMapping("potoAdd") public void gosuimg(ArrayList<MultipartFile>
+	 * gosuImgArr, String gosuImgNo) {
+	 * 
+	 * 
+	 * try { for(int i = 0; i < gosuImgArr.size(); i++) { String gosuImgUrl =
+	 * s3Uploader.upload(gosuImgArr.get(i), "pofolImg"); memberService.potoAdd(
+	 * gosuImgUrl, gosuImgNo); } } catch (IOException e) { e.printStackTrace(); } }
+	 */ 
+	@ResponseBody 
+	@PostMapping(value="uploadFile.cp", produces="text/json; charset=UTF-8")
+	public String uploadFile(HttpSession session, HttpServletRequest req, MultipartFile uploadFiles) throws IOException {
+		
+		String url = s3Uploader.upload(uploadFiles, "gosuImg");
+		GosuImg myGosuImg = new GosuImg();
+		myGosuImg.setGosuNo(((Member)session.getAttribute("loginUser")).getUserNo());
+		myGosuImg.setGosuImgUrl(url);
+		int result = memberService.uploadFile(myGosuImg);
+		
+
+		return "";
+	}
+	@ResponseBody
+	@GetMapping(value="selectAllGosuImg", produces="text/json; charset=UTF-8")
+	public String selectAllGosuImg(HttpSession session) throws IOException {
+		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+		ArrayList<GosuImg> list =  memberService.selectAllGosuImg(userNo);
+		return new Gson().toJson(list);
+	}
+	
 }

@@ -97,7 +97,7 @@
                 <p><img src="https://assets.cdn.soomgo.com/icons/icon-mypage-kakaotalk-signin.svg">tomy2213@naver.com</p>
                 <a class="btn" href="myPageInfo.me">계정설정</button>
             </a>
-        </div>e
+        </div>
         <hr>
         <div class="body">
             <ul>

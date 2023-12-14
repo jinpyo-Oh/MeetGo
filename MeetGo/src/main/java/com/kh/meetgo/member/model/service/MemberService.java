@@ -6,8 +6,10 @@ import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
+import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
 public interface MemberService {
@@ -90,4 +92,30 @@ public interface MemberService {
 	Member selectMember(Member member);
 
 	int insertKakaoMember(Member member);
+    //고수 상세설명 수정하기
+
+	int elaborateUpdate(Gosu g);
+	//고수 자기소개 수정하기
+	int introductionUpdate(Gosu g);
+	//고수 이용시간 수정하기
+	int availableTimeUpdate(Gosu g);
+	//학력 수정하기
+	int educationUpdate(Gosu g);
+	//활동 이동 가능 거리 수정하기
+	int moveDistanceUpdate(Gosu g);
+	//직원수 수정하기
+	int employeesUpdate(Gosu g);
+	//고수 지역 수정하기
+	int regionUpdate(Gosu g);
+	//고수 경력 수정하기
+	int careerUpdate(Gosu g);
+
+	int uploadFile(GosuImg gosuImg);
+
+	Gosu getGosuInfoByUserNo(int userNo);
+
+	ArrayList<GosuImg> selectAllGosuImg(int userNo);
+
+	
+	
 }

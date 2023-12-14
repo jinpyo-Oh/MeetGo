@@ -153,6 +153,13 @@ public class BoardServiceImpl implements BoardService {
 		return 0;
 	}
 
+
+
+
+
+
+
+
 }
 
 
