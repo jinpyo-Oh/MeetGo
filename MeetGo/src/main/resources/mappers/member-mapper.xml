@@ -56,9 +56,22 @@
        <result column="REV_NO" property="revNo"/>
     </resultMap>
     
+     <resultMap id="gosuImgResultSet" type="gosuImg">
+    	<result column="GOSU_IMG_NO" property="gosuImgNo"/>
+    	<result column="GOSU_IMG_URL" property="gosuImgUrl"/>
+    	<result column="STATUS" property="status"/>
+    	<result column="GOSU_NO" property="gosuNo"/>
+    </resultMap>
+    
     <select id="gosuInfoByUserNo" parameterType="_int" resultMap="gosuResultSet">
 		SELECT *
 		FROM GOSU
+		WHERE GOSU_NO = #{userNo}
+		
+	</select>
+	   <select id="gosuImgInfoByUserNo" parameterType="_int" resultMap="gosuImgResultSet">
+		SELECT *
+		FROM GOSUIMG
 		WHERE GOSU_NO = #{userNo}
 		
 	</select>
@@ -349,12 +362,14 @@
 		WHERE GOSU_NO = #{userNo}
 		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 	</update>
+	
 	<update id="introductionUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET INTRODUCTION = #{introduction}
 		WHERE GOSU_NO = #{userNo}
 		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 	</update>
+	
 		<update id="availableTimeUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET AVAILABLE_TIME = #{availableTime}
@@ -388,10 +403,82 @@
 			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
 		
 	</update>
-    <update id="careerUpdate" parameterType="gosu">
+
+		
+	
+		<update id="careerUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	CAREER= #{career}
 		WHERE GOSU_NO = #{userNo}
 			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
-	</update>
+		</update>
+
+
+	
+	   <insert id="insertGosuImg" parameterType="gosuImg">
+		  INSERT INTO "GOSU-IMG" (GOSU_IMG_NO,
+		  GOSU_IMG_URL, 
+		  STATUS,
+		  GOSU_NO) 
+		values (SEQ_GOSU_IMG.nextval,
+		 #{gosuImgUrl},
+		  1,
+		#{gosuNo})
+    </insert>
+    <select id="selectAllGosuImg" parameterType="_int" resultMap="gosuImgResultSet">
+    	SELECT *
+		FROM "GOSU-IMG"
+		WHERE GOSU_NO = #{userNo}
+    </select>
+
+    <select id="WrittenReviewToMeCount" parameterType="_int" resultType="_int">
+       SELECT COUNT(*)
+         FROM review
+        WHERE REV_STATUS = '1'
+          AND GOSU_NO = #{gosuNo}
+    </select>
+
+	<select id="WrittenReviewToMe" parameterType="_int" resultType="reviewDto">
+		 SELECT REV_NO as "review.revNo"
+            , REV_CONTENT as "review.revContent"
+            , REV_POINT as "review.revPoint"
+            , TO_CHAR(REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+            , GOSU_NO as "review.gosuNo"
+            , EST_NO as "review.estNo"
+            , (SELECT USER_NAME
+		         FROM MEMBER M
+		        WHERE M.USER_NO = REVIEW.USER_NO) AS "userName"
+            , (SELECT REV_IMG_URL
+                 FROM REVIEW_IMG
+                WHERE REVIEW.REV_NO = REVIEW_IMG.REV_NO AND ROWNUM BETWEEN 0 AND 1) AS "revImgUrl" 
+         FROM REVIEW
+        WHERE REV_STATUS = '1'
+          AND GOSU_NO = #{gosuNo}
+        ORDER BY REV_NO DESC
+	</select>
+	
+	<select id="WrittenReviewDetail" parameterType="_int" resultType="reviewDto">
+		SELECT REV_NO AS "review.revNo"
+             , REV_CONTENT AS "review.revContent"
+             , REV_POINT AS "review.revPoint"
+             , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
+             , REV_STATUS AS "review.revStatus"
+             , EST_NO AS "review.estNo"
+             , USER_NO AS "review.userNo"
+             , GOSU_NO AS "review.gosuNo"
+             , (SELECT USER_NAME
+                  FROM MEMBER
+                 WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
+             , (SELECT USER_NAME
+                  FROM MEMBER
+                 WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
+             , (SELECT EST_TITLE
+                  FROM ESTIMATE
+                 WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
+          FROM REVIEW R
+         WHERE R.REV_NO = #{revNo}
+	</select>
+
+
+
 </mapper>

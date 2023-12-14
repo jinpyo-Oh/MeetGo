@@ -30,4 +30,14 @@
         ) M ON M.USER_NO = P.GOSU_NO
         ORDER BY P.POFOL_VISITED DESC
     </select>
+    <select id="selectGosuInfo" parameterType="_int" resultType="com.kh.meetgo.member.model.vo.Member">
+        SELECT USER_NO AS userNo, USER_NAME as userName, USER_NICKNAME as userNickname
+        FROM MEMBER
+        WHERE USER_NO = #{gosuNo}
+    </select>
+    <insert id="insertReport" parameterType="com.kh.meetgo.common.model.vo.Report">
+        insert into REPORT
+        (REPORT_NO, REPORTED_USER, REPORT_CATEGORY, REPORT_CONTENT, REPORT_STATUS, REPORT_USER)
+        values (SEQ_REPORT_NO.nextval, #{reportedUser}, #{reportCategory}, #{reportContent}, 0,#{reportUser} )
+    </insert>
 </mapper>

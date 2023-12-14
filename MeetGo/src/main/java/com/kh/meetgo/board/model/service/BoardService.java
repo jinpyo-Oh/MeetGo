@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.board.model.vo.Reply;
+import com.kh.meetgo.board.model.dto.ReplyDto;
+
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
@@ -53,6 +55,16 @@ public interface BoardService {
 		// 팁노하우 조회수 증가
 		int increaseTipCount(int boardNo);
 		
+		// 댓글 리스트 조회 서비스 (ajax)
+		ArrayList<ReplyDto> selectGosuReplyList(int boardNo);
+		
+		// 댓글 작성 서비스 (ajax)
+		int insertGosuReply(Reply r);
+		
+		
+		int insertTipImg(String filePath, int boardNo);
+
+		ArrayList<Board_File> selectTipImgList(int boardNo);
 		
 	
 

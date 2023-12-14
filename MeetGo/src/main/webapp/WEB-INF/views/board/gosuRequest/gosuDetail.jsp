@@ -164,55 +164,143 @@
 			</div>
         </div>
 			
-				 <table id="replyArea">
 			 
-        		<div class="gosu_coment1">
           
             <!-- 일반회원의 댓글 입력가능창하게끔 -->
             <!-- 만약 로그인이 안되었다면 막거나 하기 -->
-                    
-            <input type="text" name="coment" id="coment" style="width: 900px; height: 50px;" placeholder="&nbsp;내용을 입력하세요."> &nbsp; 
-            	
-             <button class="btn btn-primary" onclick="addReply();">댓글작성</button>        	
+           
+           <table id="replyArea" class="table" align="center">
+           <thead>
+               <tr>
+               	<c:choose>
+               		<c:when test="${ empty sessionScope.loginUser }">
+               			<!-- 로그인 전 : 댓글창 막기 -->
+               			<th colspan="2">
+                         <textarea class="form-control" cols="55" rows="2" style="resize:none; width:100%;" readonly>로그인한 사용자만 이용 가능한 서비스입니다. 로그인 후 이용 바랍니다.</textarea>
+                     </th>
+                     <th style="vertical-align:middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
+               		</c:when>
+               		<c:otherwise>
+                     <th colspan="2">
+                         <textarea class="form-control" id="content" cols="80" rows="2" style="resize:none; width:100%;"></textarea>
+                     </th>           
+                     
+                     <th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addGosuReply();">등록하기</button></th>
+               		
+               		</c:otherwise>
+               	</c:choose>
+               </tr>
+               <tr>
+                   <td colspan="3">댓글(<span id="rcount">0</span>)</td>
+               </tr>
+           </thead>
+           
+           <tbody>
+           
+           </tbody>
+           
+           
+            </table>
+              	
 	   
 	        </div>
 	      
 	        <hr>
 	       
-	        </table>
  	     
-         <div class="gosu_coment2">   <!-- 댓글을 등록한 회원의 id  -->
-				<div class="gosu_coment2_1">
-                <!-- 프로필 이미지 넣기 -->
-                <img src="" id="profileImg" width="50" height="50">&nbsp;&nbsp; 
-                ${ requestScope.m.userNo }
-                
-                </div>
-                 
-        <div class="gosu_coment2_2">
-            &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" style="width: 700px; 
-         	 background: transparent;">     
-         	 ${ requestScope.r.replyContent }   	
-        </div> 
-        	 <div class="gosu_coment2_3">        	 
-        	  <button type="submit" class="btn btn-primary">견적요청</button>       	 
-        	 </div>
-        	                     
-        </div>
+        
       
 	
         
         <div class="gosu_bottom">
-        
+        	<a href="gosuList.bo">
             <button type="submit" id="gosu_btn" class="btn btn-secondary" >목록가기</button>
+        	</a>
         </div>
-   	</div>
     	<jsp:include page="../../common/footer.jsp"/>
    
    
      <script>   
-		    
+     $(function() {
+ 		
+ 		// 댓글리스트 조회용 선언적 함수 호출
+ 		selectGosuReplyList();
+ 		
+ 		// 만약, 댓글이 실시간으로 달리는걸 보고싶다면?
+ 		setInterval(selectGosuReplyList, 1000);
+ 		
+ 	});
+ 	
+ 	function addGosuReply() {
+ 		
+ 		// 댓글 작성 요청용 ajax 요청
+ 		
+ 		// 댓글내용이 있는지 먼저 검사 후
+ 		// 댓글 내용 중 공백 제거 후 길이가 0 이 아닌 경우
+ 		// => textarea 가 form 태그 내부에 있지 않음
+ 		//    (required 속성으로 필수 입력값임을 나타낼 수 없음)
+ 		if($("#content").val().trim().length != 0) {
+ 			
+ 			$.ajax({
+ 				url : "gosuRinsert.bo",
+ 				type : "get",
+ 				data : { // Ajax 요청 또한 Spring 에서 커맨드 객체 방식 사용 가능
+ 					boardNo : ${ requestScope.m.boardNo }, 
+ 					userNo : "${ sessionScope.loginUser.userNo}" ,
+ 					replyContent : $("#content").val()
+ 				},
+ 				success : function(result) { 
+ 					
+ 					if(result == "success") {
+ 						
+ 						// 댓글 작성 성공 시
+ 						selectGosuReplyList();
+ 						$("#content").val("");
+ 						
+ 					}
+ 					
+ 				},
+ 				error : function() {
+ 					console.log("댓글 작성용 ajax 통신 실패!");
+ 				}
+ 			});
+ 			
+ 		} else {
+ 			
+ 			alertify.alert("Alert", "댓글 작성 후 등록을 요청해주세요.", function(){ alertify.success('Ok'); });	
+ 		}
+ 	}
+ 	
+ 	function selectGosuReplyList() {
+ 		
+ 		$.ajax({
+ 			url : "gosuRlist.bo",
+ 			type : "get",
+ 			data : {bno : ${ requestScope.m.boardNo }},
+ 			success : function(result) {
+ 				
+ 				
+ 				let resultStr = "";
+ 				
+ 				for(let i = 0; i < result.length; i++) {
+ 					
+ 					resultStr += "<tr>"
+ 						+ "<th>" + result[i].userNickname + "</th>"
+ 	                    + "<td>" + result[i].replyContent + "</td>"
+ 	                    + "<td>" + result[i].replyDate + "</td>"
+ 	                   + "<td><a href='gosuList.bo' class='btn btn-primary' (" + i + ")'>견적요청</a></td>"
+ 	                    + "</tr>";
+ 				}
+ 				
+ 				$("#replyArea>tbody").html(resultStr);
+ 				$("#rcount").text(result.length);
+ 				
+ 			},
+ 			error : function() {
+ 				console.log("댓글리스트 조회용 ajax 통신 실패!");
+ 			}
+ 		});
+ 	}    
      const swiper = new Swiper('.swiper', {
         autoplay : {
             delay : 10000 // 3초마다 이미지 변경

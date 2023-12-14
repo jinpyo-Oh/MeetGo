@@ -311,7 +311,7 @@
 </style>
 <body>
 <jsp:include page="tawk.jsp"/>
-
+<jsp:include page="reportAlert.jsp"/>
     <header class="global-header">
         <div class="global-navigation-bar">
             <div class="left-section">
@@ -471,6 +471,23 @@
             searchBar.style.backgroundColor = "#f4f4f4"; 
             searchBar.style.border = "none";
         });
+        function reportAlert(targetUserNo){
+            $.ajax({
+				url : "selectReportedGosuInfo",
+				data : {
+                    gosuNo : targetUserNo
+				},
+				success : function (result){
+                    console.log(result);
+					$('#reported-user').text(result.userName);
+                    $('#reported-userNo').val(result.userNo);
+				},
+				error : function (){
+                    console.log("실패");
+				}
+			})
+			$('#modalWrapReport').css("display", "flex");
+		}
     </script>
     
 </body>

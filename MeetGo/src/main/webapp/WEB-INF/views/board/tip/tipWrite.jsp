@@ -156,7 +156,12 @@
             
             <br>
             <form id="tipWrite" action="tipInsert.bo" method="post" enctype="multipart/form-data">
+            
+            
             <div style="display: flex; align-items: center;">
+          
+            <input type="hidden" value="${sessionScope.loginUser}">
+          
             	
             	
                 <h4>&nbsp;&nbsp; 제목&nbsp;</h4>
@@ -179,9 +184,8 @@
         <div class="main3">
 
             <div class="main3_1" style="text-align: center;">
-               	<label ="img">
-                <input type="file" id="fileInput" onchange="displayFileName()">
-                <button class="w-btn w-btn-blue">찾아보기</button>
+               	<label >
+                <input type="file" name ="tipImg" id="fileInput" onchange="displayFileName()">
                   </label>  
                 <p id="fileName" style="margin-top: 10px;"></p>
                    

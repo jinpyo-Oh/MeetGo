@@ -10,9 +10,11 @@ import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
 import com.kh.meetgo.gosu.model.vo.Review;
 import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.dao.MemberDao;
+import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Service
@@ -122,12 +124,14 @@ public class MemberServiceImpl implements MemberService {
 	public String getName(int userNo) {
 		return memberDao.getName(sqlSession, userNo);
 	}
-
+	
+	
+	// 결제 관련 서비스
 	@Override
 	public int payService(String estNo, String tid) {
 		return memberDao.payService(sqlSession, estNo, tid);
 	}
-
+	
 	@Override
 	public int updateStatus(int estNo) {
 		return memberDao.updateStatus(sqlSession, estNo);
@@ -172,6 +176,89 @@ public class MemberServiceImpl implements MemberService {
 	public int completeEstimate(int eno) {
 		return memberDao.completeEstimate(sqlSession, eno);
 	}
+	@Override
+	public int elaborateUpdate(Gosu g) {
+		return memberDao.elaborateUpdate(sqlSession, g);
+	}
+	@Override
+	public int introductionUpdate(Gosu g) {
+		return memberDao.introductionUpdate(sqlSession,g);
+	}
+
+	@Override
+	public Gosu getGosuInfoByUserNo(int userNo) {
+		// TODO Auto-generated method stub
+		return memberDao.getGosuInfoByUserNo(sqlSession,userNo);
+	}
+
+	@Override
+	public int availableTimeUpdate(Gosu g) {
+		// TODO Auto-generated method stub
+		return memberDao.availableTimeUpdate(sqlSession,g);
+	}
+
+	@Override
+	public int educationUpdate(Gosu g) {
+		// TODO Auto-generated method stub
+		return memberDao.educationUpdate(sqlSession,g);
+	}
+
+	@Override
+	public int moveDistanceUpdate(Gosu g) {
+		// TODO Auto-generated method stub
+		return memberDao.moveDistanceUpdate(sqlSession,g);
+	}
+	@Override
+	public int employeesUpdate(Gosu g) {
+		// TODO Auto-generated method stub
+		return memberDao.employeesUpdate(sqlSession,g);
+	}
+	/*
+	 * @Override public ArrayList<CategoryBig> SelectCategoryBigList(int
+	 * categoryBigNo){ return
+	 * memberDao.SelectCategoryBigList(sqlSession,categoryBigNo); }
+	 * 
+	 * @Override public ArrayList<CategorySmall> SelectCategorySmallList(int
+	 * categorySmallNo) { // TODO Auto-generated method stub return
+	 * memberDao.SelectCategorySmallList(sqlSession, categorySmallNo); }
+	 */
+
+	@Override
+	public int regionUpdate(Gosu g) {
+		// TODO Auto-generated method stub
+		return memberDao.regionUpdate(sqlSession,g);
+	}
+
+	@Override
+	public int careerUpdate(Gosu g) {
+		// TODO Auto-generated method stub
+		return memberDao.careerUpdate(sqlSession,g);
+	}
+
+	/*
+	 * @Override public int potoupdate(Gosu g) { // TODO Auto-generated method stub
+	 * return memberDao.potoupdate(sqlSession,g); }
+	 */
+		
+	@Override 
+	public int uploadFile(GosuImg gosuImg){ 
+		return memberDao.uploadFile(sqlSession,	gosuImg);
+	}
+
+	@Override
+	public ArrayList<GosuImg> selectAllGosuImg(int userNo) {
+		// TODO Auto-generated method stub
+		return memberDao.selectAllGosuImg(sqlSession,userNo);
+	}
+
+
+
+
+
+
+
+
+
 
 	@Override
 	public Member selectMember(Member member) {
@@ -180,8 +267,25 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int insertKakaoMember(Member member) {
-		return memberDao.insertKakaoMember(sqlSession,member);
+		return memberDao.insertKakaoMember(sqlSession, member);
 	}
+
+	@Override
+	public int WrittenReviewToMeCount(int gosuNo) {
+		return memberDao.WrittenReviewToMeCount(sqlSession, gosuNo);
+	}
+
+	@Override
+	public ArrayList<ReviewDto> WrittenReviewToMe(PageInfo pi, int gosuNo) {
+		return memberDao.WrittenReviewToMeCount(sqlSession, pi, gosuNo);
+	}
+
+	@Override
+	public ReviewDto WrittenReviewDetail(int revNo) {
+		return memberDao.WrittenReviewDetail(sqlSession, revNo);
+	}
+
+	
 
 
 }

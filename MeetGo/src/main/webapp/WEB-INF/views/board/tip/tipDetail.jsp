@@ -151,19 +151,23 @@
          <div class="main_body_2_1">
             &nbsp;&nbsp; &nbsp;&nbsp;
             <img src="" id="profileImg" width="100" height="100" >    
-            &nbsp; 도배고수Kim | 경기도 김포시
+            &nbsp; ${ requestScope.m.userNo } | 나중에 지역명 불러오기
                  
          </div>
 
          <div class="main_body_3_1">
-            <br>
-            <img src="" id="titleImg" width="600" height="250" >    
-            <br>
-            <textarea name="" id="textarea" cols="" rows="" placeholder="&nbsp;&nbsp;">
-				${ requestScope.m.boardContent }
-            </textarea>
-            <hr>
-         </div>
+			    <br>
+			            <img src="${ requestScope.list[0].boardFile.filePath }">
+			    
+			    <c:forEach var="image" items="${requestScope.imgList}">
+			        <img src="${image.filePath}" style="width:750px; height:400px; display: block; margin: auto;">
+			    </c:forEach>
+			    <br>
+			    <textarea name="" id="textarea" cols="2" rows="5" placeholder="&nbsp;&nbsp;">
+			        ${requestScope.m.boardContent}
+			    </textarea>
+			    <hr>
+			</div>>
             <br>
          <div class="main_body_4">
             <div class="main_body_4_1">

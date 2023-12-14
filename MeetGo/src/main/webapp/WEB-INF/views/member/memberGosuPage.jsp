@@ -15,19 +15,19 @@
 	<!-- Semantic UI theme -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
     
-    <!-- jQuery 라이브러리 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
 
     <style>
-  
+  		 .info {
+		        display: flex;
+		        flex-direction: column;
+		        justify-content: center;
+		    }
         .gosu-page {
             width: 720px;
-            height: 3000px;
+            height: 3300px;
             margin: 0px auto;
             box-sizing: border-box;
-            
-            
-            
+
         }
         .profile {
             display: flex;
@@ -61,8 +61,6 @@
             letter-spacing: .0375rem;
             text-align: center;
             color: #323232;
-            
-
         }
         .label {
             font-size: .875rem;
@@ -74,8 +72,6 @@
         }
         .btn {
             margin:10px;
-        
-            
         }
         .btn1 {
             padding: 10px 60px;
@@ -97,9 +93,6 @@
             align-items: center;
             padding: 1.5rem 0;
             border-bottom: 0.0625rem solid #f2f2f2;
-        
-            
-    
         }
         .action-group-wapper {
             display: flex;
@@ -148,22 +141,6 @@
         }
         .file-body {
             position: relative;
-        }
-
-        .file-upload-container {
-            border: 1px dashed #b5b5b5;
-            border-radius: 9px;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .plus-icon {
-            font-size: 30px;
-            color: #00c7ae;
-        }
-
-        input[type="file"] {
-            display: none;
         }
         .value-text {
             color:#b5b5b5;
@@ -302,23 +279,49 @@
 	        cursor: pointer;
 	    }
 	    
- 
+	 	.file-upload-container {
+	    border: 2px dashed #00c7ae;
+	    border-radius: 10px;
+	    padding: 40px;
+	    text-align: center;
+	    background-color: #f9f9f9; /* 배경색 추가 */
+	    transition: border 0.3s ease-in-out; /* 경계선 변화에 애니메이션 적용 */
+	    margin-top : 50px;
+	    		    &:hover {
+		        border: 2px dashed #00796b;
+		    }
+		}
+		.plus-icon {
+		    font-size: 30px;
+		    color: #00c7ae;
+		}
+		input[type="file"] {
+		    display: none;
+		}
+		
+		.poto1 {
+			margin: 20px;	
+			border-radius: 10px;
+			width:130px;
+			height:130px;
+		}
     </style>
 </head>
 <body>
     <jsp:include page="../common/header.jsp"/>
+    <script>
+    	$(function(){
+    		selectAllGosuImg();
+    	})
+    </script>
     <div class="gosu-page">
         <div class="profile">
             <div class="profile-img">
-                
                 <div class="my-profile-overview">
                     <div class="profile-img">
-                    
                         <img src="${sessionScope.loginUser.userProFile}" class="img">
                     </div>
-                
                 </div>
-
             </div>
             <div class="info">
                 <ul class="overview">
@@ -339,8 +342,6 @@
                     <a class="btn1">활동분석</a>
                     <a class="btn2">미리보기</a>
                 </div>
-
-              
             </div>
         </div>
         <div class="my-profile-name">
@@ -348,8 +349,7 @@
                 <div class="hading">
                     <h2>숨고 활동명</h2>
                     <div class="action-group-wapper">
-                        <div class="type">
-                            
+                        <div class="type">  
                         </div>
                     </div>
                 </div>
@@ -437,7 +437,7 @@
     <div class="info">
         <div class="value">
             <!-- 디스플레이 모드 내용 -->
-            <div id="employeeCountDisplayText">${sessionScope.loginGosu.employees}</div>
+            <div id="employeeCountDisplayText">${sessionScope.loginGosu.employees}명</div>
             <!-- 편집 모드 내용 -->
             <input type="text" name="employeesUpdate" id="employeeCountEditInput" style="display: none;" class="editable-field" placeholder="직원수를 입력하세요">
             <button id="employeeCountSaveButton" style="display: none;" onclick="saveChanges('employeeCount')" class="save-button">저장</button>
@@ -492,33 +492,7 @@
             </div>
         </div>
     </div>
-</form>
-      
-      
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>가격</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                수정
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    
-                    10000만원부터 시작
-                </div>
-            </div>
-        </div>
-        
-        
-        
+</form> 
      <form action="elaborateUpdate.me">  
         
        <div class="my-profile-name">
@@ -545,8 +519,6 @@
 	    </div>
 	</div>
 </form>
-
-
 <form action="availableTimeUpdate.me" >
      <div class="my-profile-name">
     <div class="comp-hader">
@@ -603,9 +575,7 @@
                     <option value="10년 이상">경력 10년</option>
                      <option value="15년 이상">경력 15년</option>
                      <option value="20년 이상">경력 20년</option>
-              
-                    
-                    <!-- 다른 경력 옵션들도 필요에 따라 추가 -->
+
                 </select>
                 <button id="careerSaveButton" style="display: none;" onclick="saveChanges('career')" class="save-button">저장</button>
             </div>
@@ -637,11 +607,11 @@
         </div>
     </div>
 </form>
-        
+    
         <div class="my-profile-name">
             <div class="comp-hader">
                 <div class="hading">
-                    <h2>포트폴리오</h2>
+                    <h2>사진</h2>
                     <div class="action-group-wapper">
                         <div class="type">
                             <div class="update">
@@ -654,90 +624,80 @@
             </div>
             <div class="info">
                 <div class="value">
-                    
-                    <div class="portfolio">
-                        <h4 class="portfolio-title">고수님의 멋진 작업물을 보여주세욘!</h4>
-                        <div class="portfolio-context">
-                            작업사진과 과정을 포함한 포트폴리오를<br>
-                            등록할 경우 고수님을 선택할 확률이 과연 높아갈까? 
-                            <div><a class="portfolio-btn">포트폴리오 작성하기</a></div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>사진 및 동영상</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                 수정
-                                 
-                            </div>
-                           
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    <div><img src="https://img2.quasarzone.com/editor/2023/08/05/aa0f36449037644f47d4a2d3f120dada.jpg" class="profile-img-body">평균 고수들이8개의 사진/동영상을고수들이 등록했어요!</div>
+                    <div>평균 고수들이8개의 사진/동영상을고수들이 등록했어요!</div>
                     <div class="media-body">
                         <ul>
                             <li>
                                 <div class="file-body">
                                     <label class="file-upload-container">
                                         <span class="plus-icon">+</span>
-       									 <input type="file" id="fileInput" onchange="displayImagePreview()">
+       									 <input type="file" id="uploadFiles"onchange="loadFile(this);">
                                     </label>
+                             <input type="hidden" id="potoListSize">       
+                             <div class="potolist">
+                       		</div>
                                 </div>
-								<div id="imagePreview" style="margin-top: 10px;"></div>
-                                
                             </li>
-                        </ul>
-                        <div class="file-body-context">
-                            <div class="file-body-context-title">
-                                고수님을 나타내는 사진과 동영상을 등록하고 고수님을 표현해보세요(장비,업무환경 등)
-                                <div class="file-body-context-btn">
-                                    <a style="color: white;font-weight: 700;">사진/동영상 등록하기</a>
-                                </div>
-                            </div>
-                        </div>
+                            
+                        </ul>                        
+                     </div>
+                 </div>
                     </div>
-                    
-                </div> 
+                  </form>  
+                </div>
             </div>
-            
-        </div>
-       
-                    </div>
-            
-                   
-                    
-                  
-
     <jsp:include page="../common/footer.jsp"/>
+  
     <script>
-    function displayImagePreview() {
-        var fileInput = document.getElementById('fileInput');
-        var imagePreview = document.getElementById('imagePreview');
+    function loadFile(input) {
+    	console.log(input);
+    	if($('#potoListSize').val()>=8){
+    		alert("8개 이상 추가 할 수 없습니다");
+    		retrun;
+    	}
+		var files = input.files;
+		$("#uploadFiles").attr("src", URL.createObjectURL(files[0]));
 
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
+		var formData = new FormData();
+		formData.append("uploadFiles", files[0]);
 
-            reader.onload = function (e) {
-                imagePreview.innerHTML = '<img src="' + e.target.result + '" style="max-width:100%; max-height:200px;" />';
-            };
+		$.ajax({
+			type : "POST",
+			url : "uploadFile.cp",
+			processData: false,
+			contentType: false,
+			data : formData,
+			success : function(result) { 
+			
 
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    }
-</script>
+				$('#potoListSize').val(data.length+1);
+			},
+			error : function() { 
+				alert("파일 업로드 성공"); 
+			}
+		});
+	};
+	function selectAllGosuImg() {
+		 $.ajax({
+			url : "selectAllGosuImg",
+			method : "GET",
+			dataType : "json",
+			data: {},
+			success : function(data) { 
+				$('#potoListSize').val(data.length);
+				for(let i = 0; i < data.length; i++){
+					let gosuImg = data[i];
+	                let content = '<img class="poto1" id="uploadedImage'+gosuImg.gosuImgNo+'"src="'+gosuImg.gosuImgUrl+'">';
+					$('.potolist').append(content);
+				}
+			},
+			error : function() { 
+				alert("파일 업로드 에러"); 
+			}
+		});
+	};
+    </script>
+   
     <script>
    
     function toggleEditMode() {
@@ -859,6 +819,27 @@
         }
     </script>
     <script>
+ // 파일이 선택되었을 때 실행되는 함수
+    function displayImagePreview() {
+        var fileInput = document.getElementById('fileInput');
+        var imagePreview = document.getElementById('imagePreview');
+        var fileUploadContainer = document.querySelector('.file-upload-container');
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                // 파일 업로드 컨테이너 숨기기
+                fileUploadContainer.style.display = 'none';
+
+                // 이미지 프리뷰 엘리먼트에 이미지 표시
+                imagePreview.innerHTML = '<img src="' + e.target.result + '" style="max-width:100%; max-height:200px;" />';
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
     function toggleEditMode(field) {
         // Display the editable field and save button for the specified field
         var displayText = document.getElementById(field + 'DisplayText');

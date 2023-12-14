@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>계약서</title>
+    <title>신고 Alert창</title>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <style>
@@ -13,7 +13,7 @@
         width: 100%; /* Full width */
         height: 100%; /* Full height */
         background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-        display:flex;
+        display: none;
         justify-content: center;
         align-items:center;
         flex-wrap:wrap;
@@ -143,6 +143,9 @@
 </style>
 <body>
 <script>
+    $(function (){
+        $('#modalWrapReport').css("display", "none");
+    });
     $('.dropdown-el').click(function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -168,7 +171,8 @@
             </div>
             <div class="report-item-box">
                 <div class="report-title">신고 받은 사람</div>
-                <div id="reported-user">신고받은 사람 아이디 이름 번호 받아오기</div>
+                <div id="reported-user"></div>
+                <input type="hidden" id="reported-userNo" value="">
             </div>
             <div class="report-item-box">
                 <div class="report-title">신고 카테고리</div>
@@ -201,7 +205,7 @@
             </div>
         </div>
         <div style="width: 80%; margin:30px auto; align-items: center; text-align: center">
-            <button class="meetgo-btn" style="width: 200px; height: 40px;">신고하기</button>
+            <button class="meetgo-btn" onclick="sendReport()" style="width: 200px; height: 40px;">신고하기</button>
             <button class="meetgo-btn meetgo-red" style="width: 200px; height: 40px;" onclick="displayNoneReport()">취소하기</button>
         </div>
     </div>
@@ -219,6 +223,39 @@
     window.addEventListener('click', (e) => {
         e.target == modal ? $('#modalWrapReport').css("display", "none") : false;
     });
+    
+    function sendReport(){
+        if(${sessionScope.loginUser eq null}){
+            alert("로그인 후 이용 가능합니다.");
+            return;
+        }
+        if (!confirm("정말 신고하시겠습니까?")) return;
+        let reportUser = ${sessionScope.loginUser.userNo};
+        let reportCategory = $('.selectopt').val();
+        let reportedUser = $('#reported-userNo').val();
+        let reportContent = $('#report-content').val();
+        $.ajax({
+            url : "insertReport",
+            method : "post",
+            dataType:"json",
+            headers: {
+                "Content-Type":"application/json"  //전달하는 데이터가 JSON형태임을 알려줌
+            },
+            data : JSON.stringify({
+                reportUser : reportUser,
+                reportCategory : reportCategory,
+                reportedUser : reportedUser,
+                reportContent : reportContent
+            }),
+            success : function (result){
+                alert("신고 완료!");
+                $('#modalWrapReport').css("display", "none");
+            },
+            error : function (){
+                console.log("신고 실패");
+            }
+        })
+    }
 </script>
 </body>
 </html>
