@@ -274,8 +274,11 @@
 	        <choose>
 	            <when test="categoryBigNo != 0">
 	                AND CS.CATEGORY_BIG_NO = #{categoryBigNo}
+	                AND P.POFOL_STATUS = 1
 	            </when>
-	            <otherwise></otherwise>
+	            <otherwise>
+	            	AND P.POFOL_STATUS = 1
+	            </otherwise>
 	        </choose>
 	    </where>
 		    <choose>
@@ -397,6 +400,17 @@
 		   SET POFOL_IMG_URL = #{pofolImgUrl}
 		 WHERE POFOL_IMG_NO = #{pofolImgNo}
 	</update>
+	
+	<update id="deletePofol" parameterType="_int">
+		UPDATE POFOL
+		  SET POFOL_STATUS = 2
+		 WHERE POFOL_NO = #{pofolNo}
+	</update>
+	
+	<delete id="deletePofolImg" parameterType="_int">
+		DELETE FROM POFOL_IMG
+		WHERE POFOL_NO = #{pofolNo}
+	</delete>
 
 </mapper>
 

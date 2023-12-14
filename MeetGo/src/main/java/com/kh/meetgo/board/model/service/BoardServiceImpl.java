@@ -169,6 +169,15 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.updatePofolImg(sqlSession, pofolImgNo, pofolImgUrl);
 	}
 	
+	@Override
+	public int deletePofol(int pofolNo) {
+		return boardDao.deletePofol(sqlSession, pofolNo);
+	}
+	@Override
+	public int deletePofolImg(int pofolNo) {
+		return boardDao.deletePofolImg(sqlSession, pofolNo);
+	}
+	
 
 	@Override
 	public ArrayList<Reply> selectReplyList(int boardNo) {

@@ -100,4 +100,8 @@ public interface BoardService {
 		int updatePofol(int pofolNo, String pofolTitle, String pofolPrice, String pofolIntro, String pofolContent);
 		int updatePofolImg(int pofolImgNo, String pofolImgUrl);
 		
+		// 포폴 삭제하기
+		int deletePofol(int pofolNo);
+		int deletePofolImg(int pofolNo);
+		
 }

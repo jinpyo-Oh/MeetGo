@@ -93,7 +93,26 @@
 	        width: 120px;
 	        height: 40px;
        }
-
+       #btn-updateForm{
+       	    margin-top: 150px;
+	        border: 0px;
+	        border-radius: 5px;
+	        background-color: rgb(19, 160, 118);
+	        color: white;
+	        width: 120px;
+	        height: 40px;
+       }
+       #btn-deleteForm{
+	      	margin-top: 150px;
+	        border: 0px;
+	        border-radius: 5px;
+	        background-color: rgb(131, 16, 16);
+	        color: white;
+	        width: 120px;
+	        height: 40px;
+       }
+       .btn-control{ margin-left:10px; margin-right:10px; }
+	   .btn-control:hover{ opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -160,9 +179,10 @@
 
                 <div align="center">
                 	<c:if test="${ sessionScope.loginUser.userNo eq requestScope.list[0].gosu.gosuNo }">
-                		<button type="button" onclick="sendUpdatePofol(${requestScope.list[0].pofol.pofolNo});">수정하기</button>
+                		<button type="button" class="btn-control" id="btn-deleteForm" onclick="deletePofol(${requestScope.list[0].pofol.pofolNo});">삭제하기</button>
+                		<button type="button" class="btn-control" id="btn-updateForm" onclick="sendUpdatePofol(${requestScope.list[0].pofol.pofolNo});">수정하기</button>
                 	</c:if>
-                    <button type="button" id="btn-goList" onclick="history.back();">목록으로</button>
+                    <button type="button" class="btn-control" id="btn-goList" onclick="location.href='sendPofol.po'">목록으로</button>
                 </div>
 				
             </div>
@@ -173,6 +193,10 @@
 	
     	function sendUpdatePofol(pno){
     		location.href = "sendUpdatePofol.po?pno=" + pno;
+    	}
+    	
+    	function deletePofol(pno) {
+    		location.href = "deletePofol.po?pno=" + pno;
     	}
     
         const swiper = new Swiper('.swiper', {

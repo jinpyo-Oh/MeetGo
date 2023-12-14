@@ -125,6 +125,8 @@
                 					<span>${item.pofolImgNo}</span>
                 					<input type="hidden" name="pofolImgNo" value="${item.pofolImgNo}">
                 				</c:forEach>
+                				
+                				<!-- 1004 1005 / 1004.jpg 1005.jpg -->
                 			</c:when>
                 			<c:otherwise>
                 			</c:otherwise>

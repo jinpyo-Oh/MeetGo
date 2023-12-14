@@ -202,12 +202,19 @@ public class BoardDao {
 		
 		return sqlSession.update("boardMapper.updatePofol", params);
 	}
-	
 	public int updatePofolImg(SqlSessionTemplate sqlSession, int pofolImgNo, String pofolImgUrl) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("pofolImgNo", pofolImgNo);
 		params.put("pofolImgUrl", pofolImgUrl);
 		return sqlSession.update("boardMapper.updatePofolImg", params);
+	}
+	
+	// 포폴 삭제하기 
+	public int deletePofol(SqlSessionTemplate sqlSession, int pofolNo) {
+		return sqlSession.update("boardMapper.deletePofol", pofolNo);
+	}
+	public int deletePofolImg(SqlSessionTemplate sqlSession, int pofolNo) {
+		return sqlSession.delete("boardMapper.deletePofolImg", pofolNo);
 	}
 	
 
