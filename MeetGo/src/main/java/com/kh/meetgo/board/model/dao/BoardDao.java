@@ -190,5 +190,25 @@ public class BoardDao {
 	public ArrayList<PofolImg> pofolDetailImg(SqlSessionTemplate sqlSession, int pofolNo){
 		return (ArrayList)sqlSession.selectList("boardMapper.pofolDetailImg", pofolNo);
 	}
+	
+	// 포폴 수정하기
+	public int updatePofol(SqlSessionTemplate sqlSession, int pofolNo, String pofolTitle, String pofolPrice, String pofolIntro, String pofolContent) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("pofolNo", pofolNo);
+		params.put("pofolTitle", pofolTitle);
+		params.put("pofolPrice", pofolPrice);
+		params.put("pofolIntro", pofolIntro);
+		params.put("pofolContent", pofolContent);
+		
+		return sqlSession.update("boardMapper.updatePofol", params);
+	}
+	
+	public int updatePofolImg(SqlSessionTemplate sqlSession, int pofolImgNo, String pofolImgUrl) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("pofolImgNo", pofolImgNo);
+		params.put("pofolImgUrl", pofolImgUrl);
+		return sqlSession.update("boardMapper.updatePofolImg", params);
+	}
+	
 
 }

@@ -103,7 +103,7 @@
 
 	<script>
 	    function checkUserStatus() {
-	        let userStatus = ${sessionScope.loginUser.userStatus};
+	        let userStatus = ${sessionScope.loginUser.enrollStatus};
 	        if (userStatus == 1) {
 	            alert("고수 회원만 글 작성이 가능합니다.");
 	            return false;

@@ -346,10 +346,13 @@
 		       USER_NICKNAME AS "userNickname",
 		       REGION AS "gosu.region",
 		       MOVE_DISTANCE AS "gosu.moveDistance",
+		       P.GOSU_NO AS "gosu.gosuNo",
+		       P.POFOL_NO AS "pofol.pofolNo",
 		       P.POFOL_TITLE AS "pofol.pofolTitle",
 		       P.POFOL_INTRO AS "pofol.pofolIntro",
 		       P.POFOL_PRICE AS "pofol.pofolPrice",
-		       P.POFOL_CONTENT AS "pofol.pofolContent"
+		       P.POFOL_CONTENT AS "pofol.pofolContent",
+	           CS.CATEGORY_SMALL_NAME AS "categorySmallName"
 		  FROM POFOL P 
 		  JOIN (
 		  SELECT GOSU_NO, REGION, MOVE_DISTANCE
@@ -359,11 +362,13 @@
 		  SELECT USER_NO, USER_NICKNAME, USER_PROFILE
 		    FROM MEMBER
 		  ) M ON M.USER_NO = G.GOSU_NO
+	      JOIN SERVICE_CATEGORY_SMALL CS ON CS.CATEGORY_SMALL_NO = P.POFOL_SERVICE
 		  WHERE P.POFOL_NO = #{pofolNo}
 	</select>
 	
 	<select id="pofolDetailImg" parameterType="_int" resultType="pofolImg">
-		SELECT DISTINCT PI.POFOL_IMG_URL AS "pofolImgUrl"
+		SELECT DISTINCT PI.POFOL_IMG_URL AS "pofolImgUrl",
+						PI.POFOL_IMG_NO AS 	"pofolImgNo"
 		  FROM POFOL_IMG PI
 		  JOIN (
 		  SELECT POFOL_NO
@@ -376,6 +381,21 @@
 		UPDATE POFOL
 		   SET POFOL_VISITED = POFOL_VISITED + 1
 		 WHERE POFOL_NO = #{pofolNo}
+	</update>
+	
+	<update id="updatePofol" parameterType="hashMap">
+		UPDATE POFOL
+		   SET POFOL_TITLE = #{pofolTitle}
+			   , POFOL_PRICE = #{pofolPrice} 
+			   , POFOL_INTRO = #{pofolIntro}
+			   , POFOL_CONTENT = #{pofolContent}
+		 WHERE POFOL_NO = #{pofolNo}
+	</update>
+	
+	<update id="updatePofolImg" parameterType="hashMap">
+		UPDATE POFOL_IMG
+		   SET POFOL_IMG_URL = #{pofolImgUrl}
+		 WHERE POFOL_IMG_NO = #{pofolImgNo}
 	</update>
 
 </mapper>
