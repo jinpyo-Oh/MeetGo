@@ -12,6 +12,8 @@ import com.kh.meetgo.board.model.dao.BoardDao;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.board.model.vo.Reply;
+import com.kh.meetgo.board.model.dto.ReplyDto;
+
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
@@ -87,12 +89,29 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.increaseTipCount(sqlSession, boardNo);
 	}
 	
+	@Override
+	public int insertTipImg(String filePath, int boardNo) {
+		return boardDao.insertTipImg(sqlSession, filePath, boardNo);
+	}
+	
+	public ArrayList<Board_File> selectTipImgList(int boardNo){
+		return boardDao.selectTipImgList(sqlSession, boardNo);
+	}
+	
+	@Override
+	public ArrayList<ReplyDto> selectGosuReplyList(int boardNo) {
+		return boardDao.selectGosuReplyList(sqlSession, boardNo);
+	}
+
+	@Override
+	public int insertGosuReply(Reply r) {
+		return boardDao.insertGosuReply(sqlSession, r);
+	}
+
+
 	
 
-
 	
-
-
 
 	public int countPofolList() {
 		return boardDao.countPofolList(sqlSession);
@@ -153,7 +172,10 @@ public class BoardServiceImpl implements BoardService {
 		return 0;
 	}
 
-}
+	
+	}
+
+
 
 
 

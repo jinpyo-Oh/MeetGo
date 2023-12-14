@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -155,29 +157,39 @@
             </div>
      
         <div class="tipmain">
-			    <table class="tipList">
-			        <thead>
-			            <tr>
-			                <th>No</th>			            
-			                <th>글제목</th>
-			            </tr>
-			        </thead>
-			        <tbody>
-			            <c:forEach var="m" items="${requestScope.list}">
-			                <tr>
-			                    <td class="bno"><b style="font-size:30px; border:1px solid blue;">${m.boardNo}</b></td>
-			                    <td class="tip_content" style="height:50px; border:1px solid red;">			                
-			                    <b style="font-size:30px;">
-			                    ${m.boardTitle}</b></td>
-			                
-			                </tr>
-			                <tr>
-			                    <td colspan="2"  >${requestScope.m.boardContent}</td>
-			                </tr>
-			            </c:forEach>
-			        </tbody>
-			    </table>
-			</div>
+        <table class="tipList">
+           
+            <tbody>
+                <c:forEach var="m" items="${requestScope.list}">
+                    <tr>
+                        <td class="bno"><b style="font-size:30px; border:1px solid blue;">${m.boardNo}</b></td>
+                        <td class="tip_content" style="width: 1000px; border:1px solid red; ">
+                            <b style="font-size:30px;">
+                                ${m.boardTitle}
+                                <hr>
+                            </b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="width: 30%; height:100px; border: 1px solid pink; font-size:20px;">
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;     ${fn:substring(m.boardContent, 0, 10)}
+                            <c:if test="${fn:length(m.boardContent) > 10}">...</c:if>
+                        
+                        </td>
+                        <td style="width:80%; border : 1px solid blue; height:150px;">
+                        	 
+                        <img src="${boardFile.filePath}">
+                        	  </td>
+                    </tr>
+                    <tr>
+                    <td>
+                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <i class="bi bi-eye-fill"></i> ${m.boardCount } 
+                    </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
            
             <a href="tipWrite.bo">
              <button type="submit" class="btn btn-primary">글작성</button>
@@ -233,8 +245,9 @@
 	    let bno = $(this).children(".bno").text();
 	    location.href = "tipDetail.bo?bno=" + bno;
 	});
-	</script>
-    
+	
+       
+    </script>
     
 </body>
 </html>

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Board_File;
@@ -78,8 +79,7 @@ public class BoardController {
 	
 	// 고수찾아요 게시판 등록
 	@PostMapping("gosuInsert.bo")
-	public String insertGosuReqBoard(
-			
+	public String insertGosuReqBoard(		
 							  HttpSession session,
 							  Model model,
 							  @SessionAttribute("loginUser") Member loginUser,
@@ -87,10 +87,9 @@ public class BoardController {
 							  String boardTitle,
 							  String boardContent
 							  ) {
-		System.out.println(gosuReqImgArr);
 		
 		int userNo = loginUser.getUserNo();
-		
+			
 		Board gosuReq = new Board();
 		
 		gosuReq.setBoardTitle(boardTitle);
@@ -172,7 +171,7 @@ public class BoardController {
 		int listCount = boardService.selectTipListCount();
 		
 		int pageLimit = 5;
-		int boardLimit = 7;
+		int boardLimit = 3;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 						currentPage, pageLimit, boardLimit);
@@ -196,14 +195,50 @@ public class BoardController {
 	
 	// 팁 노하우 게시판 등록
 	@PostMapping("tipInsert.bo")
-	public String insertTipBoard(Board m, 
-							  MultipartFile upfile,
+	public String insertTipBoard( 
+							 Model model,
 							  HttpSession session,
-							  Model model) {
-			
-		int result = boardService.insertTipBoard(m);
+							  @SessionAttribute("loginUser") Member loginUser,
+							  @RequestParam("tipImg") ArrayList<MultipartFile> tipImgArr,
+							  String boardTitle,
+							  String boardContent
+							  ) {
 		
-		if(result > 0) { 
+		int userNo = loginUser.getUserNo();
+		
+		Board tip = new Board();
+		
+		
+		tip.setBoardTitle(boardTitle);
+		tip.setBoardContent(boardContent);
+
+		tip.setUserNo(userNo);
+		
+		
+		int result1 = boardService.insertTipBoard(tip);
+		
+		int boardNo = tip.getBoardNo();
+			
+		int result2 = 0;
+		
+
+		
+		try {	
+			
+			for(int i = 0; i < tipImgArr.size(); i++) {
+		
+				String filePath = s3Uploader.upload(tipImgArr.get(i), "boardImg");
+		
+				result2 = boardService.insertTipImg(filePath, boardNo);
+		
+			}
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+	
+		}
+
+		if(result1 * result2 > 0) { 
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
 			
@@ -214,22 +249,28 @@ public class BoardController {
 			
 			return "common/errorPage";
 		}
+		
 	}
 	
 	
 	// 팁노하우 게시판 상세 조회
 	@RequestMapping("tipDetail.bo")
-	public ModelAndView selectTipBoard(int bno, 
+	public ModelAndView selectTipBoard(String bno, 
 									ModelAndView mv) {
 	
+		int boardNo = Integer.parseInt(bno); 
 		
-		int result = boardService.increaseTipCount(bno);
+		int result = boardService.increaseTipCount(boardNo);
+		
 		
 		if(result > 0) { 
 			
-			Board m = boardService.selectTipBoard(bno);
+			Board m = boardService.selectTipBoard(boardNo);
+			
+			ArrayList<Board_File> imgList = boardService.selectTipImgList(boardNo);
 			
 			mv.addObject("m", m)
+			  .addObject("imgList", imgList)
 			  .setViewName("board/tip/tipDetail"); 
 			
 		} else { 
@@ -240,7 +281,6 @@ public class BoardController {
 		
 		return mv;
 	}
-	
 	
 	
 	
@@ -343,24 +383,24 @@ public class BoardController {
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "rlist.bo", produces = "application/json; charset=UTF-8")
-	public String ajaxSelectReplyList(int bno) {
+	@RequestMapping(value = "gosuRlist.bo", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(@RequestParam("bno") Integer bno
+												) {
 		
-		ArrayList<Reply> list = boardService.selectReplyList(bno);
+
+	
+		ArrayList<ReplyDto> list = boardService.selectGosuReplyList(bno);
 		
-		// Gson gson = new Gson();
-		// return gson.toJson(list);
-		
+				
 		return new Gson().toJson(list);
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "rinsert.bo", produces = "text/html; charset=UTF-8")
-	public String ajaxInsertReply(Reply r) {
+	@RequestMapping(value = "gosuRinsert.bo", produces = "text/html; charset=UTF-8")
+	public String ajaxInsertGosuReply(Reply r) {
 		
-		// System.out.println(r);
-		
-		int result = boardService.insertReply(r);
+
+		int result = boardService.insertGosuReply(r);
 		
 		return (result > 0) ? "success" : "fail";
 	}

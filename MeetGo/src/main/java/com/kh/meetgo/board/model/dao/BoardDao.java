@@ -8,8 +8,10 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Board_File;
+import com.kh.meetgo.board.model.vo.Reply;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
@@ -114,7 +116,29 @@ public class BoardDao {
 		return sqlSession.update("boardMapper.increaseTipCount", boardNo);
 	}	
 
+	// 팁노하우 이미지 등록
+		public int insertTipImg(SqlSessionTemplate sqlSession, String filePath, int boardNo) {
+			
+			Map<String, Object> params = new HashMap<>();
+			params.put("filePath", filePath);
+			params.put("boardNo", boardNo);
+			
+			return sqlSession.insert("boardMapper.insertTipImg", params);
+		}
+		
+		public ArrayList<Board_File>selectTipImgList(SqlSessionTemplate sqlSession, int boardNo){
+			return (ArrayList)sqlSession.selectList("boardMapper.selectTipImgList", boardNo);
+		}
 	
+	public ArrayList<ReplyDto> selectGosuReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectGosuReplyList", boardNo);
+	}
+	
+	public int insertGosuReply(SqlSessionTemplate sqlSession, Reply r) {
+		
+		return sqlSession.insert("boardMapper.insertGosuReply", r);
+	}	
 	
 	
 	// 포폴리스트 전체카운트
