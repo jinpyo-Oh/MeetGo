@@ -223,7 +223,18 @@
     .est-category {
         margin: 0;
     }
-
+    .est-detail-button {
+        width: 80%;
+        margin: auto;
+        text-align: center;
+        align-items: center;
+        margin-top: 50px;
+    }
+    .est-detail-button button {
+        width: 40%;
+        box-sizing: border-box;
+        height: 50px;
+    }
     .selected-category .est-category input {
         display: none;
     }
@@ -364,10 +375,10 @@
                 };
 			</script>
 		</div>
-		<div class="est-button">
+		<div class="est-detail-button">
 			<script>
 				function insertEstBtn(status, estNo){
-                    $('.est-button').empty();
+                    $('.est-detail-button').empty();
                     let estBtn = "";
                     if (status == 2) {
                         estBtn += '<button class="meetgo-btn" id="confirm-btn" value="" onClick="changeEstStatus('+estNo +', 3); displayNone()">확정하기</button>';
@@ -375,7 +386,7 @@
                         estBtn += '<button class="meetgo-btn" value="" onClick="EstPayment('+estNo+'); displayNone()">결제하기</button>'
 					}
                     estBtn += '<button class="meetgo-btn meetgo-red"  onClick="displayNone()">닫기</button>';
-                    $('.est-button').append(estBtn);
+                    $('.est-detail-button').append(estBtn);
 				}
 			</script>
 			

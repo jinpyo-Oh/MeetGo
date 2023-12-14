@@ -162,7 +162,6 @@ public class MemberController {
 		m.setAddress(address);
 		int result = memberService.insertMember(m);
 		if (result > 0) {
-
 			session.setAttribute("alertMsg", "회원 가입 성공");
 			return "redirect:/";
 		} else {

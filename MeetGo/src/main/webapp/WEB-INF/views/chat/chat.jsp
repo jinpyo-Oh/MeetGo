@@ -323,15 +323,14 @@
                             async: false,
                             dataType: "json",
                             success: function (data) {
-                                console.log(data);
                                 userNo = data.member.userNo;
-                                
                                 let member = data.member;
                                 let revImgList = data.reviewImgList;
+                                let targetUserNo = data.member.userNo;
                                 let userInfo =
                                     '<div class="info-profile">'
                                     + '<img class="info-profile-img" src="' + member.userProFile + '">'
-                                    + '<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">'
+                                    + '<img class="info-report" onclick="reportAlert('+targetUserNo+')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png" >'
                                     + '<div clas="info-profile-more-list">'
                                     + '</div>'
                                     + '<h3>' + member.userName + '</h3>'
@@ -374,6 +373,7 @@
                             async: false,
                             dataType: "json",
                             success: function (data) {
+                                console.log(data);
                                 let member = data.member;
                                 let gosu = data.gosu;
                                 let chatReviewDtoList = data.chatReviewDtoList;
@@ -381,12 +381,10 @@
                                 let serviceList = data.serviceList;
                                 let pofolImgList = data.pofolImgList;
                                 
-
-                                
                                 let userInfo =
                                     '<div class="info-profile">' +
                                     '<img class="info-profile-img" style="cursor : pointer" onclick="gosuClick('+data.gosu.gosuNo+')" id="gosu-profile-img" src="' + member.userProFile + '">' +
-                                    '<img class="info-profile-more" src="<%=request.getContextPath()%>/resources/images/common/info-more.png">' +
+                                    '<img class="info-report" onclick="reportAlert('+gosu.gosuNo+')"  src="<%=request.getContextPath()%>/resources/images/common/report-icon.png">' +
                                     '<h3>' + member.userName + '</h3>' +
                                     '<table>' +
                                     '<tr>' +
@@ -426,7 +424,7 @@
                                     '<h5 style="margin-left: 20px">포트폴리오</h5>' +
                                     '<div class="info-pofol">';
                                 for (let i = 0; i < pofolImgList.length; i++) {
-                                    userInfo += '<div style="width: 100px!important;"><img class="info-img" data-value="' + pofolImgList[i].pofolImgNo + '" src="' + pofolImgList[i].pofolImgUrl + '"></div>'
+                                    userInfo += '<div style="width: 100px!important;"><img class="info-img" onclick="movePofol('+pofolImgList[i].pofolNo+')" data-value="' + pofolImgList[i].pofolImgNo + '" src="' + pofolImgList[i].pofolImgUrl + '"></div>'
                                 }
                                 userInfo += '</div>' +
                                     '</div>';
@@ -577,16 +575,23 @@
                         chat += '<p>확정된 계약서 입니다.</p>'
 							+ '<button class="meetgo-btn est-detail-btn"  value="'+data.estNo+'"  style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>'
                             + '<div style="display: flex">'
-                            + '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
+                            + '<button class="meetgo-btn w-50" onclick="estDetailInfoKakao('+data.estNo+')">결제하기</button>'
                             + '<button class="meetgo-btn meetgo-red w-50 changeEstBtn"  onclick="changeEstStatus(' + data.estNo + ', 1)" style="width: 268px; margin: 5px; ">취소하기</button>' +
 							'</div>'
                         break;
                     case '4' :
-                        chat += '<p>취소된 계약서 입니다.</p>'
+                        chat += '<p>결제 완료된 계약서 입니다.</p>'+
+								'<div >' +
+									'<button class="meetgo-btn w-100 est-detail-btn" value="'+data.estNo+'">계약 상세보기</button>' +
+									'<button class="meetgo-btn w-100" onclick="completeContract('+data.estNo+')">서비스 완료하기</button>' +
+								'</div>'
                         break;
                     case '5' :
                         chat += '<p>거래 완료된 계약서 입니다.</p>'
-                            + '<div style="display: flex"><button class="meetgo-btn w-50 est-detail-btn" value="'+data.estNo+'">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                            + '<div style="display: flex">' +
+							'<button class="meetgo-btn w-50 est-detail-btn" value="'+data.estNo+'">계약 상세보기</button>' +
+                            '<button class="meetgo-btn w-50" onclick="insertReview('+data.estNo+')">리뷰 남기기</button>' +
+                            '</div>'
                         break;
                 }
                 chat += '</div>'
@@ -604,7 +609,11 @@
             }
 		</script>
 	</div>
-	
+	<script>
+		$(function (){
+  
+		})
+	</script>
 	<div class="overlay-right-box">
 		<div class="right-box">
 			<div class="hide-right-box">
@@ -650,8 +659,7 @@
 							</button>
 							<c:if test="${sessionScope.loginUser.userStatus == 2}">
 								<button class="meetgo-btn" id="chat-estimate-button"><img
-										src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">계약서
-									첨부
+										src="<%=request.getContextPath()%>/resources/images/chat/img-icon.png" alt="">계약서첨부
 								</button>
 							</c:if>
 						</div>
@@ -829,12 +837,15 @@
                             CheckLR(data);
 						}
                         if(data.sender != ${sessionScope.loginUser.userNo}){
-                            console.log("ㅇㅅㅇ");
                             addChatList(chatroomNo);
                         }
                         
                     }
                     function changeEstStatus(changeEstNo, changeStatus) {
+                        if((changeStatus == 3 || changeStatus == 4) && ${sessionScope.loginUser.userStatus eq 2}){
+                            alert("확정 버튼과 결제 버튼은 고객만 가능합니다.");
+                            return;
+                        }
                         if(changeStatus == 3 && !confirm("확정하면 남은 모든 견적서가 취소됩니다")){
                             return;
 						}
@@ -851,7 +862,7 @@
                                 let chat = "";
                                 switch (result.status) {<!-- 1:대기, 2:취소, 3:확정, 4:결제 완료, 5:완료 -->
                                     case '2' :
-                                        chat += '<button class="meetgo-btn est-detail-btn"  value="'+result.estNo+'" style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
+                                        chat += '<button class="meetgo-btn est-detail-btn" value="'+result.estNo+'" style="width: 268px; margin: 5px; padding: 0; box-sizing: border-box">계약서 상세보기</button>' +
                                             '<div style="display: flex"><button class="meetgo-btn w-50" onclick="changeEstStatus(' + result.estNo + ', 3)">확정하기</button>' +
                                             '<button class="meetgo-btn meetgo-red w-50" onclick="changeEstStatus(' + result.estNo + ', 1)">취소하기</button></div>'
                                         break;
@@ -861,15 +872,22 @@
                                     case '3' :
                                         chat += '<p>확정된 계약서 입니다.</p>'
                                             + '<div style="display: flex">'
-                                            + '<button class="meetgo-btn w-50" onclick="">결제하기</button>'
+                                            + '<button class="meetgo-btn w-50" onclick="estDetailInfoKakao('+result.estNo+')">결제하기</button>'
                                             + '<button class="meetgo-btn meetgo-red w-50"  onclick="changeEstStatus(' + result.estNo + ', 1)" style="width: 268px; margin: 5px; ">취소하기</button>'
                                         break;
                                     case '4' :
-                                        chat += '<p>취소된 계약서 입니다.</p>'
+                                        chat += '<p>결제 완료된 계약서 입니다.</p>'+
+                                            '<div style="display: flex">' +
+                                            '<button class="meetgo-btn w-50 est-detail-btn" value="'+data.estNo+'">계약 상세보기</button>' +
+                                            '<button class="meetgo-btn w-50" onclick="completeContract('+data.estNo+')">서비스 완료하기</button>' +
+                                            '</div>'
                                         break;
                                     case '5' :
                                         chat += '<p>거래 완료된 계약서 입니다.</p>'
-                                            + '<div style="display: flex"><button class="meetgo-btn w-50 est-detail-btn" value="'+result.estNo+'">계약 상세보기</button><button class="meetgo-btn w-50">리뷰 남기기</button></div>'
+                                            + '<div style="display: flex">' +
+											'<button class="meetgo-btn w-50 est-detail-btn" value="'+result.estNo+'">계약 상세보기</button>' +
+                                            '<button class="meetgo-btn w-50" onclick="location.href=reviewWrite.me?eno=' + result.estNo + '">리뷰 남기기</button>' +
+											'</div>'
                                         break;
                                 }
                                 const data = {
@@ -907,6 +925,72 @@
             </c:if>
         });
 	
+	</script>
+	<script>
+        function estDetailInfoKakao(estNo) {
+            if(${sessionScope.loginUser.userStatus eq 2}){
+                alert("확정 버튼과 결제 버튼은 고객만 가능합니다.");
+                return;
+            }
+            $.ajax({
+                url: "selectEst",
+                data: {
+                    estNo: estNo
+                },
+                success: function (data) {
+                    kakaoPayment(data);
+                    
+                },
+                error: function () {
+                    console.log("견적서 상세조회 실패")
+                }
+            })
+        }
+        function kakaoPayment(estmate){
+			$.ajax({
+				url: 'kakaopay.me',
+				method : 'post',
+				dataType: 'json',
+				data : {
+					userNo : estmate.userNo,
+					estTitle : estmate.estTitle,
+					estPrice : estmate.estPrice,
+					estNo : estmate.estNo
+				},
+				success: function(data){
+					var box = data;
+                    addChatList(chatroomNo);
+					window.open(box);
+				},
+				error: function(){
+					alert("카카오페이 ajax 실패");
+				}
+			});
+        }
+        
+
+        function completeContract(estNo){
+            if(!confirm("서비스 완료 후 취소할 수 없습니다. 완료하시겠습니까?")){
+                return;
+			}
+			$.ajax({
+				url: "complete.me",
+				type: 'get',
+				data : {
+					estNo : estNo
+				}, success : function(){
+					addChatList(chatroomNo);
+				}, error : function(){
+					alert("서비스 완료 등록 오류! 관리자에게 문의하세요.");
+				}
+			});
+        }
+        function insertReview(estNo){
+            location.href = "reviewWrite.me?eno=" + estNo;
+        }
+        function movePofol(pofolNo){
+            window.open("pofolDetail.po?pno=" + pofolNo, '_blank');
+        }
 	</script>
 </div>
 

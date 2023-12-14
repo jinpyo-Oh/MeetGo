@@ -140,14 +140,14 @@
 	#estContent {
 		resize: none;
 	}
-	.est-button {
+	.est-enroll-button {
 		width: 80%;
 		margin: auto;
 		text-align: center;
 		align-items: center;
 		margin-top: 50px;
 	}
-    .est-button button {
+    .est-enroll-button button {
 		width: 40%;
 		box-sizing: border-box;
 		height: 50px;
@@ -319,9 +319,9 @@
 				};
 			</script>
 		</div>
-		<div class="est-button">
+		<div class="est-enroll-button">
 			<button class="meetgo-btn" onclick="insertEstimate()">작성하기</button>
-			<button class="meetgo-btn" onclick="displayNone()">취소하기</button>
+			<button class="meetgo-btn meetgo-red" onclick="displayNone()">취소하기</button>
 		</div>
 	</div>
 </div>

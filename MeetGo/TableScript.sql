@@ -50,8 +50,8 @@ CREATE TABLE MEMBER
     ADDRESS          VARCHAR2(100)                               NULL,                                     -- 주소
     CREATE_DATE      DATE           DEFAULT SYSDATE,                                                       -- 생성일자
     LAST_ACCESS_DATE DATE           DEFAULT SYSDATE,                                                       -- 최근 접속일
-    USER_STATUS      NUMBER default 1 CHECK (USER_STATUS IN (1, 2))  NULL,                                      -- 1: 일반사용자,  2: 고수,  3: ADMIN
-    ENROLL_STATUS    NUMBER default 1 CHECK (ENROLL_STATUS IN (1, 2, 3, 4) )                                         -- 1: 일반사용자(고수등록),  2: 고수(고수 비활성화,  3: 고수 비활성화(고수 활성화) 4: 회원 탈퇴(회원 비활성화)
+    USER_STATUS      NUMBER default 1 CHECK (USER_STATUS IN (1, 2))  NULL,                                 -- 1: 일반사용자,  2: 고수,  3: ADMIN
+    ENROLL_STATUS    NUMBER default 1 CHECK (ENROLL_STATUS IN (1, 2, 3, 4) )                               -- 1: 일반사용자(고수등록),  2: 고수(고수 비활성화),  3: 고수 비활성화(고수 활성화) 4: 회원 탈퇴(회원 비활성화)
 );
 CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
 

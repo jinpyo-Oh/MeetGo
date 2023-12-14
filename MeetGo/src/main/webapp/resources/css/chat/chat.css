@@ -221,7 +221,8 @@ html {
     display: inline-block;
     border : none;
     border-radius: .4em;
-    max-width: 500px;
+    max-width: 300px;
+    word-break : break-all;
     padding: 5px 10px;
     margin: 20px;
 }
@@ -291,13 +292,14 @@ html {
     margin: auto;
     text-align: center;
 }
-.info-profile-more {
+.info-report {
     width: 30px;
     height: 30px;
     position: absolute;
-    margin-left: 25px;
+    margin-left: 20px;
+    cursor: pointer;
 }
-.info-profile-more:hover {
+.info-report:hover {
     background-color: lightgray;
     border-radius: 15px;
 }
