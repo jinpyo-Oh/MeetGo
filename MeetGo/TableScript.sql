@@ -360,7 +360,7 @@ CREATE SEQUENCE SEQ_BOARD_NO NOCACHE;
 CREATE TABLE "BOARD_FILE"
 (
     "BFILE_NO"          NUMBER PRIMARY KEY,                           -- 게시글 파일 번호
-    "BFILE_URL"         varchar2(1000) NOT NULL ,                     -- 게시글 파일 URL
+    "BFILE_PATH"         varchar2(1000) NOT NULL ,                     -- 게시글 파일 URL
     "BFILE_STATUS"      VARCHAR2(1) CHECK ( BFILE_STATUS IN (1, 2) ), -- 1:정상 2:비활성화(삭제)
     "BOARD_NO"          NUMBER         NOT NULL                       -- 게시글 번호
 );

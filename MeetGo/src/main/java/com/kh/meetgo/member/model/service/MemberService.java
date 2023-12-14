@@ -116,6 +116,7 @@ public interface MemberService {
 
 	ArrayList<GosuImg> selectAllGosuImg(int userNo);
 
+
 	
 	
 }

@@ -107,8 +107,8 @@
 	<!-- 고수이미지 -->
 	<insert id="insertGosuReqImg" parameterType="hashMap">
 		INSERT INTO BOARD_FILE( BFILE_NO
-                 , BFILE_PATH 
-                 , BOARD_NO 
+                 , BFILE_PATH
+                 , BOARD_NO
                  , BFILE_STATUS
 			) VALUES ( SEQ_BOARD_FILE_NO.NEXTVAL
 			         , #{filePath}

@@ -268,5 +268,7 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.insertKakaoMember(sqlSession,member);
 	}
 
+	
+
 
 }
