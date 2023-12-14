@@ -84,5 +84,8 @@ public interface BoardService {
 		ArrayList<PofolOpt> pofolDetail(int pofolNo);
 		ArrayList<PofolImg> pofolDetailImg(int pofolNo);
 
+		// 포폴 수정하기
+		int updatePofol(int pofolNo, String pofolTitle, String pofolPrice, String pofolIntro, String pofolContent);
+		int updatePofolImg(int pofolImgNo, String pofolImgUrl);
 		
 }

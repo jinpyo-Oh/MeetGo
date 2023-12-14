@@ -159,14 +159,21 @@
                 </span>
 
                 <div align="center">
+                	<c:if test="${ sessionScope.loginUser.userNo eq requestScope.list[0].gosu.gosuNo }">
+                		<button type="button" onclick="sendUpdatePofol(${requestScope.list[0].pofol.pofolNo});">수정하기</button>
+                	</c:if>
                     <button type="button" id="btn-goList" onclick="history.back();">목록으로</button>
                 </div>
-
+				
             </div>
             
     </div>
 
     <script>
+	
+    	function sendUpdatePofol(pno){
+    		location.href = "sendUpdatePofol.po?pno=" + pno;
+    	}
     
         const swiper = new Swiper('.swiper', {
             autoplay : {

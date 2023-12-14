@@ -340,6 +340,65 @@ public class BoardController {
 		return mv;
 	}
 	
+	// 포폴 수정페이지로 이동
+	@ResponseBody
+	@RequestMapping("sendUpdatePofol.po")
+	public ModelAndView sendUpdatePofol(String pno, ModelAndView mv) {
+		
+		int pofolNo = Integer.parseInt(pno);
+		
+		ArrayList<PofolOpt> list = boardService.pofolDetail(pofolNo);
+		ArrayList<PofolImg> imgList = boardService.pofolDetailImg(pofolNo);
+		
+		mv.addObject("list", list)
+		.addObject("imgList", imgList)
+		.setViewName("board/portfolio/pofolUpdate");
+		
+		return mv;
+	}
+	
+	// 포폴 수정하기
+	@RequestMapping("updatePofol.po")
+	public String updatePofol(
+			String pofolTitle
+			, String pofolPrice
+			, String pofolIntro
+			, String pofolContent
+			, String pno
+			, @RequestParam("pofolImgNo") ArrayList<String> imgNo
+			, @RequestParam("pofolImgUrl") ArrayList<MultipartFile> imgList) {
+		
+		int pofolImgNo = 0;
+		String pofolImgUrl = "";
+		int pofolNo = Integer.parseInt(pno);
+		System.out.println(pofolNo);
+		System.out.println(imgList);
+		
+		boardService.updatePofol(pofolNo, pofolTitle, pofolPrice, pofolIntro, pofolContent);
+		
+		for(int i = 0; i < imgList.size(); i++) {
+			
+			pofolImgNo = Integer.parseInt(imgNo.get(i));
+			
+			try {
+				
+				// 업로드한게 없으면 다음 차수로
+				if(imgList.get(i).getOriginalFilename().isEmpty()) {
+					continue;
+				} else {
+					pofolImgUrl = s3Uploader.upload(imgList.get(i), "pofolImgUrl");
+					boardService.updatePofolImg(pofolImgNo, pofolImgUrl);
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+					
+		}
+			
+		return "redirect:/sendPofol.po";
+	}
+		
 	
 	@ResponseBody
 	@RequestMapping(value = "rlist.bo", produces = "application/json; charset=UTF-8")
