@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+		 pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고수페이지</title>
-        <!-- JavaScript -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>고수페이지</title>
+	<!-- JavaScript -->
 	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 	<!-- CSS -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
@@ -14,14 +14,15 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
 	<!-- Semantic UI theme -->
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
-    
+	
+	
+	<style>
+        .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-    <style>
-  		 .info {
-		        display: flex;
-		        flex-direction: column;
-		        justify-content: center;
-		    }
         .gosu-page {
             width: 720px;
             height: 3300px;
@@ -29,14 +30,17 @@
             box-sizing: border-box;
 
         }
+
         .profile {
             display: flex;
-            margin-top:100px;
+            margin-top: 100px;
         }
+
         .profile-img {
             width: 300px;
             height: 300px;
         }
+
         .img {
             width: 300px;
             height: 300px;
@@ -46,14 +50,16 @@
         .overview {
             list-style: none;
             display: flex;
-            justify-content: space-around; 
+            justify-content: space-around;
             align-items: center;
             width: 100%;
             margin-top: 0px;
         }
+
         .item {
             margin-bottom: 10px;
         }
+
         .point {
             font-size: 2.75rem;
             font-weight: 500;
@@ -62,6 +68,7 @@
             text-align: center;
             color: #323232;
         }
+
         .label {
             font-size: .875rem;
             line-height: 1.43;
@@ -70,20 +77,24 @@
             color: #b5b5b5;
             font-weight: 500;
         }
+
         .btn {
-            margin:10px;
+            margin: 10px;
         }
+
         .btn1 {
             padding: 10px 60px;
             background-color: #00c7ae;
-            color:white;
+            color: white;
 
         }
+
         .btn2 {
             padding: 10px 60px;
-            border:1px solid #00c7ae;
-            color:#00c7ae;
+            border: 1px solid #00c7ae;
+            color: #00c7ae;
         }
+
         .my-profile-name {
             font-size: .875rem;
             font-weight: 500;
@@ -94,15 +105,16 @@
             padding: 1.5rem 0;
             border-bottom: 0.0625rem solid #f2f2f2;
         }
+
         .action-group-wapper {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
             align-items: center;
-            flex:1px;
+            flex: 1px;
         }
 
-        .hading{
+        .hading {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
@@ -111,118 +123,139 @@
             font-weight: 600;
             line-height: 1.43;
             flex: 1;
-            margin:10px auto;
-            
-        }
-        .update {
-            color:#00c7ae;
+            margin: 10px auto;
 
         }
+
+        .update {
+            color: #00c7ae;
+
+        }
+
         .type div {
             cursor: pointer;
             letter-spacing: -.0125rem
         }
+
         .service {
             background-color: #00c7ae;
             border-radius: 30px;
             padding: 10px 20px;
-            color:#f2f2f2   ;
+            color: #f2f2f2;
         }
-        .container{
+
+        .container {
             background: #f2f2f2;
             border: 0;
             border-radius: 8px;
             padding: 1.25rem 1rem;
-            
+
         }
-        .media-body li{
+
+        .media-body li {
             list-style: none;
 
         }
+
         .file-body {
             position: relative;
         }
+
         .value-text {
-            color:#b5b5b5;
+            color: #b5b5b5;
             border: 1px solid #b5b5b5;
             padding: 30px 30px;
             border-radius: 9px;
             font-size: 18px;
 
         }
-        .value-text-btn{
+
+        .value-text-btn {
             background-color: #00c7ae;
             padding: 10px 30px;
             float: right;
-            color:white;
+            color: white;
             margin-top: -19px;
-           
+
         }
+
         .Education-title {
             font-size: 15px;
             font-weight: 600;
         }
-        .Education-context{
+
+        .Education-context {
             font-size: 10px;
         }
-        .Education-body{
+
+        .Education-body {
             font-size: 10px;
-            color:#b5b5b5;
+            color: #b5b5b5;
         }
+
         .portfolio {
-            border:1px solid #b5b5b5;
-            padding : 20px 30px;
+            border: 1px solid #b5b5b5;
+            padding: 20px 30px;
             border-radius: 10px;
 
         }
+
         .portfolio-title {
             margin-top: 5px;
             font-weight: 900;
         }
+
         .portfolio-context {
-            color:#b5b5b5;
+            color: #b5b5b5;
             font-size: 17px;
             font-weight: 300px;
 
         }
+
         .portfolio-btn {
             background-color: #00c7ae;
-            padding:15px 50px;
+            padding: 15px 50px;
             border-radius: 5px;
-            color:white;
+            color: white;
             float: right;
             margin-top: -65px;
-        
+
         }
-        .profile-img-body{
+
+        .profile-img-body {
             width: 30px;
             height: 30px;
         }
+
         .file-body-context {
             border: 1px solid #b5b5b5;
             width: 200px;
-            padding:15px 10px;
+            padding: 15px 10px;
             border-radius: 10px;
             margin-left: 500px;
-            margin-top: -70px;  
-         
+            margin-top: -70px;
+
         }
+
         .file-body-context-btn {
             background-color: #00c7ae;
             text-align: center;
-            padding:10px 30px;
+            padding: 10px 30px;
             border-radius: 5px;
             margin-top: 40px;
         }
-        .summarry{
+
+        .summarry {
             margin-top: 0.625rem;
             display: inline-block;
-            
+
         }
-        .summarry li{
+
+        .summarry li {
             list-style: none;
         }
-        .star li{ 
+
+        .star li {
             display: table-cell;
             vertical-align: middle;
             width: auto;
@@ -230,12 +263,14 @@
             line-height: 0;
 
         }
+
         .star {
             margin-right: 0.25rem;
             width: 30px;
             height: 30px;
 
         }
+
         .avg {
             font-size: 2.5rem;
             font-weight: 500;
@@ -245,6 +280,7 @@
             float: left;
             margin-right: 0.9375rem;
         }
+
         .info-star {
             font-size: .875rem;
             line-height: 1.43;
@@ -252,8 +288,9 @@
             color: #737373;
             display: inline-block;
             position: relative;
-            top: 0.8125rem; 
+            top: 0.8125rem;
         }
+
         .count {
             font-size: .875rem;
             line-height: 1.43;
@@ -261,445 +298,497 @@
             color: #737373;
             margin-top: 0.25rem;
         }
-	       .editable-field {
-	        width: 100%;
-	        padding: 10px;
-	        margin-bottom: 10px;
-	        border: 1px solid #ccc;
-	        border-radius: 5px;
-	        box-sizing: border-box;
-	    }
-	
-	    .save-button {
-	        padding: 10px 20px;
-	        background-color: #00c7ae;
-	        color: white;
-	        border: none;
-	        border-radius: 5px;
-	        cursor: pointer;
-	    }
-	    
-	 	.file-upload-container {
-	    border: 2px dashed #00c7ae;
-	    border-radius: 10px;
-	    padding: 40px;
-	    text-align: center;
-	    background-color: #f9f9f9; /* 배경색 추가 */
-	    transition: border 0.3s ease-in-out; /* 경계선 변화에 애니메이션 적용 */
-	    margin-top : 50px;
-	    		    &:hover {
-		        border: 2px dashed #00796b;
-		    }
-		}
-		.plus-icon {
-		    font-size: 30px;
-		    color: #00c7ae;
-		}
-		input[type="file"] {
-		    display: none;
-		}
-		
-		.poto1 {
-			margin: 20px;	
-			border-radius: 10px;
-			width:130px;
-			height:130px;
-		}
-    </style>
+
+        .editable-field {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .save-button {
+            padding: 10px 20px;
+            background-color: #00c7ae;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .file-upload-container {
+            width: 130px;
+            height: 130px;
+            border: 2px dashed #00c7ae;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background-color: #f9f9f9; /* 배경색 추가 */
+            transition: border 0.3s ease-in-out; /* 경계선 변화에 애니메이션 적용 */
+            margin-top: 50px;
+
+            &:hover {
+                border: 2px dashed #00796b;
+            }
+        }
+
+        .plus-icon {
+            font-size: 30px;
+            color: #00c7ae;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .poto1 {
+            width: 100%;
+            height: 100%;
+        }
+        .gosu-img-card{
+            position: relative;
+            display: inline-block;
+            width: 130px;
+            height: 130px;
+            border-radius: 10px;
+            margin: 20px;
+        }
+        .delete-img-icon {
+            position:absolute;
+            right: 5px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+	</style>
 </head>
 <body>
-    <jsp:include page="../common/header.jsp"/>
-    <script>
-    	$(function(){
-    		selectAllGosuImg();
-    	})
-    </script>
-    <div class="gosu-page">
-        <div class="profile">
-            <div class="profile-img">
-                <div class="my-profile-overview">
-                    <div class="profile-img">
-                        <img src="${sessionScope.loginUser.userProFile}" class="img">
-                    </div>
-                </div>
-            </div>
-            <div class="info">
-                <ul class="overview">
-                    <li class="item">
-                        <div class="point">0</div>
-                        <div class="label">리뷰평점</div>
-                    </li>
-                    <li class="item">
-                        <div class="point">0</div>
-                        <div class="label">리뷰수</div>
-                    </li>
-                    <li class="item">
-                        <div class="point">0</div>
-                        <div class="label">고용수</div>
-                    </li>
-                </ul>
-                <div class="btn">
-                    <a class="btn1">활동분석</a>
-                    <a class="btn2">미리보기</a>
-                </div>
-            </div>
-        </div>
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>숨고 활동명</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">  
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="info">
-                <div class="value">
-                    <div id="displayText">${sessionScope.loginUser.userName}</div>
-                    <input type="text" id="editInput" style="display: none;">
-                    <button id="saveButton" style="display: none;" onclick="saveChanges()">저장</button>
-                </div>
-            </div>
-        </div> 
-         <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>대표서비스</h2>
-                    <div class="action-group-wapper">
-                        
-                    </div>
-                </div>
-            </div>
-             <div class="info">
-        <div class="value">
-            <p>편의점 심부름</p>
-        </div>
-    </div>
-</div>
-
-		<div class="my-profile-name">
-		    <div class="comp-hader">
-		        <div class="hading">
-		            <h2>제공서비스</h2>
-		            <div class="action-group-wapper">
-		                <div class="type">
-		                    <div class="update" onclick="openServiceModal()">
-		                        수정
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		    <div class="info">
-		        <div class="value">
-		            <a class="service" href="addService.me">+서비스 추가</a>
-		        </div>
-		    </div>
+<jsp:include page="../common/header.jsp"/>
+<script>
+    $(function () {
+        selectAllGosuImg();
+    })
+</script>
+<div class="gosu-page">
+	<div class="profile">
+		<div class="profile-img">
+			<div class="my-profile-overview">
+				<div class="profile-img">
+					<img src="${sessionScope.loginUser.userProFile}" class="img">
+				</div>
+			</div>
 		</div>
-<form action="introductionUpdate.me">
-     <div class="my-profile-name">
-    <div class="comp-hader">
-        <div class="hading">
-            <h2>한줄소개</h2>
-            <div class="action-group-wapper">
-                <div class="type">
-                    <div class="update" onclick="toggleEditMode('intro')">
-                        수정
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <div class="value">
-            <div id="introDisplayText">${sessionScope.loginGosu.introduction}</div>
-            <input type="text" id="introEditInput"  name="introduction"style="display: none;" class="editable-field">
-            <button id="introSaveButton" style="display: none;" onclick="saveChanges('intro')" class="save-button">저장</button>
-        </div>
-    </div>
-</div>
-</form>
-<form action="emplyeesUpdate.me">
- <div class="my-profile-name">
-    <div class="comp-hader">
-        <div class="hading">
-            <h2>직원수</h2>
-            <div class="action-group-wapper">
-                <div class="type">
-                    <div class="update" onclick="toggleEditMode('employeeCount')">
-                        수정
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <div class="value">
-            <!-- 디스플레이 모드 내용 -->
-            <div id="employeeCountDisplayText">${sessionScope.loginGosu.employees}명</div>
-            <!-- 편집 모드 내용 -->
-            <input type="text" name="employeesUpdate" id="employeeCountEditInput" style="display: none;" class="editable-field" placeholder="직원수를 입력하세요">
-            <button id="employeeCountSaveButton" style="display: none;" onclick="saveChanges('employeeCount')" class="save-button">저장</button>
-        </div>
-    </div>
-</div>
-</form>
-<form action="region.me">
-       <div class="my-profile-name">
-    <div class="comp-hader">
-        <div class="hading">
-            <h2>활동 지역</h2>
-            <div class="action-group-wapper">
-                <div class="type">
-                    <div class="update" onclick="toggleEditMode('activityArea')">
-                        수정
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <div class="value">
-            <!-- 디스플레이 모드 내용 -->
-            <div id="activityAreaDisplayText">${sessionScope.loginGosu.region}</div>
-            <!-- 편집 모드 내용 -->
-            <input type="text" name="regionUpdate" id="activityAreaEditInput" style="display: none;" class="editable-field" placeholder="활동 지역을 입력하세요">
-            <button id="activityAreaSaveButton" style="display: none;" onclick="saveChanges('activityArea')" class="save-button">저장</button>
-        </div>
-    </div>
-</div>
-</form>
-  <form action="moveDistanceUpdate.me">
-    <div class="my-profile-name">
-        <div class="comp-hader">
-            <div class="hading">
-                <h2>이동 가능 거리</h2>
-                <div class="action-group-wapper">
-                    <div class="type">
-                        <div class="update" onclick="toggleEditMode('moveDistance')">
-                            수정
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="info">
-            <div class="value">
-                <div id="moveDistanceDisplayText">${sessionScope.loginGosu.moveDistance}</div>
-                <input type="text" name="moveDistanceUpdate" id="moveDistanceEditInput" style="display: none;" placeholder="이동 가능 거리를 입력하세요" class="editable-field">
-                <button id="moveDistanceSaveButton" style="display: none;" onclick="saveChanges('moveDistance')" class="save-button">저장</button>
-            </div>
-        </div>
-    </div>
-</form> 
-     <form action="elaborateUpdate.me">  
-        
-       <div class="my-profile-name">
-	    <div class="comp-hader">
-	        <div class="hading">
-	            <h2>고수 서비스 상세설명</h2>
-	            <div class="action-group-wapper">
-	                <div class="type">
-	                    <div class="update" onclick="toggleEditMode('description')">
-	                        수정
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	    
-	    <div class="info">
-	    
-	        <div class="value">
-	            <div id="descriptionDisplayText"><p> ${sessionScope.loginGosu.elaborate}</p></div>
-	            <input type="text" name="elaborate"id="descriptionEditInput" style="display: none;" class="editable-field">
-	            <button id="descriptionSaveButton" style="display: none;" onclick="saveChanges('description')" class="save-button">저장</button>
-	        </div>
-	    </div>
+		<div class="info">
+			<ul class="overview">
+				<li class="item">
+					<div class="point">0</div>
+					<div class="label">리뷰평점</div>
+				</li>
+				<li class="item">
+					<div class="point">0</div>
+					<div class="label">리뷰수</div>
+				</li>
+				<li class="item">
+					<div class="point">0</div>
+					<div class="label">고용수</div>
+				</li>
+			</ul>
+			<div class="btn">
+				<a class="btn1">활동분석</a>
+				<a class="btn2">미리보기</a>
+			</div>
+		</div>
 	</div>
-</form>
-<form action="availableTimeUpdate.me" >
-     <div class="my-profile-name">
-    <div class="comp-hader">
-        <div class="hading">
-            <h2>연락가능시간</h2>
-            <div class="action-group-wapper">
-                <div class="type">
-                    <div class="update" onclick="toggleEditAvailableTime()">
-                        수정
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <div class="value">
-            <div id="availableTimeDisplayText">${sessionScope.loginGosu.availableTime}</div>
-            <input type="text" name="availableTimeUpdate" id="availableTimeEditInput" style="display: none;" placeholder="예시)오전0시~오후0시" class="editable-field">
-            <button id="availableTimeSaveButton" style="display: none;" onclick="saveChangesAvailableTime()" class="save-button">저장</button>
-        </div>
-    </div>
-</div>
-</form>
-<form action="careerUpdate.me" method="post">
-    <div class="my-profile-name">
-        <div class="comp-hader">
-            <div class="hading">
-                <h2>경력</h2>
-                <div class="action-group-wapper">
-                    <div class="type">
-                        <div class="update" onclick="toggleEditMode('career')">
-                            수정
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="info">
-            <div class="value">
-                <!-- Display mode content -->
-                <div id="careerDisplayText">${sessionScope.loginGosu.career}</div>
-                <!-- Edit mode content -->
-                <select name="careerUpdate" id="careerEditInput" style="display: none;" class="editable-field">
-                    <option value="1년 미만">경력 1년 미만</option>
-                    <option value="1년 이상">경력 1년</option>
-                    <option value="2년 이상">경력 2년</option>
-                    <option value="3년 이상">경력 3년</option>
-                    <option value="4년 이상">경력 4년</option>
-                    <option value="5년 이상">경력 5년</option>
-                    <option value="6년 이상">경력 6년</option>
-                    <option value="7년 이상">경력 7년</option>
-                    <option value="8년 이상">경력 8년</option>
-                    <option value="9년 이상">경력 9년</option>
-                    <option value="10년 이상">경력 10년</option>
-                     <option value="15년 이상">경력 15년</option>
-                     <option value="20년 이상">경력 20년</option>
-
-                </select>
-                <button id="careerSaveButton" style="display: none;" onclick="saveChanges('career')" class="save-button">저장</button>
-            </div>
-        </div>
-    </div>
-</form>
-<form action="educationUpdate.me" method="post">
-    <div class="my-profile-name">
-        <div class="comp-hader">
-            <div class="hading">
-                <h2>학력</h2>
-                <div class="action-group-wapper">
-                    <div class="type">
-                        <div class="update" onclick="toggleEditMode('education')">
-                            수정
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="info">
-            <div class="value">
-                <!-- Display mode content -->
-                <div id="educationDisplayText" class="Education-title">${sessionScope.loginGosu.education}</div>
-                <!-- Edit mode content -->
-                <input type="text" name="educationUpdate" id="educationEditInput" class="editable-field" style="display: none;" placeholder="대학교명 입학~졸업일 학과를 적으세요" class="editable-field">
-                <button id="educationSaveButton" class="save-button editable-field" style="display: none;" onclick="saveChanges('education')" class="save-button">저장</button>
-            </div>
-        </div>
-    </div>
-</form>
-    
-        <div class="my-profile-name">
-            <div class="comp-hader">
-                <div class="hading">
-                    <h2>사진</h2>
-                    <div class="action-group-wapper">
-                        <div class="type">
-                            <div class="update">
-                                 수정
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="info">
-                <div class="value">
-                    <div>평균 고수들이8개의 사진/동영상을고수들이 등록했어요!</div>
-                    <div class="media-body">
-                        <ul>
-                            <li>
-                                <div class="file-body">
-                                    <label class="file-upload-container">
-                                        <span class="plus-icon">+</span>
-       									 <input type="file" id="uploadFiles"onchange="loadFile(this);">
-                                    </label>
-                             <input type="hidden" id="potoListSize">       
-                             <div class="potolist">
-                       		</div>
-                                </div>
-                            </li>
-                            
-                        </ul>                        
-                     </div>
-                 </div>
-                    </div>
-                  </form>  
-                </div>
-            </div>
-    <jsp:include page="../common/footer.jsp"/>
-  
-    <script>
-    function loadFile(input) {
-    	console.log(input);
-    	if($('#potoListSize').val()>=8){
-    		alert("8개 이상 추가 할 수 없습니다");
-    		retrun;
-    	}
-		var files = input.files;
-		$("#uploadFiles").attr("src", URL.createObjectURL(files[0]));
-
-		var formData = new FormData();
-		formData.append("uploadFiles", files[0]);
-
-		$.ajax({
-			type : "POST",
-			url : "uploadFile.cp",
-			processData: false,
-			contentType: false,
-			data : formData,
-			success : function(result) { 
+	<div class="my-profile-name">
+		<div class="comp-hader">
+			<div class="hading">
+				<h2>숨고 활동명</h2>
+				<div class="action-group-wapper">
+					<div class="type">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="info">
+			<div class="value">
+				<div id="displayText">${sessionScope.loginUser.userName}</div>
+				<input type="text" id="editInput" style="display: none;">
+				<button id="saveButton" style="display: none;" onclick="saveChanges()">저장</button>
+			</div>
+		</div>
+	</div>
+	<div class="my-profile-name">
+		<div class="comp-hader">
+			<div class="hading">
+				<h2>대표서비스</h2>
+				<div class="action-group-wapper">
+				
+				</div>
+			</div>
+		</div>
+		<div class="info">
+			<div class="value">
+				<p>편의점 심부름</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="my-profile-name">
+		<div class="comp-hader">
+			<div class="hading">
+				<h2>제공서비스</h2>
+				<div class="action-group-wapper">
+					<div class="type">
+						<div class="update" onclick="openServiceModal()">
+							수정
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="info">
+			<div class="value">
+				<a class="service" href="addService.me">+서비스 추가</a>
+			</div>
+		</div>
+	</div>
+	<form action="introductionUpdate.me">
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>한줄소개</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditMode('intro')">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info">
+				<div class="value">
+					<div id="introDisplayText">${sessionScope.loginGosu.introduction}</div>
+					<input type="text" id="introEditInput" name="introduction" style="display: none;"
+						   class="editable-field">
+					<button id="introSaveButton" style="display: none;" onclick="saveChanges('intro')"
+							class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form action="emplyeesUpdate.me">
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>직원수</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditMode('employeeCount')">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info">
+				<div class="value">
+					<!-- 디스플레이 모드 내용 -->
+					<div id="employeeCountDisplayText">${sessionScope.loginGosu.employees}명</div>
+					<!-- 편집 모드 내용 -->
+					<input type="text" name="employeesUpdate" id="employeeCountEditInput" style="display: none;"
+						   class="editable-field" placeholder="직원수를 입력하세요">
+					<button id="employeeCountSaveButton" style="display: none;" onclick="saveChanges('employeeCount')"
+							class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form action="region.me">
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>활동 지역</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditMode('activityArea')">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info">
+				<div class="value">
+					<!-- 디스플레이 모드 내용 -->
+					<div id="activityAreaDisplayText">${sessionScope.loginGosu.region}</div>
+					<!-- 편집 모드 내용 -->
+					<input type="text" name="regionUpdate" id="activityAreaEditInput" style="display: none;"
+						   class="editable-field" placeholder="활동 지역을 입력하세요">
+					<button id="activityAreaSaveButton" style="display: none;" onclick="saveChanges('activityArea')"
+							class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form action="moveDistanceUpdate.me">
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>이동 가능 거리</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditMode('moveDistance')">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info">
+				<div class="value">
+					<div id="moveDistanceDisplayText">${sessionScope.loginGosu.moveDistance}</div>
+					<input type="text" name="moveDistanceUpdate" id="moveDistanceEditInput" style="display: none;"
+						   placeholder="이동 가능 거리를 입력하세요" class="editable-field">
+					<button id="moveDistanceSaveButton" style="display: none;" onclick="saveChanges('moveDistance')"
+							class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form action="elaborateUpdate.me">
+		
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>고수 서비스 상세설명</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditMode('description')">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			
+			<div class="info">
+				
+				<div class="value">
+					<div id="descriptionDisplayText"><p> ${sessionScope.loginGosu.elaborate}</p></div>
+					<input type="text" name="elaborate" id="descriptionEditInput" style="display: none;"
+						   class="editable-field">
+					<button id="descriptionSaveButton" style="display: none;" onclick="saveChanges('description')"
+							class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form action="availableTimeUpdate.me">
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>연락가능시간</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditAvailableTime()">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info">
+				<div class="value">
+					<div id="availableTimeDisplayText">${sessionScope.loginGosu.availableTime}</div>
+					<input type="text" name="availableTimeUpdate" id="availableTimeEditInput" style="display: none;"
+						   placeholder="예시)오전0시~오후0시" class="editable-field">
+					<button id="availableTimeSaveButton" style="display: none;" onclick="saveChangesAvailableTime()"
+							class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form action="careerUpdate.me" method="post">
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>경력</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditMode('career')">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info">
+				<div class="value">
+					<!-- Display mode content -->
+					<div id="careerDisplayText">${sessionScope.loginGosu.career}</div>
+					<!-- Edit mode content -->
+					<select name="careerUpdate" id="careerEditInput" style="display: none;" class="editable-field">
+						<option value="1년 미만">경력 1년 미만</option>
+						<option value="1년 이상">경력 1년</option>
+						<option value="2년 이상">경력 2년</option>
+						<option value="3년 이상">경력 3년</option>
+						<option value="4년 이상">경력 4년</option>
+						<option value="5년 이상">경력 5년</option>
+						<option value="6년 이상">경력 6년</option>
+						<option value="7년 이상">경력 7년</option>
+						<option value="8년 이상">경력 8년</option>
+						<option value="9년 이상">경력 9년</option>
+						<option value="10년 이상">경력 10년</option>
+						<option value="15년 이상">경력 15년</option>
+						<option value="20년 이상">경력 20년</option>
+					
+					</select>
+					<button id="careerSaveButton" style="display: none;" onclick="saveChanges('career')"
+							class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<form action="educationUpdate.me" method="post">
+		<div class="my-profile-name">
+			<div class="comp-hader">
+				<div class="hading">
+					<h2>학력</h2>
+					<div class="action-group-wapper">
+						<div class="type">
+							<div class="update" onclick="toggleEditMode('education')">
+								수정
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="info">
+				<div class="value">
+					<!-- Display mode content -->
+					<div id="educationDisplayText" class="Education-title">${sessionScope.loginGosu.education}</div>
+					<!-- Edit mode content -->
+					<input type="text" name="educationUpdate" id="educationEditInput" class="editable-field"
+						   style="display: none;" placeholder="대학교명 입학~졸업일 학과를 적으세요" class="editable-field">
+					<button id="educationSaveButton" class="save-button editable-field" style="display: none;"
+							onclick="saveChanges('education')" class="save-button">저장
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	
+	<div class="my-profile-name">
+		<div class="comp-hader">
+			<div class="hading">
+				<h2>사진</h2>
+				<div class="action-group-wapper">
+					<div class="type">
+						<div class="update">
+							수정
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+		<div class="info">
+			<div class="value">
+				<div>평균 고수들이8개의 사진/동영상을고수들이 등록했어요!</div>
+				<div class="media-body">
+					<ul>
+						<li>
+							<div class="file-body">
+								<label class="file-upload-container">
+									<span class="plus-icon">+</span>
+									<input type="file" id="uploadFiles" onchange="loadFile(this);">
+								</label>
+								<input type="hidden" id="potoListSize">
+								<div class="potolist" >
+                                    <div class="gosu-img-card">
+                                        <img class="poto1" id="uploadedImage11"src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmMLME%2Fbtq3lTk2Zre%2F2YJxcU7D3kzVQzCfeXxKfK%2Fimg.png">
+                                        <img class="delete-img-icon" src="<%=request.getContextPath()%>/resources/images/common/delete-icon.png">
+                                    </div>
+								</div>
+							</div>
+						</li>
+					
+					</ul>
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+<jsp:include page="../common/footer.jsp"/>
 
-				$('#potoListSize').val(data.length+1);
-			},
-			error : function() { 
-				alert("파일 업로드 성공"); 
-			}
-		});
-	};
-	function selectAllGosuImg() {
-		 $.ajax({
-			url : "selectAllGosuImg",
-			method : "GET",
-			dataType : "json",
-			data: {},
-			success : function(data) { 
-				$('#potoListSize').val(data.length);
-				for(let i = 0; i < data.length; i++){
-					let gosuImg = data[i];
-	                let content = '<img class="poto1" id="uploadedImage'+gosuImg.gosuImgNo+'"src="'+gosuImg.gosuImgUrl+'">';
-					$('.potolist').append(content);
-				}
-			},
-			error : function() { 
-				alert("파일 업로드 에러"); 
-			}
-		});
-	};
-    </script>
-   
-    <script>
-   
+<script>
+    function loadFile(input) {
+        console.log(input);
+        if ($('#potoListSize').val() >= 8) {
+            alert("8개 이상 추가 할 수 없습니다");
+            retrun;
+        }
+        var files = input.files;
+        $("#uploadFiles").attr("src", URL.createObjectURL(files[0]));
+
+        var formData = new FormData();
+        formData.append("uploadFiles", files[0]);
+
+        $.ajax({
+            type: "POST",
+            url: "uploadFile.cp",
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: function (result) {
+
+
+                $('#potoListSize').val(data.length + 1);
+            },
+            error: function () {
+                alert("파일 업로드 성공");
+            }
+        });
+    };
+
+    function selectAllGosuImg() {
+        $.ajax({
+            url: "selectAllGosuImg",
+            method: "GET",
+            dataType: "json",
+            data: {},
+            success: function (data) {
+                $('#potoListSize').val(data.length);
+                for (let i = 0; i < data.length; i++) {
+                    console.log(data[i]);
+                    let gosuImg = data[i];
+                    let content = '<div class="gosu-img-card">' +
+                                    '<img class="poto1" id="uploadedImage' + gosuImg.gosuImgNo + '"src="' + gosuImg.gosuImgUrl + '">' +
+                                    '<img className="delete-img-icon"  src="<%=request.getContextPath()%>/resources/images/common/delete-icon.png">' +
+                                '</div>' ;
+                    $('.potolist').append(content);
+                }
+            },
+            error: function () {
+                alert("파일 업로드 에러");
+            }
+        });
+    };
+</script>
+
+<script>
+
     function toggleEditMode() {
         var displayText = document.getElementById('displayText');
         var editInput = document.getElementById('editInput');
@@ -733,7 +822,7 @@
         editInput.style.display = 'none';
         saveButton.style.display = 'none';
     }
-	
+
     function toggleEditMode(fieldName) {
         var displayText = document.getElementById(fieldName + 'DisplayText');
         var editInput = document.getElementById(fieldName + 'EditInput');
@@ -769,7 +858,7 @@
         editInput.style.display = 'none';
         saveButton.style.display = 'none';
     }
-    </script>
+</script>
 
 <script>
     function toggleEditAvailableTime() {
@@ -799,27 +888,27 @@
         saveButton.style.display = 'none';
     }
 </script>
-    <script>
-        // Function to toggle between display and edit mode
-        function toggleEditMode(section) {
-            var displayElements = document.querySelectorAll('.value .Education-title, .value .Education-context, .value .Education-body');
-            var editElements = document.querySelectorAll('.value .editable-field');
-            var saveButton = document.querySelector('.value .save-button');
+<script>
+    // Function to toggle between display and edit mode
+    function toggleEditMode(section) {
+        var displayElements = document.querySelectorAll('.value .Education-title, .value .Education-context, .value .Education-body');
+        var editElements = document.querySelectorAll('.value .editable-field');
+        var saveButton = document.querySelector('.value .save-button');
 
-            // Toggle display and edit mode
-            displayElements.forEach(function (element) {
-                element.style.display = 'none';
-            });
+        // Toggle display and edit mode
+        displayElements.forEach(function (element) {
+            element.style.display = 'none';
+        });
 
-            editElements.forEach(function (element) {
-                element.style.display = 'block';
-            });
+        editElements.forEach(function (element) {
+            element.style.display = 'block';
+        });
 
-            saveButton.style.display = 'block';
-        }
-    </script>
-    <script>
- // 파일이 선택되었을 때 실행되는 함수
+        saveButton.style.display = 'block';
+    }
+</script>
+<script>
+    // 파일이 선택되었을 때 실행되는 함수
     function displayImagePreview() {
         var fileInput = document.getElementById('fileInput');
         var imagePreview = document.getElementById('imagePreview');
@@ -900,6 +989,7 @@
         // 입력 필드의 값을 디스플레이 모드에 적용
         displayText.innerText = editInput.value;
     }
+
     // 활동지역 섹션을 편집 모드로 전환하는 함수
     function toggleEditMode(field) {
         var displayText = document.getElementById(field + 'DisplayText');

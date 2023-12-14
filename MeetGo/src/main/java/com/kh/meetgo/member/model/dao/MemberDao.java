@@ -232,8 +232,6 @@ public class MemberDao {
     }
 
 
-
-
 	public int WrittenReviewToMeCount(SqlSessionTemplate sqlSession, int gosuNo) {
 		return sqlSession.selectOne("memberMapper.WrittenReviewToMeCount", gosuNo);
 	}
