@@ -194,7 +194,7 @@ public class MemberController {
 	public String changeStatus(HttpSession session){
 		Member m = (Member) session.getAttribute("loginUser");
 		if(m.getEnrollStatus() != 2) {
-			session.setAttribute("errorMsg", "고수로 등록되지 않거나, 비활성화 상태입니다.");
+			session.setAttribute("errorMsg", "고수로 등록되지 않거나, 비활성화 상태입니다. 내 정보 조회에서 등록 또는 비활성화가 가능합니다.");
 			return "redirect:/";
 		}
 		if(m != null){
