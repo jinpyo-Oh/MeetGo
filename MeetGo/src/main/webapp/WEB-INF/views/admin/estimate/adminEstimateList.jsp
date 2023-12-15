@@ -93,74 +93,25 @@
 	                        <th style="width: 15%;">현재상태</th>
 	                    </tr>
 	                </thead>
-	                <c:choose>
 	                
-		                <c:when test="${ not empty requestScope.incomList }">
-			                <tbody>
-			                    <c:forEach var="b" items="${ requestScope.incomList }">
-				                    <tr>
-				                        <td class="eno">${ b.estNo }</td>
-				                        <td class="truncate">${ b.estTitle }</td>
-				                        <td>${ b.gosuNo }</td>
-				                        <td>${ b.userNo }</td>
-				                        <td>${ b.startDate }</td>
-				                        <td>
-				                        	<c:choose>
-					                        	<c:when test="${ b.status eq 2 }">
-					                        		대기
-					                        	</c:when>
-					                        	<c:when test="${ b.status eq 3 }">
-					                        		결제 대기
-					                        	</c:when>
-					                        	<c:otherwise>
-					                        		결제 완료
-					                        	</c:otherwise>
-				                        	</c:choose>
-				                        </td>
-				                    </tr>
-				            	</c:forEach>
+			                <tbody id="inComTbody">
+				                    
 			                </tbody>
-		                </c:when>
 	                	
-	                	<c:otherwise>
+	                		<!-- 
 	                		<tbody>
 	                			<tr>
 	                				<td colspan="6" class="none">현재 진행중인 견적서가 없습니다.</td>
 	                			</tr>
-	                		</tbody>
-	                	</c:otherwise>
-	                </c:choose>
+	                		</tbody> -->
 	            </table>
 	            
 	            <br><br><br><br>
-	             <c:if test="${ not empty requestScope.incomList }">
 		            <div id="pagingArea">
-	                	<c:choose>
-			        		<c:when test="${ requestScope.pi2.currentPage eq 1 }">
-			        			<button class="pagingBtn" disabled style="display:none;">&lt;</button>
-			        		</c:when>
-			        		<c:otherwise>
-			        			<button class="pagingBtn" onclick="location.href='adminEstimateList.ad?cPage=${ requestScope.pi2.currentPage - 1 }'">&lt;</button>
-			        		</c:otherwise>
-			        	</c:choose>            
-			             <c:forEach var="p" begin="${ requestScope.pi2.startPage }" 
-			                    					end="${ requestScope.pi2.endPage }"
-			                    					step="1">
-						<button class="pageBtn" onclick="location.href='adminEstimateList.ad?cPage=${ p }'">${ p }</button>
-			            </c:forEach>          
-			            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
-			            <c:choose>
-				       		<c:when test="${ requestScope.pi2.currentPage eq requestScope.pi2.endPage }">
-				       			<button class="pagingBtn" disabled style="display:none;">&gt;</button>
-				       		</c:when>
-				       		<c:otherwise>
-				       			<button class="pagingBtn" onclick="location.href='adminEstimateList.ad?cPage=${ requestScope.pi2.currentPage + 1 }'">&gt;</button>
-				       		</c:otherwise>
-			       		</c:choose> 
+	                	
 	            	</div>
-	             </c:if>
         	</div>
-            
+            <!--  
         	<div id="com" style="display: none;">
 	            <table class="table-hover" align="center">
 	                <thead  style="height: 35px;">
@@ -256,7 +207,7 @@
 			                    					step="1">
 						<button class="pageBtn" onclick="location.href='adminEstimateList.ad?cPage=${ p }'">${ p }</button>
 			            </c:forEach>          
-			            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
+			         
 			            <c:choose>
 				       		<c:when test="${ requestScope.pi1.currentPage eq requestScope.pi1.endPage }">
 				       			<button class="pagingBtn" disabled style="display:none;">&gt;</button>
@@ -270,10 +221,13 @@
 	            
 	            
         	</div>
+        	-->
     </div>
     
     <script>
     	$(function(){
+    		
+    		inComEst(1);
     		
     		let $inCom = $("#type").find(".type").eq(0);
     		let $com = $("#type").find(".type").eq(1);
@@ -282,22 +236,89 @@
     			$(this).css("border-bottom", "3px solid #2A8FF7");
     			$com.css("border-bottom", "none");
     			
-    			$("#inCom").show();
-    			$("#com").hide();
-
+    			inComEst(1);
+    			
     		});
     		
     		$com.click(function(){
     			$(this).css("border-bottom", "3px solid #2A8FF7");
     			$inCom.css("border-bottom", "none");
-    			
-    			$("#com").show();
-    			$("#inCom").hide();
-
     		});
+    		
     	});
     	
-    	
+    	function inComEst(page){
+    		
+    		$('#inComTbody').empty();
+    		$('#pagingArea').empty();
+    		
+    		$.ajax({
+    		    url: "adminInComEst.ad",
+    		    dataType: "json",
+    		    data: {
+    		        cPage: page
+    		    },
+    		    success: function (data) {
+    		    	let list = data.list2;
+    		    	// console.log(data.pi2);
+	    		    for(let i = 0; i < list.length; i++){
+	    		    	let content =
+    		    		'<tr>'+
+	                    '<td class="eno">'+list[i].estNo+'</td>' +
+	                    '<td class="truncate">'+list[i].estTitle+'</td>' +
+	                    '<td>'+list[i].gosuNo+'</td>' +
+	                    '<td>'+list[i].userNo+'</td>' +
+	                    '<td>'+list[i].startDate+'</td>' +
+	                    '<td>';
+	                    	if(list[i].status == 3){
+	                    		content += '결제 대기';
+	                    	} else {
+	                    		content += '결제 완료';
+	                    	}
+	                        
+	                    content += '</td>' +
+	                '</tr>';
+						// console.log(content);
+	                	$('#inComTbody').append(content);
+	    		    }
+	    		    
+	    		    let paging = '';
+	    		    	
+	    		    if(data.pi2.currentPage == 1){
+	    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&lt;</button>';
+	    		    } else {
+	    		    	paging += '<button class="pagingBtn" onclick="inComEst(${ requestScope.cPage - 1 })">&lt;</button>';
+	    		    }
+	    		    
+	    		    for(let i = data.pi2.startPage; i <= data.pi2.endPage; i++){
+	    		    	
+						paging += '<button class="pageBtn" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
+	    		    }
+	    		    
+	    		    if(data.pi2.currentPage == data.pi2.endPage){
+	    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&gt;</button>';
+	    		    } else {
+	    		    	paging += '<button class="pagingBtn" onclick="inComEst(${ requestScope.cPage + 1 })">&gt;</button>'
+	    		    }
+	    		    
+	    		    $('#pagingArea').append(paging);
+	    		    
+	    		    $(".table-hover>tbody>tr td:not(:last-child)").click(function() {
+	        			
+	        			let eno = $(this).siblings(".eno").text();
+	        			// console.log(eno);
+	        			location.href = "estimateDetail.me?eno=" + eno;
+	        		});
+	        		
+	    		    
+    		    },
+    		    error: function () {
+    		        console.log("실패");
+    		    }
+    		});
+    	}
+    		
+  
     	
     	
     	$(function() {
