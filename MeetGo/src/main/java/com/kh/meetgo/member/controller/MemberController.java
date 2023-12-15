@@ -193,7 +193,10 @@ public class MemberController {
 	@RequestMapping(value = "changeStatus.me", produces = "text/html; charset=UTF-8")
 	public String changeStatus(HttpSession session){
 		Member m = (Member) session.getAttribute("loginUser");
-
+		if(m.getEnrollStatus() != 2) {
+			session.setAttribute("errorMsg", "고수로 등록되지 않거나, 비활성화 상태입니다.");
+			return "redirect:/";
+		}
 		if(m != null){
 			int userStatus = m.getUserStatus() == 1 ? 2 : 1;
 			m.setUserStatus(userStatus);
