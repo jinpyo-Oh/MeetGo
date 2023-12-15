@@ -49,8 +49,7 @@ public class AdminController {
 //		ArrayList<EstimateDto> list1 = adminService.adminEstimateComplList(pi2);
 		
 //		
-		
-		
+
 		mv.setViewName("admin/estimate/adminEstimateList");		
 		//.addObject("incomList", list1).addObject("pi1", pi1)
 	      //.addObject("comList", list2).addObject("pi2", pi2)
@@ -110,10 +109,4 @@ public class AdminController {
 //		
 //	}
 
-
-    @RequestMapping(value = "adminMainPage.ad")
-    public String adminMainPage(){
-        return "admin/common/adminMainPage";
-    }
-	
 }
