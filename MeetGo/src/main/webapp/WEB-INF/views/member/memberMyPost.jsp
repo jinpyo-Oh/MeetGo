@@ -1,131 +1,120 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <meta charset="UTF-8">
-  <title>내가 작성한 커뮤니티 게시글</title>
-  <style>
-    @font-face {
-      font-family: 'Pretendard-Regular';
-      src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-      font-weight: 400;
-      font-style: normal;
-    }
+    <meta charset="UTF-8">
+    <title>커뮤니티 작성글/댓글</title>
+    <style>
+        @font-face {
+            font-family: 'Pretendard-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+        }
 
-    body {
-      font-family: 'Pretendard-Regular';
-      margin: 0;
-      padding: 0;
-    }
+        body {
+            font-family: 'Pretendard-Regular', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
 
-    .wrap {
-      margin: auto;
-      width: 1000px;
-      
-      height: 1000px;
-      
-    }
+        header {
+            /* Add your header styling here */
+        }
 
-    .gosu_header {
-      text-align: center;
-      padding: 20px 0;
-    }
+        .comment-main {
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    h2 {
-      margin: 0;
-    }
+        .comment-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    hr {
-      border: 1px solid #ddd;
-    }
+        .comment-mode {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    .gosu_body_1 {
-      display: flex;
-      border-bottom: 1px solid #ddd;
-    }
+        .comment-mode a {
+            margin: 0 10px;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .gosu_body_1 div {
-      box-sizing: border-box;
-      padding: 10px;
-    }
+        .comment-mode a:hover {
+            color: #0066cc;
+        }
 
-    .gosu_body_1_1, .gosu_body_1_3 {
-      width: 20%;
-    }
+        .boardList {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-    .gosu_body_1_2 {
-      width: 60%;
-      text-align: center;
-    }
+        .boardList th, .boardList td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+              border: none;
+        }
 
-    .gosu_main {
-      width: 1000px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 15px;
-      border-bottom: 1px solid #ddd;
-      text-align: center;
-    }
-
-    .boardList tr:hover {
-      background-color: #f5f5f5;
-    }
-
-    .boardList tr td.gosu_content_2 {
-      max-width: 500px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      text-align: left;
-    }
-  </style>
+        .boardList th {
+            background-color: #f2f2f2;
+        }
+         .boardList tbody tr:hover {
+            background-color: #e6f7ff; /* 호버 시 배경색 변경 */
+        }
+    </style>
 </head>
 <body>
-  <jsp:include page="../common/header.jsp"/>
+    <jsp:include page="../common/header.jsp"/>
 
-  <div class="wrap">
-    <div class="gosu_header">
-      <h2>내가 작성한 커뮤니티 게시글</h2>
-      
-      <a href="comment.me">내가 작성한 댓글창으로 가기</a>
-      <hr>
+    <div class="comment-main">
+        <div class="comment-title">
+            <h1>커뮤니티 작성글/댓글</h1>
+        </div>
+        <div class="comment-mode">
+            <a href="myPost.me">작성 글</a>
+            <a href="comment.me">작성 댓글</a>
+        </div>
+        <hr>
+        <div class="gosu_main">
+            <table class="boardList">
+                <thead>
+                    <tr>
+                        <th>글 번호</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="m" items="${requestScope.list}">
+                        <tr onclick="redirectToDetail(${m.boardNo})">
+                            <td>${m.boardNo}</td>
+                            <td>${m.boardTitle}</td>
+                            <td>${m.createDate}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="gosu_body_1">
-      <div class="gosu_body_1_1"><b>No</b></div>
-      <div class="gosu_body_1_2"><b>제목</b></div>
-    </div>
+    <jsp:include page="../common/footer.jsp"/>
 
-    <div class="gosu_main">
-      <table class="boardList">
-        <c:forEach var="m" items="${ requestScope.list }">
-          <tr>
-            <td class="bno">${m.boardNo}</td>
-            <td class="gosu_content_2">${m.boardTitle}</td>
-            <td class="gosu_content_4">${m.createDate}</td>
-          </tr>
-        </c:forEach>
-      </table>
-    </div>
-    
-  </div>
-
-  <jsp:include page="../common/footer.jsp"/>
-
-  <script>
-    $(".boardList tr").click(function() {
-      let bno = $(this).children(".bno").text();
-      location.href = "detail.bo?bno=" + bno;
-    });
-  </script>
+    <script>
+        function redirectToDetail(bno) {
+            location.href = "gosuDetail.bo?bno=" + bno;
+        }
+    </script>
 </body>
 </html>

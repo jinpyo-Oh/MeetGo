@@ -63,7 +63,6 @@ public class BoardController {
 						currentPage, pageLimit, boardLimit);
 		
 		ArrayList<Board> list = boardService.selectGosuReqList(pi);
-		
 
 		mv.addObject("list", list)
 		  .addObject("pi", pi)
@@ -184,6 +183,7 @@ public class BoardController {
 		  .setViewName("board/tip/tipList");
 		return mv;
 	}
+	
 	
 	@GetMapping("tipWrite.bo")
 	public String tipWrite() {
@@ -467,16 +467,11 @@ public class BoardController {
 	
 	@ResponseBody
 	@RequestMapping(value = "gosuRlist.bo", produces = "application/json; charset=UTF-8")
-	public String ajaxSelectReplyList(@RequestParam("bno") Integer bno
-												) {
-		
-
-	
+	public String ajaxSelectReplyList(@RequestParam("bno") Integer bno) {
 		ArrayList<ReplyDto> list = boardService.selectGosuReplyList(bno);
-		
-				
 		return new Gson().toJson(list);
 	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "gosuRinsert.bo", produces = "text/html; charset=UTF-8")
@@ -484,8 +479,17 @@ public class BoardController {
 		
 
 		int result = boardService.insertGosuReply(r);
-		
 		return (result > 0) ? "success" : "fail";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "rlist.bo", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int userNo) {
+		
+		ArrayList<Reply> list = boardService.selectReplyList(userNo);
+
+		
+		return new Gson().toJson(list);
 	}
 	
 	

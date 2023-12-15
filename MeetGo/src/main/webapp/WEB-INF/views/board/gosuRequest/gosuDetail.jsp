@@ -252,12 +252,12 @@
  				success : function(result) { 
  					
  					if(result == "success") {
- 						
  						// 댓글 작성 성공 시
  						selectGosuReplyList();
  						$("#content").val("");
  						
  					}
+ 					console.log("댓글 작성 성공");
  					
  				},
  				error : function() {
@@ -278,7 +278,6 @@
  			type : "get",
  			data : {bno : ${ requestScope.m.boardNo }},
  			success : function(result) {
- 				
  				
  				let resultStr = "";
  				

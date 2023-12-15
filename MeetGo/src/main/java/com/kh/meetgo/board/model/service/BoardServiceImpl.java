@@ -180,9 +180,9 @@ public class BoardServiceImpl implements BoardService {
 	
 
 	@Override
-	public ArrayList<Reply> selectReplyList(int boardNo) {
+	public ArrayList<Reply> selectReplyList(int userNo) {
 		// TODO Auto-generated method stub
-		return null;
+		return boardDao.selectReplyList(sqlSession,userNo);
 	}
 
 	@Override

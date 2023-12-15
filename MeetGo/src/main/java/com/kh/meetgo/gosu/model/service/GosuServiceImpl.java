@@ -50,6 +50,12 @@ public class GosuServiceImpl implements GosuService {
 		
 		return gosuDao.insertGosu(sqlSession, gosu);
 	}
+	//고수 비활성화 메소드
+	@Override
+	public int deleteGosu(String userId) {
+		// TODO Auto-generated method stub
+		return gosuDao.deleteGosu(sqlSession,userId);
+	}
 	
 	// 고수 서비스 등록용 메소드
 	@Override
@@ -79,6 +85,15 @@ public class GosuServiceImpl implements GosuService {
 	public ArrayList<GosuOpt> getGosuReviewImg(int gosuNo) {
 		return gosuDao.getGosuReviewImg(sqlSession, gosuNo);
 	}
+
+	//고수 활성화
+	@Override
+	public int gosuActivate(String userId) {
+		// TODO Auto-generated method stub
+		return gosuDao.gosuActivate(sqlSession,userId);
+	}
+
+	
 
 	
 }

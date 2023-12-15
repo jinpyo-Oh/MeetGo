@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,8 @@ import com.kh.meetgo.member.model.vo.Member;
 @Controller
 public class GosuController {
     
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private GosuServiceImpl gosuService;
     
@@ -36,6 +39,16 @@ public class GosuController {
     @RequestMapping("gosuEnrollForm.go")
     public String gosuEnroll() {
        return "gosu/gosuEnrollForm";
+    }
+    //고수 비활성화페이지로 이동
+    @RequestMapping("gosuDeleteForm.go")
+    public String gosuDelete() {
+    	return "gosu/gosuDeleteForm";
+    }
+    //고수 활성화페이지로 이동
+    @RequestMapping("gosuActivate.go")
+    public String gosuActivate() {
+    	return "gosu/gosuActivate";
     }
     
     // 고수 등록
@@ -92,6 +105,63 @@ public class GosuController {
            return "common/errorPage";
         }
     
+    }
+    //고수 비활성화
+    @RequestMapping("gosudelete")
+    public String deleteGosu(String userId,
+						   String userPwd,
+						   HttpSession session,
+						   Model model) {
+			String encPwd = ((Member)session.getAttribute("loginUser"))
+				.getUserPwd();
+			if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
+				int result = gosuService.deleteGosu(userId);
+			System.out.println(result);
+			if(result > 0) { //탈퇴 성공
+				session.removeAttribute("loginUser");
+				
+				session.setAttribute("alertMsg", "비활성화가 되었습니다.");
+				
+				return "redirect:/";
+			}else { //실패
+				model.addAttribute("errorMsg","비활성화 실패");
+				return "common/errorPage";	
+
+			}
+			}else {
+				session.setAttribute("alertMsg", "비밀번호를 잘못 입력하였습니다. 확인해주세요.");
+				return "redirect:/myPage.me";
+			}
+    
+	
+    	
+    }
+    //고수 활성화
+    @RequestMapping("gosuActivate")
+    public String gosuActivate(String userId, String userPwd,HttpSession session, Model model) {
+
+	String encPwd = ((Member)session.getAttribute("loginUser"))
+		.getUserPwd();
+	if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
+		int result = gosuService.gosuActivate(userId);
+	System.out.println(result);
+	if(result > 0) { //탈퇴 성공
+		session.removeAttribute("loginUser");
+		
+		session.setAttribute("alertMsg", "활성화가 되었습니다.");
+		
+		return "redirect:/";
+	}else { //실패
+		model.addAttribute("errorMsg","활성화 실패");
+		return "common/errorPage";	
+
+	}
+	}else {
+		session.setAttribute("alertMsg", "비밀번호를 잘못 입력하였습니다. 확인해주세요.");
+		return "redirect:/myPage.me";
+	}
+	
+
     }
     
     // 고수 찾기 포워딩

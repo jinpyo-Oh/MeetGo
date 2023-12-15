@@ -130,9 +130,9 @@ public class BoardDao {
 			return (ArrayList)sqlSession.selectList("boardMapper.selectTipImgList", boardNo);
 		}
 	
-	public ArrayList<ReplyDto> selectGosuReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+	public ArrayList<ReplyDto> selectGosuReplyList(SqlSessionTemplate sqlSession, int userNo) {
 		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectGosuReplyList", boardNo);
+		return (ArrayList)sqlSession.selectList("boardMapper.selectGosuReplyList", userNo);
 	}
 	
 	public int insertGosuReply(SqlSessionTemplate sqlSession, Reply r) {
@@ -217,5 +217,10 @@ public class BoardDao {
 		return sqlSession.delete("boardMapper.deletePofolImg", pofolNo);
 	}
 	
+
+	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList",boardNo);
+	}
 
 }

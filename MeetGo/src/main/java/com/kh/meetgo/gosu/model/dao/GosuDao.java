@@ -91,5 +91,14 @@ public class GosuDao {
 	public int changeStatus(SqlSessionTemplate sqlSession, int userNo) {
 		return sqlSession.update("gosuMapper.changeStatus", userNo);
 	}
+	// 고수 비활성화 메소드
+	public int deleteGosu(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("gosuMapper.deleteGosu",userId);
+	}
+	public int gosuActivate(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("gosuMapper.gosuActivate", userId);
+	}
 	
 }

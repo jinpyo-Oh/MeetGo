@@ -82,7 +82,7 @@
           SELECT *
           FROM MEMBER
           WHERE USER_ID = #{userId}
-          AND (USER_STATUS = '1' OR USER_STATUS = '2')
+          AND (ENROLL_STATUS = '1' OR ENROLL_STATUS = '2' OR ENROLL_STATUS = '3')
     </select>
     <insert id="insertMember" parameterType="member">
        INSERT INTO MEMBER(USER_NO,
@@ -94,7 +94,7 @@
                 USER_GENDER,
                 ADDRESS,   
                 USER_PHONE,
-                USER_STATUS)
+                ENROLL_STATUS)
           VALUES (SEQ_MEMBER_NO.NEXTVAL,
                 #{userId},
                 #{userPwd},
@@ -113,12 +113,12 @@
        USER_PWD = #{userPwd},
        USER_PROFILE = #{userProFile}
        WHERE USER_ID = #{userId}
-        AND (USER_STATUS = '1' OR USER_STATUS = '2')
+        AND (ENROLL_STATUS = '1' OR ENROLL_STATUS = '2')
     </update>
     
     <update id="deleteMember" parameterType="string">
        UPDATE MEMBER
-       SET USER_STATUS = '4'
+       SET ENROLL_STATUS = '4'
        WHERE USER_ID = #{userId}
     </update>
     <select id="idCheck" parameterType="string" resultType="_int">
@@ -149,7 +149,7 @@
     
     <update id="changeStatus" parameterType="member">
        UPDATE MEMBER
-       SET USER_STATUS = #{userStatus}
+       SET ENROLL_STATUS = #{enrollStatus}
        WHERE USER_ID = #{userId}
     </update>
 
@@ -361,47 +361,47 @@
 		UPDATE GOSU
 		SET ELABORATE = #{elaborate}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 	
 	<update id="introductionUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET INTRODUCTION = #{introduction}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 	
 		<update id="availableTimeUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET AVAILABLE_TIME = #{availableTime}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 		<update id="educationUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	EDUCATION = #{education}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 	<update id="moveDistanceUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	MOVE_DISTANCE= #{moveDistance}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 		
 	</update>
 	<update id="employeesUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	EMPLOYEES= #{employees}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 		
 	</update>
 	<update id="regionUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	REGION= #{region}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 		
 	</update>
 
@@ -411,7 +411,7 @@
 		UPDATE GOSU
 		SET	CAREER= #{career}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 		</update>
 
 
