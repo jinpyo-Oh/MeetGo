@@ -374,7 +374,7 @@
 	
 	<update id="changeStatus" parameterType="_int">
 		UPDATE MEMBER
-		   SET USER_STATUS = 2
+		   SET ENROLL_STATUS = 2
 		 WHERE USER_NO = #{userNo} 
 	</update>
 
