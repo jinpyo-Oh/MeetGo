@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -157,6 +158,10 @@
                behavior: 'smooth' // 부드럽게
            });
        }
+       
+       function reportDetail(rno) {
+    	   location.href = "reportDetail.ad?rno=" + rno;
+       }
       </script>
 	
 	<script>
@@ -168,11 +173,12 @@
 			let currentPage = 1;
 		})
 		
+		// 조건 변경 시 실행
 		$("#search-option").on("change", function() {
 	       option = $(this).val();
 	       selectReportList(option);
 		});
-	
+		
 		function selectReportList(option){
 		
 			let $option = option;
@@ -198,14 +204,14 @@
 						let reportStatus = "";
 						
 						if(list[i].reportStatus == 0){
-							reportStatus = '<span style="color:lightgray;">미확인</span>';
+							reportStatus = '<span style="color:red;">미확인</span>';
 						} else if (list[i].reportStatus == 1){
-							reportStatus = '<span style="color:red;">처리대기</span>';
+							reportStatus = '<span style="color:#2a91f7c0;">처리대기</span>';
 						} else {
 							reportStatus = '<span style="color:green;">처리완료</span>';
 						}
 						
-						let resultStr = '<tr>'
+						let resultStr = '<tr onclick="reportDetail(' + list[i].reportNo + ')">'
 										+ '<td>' + list[i].reportNo +  '</td>'
 										+ '<td>' + list[i].reportedUser +  '</td>'
 										+ '<td>' + list[i].reportUser +  '</td>'
