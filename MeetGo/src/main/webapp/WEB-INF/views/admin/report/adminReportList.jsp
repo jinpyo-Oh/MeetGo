@@ -101,12 +101,15 @@
 	
 	<div align="right">
 		<select id="search-option" class="form-control">
-			<option selected>전체</option>
-			<option>미확인</option>
-			<option>처리대기</option>
-			<option>처리완료</option>
+			<option value="9" selected>전체</option>
+			<option value="0">미확인</option>
+			<option value="1">처리대기</option>
+			<option value="2">처리완료</option>
 		</select>
 	</div>
+	
+	<!-- 현재 페이지번호 -->
+    <input type="hidden" id="currentPage" name="currentPage" value="1">
 	
 	<div align="center" id="list-area" class="table table-borderless table-hover">
 		<table id="report-list">
@@ -116,29 +119,121 @@
 					<th>신고된 회원</th>
 					<th>신고한 회원</th>
 					<th style="width: 30%;">신고 유형</th>
-					<th>신고일</th>
 					<th>처리상태</th>
 				</tr>
 			</thead>
-			<tbody>
-			<tr>
-				<td>000001</td>
-				<td>jongD97</td>
-				<td>js_Lee21</td>
-				<td>저작권 침해</td>
-				<td>2023.11.29</td>
-				<td>처리대기</td>
-			</tr>
+			<tbody id="report-list-content">
+			
 			</tbody>
 		</table>
 	</div>
 	
-	<div align="center" id="pagingBtn-area">
-		<button class="pagingBtn">prev</button>
-		<button class="pageBtn">1</button>
-		<button class="pageBtn">2</button>
-		<button class="pagingBtn">next</button>
+	<div align="center" id="paging-area">
 	</div>
+	
+	<script>
+      	function paging(num) {
+      		currentPage = num;
+      		$("#currentPage").val(num);
+      		scrollToTop();
+      	}
+      	
+      	function prevPage() {
+      		num = parseInt($currentPage) - 1;
+      		$("#currentPage").val(num);
+      		scrollToTop();
+      	}
+      	
+      	function nextPage() {
+      		num = parseInt($currentPage) + 1;
+      		$("#currentPage").val(num);
+      		scrollToTop();
+      	}
+      	
+       // 화면 상단으로 스크롤하는 함수
+       function scrollToTop() {
+           window.scrollTo({
+               top: 0,
+               behavior: 'smooth' // 부드럽게
+           });
+       }
+      </script>
+	
+	<script>
+	
+		let option = $("#search-option").val();
+		
+		$(function(){
+			selectReportList(9);
+			let currentPage = 1;
+		})
+		
+		$("#search-option").on("change", function() {
+	       option = $(this).val();
+	       selectReportList(option);
+		});
+	
+		function selectReportList(option){
+		
+			let $option = option;
+			let $currentPage = $("#currentPage").val();
+			
+			$("#report-list").empty();
+			$("#paging-area").empty();
+			
+			$.ajax({
+				type : "get",
+				url : "selectReportList.ad",
+				data : {option : $option},
+				success : function(result){
+					
+					let list = result.list;
+					let startPage = result.pi.startPage;
+					let endPage = result.pi.endPage;
+					let maxPage = result.pi.maxPage;
+					let currnetPage = result.pi.currnetPage;
+					
+					for(let i = 0; i < list.length; i++){
+						
+						let resultStr = '<tr>'
+										+ '<td>' + list[i].reportNo +  '</td>'
+										+ '<td>' + list[i].reportedUser +  '</td>'
+										+ '<td>' + list[i].reportUser +  '</td>'
+										+ '<td>' + list[i].reportCategory +  '</td>'
+										+ '<td>' + list[i].reportStatus +  '</td>'
+										+ '</tr>';	
+										
+						$("#report-list-content").append(resultStr);
+					}
+					
+					for(let p = startPage; p <= endPage; p++){
+    					
+    					let pagingBtn = '';
+    					pagingBtn = $('<button type="button" class="pageBtn" onclick="paging(' + p + ');">' + p + '</button>');
+    					
+    					if (parseInt($("#currentPage").val()) == p) {
+    				        pagingBtn.attr("disabled", true);
+    				        pagingBtn.css("background-color", "rgb(32, 93, 154)");
+    				    }
+    			
+    					$('#paging-area').append(pagingBtn);
+    				}     
+    				
+    				// 다음버튼
+    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage()">Next</button>');
+	    				if(parseInt($("#currentPage").val()) == maxPage){
+	    					nextButton.css("display", "none");
+	    				}
+	    				$('#paging-area').append(nextButton);
+
+				},
+				error : function() {
+					alert("통신 실패");
+				}
+			})
+			
+		}
+	</script>
 
 </div>
 </body>

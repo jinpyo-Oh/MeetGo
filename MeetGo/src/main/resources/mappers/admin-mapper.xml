@@ -17,6 +17,15 @@
        <result column="GOSU_NO" property="gosuNo"/>
        <result column="USER_NO" property="userNo"/>
     </resultMap>
+    
+    <resultMap id="reportList" type="report">
+    	<result column="REPORT_NO" property="reportNo"/>
+    	<result column="REPORT_USER" property="reportUser"/>
+    	<result column="REPORTED_USER" property="reportedUser"/>
+    	<result column="REPORT_CATEGORY" property="reportCategory"/>
+    	<result column="REPORT_CONTENT" property="reportContent"/>
+    	<result column="REPORT_STATUS" property="reportStatus"/>
+    </resultMap>
 
 
 	<!-- 관리자 계약관리용 -->
@@ -96,5 +105,30 @@
              	 WHERE E.GOSU_NO = M.USER_NO) as "gosuName"
           FROM ESTIMATE E
          WHERE EST_NO = #{eno}	
+	</select>
+	
+	<!-- 신고 내역 카운트 -->
+	<select id="selectReportListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT
+	<choose>
+		<when test="reportStatus != 9">
+			WHERE REPORT_STATUS = #{reportStatus}
+		</when>
+		<otherwise>
+		</otherwise>
+	</choose>
+	</select>
+	
+	<select id="selectReportList" parameterType="_int" resultMap="reportList">
+		SELECT *
+			FROM REPORT
+		<choose>
+			<when test="reportStatus != 9">
+				WHERE REPORT_STATUS = #{reportStatus}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 	</select>
 </mapper>
