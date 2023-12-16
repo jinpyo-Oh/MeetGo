@@ -480,6 +480,12 @@
          WHERE R.REV_NO = #{revNo}
 	</select>
 
-
-
+    <select id="selectAllMember" resultMap="memberResultSet">
+        select *
+        from member
+    </select>
+    <select id="countAllMember" resultType="_int">
+        select count(*)
+        from member
+    </select>
 </mapper>

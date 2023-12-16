@@ -4,10 +4,9 @@
 <head>
 	<title>adminHeader</title>
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -158,7 +157,52 @@
         margin-left: 60px;
 		margin-top: 10px;
     }
+    .pageTitleArea {
+        margin-top: 20px;
+    }
 
+    .pageTitleArea hr {
+        width: 1000px;
+        border: 1px solid black;
+    }
+
+    .pageTitle {
+        font-size: 30px;
+    }
+    .meetgo-btn {
+        background-color: white;
+        font-family: 'Noto Sans KR', sans-serif;
+        border: 2px solid #2A8FF7;
+        color: #2A8FF7;
+        margin: 5px;
+        border-radius: 0.4em;
+        box-sizing: border-box;
+    }
+    .meetgo-btn:hover {
+        background-color: #2A8FF7;
+        border : 2px solid black;
+        box-sizing: border-box;
+        color: white;
+    }
+    .meetgo-red {
+        border: 1px solid red;
+        color : red;
+    }
+    .meetgo-red:hover {
+        background-color: red;
+        border: 1px solid black;
+        color: white;
+    }
+    .w-100 {
+        width: 100%;
+		box-sizing: border-box;
+    }
+	.w-80 {
+		width: 80%;
+	}
+    .w-50{
+        width: 50%;
+    }
 </style>
 <body>
 <header class="admin-header">

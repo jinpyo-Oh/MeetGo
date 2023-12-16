@@ -186,8 +186,8 @@ public class GosuController {
        PageInfo pi = new PageInfo(); // PageInfo 초기화
        String region = ""; // 지역 문자열 초기화
        
-       int pageLimit = 5;
-       int boardLimit = 5; // 버튼 5개, 리스트 출력 5개 제한
+           int pageLimit = 5;
+           int boardLimit = 5; // 버튼 5개, 리스트 출력 5개 제한
        
        // 고수의 지역(시/도 - 전체 시 or 전국)
        if(regionSub.equals("전체") || regionMain.equals("전체")) {
