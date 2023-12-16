@@ -251,32 +251,9 @@
 	            
 	            <br><br><br><br>
 	            
-	             <c:if test="${ not empty requestScope.comList }">
-		            <div id="pagingArea">
-	                	<c:choose>
-			        		<c:when test="${ requestScope.pi2.currentPage eq 1 }">
-			        			<button class="pagingBtn" disabled style="display:none;">prev</button>
-			        		</c:when>
-			        		<c:otherwise>
-			        			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi2.currentPage - 1 }'">prev</button>
-			        		</c:otherwise>
-			        	</c:choose>            
-			             <c:forEach var="p" begin="${ requestScope.pi2.startPage }" 
-			                    					end="${ requestScope.pi2.endPage }"
-			                    					step="1">
-						<button class="pageBtn" onclick="location.href='estimate.me?cPage=${ p }'">${ p }</button>
-			            </c:forEach>          
-			            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
-			            <c:choose>
-				       		<c:when test="${ requestScope.pi2.currentPage eq requestScope.pi2.endPage }">
-				       			<button class="pagingBtn" disabled style="display:none;">next</button>
-				       		</c:when>
-				       		<c:otherwise>
-				       			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi2.currentPage + 1 }'">next</button>
-				       		</c:otherwise>
-			       		</c:choose> 
-	            	</div>
-	             </c:if>
+	            <div id="pagingArea">
+                	
+            	</div>
 	            
 	            
         	</div>
@@ -285,6 +262,7 @@
     <script>
     	$(function(){
     		
+    		
     		let $inCom = $("#type").find(".type").eq(0);
     		let $com = $("#type").find(".type").eq(1);
     		
@@ -292,16 +270,12 @@
     			$(this).css("border-bottom", "3px solid #2A8FF7");
     			$com.css("border-bottom", "none");
     			
-    			$("#inCom").show();
-    			$("#com").hide();
     		});
     		
     		$com.click(function(){
     			$(this).css("border-bottom", "3px solid #2A8FF7");
     			$inCom.css("border-bottom", "none");
     			
-    			$("#com").show();
-    			$("#inCom").hide();
     		});
     	});
     	

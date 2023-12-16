@@ -37,8 +37,12 @@ public class AdminEstimateServiceImpl implements AdminEstimateService {
 
 	@Override
 	public ArrayList<Estimate> adminEstimateInComplList(PageInfo pi) {
-		// TODO Auto-generated method stub
 		return adminDao.adminEstimateInComplList(sqlSession, pi);
+	}
+
+	@Override
+	public EstimateDto adminEstimateDetail(int eno) {
+		return adminDao.adminEstimateDetail(sqlSession, eno);
 	}
 	
 

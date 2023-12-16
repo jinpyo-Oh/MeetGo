@@ -42,5 +42,9 @@ public class AdminEstimateDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.adminEstimateInComplList", null ,rowBounds);
 	}
 
+	public EstimateDto adminEstimateDetail(SqlSessionTemplate sqlSession, int eno) {
+		return sqlSession.selectOne("adminMapper.adminEstimateDetail", eno);
+	}
+
 
 }

@@ -74,4 +74,27 @@
 		 WHERE STATUS = '5'
     </select>
 	
+	<select id="adminEstimateDetail" parameterType="_int" resultType="estimateDto">
+		SELECT EST_NO as "estimate.estNo"
+             , EST_TITLE as "estimate.estTitle"
+             , EST_CONTENT as "estimate.estContent"
+             , EST_ADDRESS as "estimate.estAddress"
+             , EST_SERVICE as "estimate.estService" 
+             , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+             , END_DATE as "estimate.endDate"
+             , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+             , EST_PRICE as "estimate.estPrice"
+             , STATUS as "estimate.status"
+             , TID as "estimate.tid"
+             , GOSU_NO as "estimate.gosuNo"
+             , USER_NO as "estimate.userNo"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE E.USER_NO = M.USER_NO) as "userName"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE E.GOSU_NO = M.USER_NO) as "gosuName"
+          FROM ESTIMATE E
+         WHERE EST_NO = #{eno}	
+	</select>
 </mapper>

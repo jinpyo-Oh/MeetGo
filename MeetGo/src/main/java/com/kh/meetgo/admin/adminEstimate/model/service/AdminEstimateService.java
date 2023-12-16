@@ -19,4 +19,7 @@ public interface AdminEstimateService{
 
 	// 완료된 견적서 조회 (select)
 	ArrayList<Estimate> adminEstimateInComplList(PageInfo pi);
+	
+	// 견적서 상세 조회 (select)
+	EstimateDto adminEstimateDetail(int eno);
 }

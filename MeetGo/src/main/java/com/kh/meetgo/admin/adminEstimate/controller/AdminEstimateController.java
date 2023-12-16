@@ -18,10 +18,11 @@ import com.kh.meetgo.admin.adminEstimate.model.service.AdminEstimateService;
 import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
+import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
 
 @Controller
-public class AdminController {
+public class AdminEstimateController {
 
 	@Autowired
 	private AdminEstimateService adminService;
@@ -29,34 +30,13 @@ public class AdminController {
 	@Autowired
 	private S3Uploader s3Uploader;
 	
+// 관리자페이지 계약관리 (시작)
 	@RequestMapping("adminEstimateList.ad")
 	public ModelAndView adminEstimateList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage, ModelAndView mv) {
 		
-//		int listCount1 = adminService.adminEstimateComplListCount();
-//
-//		// System.out.println(listCount1);
-//		// System.out.println(listCount2);
-//		
-//		int pageLimit = 5;
-//		int boardLimit = 5;
-//		
-//		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
-//		
-//
-//		System.out.println(pi1);
-//		System.out.println(pi2);
-//		
-//		ArrayList<EstimateDto> list1 = adminService.adminEstimateComplList(pi2);
-		
-//		
-
 		mv.setViewName("admin/estimate/adminEstimateList");		
-		//.addObject("incomList", list1).addObject("pi1", pi1)
-	      //.addObject("comList", list2).addObject("pi2", pi2)
-		
 		return mv;
 	}
-	
 	
 	@ResponseBody
 	@GetMapping("adminInComEst.ad")
@@ -83,30 +63,55 @@ public class AdminController {
 		return new Gson().toJson(map);
 	}
 	
-//	@Autowired
-//	private AdminEstimateService adminService;
-//	
-//	@Autowired
-//	private S3Uploader s3Uploader;
-//	
-//	@RequestMapping("adminEstimateList.ad")
-//	public void adminEstimateList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage) {
-//		
-//		int listCount1 = adminService.adminEstimateComplListCount();
-//		int listCount2 = adminService.adminEstimateInComplListCount();
-//
-//		// System.out.println(listCount1);
-//		// System.out.println(listCount2);
-//		
-//		int pageLimit = 5;
-//		int boardLimit = 5;
-//		
-//		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
-//		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
-//
-//		// ArrayList<Estimate> list1 = 
-//		
-//		
-//	}
-
+	@ResponseBody
+	@GetMapping("adminComEst.ad")
+	public String adminComList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage, Model model) {
+		
+		int listCount1 = adminService.adminEstimateComplListCount();
+		
+		// System.out.println(listCount2);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
+		
+		ArrayList<EstimateDto> list1 = adminService.adminEstimateComplList(pi1);
+				
+		model.addAttribute("cPage", currentPage);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		// System.out.println(pi1);
+		// System.out.println(list1);
+		
+		
+		map.put("pi1", pi1);
+		map.put("list1", list1);
+		
+		return new Gson().toJson(map);
+	}
+	
+	@RequestMapping("adminEstimateDetail.ad")
+	public ModelAndView adminEstimateDetail(String eno, ModelAndView mv) {
+		
+		int estNo = 0;
+		
+		if(!eno.isEmpty()) {
+			estNo = Integer.parseInt(eno);
+		}
+		
+		EstimateDto est = adminService.adminEstimateDetail(estNo);
+		
+		System.out.println(est.getEstimate());
+		System.out.println(est.getUserName());
+		System.out.println(est.getGosuName());
+		
+		
+		mv.addObject("est", est).setViewName("admin/estimate/adminEstimateDetail");
+		
+		return mv;
+	}
+	
+// 관리자페이지 계약관리 (끝)	
 }
