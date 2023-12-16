@@ -17,6 +17,6 @@ public class AdminReporyControoler {
 
     @RequestMapping(value = "adminReportList.ad")
     public String adminMainPage(){
-        return "admin/report/reportList";
+        return "admin/report/adminReportList";
     }
 }
