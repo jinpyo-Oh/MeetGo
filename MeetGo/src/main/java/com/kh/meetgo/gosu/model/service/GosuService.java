@@ -38,5 +38,10 @@ public interface GosuService {
 	
 	// 고수찾기 - 해당 고수 포폴정보조회
 	ArrayList<PofolOpt> showGosuPofol(int gosuNo);
+	
+	// 고수 좋아요검사
+	int countGosuLike(int userNo, int gosuNo);
+	int deleteGosuLike(int userNo, int gosuNo);
+	int insertGosuLike(int userNo, int gosuNo);
 			
 }

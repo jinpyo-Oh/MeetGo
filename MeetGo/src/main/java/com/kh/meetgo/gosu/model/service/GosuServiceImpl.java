@@ -40,9 +40,23 @@ public class GosuServiceImpl implements GosuService {
 	}
 	
 	// 고수찾기 이미지 불러오기
+	@Override
 	public ArrayList<GosuImg> getGosuImg(int gosuNo){
 		return gosuDao.getGosuImg(sqlSession, gosuNo);
 	}
+	// 고수 좋아요 기록 검사
+	@Override
+	public int countGosuLike(int userNo, int gosuNo) {
+		return gosuDao.countGosuLike(sqlSession, userNo, gosuNo);
+	}
+	@Override
+	public int deleteGosuLike(int userNo, int gosuNo) {
+		return gosuDao.deleteGosuLike(sqlSession, userNo, gosuNo);
+	}
+	public int insertGosuLike(int userNo, int gosuNo) {
+		return gosuDao.insertGosuLike(sqlSession, userNo, gosuNo);
+	}
+	
 
 	// 고수 등록용 메소드
 	@Override

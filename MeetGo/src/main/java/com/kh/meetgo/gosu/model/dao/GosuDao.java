@@ -70,7 +70,28 @@ public class GosuDao {
 	public ArrayList<GosuOpt> getGosuReviewImg(SqlSessionTemplate sqlSession, int gosuNo) {
 		return (ArrayList)sqlSession.selectList("gosuMapper.getGosuReviewImg", gosuNo);
 	}
-
+	
+	// 고수좋아요 검사
+	public int countGosuLike(SqlSessionTemplate sqlSession, int userNo, int gosuNo) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("userNo", userNo);
+	    params.put("gosuNo", gosuNo);
+		return sqlSession.selectOne("gosuMapper.countGosuLike", params);
+	}
+	// 고수 좋아요 삭제 or 추가
+	public int deleteGosuLike(SqlSessionTemplate sqlSession, int userNo, int gosuNo) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("userNo", userNo);
+	    params.put("gosuNo", gosuNo);
+		return sqlSession.delete("gosuMapper.deleteGosuLike", params);
+	}
+	public int insertGosuLike(SqlSessionTemplate sqlSession, int userNo, int gosuNo) {
+		Map<String, Object> params = new HashMap<>();
+	    params.put("userNo", userNo);
+	    params.put("gosuNo", gosuNo);
+		return sqlSession.insert("gosuMapper.insertGosuLike", params);
+	}
+	
 	// 고수 등록용 메소드
 	public int insertGosu(SqlSessionTemplate sqlSession, Gosu gosu) {
 		

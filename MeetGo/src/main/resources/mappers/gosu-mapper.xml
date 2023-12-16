@@ -340,6 +340,26 @@
 	   WHERE R.GOSU_NO = #{gosuNo}
 	</select>
 	
+	<select id="countGosuLike" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		  FROM GOSU_LIKE
+		 WHERE USER_NO = #{userNo}
+		   AND GOSU_NO = #{gosuNo}
+	</select>
+	
+	<delete id="deleteGosuLike" parameterType="hashMap">
+		DELETE FROM GOSU_LIKE
+		WHERE GOSU_NO = #{gosuNo}
+		  AND USER_NO = #{userNo}
+	</delete>
+	
+	<insert id="insertGosuLike" parameterType="hashMap">
+		INSERT INTO GOSU_LIKE(GOSU_NO
+				   			, USER_NO)
+				       VALUES(#{gosuNo}
+				       		, #{userNo})
+	</insert>
+	
 	<insert id="insertGosu" parameterType="gosu">
 		INSERT INTO GOSU(GOSU_NO
 					   , INTRODUCTION

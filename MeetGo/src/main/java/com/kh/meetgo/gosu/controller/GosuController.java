@@ -16,14 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.service.GosuServiceImpl;
 import com.kh.meetgo.gosu.model.vo.GosuImg;
-import com.kh.meetgo.gosu.model.vo.Pofol;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -222,10 +220,18 @@ public class GosuController {
     // 고수 상세정보로 포워딩
     @ResponseBody
     @RequestMapping(value = "gosuDetail.go")
-    public ModelAndView gosuDetail(String gno
-    							 , ModelAndView mv) {
+    public ModelAndView gosuDetail(String gno,
+    							HttpSession session,
+    							ModelAndView mv) {
     	
     	int gosuNo = Integer.parseInt(gno);
+    	
+    	int isLiked = 0;
+    	
+    	if(session.getAttribute("loginUser") != null) {
+    		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+        	isLiked = gosuService.countGosuLike(userNo, gosuNo);
+    	}
     	
     	ArrayList<GosuOpt> list = gosuService.gosuDetail(gosuNo);
     	ArrayList<GosuImg> imageList = gosuService.getGosuImg(gosuNo);
@@ -234,16 +240,38 @@ public class GosuController {
     	ArrayList<GosuOpt> reviewList = gosuService.getGosuReview(gosuNo);
     	ArrayList<GosuOpt> reviewImgList = gosuService.getGosuReviewImg(gosuNo);
     	
+    	
+    	
     	// gno의 고수정보와 고수 이미지 리턴
     	mv.addObject("list", list)
     	.addObject("imageList", imageList).addObject("pofolList", pofolList)
         .addObject("gno", gosuNo)
         .addObject("reviewList", reviewList).addObject("reviewImgList", reviewImgList)
+        .addObject("isLiked", isLiked)
     	.setViewName("gosuSearch/serviceDetail");
     	
     	return mv;
     }
-    
+     
+    // 고수 좋아요 등록기능
+    @ResponseBody
+    @RequestMapping(value = "enrollGosuLike.go", produces = "text/json; charset=UTF-8")
+    public String enrollGosuLike(String userNumber, String gosuNumber) {
+    	
+    	int userNo = Integer.parseInt(userNumber);
+    	int gosuNo = Integer.parseInt(gosuNumber);
+    	
+    	int isLiked = gosuService.countGosuLike(userNo, gosuNo);
+    	
+    	if(isLiked > 0) { // 좋아요 기록 있을 시 delete
+    		gosuService.deleteGosuLike(userNo, gosuNo);
+    		return new Gson().toJson("좋아요가 취소되었습니다.");
+    	} else { // 좋아요 기록 없을 시 추가
+    		gosuService.insertGosuLike(userNo, gosuNo);
+    		return new Gson().toJson("좋아요에 추가되었습니다");
+    	}
+    	
+    }
 
     
 }
