@@ -168,21 +168,18 @@
 	       	function paging(num) {
 	       		currentPage = num;
 	       		$("#currentPage").val(num);
-	       		optionSelect();
 	       		scrollToTop();
 	       	}
 	       	
 	       	function prevPage() {
 	       		num = parseInt($currentPage) - 1;
 	       		$("#currentPage").val(num);
-	       		optionSelect();
 	       		scrollToTop();
 	       	}
 	       	
 	       	function nextPage() {
 	       		num = parseInt($currentPage) + 1;
 	       		$("#currentPage").val(num);
-	       		optionSelect();
 	       		scrollToTop();
 	       	}
 	       	
