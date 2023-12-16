@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
-<style>
+<script src="https://kit.fontawesome.com/bb1372cd06.js" crossorigin="anonymous"></script><style>
 	.detail{
         width: 100%;
         border-style: hidden;
@@ -53,31 +52,25 @@
     	background-color: white;
     	border: 0;
     }
+    
+    
 </style>
 
 </head>
 <body>
-	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="../common/adminHeader.jsp" />
 	
 	<div style="width: 80%; margin: auto;">
         
         <div style="text-align: center; width: 60%; margin: auto;">
             <br>
+            <a class="back" href="adminReviewList.ad" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+			<a class="delete" data-toggle="modal" data-target="#myModal">삭제하기 X</a>
+		
             <br>
-            <c:choose>
-            	<c:when test="${ sessionScope.loginUser.userStatus eq 1 }">
-            		<a class="back" href="myReview.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
-				</c:when>
-				<c:otherwise>
-            		<a class="back" href="WrittenReview.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
-				</c:otherwise>
-			</c:choose>
-			<c:choose>
-             	<c:when test="${ requestScope.list.review.gosuNo ne sessionScope.loginUser.userNo }">
-            	    <a class="delete" data-toggle="modal" data-target="#myModal">삭제하기 X</a>
-             	</c:when>
-            </c:choose>
-            <h2>나의 리뷰</h2>
+			<br>
+			
+            <h2>${ requestScope.list.estTitle }(${ requestScope.list.review.revNo })번 계약에 대한 리뷰</h2>
        
            <br><br>
     		
@@ -91,8 +84,12 @@
 	                        <td style="width: 35%;">${ requestScope.list.estTitle }</td>
 	                    </tr>
 	                    <tr class="cons">
-	                        <td class="fix" >고수명</td>
+	                        <td class="fix">고수명</td>
 	                        <td>${ requestScope.list.gosuName }</td>
+	                       	<td class="fix">고객명</td>
+	                       	<td>${ requestScope.list.userName }</td>
+	                    </tr>
+	                    <tr class="cons">    
 	                        <td class="fix" >별점</td>
 	                        <td>
 	                            <c:choose>
@@ -140,6 +137,8 @@
 									</c:when>
 								</c:choose>
 	                        </td>
+	                        <td class="fix">작성일</td>
+	                        <td>${ requestScope.list.review.revDate }</td>
 	                    </tr>
 	                
 	                    <tr style="height: 320px;">
@@ -174,8 +173,6 @@
                 
                 <br>
 
-                
-                
                 <!-- The Modal -->
 				  <div class="modal fade" id="myModal">
 				    <div class="modal-dialog modal-dialog-centered">
@@ -225,6 +222,5 @@
 	
 	<br><br><br><br>
 	
-	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

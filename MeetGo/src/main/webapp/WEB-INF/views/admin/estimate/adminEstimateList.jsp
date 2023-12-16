@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style>
     .table-hover{
-        width: 800px; 
+        width: 960px; 
         text-align: center;
         padding: auto;
         border-radius: 5px;
@@ -69,7 +69,7 @@
 </head>
 <body>
 	
-	<jsp:include page="../../common/header.jsp" />
+	<jsp:include page="../common/adminHeader.jsp" />
 	<br>	
 	
     <div style="width: 80%; margin: auto; min-height: 400px;">
@@ -82,36 +82,29 @@
                </tr>
             </table>
 			
-            <br><br><br>
+            <br><br>
         	<div id="inCom">
 	            <table class="table-hover" align="center">
 	                <thead style="height: 35px;">
 	                    <tr >
-	                        <th style="width: 10%;">계약번호</th>
-	                        <th style="width: 25%;">계약명</th>
-	                        <th style="width: 10%;">고수번호</th>
-	                        <th style="width: 10%;">고객번호</th>
-	                        <th style="width: 20%;">시작일</th>
-	                        <th style="width: 15%;">현재상태</th>
+	                        <th style="width: 100px;">계약번호</th>
+	                        <th style="width: 235px;">계약명</th>
+	                        <th style="width: 100px;">고수번호</th>
+	                        <th style="width: 100px;">고객번호</th>
+	                        <th style="width: 190px;">시작일</th>
+	                        <th style="width: 145px;;">현재상태</th>
 	                    </tr>
 	                </thead>
 	                
-			                <tbody id="inComTbody">
-				                    
-			                </tbody>
-	                	
-	                		<!-- 
-	                		<tbody>
-	                			<tr>
-	                				<td colspan="6" class="none">현재 진행중인 견적서가 없습니다.</td>
-	                			</tr>
-	                		</tbody> -->
+	                <tbody id="listBody">
+		                    
+	                </tbody>
 	            </table>
 	            
-	            <br><br><br><br>
-		            <div id="pagingArea">
-	                	
-	            	</div>
+	            <br><br>
+	            <div id="pagingArea">
+                	
+            	</div>
         	</div>
             
     </div>
@@ -143,7 +136,7 @@
     	
     	function inComEst(page){
     		
-    		$('#inComTbody').empty();
+    		$('#listBody').empty();
     		$('#pagingArea').empty();
     		
     		$.ajax({
@@ -157,13 +150,13 @@
     		    	// console.log(data.pi2);
 	    		    for(let i = 0; i < list.length; i++){
 	    		    	let content =
-    		    		'<tr>'+
-	                    '<td class="eno">'+list[i].estNo+'</td>' +
-	                    '<td class="truncate">'+list[i].estTitle+'</td>' +
-	                    '<td>'+list[i].gosuNo+'</td>' +
-	                    '<td>'+list[i].userNo+'</td>' +
-	                    '<td>'+list[i].startDate+'</td>' +
-	                    '<td>';
+	    		    		'<tr>'+
+		                    '<td class="eno">'+list[i].estNo+'</td>' +
+		                    '<td class="truncate">'+list[i].estTitle+'</td>' +
+		                    '<td>'+list[i].gosuNo+'</td>' +
+		                    '<td>'+list[i].userNo+'</td>' +
+		                    '<td>'+list[i].startDate+'</td>' +
+		                    '<td>';
 	                    	if(list[i].status == 3){
 	                    		content += '결제 대기';
 	                    	} else {
@@ -173,7 +166,7 @@
 	                    content += '</td>' +
 	                '</tr>';
 						// console.log(content);
-	                	$('#inComTbody').append(content);
+	                	$('#listBody').append(content);
 	    		    }
 	    		    
 	    		    let paging = '';
@@ -221,7 +214,7 @@
     		
     	function comEst(page){
     		
-    		$('#inComTbody').empty();
+    		$('#listBody').empty();
     		$('#pagingArea').empty();
     		
     		$.ajax({
@@ -245,7 +238,7 @@
 	                	'</tr>';
 	                	
 						// console.log(content);
-	                	$('#inComTbody').append(content);
+	                	$('#listBody').append(content);
 	    		    }
 	    		    
 	    		    let paging = '';
@@ -321,6 +314,5 @@
 		    	
     </script>
 	<br><br><br><br>
-	<jsp:include page="../../common/footer.jsp" />
 </body>
 </html>

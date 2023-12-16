@@ -17,8 +17,14 @@
        <result column="GOSU_NO" property="gosuNo"/>
        <result column="USER_NO" property="userNo"/>
     </resultMap>
-
-
+	
+    <resultMap id="reviewImgResultSet" type="reviewImg">
+       <result column="IMG_NO" property="imgNo"/>
+       <result column="REV_IMG_URL" property="revImgUrl"/>
+       <result column="REV_NO" property="revNo"/>
+    </resultMap>
+	
+	
 	<!-- 관리자 계약관리용 -->
 	<select id="adminEstimateInComplListCount" resultType="_int">
 		SELECT COUNT(*)
@@ -97,4 +103,63 @@
           FROM ESTIMATE E
          WHERE EST_NO = #{eno}	
 	</select>
+	<!-- 관리자 계약관리용 끝 -->
+	
+	<!-- 관리자 리뷰관리용 -->
+	<select id="selectReviewListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM REVIEW
+		 WHERE REV_STATUS = '1'
+	</select>
+ 
+	<select id="selectReviewList" resultType="reviewDto">
+		SELECT R.REV_NO as "review.revNo"
+             , R.REV_CONTENT as "review.revContent"
+             , R.REV_POINT as "review.revPoint"
+             , TO_CHAR(R.REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+             , R.GOSU_NO as "review.gosuNo"
+             , R.USER_NO as "review.userNo"
+             , R.EST_NO as "review.estNo"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.USER_NO = M.USER_NO) as "userName"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.GOSU_NO = M.USER_NO) as "gosuName"
+             , (SELECT EST_TITLE
+             	  FROM ESTIMATE E
+             	 WHERE R.EST_NO = E.EST_NO) as "estTitle"
+          FROM REVIEW R
+         WHERE REV_STATUS = '1'
+         ORDER BY REV_NO DESC
+	</select>
+	
+	<select id="adminReviewDetail" parameterType="_int" resultType="reviewDto">
+		SELECT REV_NO AS "review.revNo"
+            , REV_CONTENT AS "review.revContent"
+            , REV_POINT AS "review.revPoint"
+            , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
+            , REV_STATUS AS "review.revStatus"
+            , EST_NO AS "review.estNo"
+            , USER_NO AS "review.userNo"
+            , GOSU_NO AS "review.gosuNo"
+            , (SELECT USER_NAME
+                 FROM MEMBER
+                WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
+            , (SELECT USER_NAME
+                 FROM MEMBER
+                WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
+            , (SELECT EST_TITLE
+                 FROM ESTIMATE
+                WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
+         FROM REVIEW R
+        WHERE R.REV_NO = #{rno}
+	</select>
+	
+	<select id="adminReviewImg" parameterType="_int" resultMap="reviewImgResultSet">
+       SELECT *
+         FROM REVIEW_IMG
+        WHERE REV_NO = #{rno}
+    </select>
+	<!-- 관리자 리뷰관리용 끝 -->
 </mapper>

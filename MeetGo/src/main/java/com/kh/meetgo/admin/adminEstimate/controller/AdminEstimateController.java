@@ -19,7 +19,9 @@ import com.kh.meetgo.common.config.S3Uploader;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
+import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 
 @Controller
 public class AdminEstimateController {
@@ -30,7 +32,7 @@ public class AdminEstimateController {
 	@Autowired
 	private S3Uploader s3Uploader;
 	
-// 관리자페이지 계약관리 (시작)
+	// 관리자페이지 계약관리 (시작)
 	@RequestMapping("adminEstimateList.ad")
 	public ModelAndView adminEstimateList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage, ModelAndView mv) {
 		
@@ -47,7 +49,7 @@ public class AdminEstimateController {
 		// System.out.println(listCount2);
 		
 		int pageLimit = 5;
-		int boardLimit = 5;
+		int boardLimit = 10;
 		
 		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
 		
@@ -72,7 +74,7 @@ public class AdminEstimateController {
 		// System.out.println(listCount2);
 		
 		int pageLimit = 5;
-		int boardLimit = 5;
+		int boardLimit = 10;
 		
 		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
 		
@@ -103,15 +105,76 @@ public class AdminEstimateController {
 		
 		EstimateDto est = adminService.adminEstimateDetail(estNo);
 		
-		System.out.println(est.getEstimate());
-		System.out.println(est.getUserName());
-		System.out.println(est.getGosuName());
+		// System.out.println(est.getEstimate());
+		// System.out.println(est.getUserName());
+		// System.out.println(est.getGosuName());
 		
 		
 		mv.addObject("est", est).setViewName("admin/estimate/adminEstimateDetail");
 		
 		return mv;
 	}
+	// 관리자페이지 계약관리 (끝)
 	
-// 관리자페이지 계약관리 (끝)	
+	// 관리자페이지 리뷰관리 (시작)
+	@RequestMapping("adminReviewList.ad")
+	public ModelAndView adminReviewList(@RequestParam(value = "cPage", defaultValue ="1") int currentPage, ModelAndView mv) {
+		
+		int listCount = adminService.selectReviewListCount();
+		
+		// System.out.println(listCount);
+	
+		int pageLimit = 5;
+		int boardLimit = 10;
+	
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<ReviewDto> list = adminService.selectReviewList(pi);
+		
+		// System.out.println(list);
+		
+		mv.addObject("pi", pi).addObject("list", list).setViewName("admin/estimate/adminReviewList");
+		
+		return mv;
+	}
+	
+	@RequestMapping("adminReviewDetail.ad")
+	public ModelAndView adminReviewDetail(String rno, ModelAndView mv) {
+		
+		// System.out.println(rno);
+		
+		int revNo = 0;
+		
+		if(!rno.isEmpty()) {
+			revNo = Integer.parseInt(rno);
+		}
+		
+		ReviewDto list = adminService.adminReviewDetail(revNo);
+		ArrayList<ReviewImg> imgList = adminService.adminReviewImg(revNo);
+		
+		// System.out.println(list);
+		// System.out.println(imgList);
+		
+		if(!imgList.isEmpty()) {
+
+			mv.addObject("list", list).addObject("imgList", imgList)
+					.setViewName("admin/estimate/adminReviewDetail");
+		} else {
+
+			mv.addObject("list", list).setViewName("admin/estimate/adminReviewDetail");
+		}
+		
+		
+		return mv;
+	}
+	
+	// 관리자페이지 리뷰관리 (끝)
+	
+	
+	
+	
+	
+	
+	
+	
 }

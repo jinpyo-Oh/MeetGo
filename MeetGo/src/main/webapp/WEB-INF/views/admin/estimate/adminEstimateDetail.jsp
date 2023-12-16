@@ -46,21 +46,20 @@
 </head>
 <body>
     
-    <jsp:include page="../../common/header.jsp" />
+    <jsp:include page="../common/adminHeader.jsp" />
 
     <div style="width: 80%; margin: auto;">
         
         <div style="text-align: center; width: 60%; margin: auto;">
             <br>
-            <br>
             <a class="back" href="adminEstimateList.ad" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
               <c:choose>
                    <c:when test="${ requestScope.est.estimate.status eq 4 }">
                        <button class="btn btn-danger btn-sm" id="combtn">강제 서비스 완료</button> 
-                       <br><br>
+                       <br>
                    </c:when>
 				</c:choose>	
-            <br>
+            <br><br>
 			<div align="center">
 	            <h2><b>계약서</b></h2>
 			</div>
@@ -141,6 +140,7 @@
 							estNo : '${ requestScope.est.estimate.estNo }'
 						}, success : function(){
 							location.reload(true);
+							alertify.alert('Alert', '${ sessionScope.alertMsg }', function(){ alertify.success('Ok'); });
 						}, error : function(){
 							alert("서비스 완료에 실패하였습니다! 관리자에게 문의하세요.");
 						}
@@ -155,7 +155,6 @@
         
     </div>
 
-    <jsp:include page="../../common/footer.jsp" />
 
 </body>
 </html>

@@ -32,7 +32,10 @@
      
     <!-- 부트스트랩 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-
+	
+	<!-- 별, 뒤로가기 아이콘 -->
+	<script src="https://kit.fontawesome.com/bb1372cd06.js" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/53a8c415f1.js" crossorigin="anonymous"></script>
 </head>
 <style>
     html, body {

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
+import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 
 @Repository
 public class AdminEstimateDao {
@@ -46,5 +48,38 @@ public class AdminEstimateDao {
 		return sqlSession.selectOne("adminMapper.adminEstimateDetail", eno);
 	}
 
+	public int selectReviewListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectReviewListCount");
+	}
 
+	public ArrayList<ReviewDto> selectReviewListCount(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.selectReviewList", null, rowBounds);
+	}
+
+	public ReviewDto adminReviewDetail(SqlSessionTemplate sqlSession, int rno) {
+		return sqlSession.selectOne("adminMapper.adminReviewDetail", rno);
+	}
+
+	public ArrayList<ReviewImg> adminReviewImg(SqlSessionTemplate sqlSession, int rno) {
+		return (ArrayList)sqlSession.selectList("adminMapper.adminReviewImg", rno);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
