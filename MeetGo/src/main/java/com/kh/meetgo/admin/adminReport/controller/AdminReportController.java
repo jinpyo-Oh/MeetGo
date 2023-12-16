@@ -56,6 +56,7 @@ public class AdminReportController {
     	
     	list = adminReportService.selectReportList(reportStatus, pi);
     	
+    	
     	Map<String, Object> map = new HashMap<>();
 
         map.put("list", list);

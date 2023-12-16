@@ -7,7 +7,7 @@
 	<title>신고 목록</title>
 	<style>
         .outer {
-            width: 1000px;
+            width: 1200px;
             margin: 20px auto 100px;
             box-sizing: border-box;
         }
@@ -45,7 +45,7 @@
         }
 
         #report-list {
-            width: 100%;
+            width: 960px;
             text-align: center;
         }
 
@@ -59,7 +59,7 @@
         }
 
         /* 페이징버튼 영역 */
-        #pagingBtn-area {
+        #paging-area {
             margin-top: 80px;
         }
 
@@ -178,7 +178,7 @@
 			let $option = option;
 			let $currentPage = $("#currentPage").val();
 			
-			$("#report-list").empty();
+			$("#report-list-content").empty();
 			$("#paging-area").empty();
 			
 			$.ajax({
@@ -195,13 +195,23 @@
 					
 					for(let i = 0; i < list.length; i++){
 						
+						let reportStatus = "";
+						
+						if(list[i].reportStatus == 0){
+							reportStatus = '<span style="color:lightgray;">미확인</span>';
+						} else if (list[i].reportStatus == 1){
+							reportStatus = '<span style="color:red;">처리대기</span>';
+						} else {
+							reportStatus = '<span style="color:green;">처리완료</span>';
+						}
+						
 						let resultStr = '<tr>'
 										+ '<td>' + list[i].reportNo +  '</td>'
 										+ '<td>' + list[i].reportedUser +  '</td>'
 										+ '<td>' + list[i].reportUser +  '</td>'
 										+ '<td>' + list[i].reportCategory +  '</td>'
-										+ '<td>' + list[i].reportStatus +  '</td>'
-										+ '</tr>';	
+										+ '<td>' + reportStatus +  '</td>'
+										+ '</tr>';
 										
 						$("#report-list-content").append(resultStr);
 					}

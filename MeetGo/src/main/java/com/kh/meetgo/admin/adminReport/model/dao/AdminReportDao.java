@@ -22,7 +22,7 @@ public class AdminReportDao {
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("adminMapper.selectReportListCount", reportStatus, rowBounds);
+		return (ArrayList)sqlSession.selectList("adminMapper.selectReportList", reportStatus, rowBounds);
 	}
 	
 }
