@@ -91,11 +91,6 @@
                         <input type="text" class="form-control"
                         value="${requestScope.list[0].pofol.pofolPrice}"
                         id="pofolPrice" name="pofolPrice">
-                        <span><b>원</b></span>
-                        <select class="form-control" id="priceOption">
-                            <option>직접입력</option>
-                            <option>협의 후 결정</option>
-                        </select>
                     </td>
                 </tr>
                 </thead>
@@ -122,7 +117,6 @@
                 					<img src="${item.pofolImgUrl}" class="originImg" id="${item.pofolImgNo}">
                 					<input style="display:none;" type="file" name="pofolImgUrl"
                 					class="fileInput" multiple data-img-id="${item.pofolImgNo}">
-                					<span>${item.pofolImgNo}</span>
                 					<input type="hidden" name="pofolImgNo" value="${item.pofolImgNo}">
                 				</c:forEach>
                 				
