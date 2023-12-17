@@ -61,11 +61,16 @@
         display:none;
         border: 1px solid black;
     }
+	.nav-list a {
+		text-decoration: none;
+	}
     .navItem:hover>.submenu{
         display:block;
         color: white;
     }
-
+	.nav-list  a:hover {
+		color: black;
+	}
     .submenu>li{
         padding:5px 10px 5px 10px;
     }
@@ -216,6 +221,7 @@
     .w-50{
         width: 50%;
     }
+
 </style>
 <body>
 <header class="admin-header">
@@ -226,7 +232,7 @@
 		</div>
 		<div class="nav-list">
 			<ul>
-				<li class="home">
+				<li class="navItem">
 					<a href="adminMainPage.ad">Home</a>
 				</li>
 				<li class="navItem">

@@ -55,6 +55,7 @@ public class AdminMemberController {
         int listCount = adminMemberService.countAllGosu();
         PageInfo pi = Pagination.getPageInfo(listCount, cPage, pageLimit, boardLimit);
         ArrayList<Gosu> list = adminMemberService.selectAllGosu(pi);
+        System.out.println(list);
         Map<String, Object> map = new HashMap<>();
         map.put("gosuList", list);
         map.put("pi", pi);

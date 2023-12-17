@@ -5,7 +5,7 @@
 </head>
 <style>
     #list-area {
-        width: 1300px;
+        width: 1100px;
         height: 700px;
         align-items: center;
         text-align: center;
@@ -31,7 +31,7 @@
     }
 
     .chatTable > thead {
-        height: 50px;
+        height: 30px;
         background-color: #2A8FF7;
         color: white;
     }
@@ -40,11 +40,12 @@
     }
 
     .chatTable > tbody > tr {
-        height: 50px;
+        height: 30px;
         color: #020715;
     }
 
     .chatTable > tbody > tr > td {
+		padding: 5px;
         box-sizing: border-box;
     }
 
@@ -68,6 +69,9 @@
     #chatList > tbody > tr:hover {
         color: black !important;
     }
+	.meetgo-btn {
+		cursor: pointer;
+	}
 </style>
 <body>
 <jsp:include page="../common/adminHeader.jsp"/>
@@ -76,14 +80,50 @@
         selectAllChatRoom(1);
 	})
 	function selectAllChatRoom(cPage){
+		$('#chatList > tbody').empty();
         $.ajax({
 			url : "selectAllChatRoom.ad",
+			dataType : "json",
 			data : {cPage : cPage},
-			success : function (){
-   
+			success : function (data){
+				console.log(data);
+   				let chatList = data.chatList;
+				let pi = data.pi;
+				for (let i = 0; i < chatList.length; i++) {
+					let chatroom = chatList[i].chatroom;
+					let userName = chatList[i].userName;
+					let gosuName = chatList[i].gosuName;
+					let content =
+						'<tr>' +
+							'<td width="5%">'+chatroom.chatroomNo+'</td>' +
+							'<td width="10%">'+chatroom.createAt+'</td>' +
+							'<td width="15%">'+chatroom.userNo+' : '+userName+'</td>' +
+							'<td width="15%">'+chatroom.gosuNo+' : '+gosuName+'</td>' +
+							'<td width="5%">'+(chatroom.chatroomStatus == 1 ? "정상" : (chatroom.chatroomStatus == 2 ? "종료" : "정지"))+'</td>' +
+							'<td width="10%">'+(chatroom.chatroomStatus == 3 ? "정지된 채팅방" : '<button class="meetgo-btn meetgo-red w-80" onClick="changeMemberStatus()">채팅방 정지</button>')+'</td>' +
+						'</tr>';
+					$('#chatList > tbody').append(content);
+				}
+
+
+				let paging = '';
+				if (pi.currentPage == 1) {
+					paging += '<button class="pagingBtn" disabled style="background-color: ">이전</button>'
+				} else {
+					paging += '<button class="pagingBtn" onclick="selectAllChatRoom(' + (pi.currentPage - 1) + ')">이전</button>'
+				}
+				for (let i = pi.startPage; i <= pi.endPage; i++) {
+					paging += '<button class="pageBtn" onclick="selectAllChatRoom(' + i + ')">' + i + '</button>'
+				}
+				if (pi.currentPage == pi.endPage) {
+					paging += '<button class="pagingBtn" disabled style="background-color: ">다음</button>'
+				} else {
+					paging += '<button class="pagingBtn" onclick="selectAllChatRoom(' + (pi.currentPage + 1) + ')">다음</button>'
+				}
+				$('#button-area').append(paging);
 			},
 			error : function (){
-   
+   				console.log("관리자 채팅방 관리 조회 실패")
 			}
 		})
 	}
@@ -94,18 +134,28 @@
 		채팅방 관리
 	</p>
 	<hr>
+
 </div>
 <div align="center" id="list-area" class="table table-borderless table-hover">
+	<div class="search-box" style="display: flex; align-items: center; justify-content: flex-end;">
+		<select id="searchType" style="box-sizing: border-box; height: 30px; ">
+			<option value="title">제목</option>
+			<option value="content">내용</option>
+			<option value="number">글 번호</option>
+		</select>
+		<input type="text" class="" id="searchInput" placeholder="검색어 입력">
+		<button class="btn meetgo-btn"  style="height: 30px; box-sizing: border-box" type="button" onclick="">
+			<i class="fas fa-search fa-sm"></i>
+		</button>
+	</div>
 	<table class="chatTable" id="chatList">
 		<thead>
 			<tr>
-				<td width="5%">채팅방 번호</td>
+				<td width="10%">채팅방 번호</td>
 				<td width="10%">채팅방 생성일</td>
-				<td width="5%">고객 번호</td>
-				<td width="10%">고객 이름</td>
-				<td width="5%">고수 번호</td>
-				<td width="10%">고수 이름</td>
-				<td width="5%">채팅방 상태</td>
+				<td width="15%">고객 정보(번호, 이름)</td>
+				<td width="15%">고수 정보(번호, 이름)</td>
+				<td width="10%">채팅방 상태</td>
 				<td width="10%">채팅방 정지</td>
 			</tr>
 		</thead>
