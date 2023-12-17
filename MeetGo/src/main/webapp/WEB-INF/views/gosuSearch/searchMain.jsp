@@ -352,12 +352,10 @@
 	let law = ["세무 / 회계", "법무", "노무"];
 	let other = ["알바", "PPT제작", "반려동물", "대여 / 대관"];
 	
-	// 옵션선택 로드(기본값 보내기)
 	$(function() {
+		
+		// 옵션선택 로드(기본값 보내기)
 		optionSelect();
-	});
-	
-	$(function() {
 		
 		// 보낼 데이터 대입, currentPage 초기화
 		let $regionMain = $("#region-main").val();
@@ -608,7 +606,7 @@
 				let startPage = result.pi.startPage;
 				let endPage = result.pi.endPage;
 				let maxPage = result.pi.maxPage;
-				let currnetPage = result.pi.currnetPage;
+				let currentPage = result.pi.currentPage;
 				
 				$("#resultCount").html(resultCount);
 				

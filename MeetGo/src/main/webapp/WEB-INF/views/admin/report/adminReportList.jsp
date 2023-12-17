@@ -133,21 +133,27 @@
 	</div>
 	
 	<script>
+	
+		let currentPage = 1;
+		
       	function paging(num) {
       		currentPage = num;
       		$("#currentPage").val(num);
+      		selectReportList(option);
       		scrollToTop();
       	}
       	
       	function prevPage() {
-      		num = parseInt($currentPage) - 1;
+      		num = parseInt(currentPage) - 1;
       		$("#currentPage").val(num);
+      		selectReportList(option);
       		scrollToTop();
       	}
       	
       	function nextPage() {
-      		num = parseInt($currentPage) + 1;
+      		num = parseInt(currentPage) + 1;
       		$("#currentPage").val(num);
+      		selectReportList(option);
       		scrollToTop();
       	}
       	
@@ -170,12 +176,13 @@
 		
 		$(function(){
 			selectReportList(9);
-			let currentPage = 1;
 		})
 		
 		// 조건 변경 시 실행
 		$("#search-option").on("change", function() {
 	       option = $(this).val();
+	       currentPage = 1;
+	       $("#currentPage").val(1);
 	       selectReportList(option);
 		});
 		
@@ -190,14 +197,15 @@
 			$.ajax({
 				type : "get",
 				url : "selectReportList.ad",
-				data : {option : $option},
+				data : {option : $option,
+						currentPage : $currentPage},
 				success : function(result){
 					
 					let list = result.list;
 					let startPage = result.pi.startPage;
 					let endPage = result.pi.endPage;
 					let maxPage = result.pi.maxPage;
-					let currnetPage = result.pi.currnetPage;
+					let currentPage = result.pi.currentPage;
 					
 					for(let i = 0; i < list.length; i++){
 						
@@ -221,6 +229,18 @@
 										
 						$("#report-list-content").append(resultStr);
 					}
+					
+					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage()">Prev</button>');
+					
+					// prev버튼 조건에 따른 숨김처리
+					if(startPage > maxPage){
+						prevButton.css("display", "none");
+					}
+					if(parseInt($("#currentPage").val()) == 1){
+						prevButton.css("display", "none");
+					}
+					
+					$('#paging-area').append(prevButton);
 					
 					for(let p = startPage; p <= endPage; p++){
     					

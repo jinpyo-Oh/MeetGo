@@ -65,7 +65,7 @@ public class AdminReportController {
 
         map.put("list", list);
         map.put("pi", pi);
-    	    	
+    	System.out.println(currentPage);	
         return new Gson().toJson(map);
     }
     

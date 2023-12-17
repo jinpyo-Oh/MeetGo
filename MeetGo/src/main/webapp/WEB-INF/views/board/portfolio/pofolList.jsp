@@ -239,7 +239,7 @@
 					let startPage = result.pi.startPage;
 					let endPage = result.pi.endPage;
 					let maxPage = result.pi.maxPage;
-					let currnetPage = result.pi.currnetPage;
+					let currentPage = result.pi.currentPage;
 						
             		for(let i = 0; i < list.length; i++){
             			let resultStr = '<div class="pofol-obj">'
