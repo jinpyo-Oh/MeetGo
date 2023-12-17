@@ -380,4 +380,18 @@
 		WHERE REPORT_NO = #{reportNo}
 	</select>
 	
+	<!-- 관리자메인페이지용 시작 -->
+	<select id="selectMember" resultType="chartMemberDto">
+		SELECT COUNT(*) AS "count"
+		     , EXTRACT(MONTH FROM CREATE_DATE) AS "month"
+		  FROM MEMBER 
+		 WHERE FLOOR(MONTHS_BETWEEN(SYSDATE, CREATE_DATE)) &lt;= 6 
+		 GROUP BY EXTRACT(MONTH FROM CREATE_DATE)
+		 ORDER BY EXTRACT(MONTH FROM CREATE_DATE) ASC
+	</select>
+	
+	
+	
+	
+	<!-- 관리자메인페이지용 끝 -->
 </mapper>

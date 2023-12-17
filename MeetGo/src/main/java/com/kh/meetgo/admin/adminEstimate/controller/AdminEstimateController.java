@@ -141,7 +141,7 @@ public class AdminEstimateController {
 		map.put("pi", pi);
 		map.put("list", list);
 		
-		System.out.println(map);
+		// System.out.println(map);
 		
 		return new Gson().toJson(map);
 	}

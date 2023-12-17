@@ -52,7 +52,7 @@
         
         <div style="text-align: center; width: 60%; margin: auto;">
             <br>
-            <a class="back" href="adminEstimateList.ad" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+            <a class="back" onclick="back();" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
               <c:choose>
                    <c:when test="${ requestScope.est.estimate.status eq 4 }">
                        <button class="btn btn-danger btn-sm" id="combtn">강제 서비스 완료</button> 
@@ -148,6 +148,9 @@
         		});
         	});
         	
+        	function back(){
+        		history.back();
+        	}
         	
         </script>
         

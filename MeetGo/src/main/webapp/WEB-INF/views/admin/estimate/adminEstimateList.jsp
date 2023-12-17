@@ -68,6 +68,13 @@
         float:right;
         margin:5px;
     }
+    
+    #revImg{
+    	width:50px;
+    	height:50px;
+    	margin-bottom:3px;
+    }
+    
 </style>
 </head>
 <body>
@@ -76,17 +83,21 @@
 	<br>	
 	
     <div style="width: 80%; margin: auto; min-height: 400px;">
-        
-            <br>
-            <table style="width: 70%; margin: auto; text-align:center;" id="type">
+        	
+        	<br>
+        	<div align="center">
+                <h2><b><img id="revImg" src="<%= request.getContextPath() %>/resources/images/common/contractImg.png"> 계약 관리</b></h2></td>                
+ 			</div> 
+        	<br>
+            <table style="width: 400px; margin: auto; text-align:center;" id="type">
                 <tr>
-					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
-					<td class="type" style="width:20%;"><h4><b>완료된 계약</b></h4> </td>
-					<td class="type" style="width:20%;"><h4><b>검색된 계약</b></h4> </td>
+					<td class="type" style="width:100px; border-bottom: 3px solid #2A8FF7"><h5><b>진행중인 계약</b></h5></td>                
+					<td class="type" style="width:100px;"><h5><b>완료된 계약</b></h5> </td>
+					<td class="type" style="width:100px;"><h5><b>검색된 계약</b></h5> </td>
                </tr>
             </table>
 			
-            <br><br>
+            <br>
         	<div id="inCom">
 	            <table class="table-hover" align="center">
 	                <thead style="height: 35px;">
