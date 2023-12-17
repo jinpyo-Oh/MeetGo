@@ -16,4 +16,5 @@ public class Chatroom {
     private Date createAt;
     private int userNo;
     private int gosuNo;
+    private int chatroomStatus;
 }

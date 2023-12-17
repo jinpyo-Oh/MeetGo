@@ -379,6 +379,24 @@
 		FROM REPORT
 		WHERE REPORT_NO = #{reportNo}
 	</select>
+	<select id="selectAllChatRoom" resultType="com.kh.meetgo.admin.adminChat.model.dto.AdminChatRequest">
+		select chatroom_no  as "chatroom.chatroomNo",
+		create_at as "chatroom.createAt",
+		C.user_no as "chatroom.userNo" ,
+		C.gosu_no as "chatroom.gosuNo",
+		chatroom_status as "chatroom.chatroomStatus",
+		M.USER_NAME as userName,
+		M2.USER_NAME as gosuName
+		from CHATROOM C
+		left join (
+		select *
+		from MEMBER
+		) M ON (C.user_no= M.USER_NO)
+		left join (
+		select *
+		from MEMBER
+		) M2 ON (C.GOSU_NO = M2.USER_NO)
+	</select>
 	
 	<!-- 관리자메인페이지용 시작 -->
 	<select id="selectMember" resultType="chartMemberDto">

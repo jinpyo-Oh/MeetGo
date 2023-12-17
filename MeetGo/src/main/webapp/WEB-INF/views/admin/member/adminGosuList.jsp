@@ -35,7 +35,8 @@
     }
 
     .chatTable > tbody > tr > td {
-        box-sizing: border-box;
+		padding: 5px;
+		box-sizing: border-box;
     }
 
     .pagingBtn {
@@ -80,6 +81,7 @@
                 cPage: cPage
             },
             success: function (data) {
+				console.log(data);
                 let gosuList = data.gosuList;
                 let pi = data.pi;
                 for (let i = 0; i < gosuList.length; i++) {
@@ -153,6 +155,17 @@
 	해당 페이지는 현재 활성화 되어 있는 고수만 조회가 가능합니다.
 </div>
 <div align="center" id="list-area" class="table table-borderless table-hover">
+	<div class="search-box" style="display: flex; align-items: center; justify-content: flex-end;">
+		<select id="searchType" style="box-sizing: border-box; height: 30px; ">
+			<option value="title">제목</option>
+			<option value="content">내용</option>
+			<option value="number">글 번호</option>
+		</select>
+		<input type="text" class="" id="searchInput" placeholder="검색어 입력">
+		<button class="btn meetgo-btn"  style="height: 30px; box-sizing: border-box" type="button" onclick="">
+			<i class="fas fa-search fa-sm"></i>
+		</button>
+	</div>
 	<table class="chatTable" id="chatList">
 		<thead>
 			<tr>

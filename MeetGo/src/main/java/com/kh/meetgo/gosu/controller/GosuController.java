@@ -90,7 +90,8 @@ public class GosuController {
               
               int result2 = gosuService.changeStatus(gosu.getUserNo());
            }
-           
+           m.setEnrollStatus(2);
+           session.setAttribute("loginUser", m);
            session.setAttribute("alertMsg", "성공적으로 고수 등록이 완료되었습니다.");
 
            return "redirect:/";
