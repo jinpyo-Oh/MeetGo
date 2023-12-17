@@ -45,13 +45,13 @@
     .submenu{
         position:absolute;
         background-color:white;
-		margin-top: 10px;
+        margin-top: 10px;
         display:none;
-		border: 1px solid black;
+        border: 1px solid black;
     }
     .navItem:hover>.submenu{
         display:block;
-		color: white;
+        color: white;
     }
 
     .submenu>li{
@@ -63,7 +63,7 @@
     .submenu>li>a{
         color:black;
     }
-  
+
     .admin-header {
         width: 100%;
         height: 100px;
@@ -101,10 +101,10 @@
     .admin-right-box{
         text-align: right;
         width: 30%;
-		height: 100px;
+        height: 100px;
         margin-top: 10px!important;
         margin-right: 30px;
-		box-sizing: border-box;
+        box-sizing: border-box;
     }
     .admin-right-box-1{
         font-size: 17px;
@@ -125,7 +125,7 @@
         z-index: 49;
     }
     .admin-button {
-        width: 140px;
+        width: 170px;
         height: 35px;
         font-size: 14px;
         text-transform: uppercase;
@@ -137,7 +137,7 @@
         border-radius: 45px;
         box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease 0s;
-		margin-left: 10px;
+        margin-left: 10px;
         cursor: pointer;
         outline: none;
     }
@@ -148,12 +148,15 @@
         color: #fff;
         transform: translateY(-7px);
     }
-	#admin-logo{
-		width: 120px;
+    .addmin-logo-area {
+
+    }
+    #admin-logo{
+        width: 120px;
         -webkit-filter: brightness(0) invert(1);
         filter: brightness(0) invert(1);
         margin-left: 60px;
-		margin-top: 10px;
+        margin-top: 10px;
     }
     .pageTitleArea {
         margin-top: 20px;
@@ -193,11 +196,11 @@
     }
     .w-100 {
         width: 100%;
-		box-sizing: border-box;
+        box-sizing: border-box;
     }
-	.w-80 {
-		width: 80%;
-	}
+    .w-80 {
+        width: 80%;
+    }
     .w-50{
         width: 50%;
     }
@@ -205,13 +208,14 @@
 <body>
 <header class="admin-header">
 	<div class="header-nav">
-		<div>
+		<div class="addmin-logo-area" style="cursor: pointer; position: relative" onclick="location.href='adminMainPage.ad	'">
 			<img id="admin-logo" src="<%=request.getContextPath()%>/resources/images/common/mainPage/meetgo_logo.png">
+			<p style="position: absolute; left: 190px; top: 20px; font-size: 20px">관리자</p>
 		</div>
 		<div class="nav-list">
 			<ul>
 				<li class="home">
-					<a href="#">Home</a>
+					<a href="adminMainPage.ad">Home</a>
 				</li>
 				<li class="navItem">
 					<a href="#">회원 관리 <i class="fa fa-angle-down" aria-hidden="true"></i></a>
@@ -252,13 +256,13 @@
 			</ul>
 		</div>
 	</div>
-
+	
 	<div class="admin-right-box">
 		<div class="admin-right-box-1">
 			<p>어드민 페이지(admin123) 접속 중</p>
 		</div>
 		<div class="admin-right-box-2">
-			<button class="admin-button">메인페이지로</button>
+			<button class="admin-button" onclick="location.href=<%=request.getContextPath()%>/">MeetGo 바로가기</button>
 			<button class="admin-button">로그아웃</button>
 		</div>
 	</div>

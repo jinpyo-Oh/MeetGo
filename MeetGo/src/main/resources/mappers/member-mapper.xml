@@ -488,4 +488,9 @@
         select count(*)
         from member
     </select>
+    <select id="selectOneMember" parameterType="_int" resultMap="memberResultSet">
+        select *
+        from member
+        where USER_NO = ${userNo}
+    </select>
 </mapper>
