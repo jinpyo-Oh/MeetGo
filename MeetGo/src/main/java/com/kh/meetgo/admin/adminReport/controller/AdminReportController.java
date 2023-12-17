@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -66,6 +69,7 @@ public class AdminReportController {
         return new Gson().toJson(map);
     }
     
+    @ResponseBody
     @RequestMapping("reportDetail.ad")
     public ModelAndView reportDetail(String rno, ModelAndView mv) {
     	
@@ -76,6 +80,24 @@ public class AdminReportController {
     	
     	mv.addObject("list", list).setViewName("admin/report/adminReportDetail");
     	return mv;
+    }
+    
+    @RequestMapping("changeReportStatus.ad")
+    public String changeReportStatus(String changeStatus, String targetNo, Model model, HttpSession session) {
+    	
+    	int reportStatus = Integer.parseInt(changeStatus);
+    	int reportNo = Integer.parseInt(targetNo);
+    	
+    	int result = adminReportService.changeReportStatus(reportStatus, reportNo);
+    	
+    	if(result > 0) {
+    		session.setAttribute("alertMsg", "상태 변경 완료");
+    		return "redirect:/adminReportList.ad";
+    	} else {
+    		model.addAttribute("errorMsg", "상태 변경 실패");
+    		return "common/errorPage";
+    	}    	
+
     }
     
     

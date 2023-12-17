@@ -97,13 +97,14 @@
 
             <div align="right">
                 <form id="status-update" action="changeReportStatus.ad" method="post">
-                    <select id="status-option">
+                    <select id="status-option" name="changeStatus">
                     	<option value="0">미확인</option>
                         <option value="1">처리대기</option>
                         <option value="2">처리완료</option>
                     </select>
+                    <input type="hidden" name="targetNo" value="${requestScope.list[0].reportNo}">
                     <button type="submit">변경하기</button>
-                    <button type="button" onclick="history.back();">목록으로</button>
+                    <button type="button" onclick="location.href='adminReportList.ad'">목록으로</button>
                 </form>
             </div>
 

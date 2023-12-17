@@ -33,5 +33,9 @@ public class AdminReportServiceImpl implements AdminReportService {
 	public ArrayList<Report> reportDetail(int reportNo){
 		return adminReportDao.reportDetail(sqlSession, reportNo);
 	}
+	@Override
+	public int changeReportStatus(int reportStatus, int reportNo) {
+		return adminReportDao.changeReportStatus(sqlSession, reportStatus, reportNo);
+	}
 
 }

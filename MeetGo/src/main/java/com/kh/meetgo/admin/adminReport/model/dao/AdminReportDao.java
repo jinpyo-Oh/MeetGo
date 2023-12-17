@@ -1,6 +1,8 @@
 package com.kh.meetgo.admin.adminReport.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -27,6 +29,16 @@ public class AdminReportDao {
 	
 	public ArrayList<Report> reportDetail(SqlSessionTemplate sqlSession, int reportNo){
 		return (ArrayList)sqlSession.selectList("adminMapper.reportDetail", reportNo);
+	}
+	
+	public int changeReportStatus(SqlSessionTemplate sqlSession, int reportStatus, int reportNo) {
+		
+		Map<String, Object> params = new HashMap<>();
+		
+		params.put("reportStatus", reportStatus);
+		params.put("reportNo", reportNo);
+		
+		return sqlSession.update("adminMapper.changeReportStatus", params);
 	}
 	
 }

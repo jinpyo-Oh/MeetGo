@@ -206,6 +206,7 @@
     </select>
 	<!-- 관리자 리뷰관리용 끝 -->
 	
+	<!-- 신고관리 begin -->
 	<!-- 신고 내역 카운트 -->
 	<select id="selectReportListCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*)
@@ -230,6 +231,14 @@
 			</otherwise>
 		</choose>
 	</select>
+	
+	<update id="changeReportStatus" parameterType="hashMap">
+		UPDATE REPORT
+		   SET REPORT_STATUS = #{reportStatus}
+		 WHERE REPORT_NO = #{reportNo}
+	</update>
+	
+	<!-- 신고관리 end -->
 
 	<update id="changeEnrollStatus" parameterType="member" >
 		update MEMBER

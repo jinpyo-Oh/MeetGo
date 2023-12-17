@@ -15,4 +15,7 @@ public interface AdminReportService {
 	
 	// 신고 상세조회
 	ArrayList<Report> reportDetail(int reportNo);
+	
+	// 신고상태변경
+	int changeReportStatus(int reportStatus, int reportNo);
 }
