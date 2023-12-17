@@ -43,20 +43,22 @@
     .pagingBtn{
         border: 0;
         border-radius: 5px;
-        width: 80px;
+        width: 30px;
         height: 40px;
         font-size: 20px;
         color: white;
         background-color: #2a91f7c0;
+        margin : 0px 3px;
     }
     .pageBtn{
         border: 0;
         border-radius: 5px;
-        width: 40px;
+        width: 30px;
         height: 40px;
         font-size: 20px;
         color: white;
         background-color: #2a91f7c0;
+        margin : 0px 3px;
     }
     .none{
     	background-color: none;
@@ -99,169 +101,26 @@
 	                        <th style="width: 10%;">고객번호</th>
 	                        <th style="width: 20%;">시작일</th>
 	                        <th style="width: 15%;">현재상태</th>
-	                        <th style="width: 10%;">채팅</th>
+	                        <th style="width: 10%;"></th>
 	                    </tr>
 	                </thead>
-	                <c:choose>
-	                
-		                <c:when test="${ not empty requestScope.incomList }">
-			                <tbody>
-			                    <c:forEach var="b" items="${ requestScope.incomList }">
-				                    <tr>
-				                        <td class="eno">${ b.estNo }</td>
-				                        <td class="truncate">${ b.estTitle }</td>
-				                        <td>${ b.gosuNo }</td>
-				                        <td>${ b.userNo }</td>
-				                        <td>${ b.startDate }</td>
-				                        <td>
-				                        	<c:choose>
-					                        	<c:when test="${ b.status eq 2 }">
-					                        		대기
-					                        	</c:when>
-					                        	<c:when test="${ b.status eq 3 }">
-					                        		결제 대기
-					                        	</c:when>
-					                        	<c:otherwise>
-					                        		결제 완료
-					                        	</c:otherwise>
-				                        	</c:choose>
-				                        </td>
-				                        <td>채팅</td>
-				                    </tr>
-				            	</c:forEach>
-			                </tbody>
-		                </c:when>
-	                	
-	                	<c:otherwise>
-	                		<tbody>
-	                			<tr>
-	                				<td colspan="6" class="none">현재 진행중인 견적서가 없습니다.</td>
-	                			</tr>
-	                		</tbody>
-	                	</c:otherwise>
-	                </c:choose>
+	                <tbody id="listBody">
+	                    
+	                </tbody>
 	            </table>
 	            
 	            <br><br><br><br>
-	             <c:if test="${ not empty requestScope.incomList }">
 		            <div id="pagingArea">
-	                	<c:choose>
-			        		<c:when test="${ requestScope.pi1.currentPage eq 1 }">
-			        			<button class="pagingBtn" disabled style="display:none;">prev</button>
-			        		</c:when>
-			        		<c:otherwise>
-			        			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi1.currentPage - 1 }'">prev</button>
-			        		</c:otherwise>
-			        	</c:choose>            
-			             <c:forEach var="p" begin="${ requestScope.pi1.startPage }" 
-			                    					end="${ requestScope.pi1.endPage }"
-			                    					step="1">
-						<button class="pageBtn" onclick="location.href='estimate.me?cPage=${ p }'">${ p }</button>
-			            </c:forEach>          
-			            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
-			            <c:choose>
-				       		<c:when test="${ requestScope.pi1.currentPage eq requestScope.pi1.endPage }">
-				       			<button class="pagingBtn" disabled style="display:none;">next</button>
-				       		</c:when>
-				       		<c:otherwise>
-				       			<button class="pagingBtn" onclick="location.href='estimate.me?cPage=${ requestScope.pi1.currentPage + 1 }'">next</button>
-				       		</c:otherwise>
-			       		</c:choose> 
+	            	
 	            	</div>
-	             </c:if>
         	</div>
-            
-        	<div id="com" style="display: none;">
-	            <table class="table-hover" align="center">
-	                <thead  style="height: 35px;">
-	                    <tr>
-	                        <th style="width: 10%;">계약번호</th>
-	                        <th style="width: 25%;">계약명</th>
-	                        <th style="width: 10%;">고수번호</th>
-	                        <th style="width: 10%;">고객번호</th>
-	                        <th style="width: 20%;">시작일</th>
-	                        <th style="width: 15%;">현재상태</th>
-	                        <th style="width: 10%;">리뷰</th>
-	                    </tr>
-	                </thead>
-	                <c:choose>
-		                <c:when test="${ not empty requestScope.comList }">
-			                <tbody>
-			                    <c:forEach var="b" items="${ requestScope.comList }">
-				                    <tr>
-				                        <td class="eno">${ b.estimate.estNo }</td>
-				                        <td class="truncate">${ b.estimate.estTitle }</td>
-				                        <td>${ b.estimate.gosuNo }</td>
-				                        <td>${ b.estimate.userNo }</td>
-				                        <td>${ b.estimate.startDate}</td>
-				                        <td>완료</td>
-				                       <c:choose>
-				                        	<c:when test="${ sessionScope.loginUser.userNo ne b.estimate.gosuNo }">
-					                        	<c:choose>
-													<c:when test="${ b.reviewCnt > 0 }">
-							                        	<td>
-								                        	<a type="button" class="btn btn-secondary btn-sm">
-								                        		작성완료
-								                        	</a>
-							                        	</td>
-													</c:when>
-													<c:otherwise>
-														<td id="review">
-								                        	<a type="button" class="btn btn-success btn-sm">
-								                        		작성하기						                        	</a>
-								                        	<input type="hidden" id="estNo" value="${ b.estimate.estNo }">
-								                        </td>
-													</c:otherwise>
-					                        	</c:choose>
-				                        	</c:when>
-				                        	<c:otherwise>
-				                        		<c:choose>
-													<c:when test="${ b.reviewCnt > 0 }">
-							                        	<td class="review-info">
-								                        	<a type="button" class="btn btn-success btn-sm">
-								                        		리뷰보기
-								                        	</a>
-								                        	<input type="hidden" class="revNo" value="${ b.revNo }">
-							                        	</td>
-													</c:when>
-													<c:otherwise>
-														<td>
-								                        	<a type="button" class="btn btn-success btn-sm">
-								                        		리뷰대기
-				                       					  	</a>
-								                        </td>
-													</c:otherwise>
-					                        	</c:choose>
-				                        	</c:otherwise>
-				                        </c:choose>
-				                        
-				                    </tr>
-				            	</c:forEach>
-			                </tbody>
-		                </c:when>
-	                	<c:otherwise>
-	                		<tbody>
-	                			<tr>
-	                				<td colspan="6" class="none">완료된 견적서가 없습니다.</td>
-	                			</tr>
-	                		</tbody>
-	                	</c:otherwise>
-	                </c:choose>
-	            </table>
-	            
-	            <br><br><br><br>
-	            
-	            <div id="pagingArea">
-                	
-            	</div>
-	            
-	            
-        	</div>
+           
     </div>
     
     <script>
     	$(function(){
     		
+    		inComEst(1);
     		
     		let $inCom = $("#type").find(".type").eq(0);
     		let $com = $("#type").find(".type").eq(1);
@@ -270,41 +129,221 @@
     			$(this).css("border-bottom", "3px solid #2A8FF7");
     			$com.css("border-bottom", "none");
     			
+    			inComEst(1);
     		});
     		
     		$com.click(function(){
     			$(this).css("border-bottom", "3px solid #2A8FF7");
     			$inCom.css("border-bottom", "none");
     			
+    			comEst(1);
     		});
     	});
     	
-    	$(function() {
+    	function inComEst(page){
     		
-    		$(".table-hover>tbody>tr td:not(:last-child)").click(function() {
-    			
-    			let eno = $(this).siblings(".eno").text();
-    			// console.log(eno);
-    			location.href = "estimateDetail.me?eno=" + eno;
-    		});
+    		$('#listBody').empty();
+    		$('#pagingArea').empty();
     		
-    		
-    		$("#review").click(function(){
-    			let eno = $("#estNo").val();
-    			// console.log(eno);
-    			
-    			location.href = "reviewWrite.me?eno=" + eno;
-    		});
+    		$.ajax({
+	    		url: "InComEstimate.me",
+	    		dataType: "json",
+	    		data: {
+	    			cPage:page
+	    		},
+	    		success: function(data){
+	    			let list = data.list2;
+	    			if(list.length != 0){
+	    				
+		    			for(let i = 0; i < list.length; i++){
+		    				let content = 
+			    					'<tr>'+
+				                    '<td class="eno">'+list[i].estNo+'</td>' +
+				                    '<td class="truncate">'+list[i].estTitle+'</td>' +
+				                    '<td>'+list[i].gosuNo+'</td>' +
+				                    '<td>'+list[i].userNo+'</td>' +
+				                    '<td>'+list[i].startDate+'</td>' +
+				                    '<td>';
+				    				if(list[i].status == 3){
+			                    		content += '결제 대기';
+			                    	} else {
+			                    		content += '결제 완료';
+			                    	}
+				    				content += 
+				    				'</td>' +
+				    				'<td>채팅</td>' +
+				    				'</tr>'
+			    				
+	    					$('#listBody').append(content);
+		    			}
+		    			
+		    			let paging = '';
+	    		    	
+		    		    if(data.pi2.currentPage == 1){
+		    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&lt;</button>';
+		    		    } else {
+		    		    	paging += '<button class="pagingBtn" onclick="inComEst(' + (data.pi2.currentPage - 1) + ')">&lt;</button>';
+		    		    }
+		    		    
+		    		    for(let i = data.pi2.startPage; i <= data.pi2.endPage; i++){
+		    		    	
+		    		    	if(data.pi2.currentPage == i){
+		    		    		
+								paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
+		    		    	} else{
+		    		    		
+								paging += '<button class="pageBtn" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
+		    		    	}
+		    		    	
+		    		    }
+		    		    
+		    		    if(data.pi2.currentPage == data.pi2.endPage){
+		    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&gt;</button>';
+		    		    } else {
+		    		    	paging += '<button class="pagingBtn" onclick="inComEst(' + (data.pi2.currentPage + 1) + ')">&gt;</button>'
+		    		    }
+		    		    
+		    		    $('#pagingArea').append(paging);
+		    			
+		        		$(".table-hover>tbody>tr td:not(:last-child)").click(function() {
+		        			
+		        			let eno = $(this).siblings(".eno").text();
+		        			// console.log(eno);
+		        			location.href = "estimateDetail.me?eno=" + eno;
+		        		});
+		    		} else {
+		    			let content = '<tr><td colspan = "7">진행중인 계약이 없습니다.</td></tr>';
+		    			$('#listBody').append(content);
+		    		}
 
-    		$(".review-info").click(function(){
-    			
-    			let rno = $(this).closest('tr').find(".revNo").val();
-
-    			// console.log(rno);
-    			
-    			location.href = "reviewDetail.me?rno=" + rno;
+	    		},
+	    		error: function(){
+	    			console.log("실패")
+	    		}
     		});
-    	});
+    	}
+    	
+    	function comEst(page){
+    		
+    		$('#listBody').empty();
+    		$('#pagingArea').empty();
+    		
+    		$.ajax({
+    			
+    		    url: "comEstimate.me",
+    		    dataType: "json",
+    		    data: {
+    		        cPage: page
+    		    },
+    		    success: function(data){
+    		    	let list = data.list1;
+    		    	if(list.length != 0){
+    		    		
+	    		    	for(let i = 0; i < list.length; i++){
+		    		    	let content =
+	    		    		'<tr>'+
+		                    '<td class="eno">'+list[i].estimate.estNo+'</td>' +
+		                    '<td class="truncate">'+list[i].estimate.estTitle+'</td>' +
+		                    '<td>'+list[i].estimate.gosuNo+'</td>' +
+		                    '<td>'+list[i].estimate.userNo+'</td>' +
+		                    '<td>'+list[i].estimate.startDate+'</td>' +
+		                    '<td>서비스 완료</td>';
+		                    
+		                    
+		                    if(data.userNo != list[i].estimate.gosuNo){
+		                    	
+		                    	if(list[i].reviewCnt > 0) {
+		                    		content += '<td>' + '<a type="button" class="btn btn-secondary btn-sm">'
+		                    				 + '작성완료' + '</a>' + '</td>';
+		                    	} else {
+		                    		content += '<td>' + '<a type="button" class="btn btn-success btn-sm">'
+		                    				 + '작성하기' + '</a>' 
+		                    				 + '<input type="hidden" id="estNo" value="' 
+		                    				 + list[i].estimate.estNo + '">' + '</td>';
+		                    	}
+		                    } else {
+		                    	
+		                    	if(list[i].reviewCnt > 0){
+		                    		content += '<td class="review-info">'
+		                    				 + '<a type="button" class="btn btn-success btn-sm">'
+		                    				 + '리뷰보기' + '</a>'
+		                    				 + '<input type="hidden" class="revNo" value="'
+		                    				 + list[i].revNo + '">' + '</td>';
+		                    	} else {
+		                    		
+		                    		content += '<td>' + '<a type="button" class="btn btn-secondary btn-sm">'
+		                    				 + '리뷰대기' + '</a>' + '</td>';
+		                    	}
+		                    }
+		                    
+		                	content += '</tr>';
+		                	
+							// console.log(content);
+		                	$('#listBody').append(content);
+		    		    }
+	    		    	
+		    		    let paging = '';
+	    		    	
+		    		    if(data.pi1.currentPage == 1){
+		    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&lt;</button>';
+		    		    } else {
+		    		    	paging += '<button class="pagingBtn" onclick="comEst(' + (data.pi1.currentPage - 1) + ')">&lt;</button>';
+		    		    }
+		    		    
+		    		    for(let i = data.pi1.startPage; i <= data.pi1.endPage; i++){
+		    		    	
+		    		    	if(data.pi1.currentPage == i){
+		    		    		
+								paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="comEst('+ i +')">' + i + '</button>';	    		    	
+		    		    	} else{
+		    		    		
+								paging += '<button class="pageBtn" onclick="comEst('+ i +')">' + i + '</button>';	    		    	
+		    		    	}
+		    		    	
+		    		    }
+		    		    
+		    		    if(data.pi1.currentPage == data.pi1.endPage){
+		    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&gt;</button>';
+		    		    } else {
+		    		    	paging += '<button class="pagingBtn" onclick="comEst(' + (data.pi1.currentPage + 1) + ')">&gt;</button>';
+		    		    }
+		    		    
+		    		    $('#pagingArea').append(paging);
+	
+		    		    $("#review").click(function(){
+		        			let eno = $("#estNo").val();
+		        			// console.log(eno);
+		        			
+		        			location.href = "reviewWrite.me?eno=" + eno;
+		        		});
+	
+		        		$(".review-info").click(function(){
+		        			
+		        			let rno = $(this).closest('tr').find(".revNo").val();
+	
+		        			// console.log(rno);
+		        			
+		        			location.href = "reviewDetail.me?rno=" + rno;
+		        		});
+		        		
+		        		$(".table-hover>tbody>tr td:not(:last-child)").click(function() {
+		        			
+		        			let eno = $(this).siblings(".eno").text();
+		        			// console.log(eno);
+		        			location.href = "estimateDetail.me?eno=" + eno;
+		        		});
+    		    	} else {
+    		    		let content = '<tr><td colspan = "7">완료된 계약이 없습니다.</td></tr>';
+		    			$('#listBody').append(content);
+    		    	}
+	    		    
+    		    },
+    		    error : function(){
+    		    	console.log("실패");
+    		    }
+    		
+    		});
+    	}
     	
     </script>
 	<br><br><br><br>

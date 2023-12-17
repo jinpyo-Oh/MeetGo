@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.kh.meetgo.admin.adminEstimate.model.dao.AdminEstimateDao;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
+import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
 
 @Service
 public class AdminEstimateServiceImpl implements AdminEstimateService {
@@ -44,6 +46,27 @@ public class AdminEstimateServiceImpl implements AdminEstimateService {
 	public EstimateDto adminEstimateDetail(int eno) {
 		return adminDao.adminEstimateDetail(sqlSession, eno);
 	}
+
+	@Override
+	public int selectReviewListCount() {
+		return adminDao.selectReviewListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<ReviewDto> selectReviewList(PageInfo pi) {
+		return adminDao.selectReviewListCount(sqlSession, pi);
+	}
+
+	@Override
+	public ReviewDto adminReviewDetail(int rno) {
+		return adminDao.adminReviewDetail(sqlSession, rno);
+	}
+
+	@Override
+	public ArrayList<ReviewImg> adminReviewImg(int rno) {
+		return adminDao.adminReviewImg(sqlSession, rno);
+	}
+	
 	
 
 	

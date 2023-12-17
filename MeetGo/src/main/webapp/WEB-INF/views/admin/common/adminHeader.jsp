@@ -7,10 +7,22 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://kit.fontawesome.com/bb1372cd06.js" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/53a8c415f1.js" crossorigin="anonymous"></script>
 	
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap" rel="stylesheet">
+	
+	 <!-- JavaScript -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+	
 </head>
 <style>
     html, body {
@@ -245,9 +257,8 @@
 				<li class="navItem">
 					<a href="#">계약 관리 <i class="fa fa-angle-down" aria-hidden="true"></i></a>
 					<ul class="submenu">
-						<li><a href="#">진행중 계약서 관리</a></li>
-						<li><a href="#">완료 계약서 관리</a></li>
-						<li><a href="#">리뷰 관리</a></li>
+						<li><a href="adminEstimateList.ad?cPage=1">계약서 관리</a></li>
+						<li><a href="adminReviewList.ad?cPage=1">리뷰 관리</a></li>
 					</ul>
 				</li>
 				<li>
@@ -267,5 +278,18 @@
 		</div>
 	</div>
 </header>
+<c:if test="${ not empty sessionScope.alertMsg }">
+		<script>
+			alertify.alert('Alert', '${ sessionScope.alertMsg }', function(){ alertify.success('Ok'); });
+		</script>
+		<c:remove var="alertMsg" scope="session" />
+	</c:if>
+
+	<c:if test="${ not empty sessionScope.errorMsg }">
+		<script>
+			alertify.alert('Alert', '${ sessionScope.errorMsg }',function(){ alertify.error('Fail'); });
+		</script>
+		<c:remove var="errorMsg" scope="session" />
+	</c:if>
 </body>
 </html>

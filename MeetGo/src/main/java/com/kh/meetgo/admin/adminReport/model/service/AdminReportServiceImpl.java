@@ -28,5 +28,10 @@ public class AdminReportServiceImpl implements AdminReportService {
 	public ArrayList<Report> selectReportList(int reportStatus, PageInfo pi) {
 		return adminReportDao.selectReportList(sqlSession, reportStatus, pi);
 	}
+	
+	@Override
+	public ArrayList<Report> reportDetail(int reportNo){
+		return adminReportDao.reportDetail(sqlSession, reportNo);
+	}
 
 }

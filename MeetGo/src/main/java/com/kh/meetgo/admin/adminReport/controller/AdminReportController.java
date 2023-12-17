@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.meetgo.admin.adminCommon.model.service.AdminCommonService;
@@ -56,12 +57,25 @@ public class AdminReportController {
     	
     	list = adminReportService.selectReportList(reportStatus, pi);
     	
+    	
     	Map<String, Object> map = new HashMap<>();
 
         map.put("list", list);
         map.put("pi", pi);
     	    	
         return new Gson().toJson(map);
+    }
+    
+    @RequestMapping("reportDetail.ad")
+    public ModelAndView reportDetail(String rno, ModelAndView mv) {
+    	
+    	// System.out.println(rno);
+    	int reportNo = Integer.parseInt(rno);
+    	
+    	ArrayList<Report> list = adminReportService.reportDetail(reportNo);
+    	
+    	mv.addObject("list", list).setViewName("admin/report/adminReportDetail");
+    	return mv;
     }
     
     

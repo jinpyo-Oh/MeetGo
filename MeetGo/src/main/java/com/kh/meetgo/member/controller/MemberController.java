@@ -3,6 +3,8 @@ package com.kh.meetgo.member.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -422,30 +423,66 @@ public class MemberController {
 	@RequestMapping("estimate.me")
 	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
 
+		mv.setViewName("estimate/myEstimateList");
+		return mv;
+	}
+	
+	@ResponseBody
+	@GetMapping("InComEstimate.me")
+	public String inComEstimateList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage, HttpSession session, Model model) {
+		
 		Member m = (Member)session.getAttribute("loginUser");
-
+		
 		int userNo = m.getUserNo();
-
+		
 		int listCount1 = memberService.selectIncompleteListCount(userNo);
-		int listCount2 = memberService.selectCompleteListCount(userNo);
-
+		
 		int pageLimit = 5;
 		int boardLimit = 5;
+		
+		PageInfo pi2 = Pagination.getPageInfo(listCount1, currentPage, pageLimit, boardLimit);
 
+		ArrayList<Estimate> list2 = memberService.selectIncompleteEstimateList(pi2, userNo);
+		
+		model.addAttribute("cPage", currentPage);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("pi2", pi2);
+		map.put("list2", list2);
+		
+		System.out.println(pi2);
+		System.out.println(list2);
+		
+		return new Gson().toJson(map);
+	}
+	
+	@ResponseBody
+	@GetMapping("comEstimate.me")
+	public String comEstimateList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage, HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int userNo = m.getUserNo();
+
+		int listCount1 = memberService.selectCompleteListCount(userNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
 		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
-		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
-
-		ArrayList<Estimate> list1 = memberService.selectIncompleteEstimateList(pi1, userNo);
-		ArrayList<EstimateDto> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
-
-		// System.out.println(list1);
-		// System.out.println(list2);
-
-		mv.addObject("incomList", list1).addObject("pi1", pi1)
-	      .addObject("comList", list2).addObject("pi2", pi2)
-		  .setViewName("estimate/myEstimateList");
-
-		return mv;
+	
+		ArrayList<EstimateDto> list1 = memberService.selectCompleteEstimateList(pi1, userNo);
+	
+		model.addAttribute("cPage", currentPage);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("pi1", pi1);
+		map.put("list1", list1);
+		map.put("userNo", userNo);
+		
+		return new Gson().toJson(map);
 	}
 
 	@RequestMapping("myReview.me")
