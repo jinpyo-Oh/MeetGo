@@ -25,6 +25,12 @@ public interface AdminEstimateService{
 	// 견적서 상세 조회 (select)
 	EstimateDto adminEstimateDetail(int eno);
 	
+	// 견적서 검색 리스트 개수 조회 (select)
+	int adminEstimateSearchCount(String keyword, String condition);
+	
+	// 견적서 검색 리스트 조회 (select>
+	ArrayList<EstimateDto> adminEstimateSearch(PageInfo pi, String keyword, String condition);
+	
 	// 리뷰 개수 조회 (select)
 	int selectReviewListCount();
 	
@@ -36,4 +42,10 @@ public interface AdminEstimateService{
 	
 	// 리뷰 상세 이미지 조회 (select)
 	ArrayList<ReviewImg> adminReviewImg(int rno);
+
+	// 리뷰 검색 리스트 개수 조회 (select)
+	int adminReviewSearchCount(String keyword, String condition);
+	
+	// 리뷰 검색 리스트 조회 (select)
+	ArrayList<ReviewDto> adminReviewSearch(PageInfo pi, String keyword, String condition);
 }

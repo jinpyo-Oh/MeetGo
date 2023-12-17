@@ -191,6 +191,7 @@
          FROM ESTIMATE
         WHERE (STATUS = '3' OR STATUS = '4')
           AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+        ORDER BY CONFIRMATION_DATE DESC
     </select>
     
     <select id="selectCompleteEstimateList" parameterType="_int" resultType="estimateDto">
@@ -216,6 +217,7 @@
          FROM ESTIMATE
         WHERE STATUS = '5'
           AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+        ORDER BY CONFIRMATION_DATE DESC
     </select>
     
     <select id="selectEstimateDetail" parameterType="_int" resultMap="estimateResultSet">
@@ -405,27 +407,24 @@
 		
 	</update>
 
-		
-	
-		<update id="careerUpdate" parameterType="gosu">
+	<update id="careerUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	CAREER= #{career}
 		WHERE GOSU_NO = #{userNo}
 			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
-		</update>
+	</update>
 
-
-	
-	   <insert id="insertGosuImg" parameterType="gosuImg">
-		  INSERT INTO "GOSU-IMG" (GOSU_IMG_NO,
-		  GOSU_IMG_URL, 
-		  STATUS,
-		  GOSU_NO) 
-		values (SEQ_GOSU_IMG.nextval,
-		 #{gosuImgUrl},
-		  1,
+	<insert id="insertGosuImg" parameterType="gosuImg">
+	  INSERT INTO "GOSU-IMG" (GOSU_IMG_NO,
+	  GOSU_IMG_URL, 
+	  STATUS,
+	  GOSU_NO) 
+	values (SEQ_GOSU_IMG.nextval,
+	 #{gosuImgUrl},
+	  1,
 		#{gosuNo})
     </insert>
+    
     <select id="selectAllGosuImg" parameterType="_int" resultMap="gosuImgResultSet">
     	SELECT *
 		FROM "GOSU-IMG"
@@ -484,10 +483,12 @@
         select *
         from member
     </select>
+    
     <select id="countAllMember" resultType="_int">
         select count(*)
         from member
     </select>
+    
     <select id="selectOneMember" parameterType="_int" resultMap="memberResultSet">
         select *
         from member

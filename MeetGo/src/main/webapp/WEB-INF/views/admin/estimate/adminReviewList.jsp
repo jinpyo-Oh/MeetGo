@@ -67,6 +67,18 @@
     .none{
     	background-color: none;
     }
+    #searchForm {
+    }
+    #searchForm>* {
+        float:right;
+        margin:5px;
+    }
+    #revImg{
+    	width:50px;
+    	height:50px;
+    	margin-bottom:3px;
+    }
+    
 </style> 
 </head>
 <body>
@@ -79,11 +91,15 @@
             
             <br>
  			<div align="center">
-                <h2><b>리뷰 관리</b></h2></td>                
- 			</div>           
-               
-			
-            <br><br>
+                <h2><b><img id="revImg" src="<%= request.getContextPath() %>/resources/images/common/reviewManage.jpg"> 리뷰 관리</b></h2></td>                
+ 			</div> 
+ 			
+            <div style="width: 900px; margin: auto;">
+ 				<a style="float:right; margin-top:10px; color: black;" href="adminReviewList.ad">전체 목록</a>
+ 			</div>
+ 			
+ 			<br><br>
+            
         	<div id="inCom">
 	            <table class="table-hover" align="center">
 	                <thead style="height: 35px;">
@@ -96,7 +112,7 @@
 	                        <th style="width: 180px;">별점</th>
 	                    </tr>
 	                </thead>
-	                <tbody>
+	                <tbody id="listBody">
 	                	<c:forEach var="r" items="${ requestScope.list }">
                         <tr>
                             <td>${ r.review.revNo }</td>
@@ -145,7 +161,7 @@
 	                </tbody>
 	            </table>
 	            
-	            <br><br><br><br>
+	            <br>
 	            <div id="pagingArea">
 	            	<ul class="pagination">
 	                	<c:choose>
@@ -178,10 +194,34 @@
 	                </ul>
             	</div>
         	</div>
-            
+        	
+ 			<br>
+        	<div style="width: 900px; margin: auto;">
+			    <form id="searchForm" action="" method="get">
+			        <button id="search" class="searchBtn btn btn-secondary">검색</button>
+			        <div class="text">
+			            <input type="text" class="form-control" id="keyword" name="keyword">
+			        </div>
+			        <div class="select">
+			            <select class="custom-select" name="condition" id="condition">
+			                <option value="gosuNo">고수번호</option>
+			                <option value="userNo">고객번호</option>
+			                <option value="estNo">계약번호</option>
+			            </select>
+			        </div>
+			    </form>
+			</div>
     </div>
     
     <script>
+
+	    $("#searchForm").submit(function(event) {
+	        event.preventDefault();
+	        let keyword = $("#keyword").val();
+	        let condition = $("#condition").val();
+	        search(1, keyword, condition);
+	    });
+    
     	$(function() {
     		
     		$(".table-hover>tbody>tr").click(function() {
@@ -194,6 +234,115 @@
     		});
     		
     	});
+    	
+    	function search(page, keyword, condition){
+    		
+    		$('#listBody').empty();
+    		$('#pagingArea').empty();
+    		
+    		$.ajax({
+    			url: "adminReviewSearch.ad",
+    			dataType: "json",
+    			data: {
+    				cPage: page,
+    				keyword: keyword,
+    				condition: condition
+    			},
+    			success: function(data){
+    				
+    				console.log(data);
+    				
+    				let list = data.list
+    				
+    				for(let i = 0; i < list.length; i++){
+	    		    	let content =
+		                    '<tr>' + 
+                            '<td>' + list[i].review.revNo + '</td>' + 
+                            '<td>' + list[i].estTitle + '</td>' + 
+                            '<td>' + list[i].gosuName + '(' + list[i].review.gosuNo + ')' + '</td>' +
+                            '<td>' + list[i].userName + '(' + list[i].review.userNo + ')' + '</td>' +
+		                	'<td>' + list[i].review.revDate + '</td>' +
+		                	'<td>';
+		                	
+	                    	if(list[i].review.revPoint == 0){
+	                    		content += 
+	                    			'<i class="rating__star far fa-star"></i>';
+	                    	} else if (list[i].review.revPoint == 1) {
+	                    		content += 
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>';
+	                    	} else if (list[i].review.revPoint == 2){
+	                    		content += 
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>';
+	                    	} else if (list[i].review.revPoint == 3){
+	                    		content += 
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>';
+	                    	} else if (list[i].review.revPoint == 4){
+	                    		content += 
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>';
+	                    	} else if (list[i].review.revPoint == 5){
+	                    		content +=
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>' +
+	                    			'<i class="fa-solid fa-star" style="color: #ffd43b;"></i>';
+	                    	} 
+	                        
+	                    content += '</td>' + '</tr>';
+						// console.log(content);
+	                	$('#listBody').append(content);
+	    		    }
+	                	
+                	let paging = '';
+    		    	
+	    		    if(data.pi.currentPage == 1){
+	    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&lt;</button>';
+	    		    } else {
+	    		    	paging += '<button class="pagingBtn" onclick="search(' + (data.pi.currentPage - 1) + ', \'' + keyword + '\', \'' + condition + '\')">&lt;</button>';
+	    		    }
+	    		    
+	    		    for(let i = data.pi.startPage; i <= data.pi.endPage; i++){
+	    		    	
+	    		    	if(data.pi.currentPage == i){
+	    		    		
+							paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="search('+ i + ', ' + keyword + ', ' + condition + ')">' + i + '</button>'	    		    	
+	    		    	} else{
+	    		    		
+	    		    		paging += '<button class="pageBtn" onclick="search(' + i + ', \'' + keyword + '\', \'' + condition + '\')">' + i + '</button>';	    		    	
+	    		    	}
+	    		    	
+	    		    }
+	    		    
+	    		    if(data.pi.currentPage == data.pi.endPage){
+	    		    	paging += '<button class="pagingBtn" disabled style="display:none;">&gt;</button>';
+	    		    } else {
+	    		    	paging += '<button class="pagingBtn" onclick="search(' + (data.pi.currentPage + 1) + ', \'' + keyword + '\', \'' + condition + '\')">&gt;</button>'
+	    		    }
+	    		    
+	    		    $('#pagingArea').append(paging);
+	    		    
+	    		    $(".table-hover>tbody>tr").click(function() {
+	        			
+	        			let rno = $(this).children().eq(0).text();
+	        			
+	        			// console.log(rno);
+	        				
+	        			location.href = "adminReviewDetail.ad?rno=" + rno;
+	        		});
+                	
+    			},
+    			error: function(){
+    				console.log("실패");
+    			}
+    		});
+    		
+    	}
 		    	
     </script>
 	<br><br><br><br>

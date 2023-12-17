@@ -41,6 +41,7 @@
         float: left;
         height: 30px;
         color: black;
+        cursor: pointer;
     }
     .delete{
     	margin: 5px;
@@ -86,7 +87,7 @@
                     <table class="detail" border="1px" style="border-color: black;" >
 	                    <tr class="cons">
 	                        <td class="fix" style="width: 15%; border-top-left-radius: 10px;">계약번호</td>
-	                        <td style="width: 35%;">${ requestScope.list.review.revNo }</td>
+	                        <td style="width: 35%;">${ requestScope.list.review.estNo }</td>
 	                        <td class="fix" style="width: 15%;">계약명</td>
 	                        <td style="width: 35%;">${ requestScope.list.estTitle }</td>
 	                    </tr>

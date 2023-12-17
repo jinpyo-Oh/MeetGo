@@ -46,6 +46,16 @@ public class AdminEstimateServiceImpl implements AdminEstimateService {
 	public EstimateDto adminEstimateDetail(int eno) {
 		return adminDao.adminEstimateDetail(sqlSession, eno);
 	}
+	
+	@Override
+	public int adminEstimateSearchCount(String keyword, String condition) {
+		return adminDao.adminEstimateSearchCount(sqlSession, keyword, condition);
+	}
+	
+	@Override
+	public ArrayList<EstimateDto> adminEstimateSearch(PageInfo pi, String keyword, String condition) {
+		return adminDao.adminEstimateSearch(sqlSession, pi, keyword, condition);
+	}
 
 	@Override
 	public int selectReviewListCount() {
@@ -66,9 +76,14 @@ public class AdminEstimateServiceImpl implements AdminEstimateService {
 	public ArrayList<ReviewImg> adminReviewImg(int rno) {
 		return adminDao.adminReviewImg(sqlSession, rno);
 	}
-	
-	
 
-	
-	
+	@Override
+	public int adminReviewSearchCount(String keyword, String condition) {
+		return adminDao.adminReviewSearchCount(sqlSession, keyword, condition);
+	}
+
+	@Override
+	public ArrayList<ReviewDto> adminReviewSearch(PageInfo pi, String keyword, String condition) {
+		return adminDao.adminReviewSearch(sqlSession, pi, keyword, condition);
+	}
 }

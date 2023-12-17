@@ -1,6 +1,8 @@
 package com.kh.meetgo.admin.adminEstimate.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -47,6 +49,30 @@ public class AdminEstimateDao {
 	public EstimateDto adminEstimateDetail(SqlSessionTemplate sqlSession, int eno) {
 		return sqlSession.selectOne("adminMapper.adminEstimateDetail", eno);
 	}
+	
+	public int adminEstimateSearchCount(SqlSessionTemplate sqlSession, String keyword, String condition) {
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("keyword", keyword);
+		params.put("condition", condition);
+		
+		return sqlSession.selectOne("adminMapper.adminEstimateSearchCount", params);
+	}
+	
+	public ArrayList<EstimateDto> adminEstimateSearch(SqlSessionTemplate sqlSession
+										, PageInfo pi, String keyword, String condition) {
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("keyword", keyword);
+		params.put("condition", condition);
+		
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.adminEstimateSearch", params, rowBounds);
+	}
 
 	public int selectReviewListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("adminMapper.selectReviewListCount");
@@ -70,16 +96,27 @@ public class AdminEstimateDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.adminReviewImg", rno);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public int adminReviewSearchCount(SqlSessionTemplate sqlSession, String keyword, String condition) {
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("keyword", keyword);
+		params.put("condition", condition);
+		
+		return sqlSession.selectOne("adminMapper.adminReviewSearchCount", params);
+	}
+
+	public ArrayList<ReviewDto> adminReviewSearch(SqlSessionTemplate sqlSession, PageInfo pi
+												  , String keyword,String condition) {
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("keyword", keyword);
+		params.put("condition", condition);
+		
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("adminMapper.adminReviewSearch", params, rowBounds);
+	}
 }

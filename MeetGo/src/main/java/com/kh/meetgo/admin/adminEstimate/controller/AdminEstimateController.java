@@ -114,6 +114,37 @@ public class AdminEstimateController {
 		
 		return mv;
 	}
+	
+	@ResponseBody
+	@GetMapping("adminEstimateSearch.ad")
+	public String adminEstimateSearch(@RequestParam(value = "cPage", defaultValue ="1") int currentPage, String keyword, String condition, Model model) {
+		
+		int listCount = adminService.adminEstimateSearchCount(keyword, condition);
+		//System.out.println(listCount);
+		
+		int pageLimit = 5;
+		int boardLimit = 10;
+	
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+		ArrayList<EstimateDto> list = adminService.adminEstimateSearch(pi, keyword, condition);
+//		System.out.println(list.get(0));
+//		System.out.println(list.get(1));
+//		System.out.println(list.get(2));
+//		System.out.println(list.get(3));
+//		System.out.println(list.get(4));
+		
+		model.addAttribute("cPage", currentPage);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("pi", pi);
+		map.put("list", list);
+		
+		System.out.println(map);
+		
+		return new Gson().toJson(map);
+	}
 	// 관리자페이지 계약관리 (끝)
 	
 	// 관리자페이지 리뷰관리 (시작)
@@ -166,6 +197,37 @@ public class AdminEstimateController {
 		
 		
 		return mv;
+	}
+	
+	@ResponseBody
+	@GetMapping("adminReviewSearch.ad")
+	public String adminReviewSearch(@RequestParam(value = "cPage", defaultValue ="1") int currentPage,String keyword, String condition, Model model) {
+		
+		// System.out.println(keyword);
+		// System.out.println(condition);
+		
+		int listCount = adminService.adminReviewSearchCount(keyword, condition);
+		//System.out.println(listCount);
+		
+		int pageLimit = 5;
+		int boardLimit = 10;
+	
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<ReviewDto> list = adminService.adminReviewSearch(pi, keyword, condition);
+		
+		// System.out.println(list);
+		
+		model.addAttribute("cPage", currentPage);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("pi", pi);
+		map.put("list", list);
+		
+		// System.out.println(map);
+		
+		return new Gson().toJson(map);
 	}
 	
 	// 관리자페이지 리뷰관리 (끝)

@@ -96,6 +96,7 @@
 		     , USER_NO
 		  FROM ESTIMATE
 		 WHERE (STATUS = '3' OR STATUS = '4')
+         ORDER BY CONFIRMATION_DATE DESC
     </select>
     
     <select id="adminEstimateComplList" resultType="estimateDto">
@@ -120,6 +121,7 @@
 		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
 		  FROM ESTIMATE
 		 WHERE STATUS = '5'
+		 ORDER BY CONFIRMATION_DATE DESC
     </select>
 	
 	<select id="adminEstimateDetail" parameterType="_int" resultType="estimateDto">
@@ -145,7 +147,65 @@
           FROM ESTIMATE E
          WHERE EST_NO = #{eno}	
 	</select>
-
+	
+	<select id="adminEstimateSearchCount" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		  FROM ESTIMATE
+		 WHERE (STATUS = '3' OR STATUS = '4' OR STATUS = '5')
+		 <choose>
+		 <when test="(condition == 'userNo')">
+		   AND USER_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'gosuNo')">
+		   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'estNo')">
+		   AND EST_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 </choose>
+	</select>
+	
+	<select id="adminEstimateSearch" parameterType="hashMap" resultType="estimateDto">
+		SELECT EST_NO as "estimate.estNo"
+		     , EST_TITLE as "estimate.estTitle"
+		     , EST_CONTENT as "estimate.estContent"
+		     , EST_ADDRESS as "estimate.estAddress"
+		     , EST_SERVICE as "estimate.estService"
+		     , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+		     , END_DATE "estimate.endDate"
+		     , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+		     , EST_PRICE "estimate.estPrice"
+		     , STATUS "estimate.status"
+		     , TID "estimate.tid"
+		     , GOSU_NO "estimate.gosuNo"
+		     , USER_NO "estimate.userNo"
+		     , (SELECT COUNT(*)
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt"
+		     , (SELECT REV_NO
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
+		     , (SELECT USER_NAME
+		      	  FROM MEMBER
+		      	 WHERE MEMBER.USER_NO = ESTIMATE.USER_NO) AS "userName"
+		     , (SELECT USER_NAME
+		      	  FROM MEMBER
+		      	 WHERE MEMBER.USER_NO = ESTIMATE.GOSU_NO) AS "gosuName"
+		  FROM ESTIMATE
+		 WHERE (STATUS = '3' OR STATUS = '4' OR STATUS = '5')
+		 <choose>
+		 <when test="(condition == 'userNo')">
+		   AND USER_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'gosuNo')">
+		   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'estNo')">
+		   AND EST_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 </choose> 
+		  ORDER BY CONFIRMATION_DATE DESC
+	</select> 
 	<!-- 관리자 계약관리용 끝 -->
 	
 	<!-- 관리자 리뷰관리용 -->
@@ -204,6 +264,57 @@
          FROM REVIEW_IMG
         WHERE REV_NO = #{rno}
     </select>
+    
+	<select id="adminReviewSearchCount" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		  FROM REVIEW
+		 WHERE REV_STATUS = '1'
+		 <choose>
+		 <when test="(condition == 'userNo')">
+		   AND USER_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'gosuNo')">
+		   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'estNo')">
+		   AND EST_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 </choose>
+	</select>
+	
+	<select id="adminReviewSearch" parameterType="hashMap" resultType="reviewDto">
+		SELECT R.REV_NO as "review.revNo"
+             , R.REV_CONTENT as "review.revContent"
+             , R.REV_POINT as "review.revPoint"
+             , TO_CHAR(R.REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+             , R.GOSU_NO as "review.gosuNo"
+             , R.USER_NO as "review.userNo"
+             , R.EST_NO as "review.estNo"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.USER_NO = M.USER_NO) as "userName"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.GOSU_NO = M.USER_NO) as "gosuName"
+             , (SELECT EST_TITLE
+             	  FROM ESTIMATE E
+             	 WHERE R.EST_NO = E.EST_NO) as "estTitle"
+          FROM REVIEW R
+         WHERE REV_STATUS = '1'
+           <choose>
+			 <when test="(condition == 'userNo')">
+			   AND USER_NO LIKE '%' || #{keyword} || '%'
+			 </when>
+			 <when test="(condition == 'gosuNo')">
+			   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+			 </when>
+			 <when test="(condition == 'estNo')">
+			   AND EST_NO LIKE '%' || #{keyword} || '%'
+			 </when>
+		   </choose>
+         ORDER BY REV_NO DESC
+	</select> 
+    
 	<!-- 관리자 리뷰관리용 끝 -->
 	
 	<!-- 신고관리 begin -->

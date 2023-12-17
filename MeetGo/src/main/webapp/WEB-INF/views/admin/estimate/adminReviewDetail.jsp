@@ -40,6 +40,7 @@
         float: left;
         height: 30px;
         color: black;
+        cursor: pointer;
     }
     .delete{
     	margin: 5px;
@@ -64,13 +65,13 @@
         
         <div style="text-align: center; width: 60%; margin: auto;">
             <br>
-            <a class="back" href="adminReviewList.ad" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+            <a class="back" onclick="back();" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
 			<a class="delete" data-toggle="modal" data-target="#myModal">삭제하기 X</a>
 		
             <br>
 			<br>
 			
-            <h2>${ requestScope.list.estTitle }(${ requestScope.list.review.revNo })번 계약에 대한 리뷰</h2>
+            <h2>${ requestScope.list.estTitle }(${ requestScope.list.review.estNo }번) 	계약에 대한 리뷰</h2>
        
            <br><br>
     		
@@ -79,7 +80,7 @@
                     <table class="detail" border="1px" style="border-color: black;" >
 	                    <tr class="cons">
 	                        <td class="fix" style="width: 15%; border-top-left-radius: 10px;">계약번호</td>
-	                        <td style="width: 35%;">${ requestScope.list.review.revNo }</td>
+	                        <td style="width: 35%;">${ requestScope.list.review.estNo }</td>
 	                        <td class="fix" style="width: 15%;">계약명</td>
 	                        <td style="width: 35%;">${ requestScope.list.estTitle }</td>
 	                    </tr>
@@ -206,6 +207,10 @@
         </div>
     </div>
     <script>
+    	
+    	function back(){
+    		history.back();
+    	}
     
     	$(function(){
 
