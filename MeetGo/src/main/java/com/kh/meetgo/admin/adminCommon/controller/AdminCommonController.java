@@ -27,7 +27,11 @@ public class AdminCommonController {
     	
     	// System.out.println(list1);
     	
-    	mv.addObject("list1", list1).setViewName("admin/common/adminMainPage");
+    	ArrayList<ChartMemberDto> list2 = adminService.selectProfit();
+    	
+    	mv.addObject("list1", list1)
+    	  .addObject("list2", list2)	
+    	  .setViewName("admin/common/adminMainPage");
     	
         return mv;
     }

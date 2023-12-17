@@ -25,4 +25,9 @@ public class AdminCommonServiceImpl implements AdminCommonService {
 		return adminDao.selectMember(sqlSession);
 	}
 
+	@Override
+	public ArrayList<ChartMemberDto> selectProfit() {
+		return adminDao.selectProfit(sqlSession);
+	}
+
 }

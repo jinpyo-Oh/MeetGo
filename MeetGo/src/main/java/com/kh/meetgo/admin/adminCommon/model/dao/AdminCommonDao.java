@@ -17,5 +17,9 @@ public class AdminCommonDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectMember");
 	}
 
+	public ArrayList<ChartMemberDto> selectProfit(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("adminMapper.selectProfit");
+	}
+
 
 }

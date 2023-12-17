@@ -11,4 +11,8 @@ public interface AdminCommonService {
 	
 	// 회원추이차트용 (select)
 	ArrayList<ChartMemberDto> selectMember();
+	
+	// 수익추이차트용 (select)
+	ArrayList<ChartMemberDto> selectProfit();
+	
 }
