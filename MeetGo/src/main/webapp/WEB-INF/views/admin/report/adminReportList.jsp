@@ -143,16 +143,14 @@
       		scrollToTop();
       	}
       	
-      	function prevPage() {
-      		num = parseInt(currentPage) - 1;
-      		$("#currentPage").val(num);
+      	function prevPage(num) {
+      		$("#currentPage").val(num - 1);
       		selectReportList(option);
       		scrollToTop();
       	}
       	
-      	function nextPage() {
-      		num = parseInt(currentPage) + 1;
-      		$("#currentPage").val(num);
+      	function nextPage(num) {
+      		$("#currentPage").val(num + 1);
       		selectReportList(option);
       		scrollToTop();
       	}
@@ -230,7 +228,7 @@
 						$("#report-list-content").append(resultStr);
 					}
 					
-					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage()">Prev</button>');
+					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage('+ currentPage +')">Prev</button>');
 					
 					// prev버튼 조건에 따른 숨김처리
 					if(startPage > maxPage){
@@ -256,7 +254,7 @@
     				}     
     				
     				// 다음버튼
-    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage()">Next</button>');
+    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage('+ currentPage +')">Next</button>');
 	    				if(parseInt($("#currentPage").val()) == maxPage){
 	    					nextButton.css("display", "none");
 	    				}
