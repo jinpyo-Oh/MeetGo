@@ -242,7 +242,7 @@
 
         $(".awqs").on("input", function() {
             var emailInput = $(this).val();
-            var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
+            <!--var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput); -->
             
             if (!isValidEmail) {
 
@@ -361,54 +361,46 @@
     	        }
     	    });
     	});
-     $(document).ready(function() {
-    	    let $emailInput = $(".main input[name=userEmail]");
-
-    	    $emailInput.on("input", function() {
-    	        // 이메일 입력 값을 가져옵니다.
+     $(document).ready(function () {
+    	    
+    	    
+    	    $('#email-id').keyup(function () {
+    	    	console.log("a")
+    	    	let $emailInput = $(".main input[name=userEmail]");
+        	    let $emailInput2 = $(".main input[name=userEmail]");
     	        let email = $emailInput.val();
-
-    	        // 입력된 이메일이 유효한지 확인합니다.
-    	        let isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    	        if (isValidEmail) {
-    	            // 중복된 이메일을 확인하기 위한 AJAX 요청 수행
-    	            $.ajax({
-    	                url: "emailCheck.me",
-    	                type: "get",
-    	                data: { checkEmail: email },
-    	                success: function(result) {
-    	                    if (result === "NNNNN") {
-    	                        // 사용 불가능한 이메일일 경우 메시지를 빨간색으로 출력
-    	                        $("#checkResult3").show();
-    	                        $("#checkResult3").css("color", "red").text("중복된 이메일이 존재합니다. 다시 입력해주세요.");
-
-    	                        // 회원가입 버튼 비활성화
-    	                        $(".main button[type=submit]").attr("disabled", true);
-    	                    } else {
-    	                        // 사용 가능한 이메일일 경우 초록색 메시지 출력
-    	                        $("#checkResult3").show();
-    	                        $("#checkResult3").css("color", "green").text("사용 가능한 이메일입니다.");
-
-    	                        // 회원가입 버튼 활성화
-    	                        $(".main button[type=submit]").attr("disabled", false);
-    	                    }
-    	                },
-    	                error: function() {
-    	                    console.log("이메일 중복 체크용 AJAX 통신 실패!");
-    	                }
-    	            });
-    	        } else {
-    	            // 유효하지 않은 이메일일 경우 회원가입 버튼 비활성화
-    	            $(".main button[type=submit]").attr("disabled", true);
-
-    	            // 메시지 숨기기
+    	        let email2 = $emailInput.val();
+    	        
+					
+    	        <!-- if (isValidEmail) { -->
+   	            $.ajax({
+   	                url: "emailCheck.me",
+   	                type: "get",
+   	                data: { 
+   	                	userEmail: email ,
+   	                	userEmail2: email2
+   	                	},
+   	                success: function (result) {
+   	                    if (result === "NNNNN") {
+   	                        $("#checkResult3").show();
+   	                        $("#checkResult3").css("color", "red").text("중복된 이메일이 존재합니다. 다시 입력해주세요.");
+   	                        $("#submitBtn").prop("disabled", true);
+   	                    } else {
+   	                        $("#checkResult3").show();
+   	                        $("#checkResult3").css("color", "green").text("사용 가능한 이메일입니다.");
+   	                        $("#submitBtn").prop("disabled", false);
+   	                    }
+   	                },
+   	                error: function () {
+   	                    console.log("이메일 중복 체크용 AJAX 통신 실패!");
+   	                }
+   	            });
+    	        <!-- } else {
+    	            $("#submitBtn").prop("disabled", true);
     	            $("#checkResult3").hide();
-    	        }
+    	        } -->
     	    });
     	});
-
-
 
      function sample6_execDaumPostcode() {
         new daum.Postcode({

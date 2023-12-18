@@ -209,9 +209,10 @@ public class MemberController {
 
     @ResponseBody
     @RequestMapping(value = "emailCheck.me", produces = "text/html; charset=UTF-8")
-    public String checkEmail(Member m, String checkEmail, String userEmail, String userEmail2) {
+    public String checkEmail(Member m, String userEmail, String userEmail2) {
 
-        String checkEmail1 = userEmail + "" + userEmail2;
+        String checkEmail1	 = userEmail + "@"+ userEmail2;
+        System.out.println(checkEmail1);
         m.setUserEmail(checkEmail1);
         int count = memberService.checkEmail(checkEmail1);
 
