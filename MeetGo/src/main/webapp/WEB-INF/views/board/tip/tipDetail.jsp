@@ -80,6 +80,8 @@
     .main_body_3_1{
         width: 1000px;
         height: 600px;
+        text-align: center;
+       
     }
     .main_body_4 {
         width: 1000px;
@@ -115,26 +117,27 @@
         margin: auto; /* 가운데 정렬 스타일 추가 */
         display: block; /* 블록 레벨 요소로 설정하여 가운데 정렬이 적용되도록 합니다. */
     }
+    
+    #tipImg {
+    	
+    }
 </style>
 </head>
 <body>
 	<jsp:include page="../../common/header.jsp"/>
-		<jsp:include page="../../common/side.jsp"/>
+	<jsp:include page="../../common/side.jsp"/>
 	
 	<div class="wrap">
         <div class="main_title">
-       
+       		
             <div class="main_title_1" style="float: left;">
             <br>
-            <h4 style="font-size:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${ requestScope.m.boardTitle }</h4>
+            <h4 style="font-size:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            ${ requestScope.m.boardTitle }
+            </h4>
         
         	</div>
-           
-            <div class="main_title_2" style="float: right;">
-               
-                <span id="category" class="badge rounded-pill bg-primary" >카테고리</span>
-                
-            </div>
+         
             
         </div>
         <hr>
@@ -142,11 +145,14 @@
           
             <div class="main_body_1">
             <div class="main_body_1_1">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 조회수 : ${ requestScope.m.boardCount } 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             &nbsp;&nbsp; &nbsp;&nbsp;
+              &nbsp;&nbsp; &nbsp;&nbsp;
+             조회수 : ${ requestScope.m.boardCount } 
             </div>
             
             <div class="main_body_1_2">
-                &nbsp;  &nbsp;작성일 :${ requestScope.m.createDate }
+                &nbsp;  &nbsp; 작성일 :${ requestScope.m.createDate }
             </div>
             </div>
            
@@ -159,17 +165,16 @@
 
          <div class="main_body_3_1">
 			    <br>
-			            <img src="${ requestScope.dtoList[0].boardFile.bfilePath }">
+			     <img style="height: 250px; width:300px; align:center;" src="${ requestScope.dtoList[0].bfilePath }"> 
+			
+			    <br> <br>
 			    
-			    <c:forEach var="image" items="${requestScope.dtoList}">
-			        <img src="${image.bfilePath}" style="width:750px; height:400px; display: block; margin: auto;">
-			    </c:forEach>
-			    <br>
 			    <textarea name="" id="textarea" cols="2" rows="5" placeholder="&nbsp;&nbsp;">
 			        ${requestScope.m.boardContent}
 			    </textarea>
+			    
 			    <hr>
-			</div>>
+			</div>
             <br>
          <div class="main_body_4">
             <div class="main_body_4_1">

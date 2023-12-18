@@ -108,7 +108,13 @@ public class BoardServiceImpl implements BoardService {
 	public int insertGosuReply(Reply r) {
 		return boardDao.insertGosuReply(sqlSession, r);
 	}
-
+	
+	@Override
+	@Transactional
+	public int increaseNoticeCount(int boardNo) {
+		return boardDao.increaseNoticeCount(sqlSession, boardNo);
+	}
+	
 
 	
 
@@ -132,7 +138,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board selectTipBoard(int boardNo) {
+	public BoardFileDto selectTipBoard(int boardNo) {
 		return boardDao.selectTipBoard(sqlSession, boardNo);
 	}
 
@@ -142,11 +148,12 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectNoticeListCount(sqlSession);
 	}
 	
-	// 고수찾아요 게시판 리스트 
-//	@Override
-//	public ArrayList<Board> selectNoticeList(PageInfo pi) {
-//		return boardDao.selectNoticeList(sqlSession, pi);
-//	}
+	
+	@Override
+	public ArrayList<Board> selectNoticeList(PageInfo pi) {
+		return boardDao.selectNoticeList(sqlSession, pi);
+	}
+	
 	@Override
 	public int insertPofol(Pofol pofol) {
 		return boardDao.insertPofol(sqlSession, pofol);
@@ -202,13 +209,19 @@ public class BoardServiceImpl implements BoardService {
 		return 0;
 	}
 
+
+
 	@Override
-	public ArrayList<BoardFileDto> selectNoticeList(PageInfo pi) {
+	@Transactional 
+	public int insertNoticeBoard(Board m) {
+		return boardDao.insertNoticeBoard(sqlSession, m);
+	}
+
+	@Override
+	public Board selectNoticeBoard(int boardNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 
 	
 	

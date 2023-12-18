@@ -26,27 +26,27 @@
     width: 1000px;
     box-sizing: border-box;
 }
-.gosu_header{
+.notice_header{
     height: 100px;
     width: 1000px;
     box-sizing: border-box;
     text-align: center;
 }
-.gosu_body_1{
+.notice_body_1{
     height: 40px;
     box-sizing: border-box;
     width: 1000px;
     display: flex;
      
 }
-.gosu_body_1_1{
+.notice_body_1_1{
 
     height: 40px;
     box-sizing: border-box;
     width: 10%;
     float: left;
 }
-.gosu_body_1_2{
+.notice_body_1_2{
     
     height: 40px;
     box-sizing: border-box;
@@ -54,13 +54,13 @@
     float: center;
     text-align: center;
 }
-.gosu_body_1_3{
+.notice_body_1_3{
     height: 40px;
     box-sizing: border-box;
     width: 20%;
     float: right;
 }
-.gosu_main{
+.notice_main{
 
     width: 1000px;
     box-sizing: border-box;
@@ -72,43 +72,30 @@ table, th, td {
   border-collapse: collapse;
   width: 1000px;
 }
-.gosu_notice{
+.notice_notice{
     box-sizing: border-box;
 
     width: 70%;
 }
-.gosu_first{
+.notice_first{
     background-color: #e8f6ff;
 
 }
-.gosu_content{
+.notice_content{
     box-sizing: border-box;
 
     width: 1000px;
     height: 630px;
 }
-.gosu_content_1{
-    width: 80px;
+.bno{
+
+    width: 10%;
     height: 10px;
     box-sizing: border-box;
 
 }
-.gosu_content_2{
-    width: 850px;
-    box-sizing: border-box;
 
-}
-.gosu_content_3{
-    width: 100px;
-    box-sizing: border-box;
-
-}
-.gosu_content_4{
-    width: 130px;
-    box-sizing: border-box;
-
-}
-.gosu_footer{
+.notice_footer{
     float: center;
     width: 1000px;
     height: 100px;
@@ -119,26 +106,85 @@ table, th, td {
     display: block;
     margin: auto;
 }
+
+table, th, td {
+
+  border-collapse: collapse;
+  width: 1000px;
+}
       
 </style>
 </head>
 <body>
     	<jsp:include page="../../common/header.jsp"/>
-
+		<jsp:include page="../../common/side.jsp"/>
+ 
  <div class="wrap">
-        <div class="gosu_header">
+           
+        <div class="notice_header">
+        
             <br>
-            <h2>공지사항</h2>
+            <h2>공지사항 게시판</h2>
             <hr>
         </div>
-        <div class="gosu_body_1">
+        <div class="notice_body_1">
             
+            <div class="notice_body_1_1">
+                &nbsp;&nbsp; &nbsp;&nbsp; <b>No</b>
+                <hr>
             </div>
             
-            
+            <div class="notice_body_1_2">
+                <b style="padding-right:200px;">제목</b>
+                <hr>   
+            </div>
+          
+			 <div class="notice_body_1_3">
+                
+                
+                <b>작성일</b>
+                
+                 &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                <b>조회수</b>
+                &nbsp;&nbsp;&nbsp;
+                
+                <hr>
+         
+         </div>
+        
+        </div>
+       
+       <div class="notice_main">
+                 
+           <table class="noticeList" style="">
+            <c:forEach var="m" items="${ requestScope.list }">
+              		<tr onclick="sendNoticeDetail( ${m.boardNo} )">		
+       				 <td class="bno">
+                     &nbsp; &nbsp; &nbsp;  ${m.boardNo}
+                    </td>
+                    <td class="notice_content_1" style="width :50%;">
+                       ${m.boardTitle} 	
+                     </td>
+                	
+                    <td class="notice_content_2"
+                    style=" width:7%;"
+                    > 
+                     ${m.createDate}
+                   
+                    </td>    
+                      <td class="notice_content_3" style="width:10%;  padding-left: 40px;">
+                         ${m.boardCount} </td>
+                	        
+               </tr>
+               
+               </c:forEach>
+            </table>   
+           </div>
+           <div>
             <a href="noticeWrite.bo">
                 <button type="submit" class="btn btn-primary" >글작성</button>
             </a>
+            </div>
        </div>
        <div class="list-bar">
         <nav aria-label="Page navigation example" >
@@ -164,23 +210,19 @@ table, th, td {
    		
        </div>
       
-    </div>
 	    	<jsp:include page="../../common/footer.jsp"/>
 	
 	
 	<script>
-	$(function() {
+	
+	function sendNoticeDetail(bno) { 
+		location.href = "noticeDetail.bo?bno=" + bno;
 		
-		$("#baordList > tr").click(function() {
-			
-			let mno = $(this).children(".bno").text();
-			
-			
-			
-			location.href = "noticeDetail.bo?bno=" + bno;
-		});
-	});
+	};
+		
+
 	</script>
+	
 	 
 </body>
 </html>
