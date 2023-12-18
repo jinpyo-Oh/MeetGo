@@ -117,16 +117,19 @@
       	function paging(num) {
       		currentPage = num;
       		$("#currentPage").val(num);
+      		selectAdminPofolList();
       		scrollToTop();
       	}
       	
       	function prevPage(num) {
       		$("#currentPage").val(num - 1);
+      		selectAdminPofolList();
       		scrollToTop();
       	}
       	
       	function nextPage(num) {
       		$("#currentPage").val(num + 1);
+      		selectAdminPofolList();
       		scrollToTop();
       	}
       	
@@ -170,7 +173,6 @@
 	  });
       
       function selectAdminPofolList() {
-    	  
     	  
     	  let $keyword = $("#searchKeyword").val();
     	  let $currentPage = $("#currentPage").val();

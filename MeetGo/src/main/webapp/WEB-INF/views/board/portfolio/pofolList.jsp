@@ -165,21 +165,25 @@
              
         <!-- 페이징처리 스크립트 -->
         <script>
+        
+        	let currentPage = 1;
+        	
 	       	function paging(num) {
 	       		currentPage = num;
 	       		$("#currentPage").val(num);
+	       		showpofolList(category, standard);
 	       		scrollToTop();
 	       	}
 	       	
-	       	function prevPage() {
-	       		num = parseInt($currentPage) - 1;
-	       		$("#currentPage").val(num);
+	       	function prevPage(num) {
+	       		$("#currentPage").val(num - 1);
+	       		showpofolList(category, standard);
 	       		scrollToTop();
 	       	}
 	       	
-	       	function nextPage() {
-	       		num = parseInt($currentPage) + 1;
-	       		$("#currentPage").val(num);
+	       	function nextPage(num) {
+	       		$("#currentPage").val(num + 1);
+	       		showpofolList(category, standard);
 	       		scrollToTop();
 	       	}
 	       	
@@ -209,11 +213,13 @@
 		})
 	
 		$("#pofol-view-option").on("change", function() {
+			$("#currentPage").val(1);
 	        standard = $(this).val();
 	        showpofolList(category, standard);
 		});
 		
 		$(".btn-cateMain").on("click", function() {
+			$("#currentPage").val(1);
 		    category = $(this).val();
 		    showpofolList(category, standard);
 		    
@@ -223,7 +229,8 @@
 						
 			let $category = num; // 대분류 번호
 			let $standard = option; // 정렬기준
-
+			let $currentPage = $("#currentPage").val();
+			
 			$("#wraper").empty();
 			$("#paging-area").empty();
 			
@@ -231,7 +238,8 @@
 				url : "pofolListOrderBy.po",
 				type : "get",
 				data : { standard : $standard,
-						 category : $category },
+						 category : $category,
+						 currentPage : $currentPage},
 				success : function(result) {
 					
 					let list = result.list;
@@ -260,6 +268,18 @@
     						$("#wraper").append(resultStr);
             		}
             		
+					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage('+ currentPage +')">Prev</button>');
+										
+					// prev버튼 조건에 따른 숨김처리
+					if(startPage > maxPage){
+						prevButton.css("display", "none");
+					}
+					if(parseInt($("#currentPage").val()) == 1){
+						prevButton.css("display", "none");
+					}
+					$('#paging-area').append(prevButton);
+					
+            		
             		for(let p = startPage; p <= endPage; p++){
     					
     					let pagingBtn = '';
@@ -274,7 +294,7 @@
     				}     
     				
     				// 다음버튼
-    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage()">Next</button>');
+    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage('+ currentPage +')">Next</button>');
     				if(parseInt($("#currentPage").val()) == maxPage){
     					nextButton.css("display", "none");
     				}
