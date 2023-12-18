@@ -175,7 +175,7 @@
 	         </div>
 	
 	        <p class="name1">비밀번호*</p>
-	        <input class="pass" type="password" name="userPwd" id="userPwd" placeholder="영문+숫자 조합 8자리 이상 입력해주세요." required>
+	        <input class="pass" type="password" name="userPwd" id="userPwd" placeholder="영문+숫자 조합 6자리 이상 입력해주세요." required>
 	  		 <div id="checkResult1" style="font-size : 0.8em; display : none;">
 	         </div>
 	
@@ -208,7 +208,7 @@
 	
 	        <p class="name1">이메일*</p>
                 <input class="awqs" type="text" placeholder="이메일주소" id="email-id" name="userEmail" required>@
-                <input class="awqss" type="text" id="manualEmailInput"  required>
+                <input class="awqss" type="text" id="manualEmailInput"  name="userEmail2"required>
                 <select class="awqs" id="manualEmail" name="domain" required>
                     <option id="emailDomain" value="" disabled selected>선택</option>
                     <option value="meetgo.com">meetgo.com</option>
@@ -361,63 +361,53 @@
     	        }
     	    });
     	});
-     $(function() {
+     $(document).ready(function() {
     	    let $emailInput = $(".main input[name=userEmail]");
 
-    	    $emailInput.keyup(function() {
-    	        checkEmailDuplicate();
-    	    });
+    	    $emailInput.on("input", function() {
+    	        // 이메일 입력 값을 가져옵니다.
+    	        let email = $emailInput.val();
 
-    	    function checkEmailDuplicate() {
-    	        const email = $emailInput.val();
+    	        // 입력된 이메일이 유효한지 확인합니다.
+    	        let isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    	        if (email.length < 5) {
-    	            disableSubmitButton();
-    	            hideCheckResult();
-    	            return;
-    	        }
+    	        if (isValidEmail) {
+    	            // 중복된 이메일을 확인하기 위한 AJAX 요청 수행
+    	            $.ajax({
+    	                url: "emailCheck.me",
+    	                type: "get",
+    	                data: { checkEmail: email },
+    	                success: function(result) {
+    	                    if (result === "NNNNN") {
+    	                        // 사용 불가능한 이메일일 경우 메시지를 빨간색으로 출력
+    	                        $("#checkResult3").show();
+    	                        $("#checkResult3").css("color", "red").text("중복된 이메일이 존재합니다. 다시 입력해주세요.");
 
-    	        $.ajax({
-    	            url: "emailCheck.me",
-    	            type: "get",
-    	            data: { checkEmail: email },
-    	            success: handleEmailCheckResult,
-    	            error: function() {
-    	                console.log("이메일 중복 체크용 ajax 통신 실패!");
-    	            }
-    	        });
-    	    }
+    	                        // 회원가입 버튼 비활성화
+    	                        $(".main button[type=submit]").attr("disabled", true);
+    	                    } else {
+    	                        // 사용 가능한 이메일일 경우 초록색 메시지 출력
+    	                        $("#checkResult3").show();
+    	                        $("#checkResult3").css("color", "green").text("사용 가능한 이메일입니다.");
 
-    	    function handleEmailCheckResult(result) {
-    	        const checkResultElement = $("#checkResult3");
-    	        const submitButton = $(".main button[type=submit]");
-
-    	        if (result == "NNNNN") {
-    	            showCheckResult("중복된 이메일이 존재합니다. 다시 입력해 주세요.", "red");
-    	            disableSubmitButton();
+    	                        // 회원가입 버튼 활성화
+    	                        $(".main button[type=submit]").attr("disabled", false);
+    	                    }
+    	                },
+    	                error: function() {
+    	                    console.log("이메일 중복 체크용 AJAX 통신 실패!");
+    	                }
+    	            });
     	        } else {
-    	            showCheckResult("사용 가능한 이메일입니다!", "green");
-    	            enableSubmitButton();
+    	            // 유효하지 않은 이메일일 경우 회원가입 버튼 비활성화
+    	            $(".main button[type=submit]").attr("disabled", true);
+
+    	            // 메시지 숨기기
+    	            $("#checkResult3").hide();
     	        }
-    	    }
-
-    	    function showCheckResult(message, color) {
-    	        const checkResultElement = $("#checkResult3");
-    	        checkResultElement.show().css("color", color).text(message);
-    	    }
-
-    	    function hideCheckResult() {
-    	        $("#checkResult3").hide();
-    	    }
-
-    	    function enableSubmitButton() {
-    	        $(".main button[type=submit]").attr("disabled", false);
-    	    }
-
-    	    function disableSubmitButton() {
-    	        $(".main button[type=submit]").attr("disabled", true);
-    	    }
+    	    });
     	});
+
 
 
      function sample6_execDaumPostcode() {

@@ -159,6 +159,7 @@
 
         .file-body {
             position: relative;
+			width: 800px;
         }
 
         .value-text {
@@ -326,8 +327,8 @@
             text-align: center;
             background-color: #f9f9f9; /* 배경색 추가 */
             transition: border 0.3s ease-in-out; /* 경계선 변화에 애니메이션 적용 */
-            margin-top: 50px;
-
+			box-sizing: border-box;
+			margin: 0;
             &:hover {
                 border: 2px dashed #00796b;
             }
@@ -358,10 +359,14 @@
             position:absolute;
             right: 5px;
             top: 5px;
-            width: 20px;
-            height: 20px;
+            width: 20px!important;
+            height: 20px!important;
             cursor: pointer;
         }
+		.potolist{
+			width: 800px;
+			
+		}
 	</style>
 </head>
 <body>
@@ -595,7 +600,7 @@
 		<div class="my-profile-name">
 			<div class="comp-hader">
 				<div class="hading">
-					<h2>연락가능시간</h2>
+					<h2>연락 가능 시간</h2>
 					<div class="action-group-wapper">
 						<div class="type">
 							<div class="update" onclick="toggleEditAvailableTime()">
@@ -691,34 +696,20 @@
 	<div class="my-profile-name">
 		<div class="comp-hader">
 			<div class="hading">
-				<h2>사진</h2>
-				<div class="action-group-wapper">
-					<div class="type">
-						<div class="update">
-							수정
-						</div>
-					</div>
-				</div>
+				<h2 align="left">고수 소개 이미지</h2>
 			</div>
 		
 		</div>
 		<div class="info">
 			<div class="value">
-				<div>평균 고수들이8개의 사진/동영상을고수들이 등록했어요!</div>
+				<div>고수 소개 이미지는 7개까지 등록 가능합니다.</div>
 				<div class="media-body">
 					<ul>
 						<li>
 							<div class="file-body">
-								<label class="file-upload-container">
-									<span class="plus-icon">+</span>
-									<input type="file" id="uploadFiles" onchange="loadFile(this);">
-								</label>
-								<input type="hidden" id="potoListSize">
-								<div class="potolist" >
-                                    <div class="gosu-img-card">
-                                        <img class="poto1" id="uploadedImage11"src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmMLME%2Fbtq3lTk2Zre%2F2YJxcU7D3kzVQzCfeXxKfK%2Fimg.png">
-                                        <img class="delete-img-icon" src="<%=request.getContextPath()%>/resources/images/common/delete-icon.png">
-                                    </div>
+								
+								<div class="potolist">
+        
 								</div>
 							</div>
 						</li>
@@ -734,9 +725,8 @@
 
 <script>
     function loadFile(input) {
-        console.log(input);
-        if ($('#potoListSize').val() >= 8) {
-            alert("8개 이상 추가 할 수 없습니다");
+        if ($('#potoListSize').val() >= 7) {
+            alert("최대 7개 까지만 업로드 가능합니다.");
             retrun;
         }
         var files = input.files;
@@ -753,14 +743,12 @@
             data: formData,
             success: function (result) {
 
-
-                $('#potoListSize').val(data.length + 1);
             },
             error: function () {
-                alert("파일 업로드 성공");
+                alert("파일 업로드 실패");
             }
         });
-    };
+    }
 
     function selectAllGosuImg() {
         $.ajax({
@@ -771,20 +759,27 @@
             success: function (data) {
                 $('#potoListSize').val(data.length);
                 for (let i = 0; i < data.length; i++) {
-                    console.log(data[i]);
                     let gosuImg = data[i];
                     let content = '<div class="gosu-img-card">' +
                                     '<img class="poto1" id="uploadedImage' + gosuImg.gosuImgNo + '"src="' + gosuImg.gosuImgUrl + '">' +
-                                    '<img className="delete-img-icon"  src="<%=request.getContextPath()%>/resources/images/common/delete-icon.png">' +
+                                    '<img class="delete-img-icon" src="<%=request.getContextPath()%>/resources/images/common/delete-icon.png">' +
                                 '</div>' ;
                     $('.potolist').append(content);
                 }
+	
+                let content = '<div class="gosu-img-card"><label class="file-upload-container">' +
+					'<span class="plus-icon">+</span>' +
+					'<input type="file" id="uploadFiles" onChange="loadFile(this);">' +
+                    '</label>' +
+                    '<input type="hidden" id="potoListSize"></div>';
+                $('.potolist').append(content);
+                
             },
             error: function () {
                 alert("파일 업로드 에러");
             }
         });
-    };
+    }
 </script>
 
 <script>

@@ -126,7 +126,7 @@
             <hr>
              <ul>
                 <li class="mypage">찜 목록</li>
-                <a href="">
+                <a href="wishilst.me">
                     <li class="mypage-mini">고수 찜 목록<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"></li>
                 </a>  
             </ul>

@@ -247,7 +247,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public ArrayList<GosuImg> selectAllGosuImg(int userNo) {
-		// TODO Auto-generated method stub
 		return memberDao.selectAllGosuImg(sqlSession,userNo);
 	}
 
@@ -283,6 +282,18 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ReviewDto WrittenReviewDetail(int revNo) {
 		return memberDao.WrittenReviewDetail(sqlSession, revNo);
+	}
+
+	@Override
+	public int checkEmail(String checkEmail) {
+		// TODO Auto-generated method stub
+		return memberDao.checkEmail(sqlSession,checkEmail);
+	}
+
+	@Override
+	public ArrayList<Member> selectWishlist(int gosuNo) {
+		// TODO Auto-generated method stub
+		return memberDao.selectWishlist(sqlSession,gosuNo);
 	}
 
 	

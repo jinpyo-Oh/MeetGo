@@ -119,7 +119,7 @@ public interface MemberService {
 
 	
 	
-	
+	ArrayList<Member> selectWishlist(int gosuNo);
 	// 내게 쓰여진 리뷰 개수 조회 (select)
 	int WrittenReviewToMeCount(int gosuNo);
 	
@@ -128,4 +128,6 @@ public interface MemberService {
 	
 	// 내게 쓰여진 리뷰 상세조회 (selelct)
 	ReviewDto WrittenReviewDetail(int revNo);
+
+	int checkEmail(String checkEmail);
 }
