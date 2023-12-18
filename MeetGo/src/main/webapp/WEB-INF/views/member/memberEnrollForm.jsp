@@ -361,46 +361,7 @@
     	        }
     	    });
     	});
-     $(document).ready(function () {
-    	    
-    	    
-    	    $('#email-id').keyup(function () {
-    	    	console.log("a")
-    	    	let $emailInput = $(".main input[name=userEmail]");
-        	    let $emailInput2 = $(".main input[name=userEmail]");
-    	        let email = $emailInput.val();
-    	        let email2 = $emailInput.val();
-    	        
-					
-    	        <!-- if (isValidEmail) { -->
-   	            $.ajax({
-   	                url: "emailCheck.me",
-   	                type: "get",
-   	                data: { 
-   	                	userEmail: email ,
-   	                	userEmail2: email2
-   	                	},
-   	                success: function (result) {
-   	                    if (result === "NNNNN") {
-   	                        $("#checkResult3").show();
-   	                        $("#checkResult3").css("color", "red").text("중복된 이메일이 존재합니다. 다시 입력해주세요.");
-   	                        $("#submitBtn").prop("disabled", true);
-   	                    } else {
-   	                        $("#checkResult3").show();
-   	                        $("#checkResult3").css("color", "green").text("사용 가능한 이메일입니다.");
-   	                        $("#submitBtn").prop("disabled", false);
-   	                    }
-   	                },
-   	                error: function () {
-   	                    console.log("이메일 중복 체크용 AJAX 통신 실패!");
-   	                }
-   	            });
-    	        <!-- } else {
-    	            $("#submitBtn").prop("disabled", true);
-    	            $("#checkResult3").hide();
-    	        } -->
-    	    });
-    	});
+
 
      function sample6_execDaumPostcode() {
         new daum.Postcode({

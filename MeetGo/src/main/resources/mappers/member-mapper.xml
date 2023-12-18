@@ -130,7 +130,7 @@
         FROM MEMBER
         WHERE USER_PWD = #{checkPwd}
     </select>
-    <select id="emailCheck" parameterType="string" resultType="_int">
+    <select id="checkEmail" parameterType="string" resultType="_int">
         SELECT COUNT(*)
         FROM MEMBER
         WHERE USER_EMAIL = #{checkEmail}
@@ -542,4 +542,9 @@
         delete "GOSU-SERVICE"
         WHERE GOSU_NO = ${userNo} AND CATEGORY_SMALL_NO = ${categorySmallNo}
     </delete>
+	<update id="updatePassword" parameterType="hashMap">
+	    UPDATE MEMBER
+	    SET USER_PWD = #{userPwd}
+	    WHERE USER_EMAIL = #{email}
+	</update>
 </mapper>

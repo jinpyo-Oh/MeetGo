@@ -125,6 +125,8 @@ public class MemberController {
 
     }
 
+    
+
     @RequestMapping("login.me")
     public ModelAndView loginMember(Member m,
                                     String saveId,
@@ -162,6 +164,8 @@ public class MemberController {
         }
         return mv;
     }
+    
+  
 
     @RequestMapping("logout.me")
     public String loginMember(HttpSession session) {
