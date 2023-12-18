@@ -247,7 +247,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public ArrayList<GosuImg> selectAllGosuImg(int userNo) {
-		// TODO Auto-generated method stub
 		return memberDao.selectAllGosuImg(sqlSession,userNo);
 	}
 

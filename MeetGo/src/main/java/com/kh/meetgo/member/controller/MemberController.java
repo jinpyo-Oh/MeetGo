@@ -785,16 +785,13 @@ public class MemberController {
 	 */ 
 	@ResponseBody 
 	@PostMapping(value="uploadFile.cp", produces="text/json; charset=UTF-8")
-	public String uploadFile(HttpSession session, HttpServletRequest req, MultipartFile uploadFiles) throws IOException {
+	public void uploadFile(HttpSession session, MultipartFile uploadFiles) throws IOException {
 		
 		String url = s3Uploader.upload(uploadFiles, "gosuImg");
 		GosuImg myGosuImg = new GosuImg();
 		myGosuImg.setGosuNo(((Member)session.getAttribute("loginUser")).getUserNo());
 		myGosuImg.setGosuImgUrl(url);
 		int result = memberService.uploadFile(myGosuImg);
-		
-
-		return "";
 	}
 	@ResponseBody
 	@GetMapping(value="selectAllGosuImg", produces="text/json; charset=UTF-8")
