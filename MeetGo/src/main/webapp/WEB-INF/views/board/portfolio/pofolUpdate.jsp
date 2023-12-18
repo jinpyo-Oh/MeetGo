@@ -52,6 +52,7 @@
     #btnCancel{
         background-color: rgba(204, 29, 29, 0.699);;
     }
+    .originImg:hover{cursor:pointer;}
     #btnSubmit:hover{background-color: #2A8FF7;}
     #btnCancel:hover{background-color: rgba(204, 29, 29);}
 </style>
@@ -129,6 +130,7 @@
                 </tr>	
                 </tbody>
             </table>
+            <span>이미지 클릭 시 수정 가능.</span>
             <div align="center">
                 <button id="btnCancel" type="button" onclick="history.back();">취소</button>
                 <button id="btnSubmit" type="submit">수정하기</button>

@@ -67,17 +67,23 @@
             <br>
             <c:choose>
             	<c:when test="${ sessionScope.loginUser.userStatus eq 1 }">
-            		<a class="back" href="myReview.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+            		<a class="back" href="myReview.me" style="text-decoration: none;"><h5><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</h5></a>
 				</c:when>
 				<c:otherwise>
-            		<a class="back" href="WrittenReview.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+            		<a class="back" href="WrittenReview.me" style="text-decoration: none;"><h5><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</h5></a>
 				</c:otherwise>
 			</c:choose>
 			<c:choose>
              	<c:when test="${ requestScope.list.review.gosuNo ne sessionScope.loginUser.userNo }">
-            	    <a class="delete" data-toggle="modal" data-target="#myModal">삭제하기 X</a>
+            	    <a class="delete" data-toggle="modal" data-target="#myModal"><h5><i class="fa-solid fa-trash"></i>&nbsp;삭제하기</h5></a>
              	</c:when>
+             	<c:otherwise>
+             		<img class="delete" onclick="reportAlert('${ requestScope.list.review.userNo }')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png">
+             	</c:otherwise>
             </c:choose>
+            <br>
+            <br>
+            
             <h2>나의 리뷰</h2>
        
            <br><br>

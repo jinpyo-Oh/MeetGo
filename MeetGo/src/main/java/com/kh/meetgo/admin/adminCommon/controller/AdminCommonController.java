@@ -28,6 +28,7 @@ public class AdminCommonController {
     	// System.out.println(list1);
     	
     	ArrayList<ChartMemberDto> list2 = adminService.selectProfit();
+    	System.out.println(list2);
     	
     	mv.addObject("list1", list1)
     	  .addObject("list2", list2)	

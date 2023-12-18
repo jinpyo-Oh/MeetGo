@@ -165,8 +165,9 @@ public class GosuController {
     
     // 고수 찾기 포워딩
     @RequestMapping("searchMain.go")
-    public String sendMain() {
+    public String sendMain(Model model, String keyword) {
     	
+    	model.addAttribute("keyword", keyword);
     	return "gosuSearch/searchMain";
     }
     
@@ -178,7 +179,8 @@ public class GosuController {
     							   , @RequestParam(value = "categoryMain", defaultValue = "0") String categoryMain
     							   , String categorySub
     							   , String filter
-    							   , @RequestParam(value = "currentPage", defaultValue = "1") int currentPage) {
+    							   , @RequestParam(value = "currentPage", defaultValue = "1") int currentPage
+    							   , String keyword) {
     	
        int listCount = 0; // 전체 리스트 초기화
        ArrayList<GosuOpt> list = new ArrayList<>(); // 결과 리스트 초기화
@@ -203,12 +205,11 @@ public class GosuController {
     	   categorySmallNo = Integer.parseInt(categorySub);
        }
   
-       listCount = gosuService.selectOptionalGosuCount(region, regionSub, categoryBigNo, categorySmallNo); // 조회된 회원수
+       listCount = gosuService.selectOptionalGosuCount(region, regionSub, categoryBigNo, categorySmallNo, keyword); // 조회된 회원수
           
        pi = Pagination.getPageInfo(listCount, 
             currentPage, pageLimit, boardLimit);
-       
-       list = gosuService.selectOptionalGosu(region, regionSub, categoryBigNo, categorySmallNo, filter, pi);
+       list = gosuService.selectOptionalGosu(region, regionSub, categoryBigNo, categorySmallNo, keyword, filter, pi);
        
        Map<String, Object> map = new HashMap<>();
 
@@ -216,8 +217,7 @@ public class GosuController {
        map.put("pi", pi);
        
        return new Gson().toJson(map);
-    }
-    
+	} 
     // 고수 상세정보로 포워딩
     @ResponseBody
     @RequestMapping(value = "gosuDetail.go")

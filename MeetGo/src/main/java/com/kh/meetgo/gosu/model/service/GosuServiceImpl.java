@@ -23,14 +23,14 @@ public class GosuServiceImpl implements GosuService {
 	
 	// 고수찾기 회원수 카운트
 	@Override
-	public int selectOptionalGosuCount(String region, String regionSub, int categoryBigNo, int categorySmallNo) {
-		return gosuDao.selectOptionalGosuCount(sqlSession, region, regionSub, categoryBigNo, categorySmallNo);
+	public int selectOptionalGosuCount(String region, String regionSub, int categoryBigNo, int categorySmallNo, String keyword) {
+		return gosuDao.selectOptionalGosuCount(sqlSession, region, regionSub, categoryBigNo, categorySmallNo, keyword);
 	}
 	
 	// 고수찾기 조회결과
 	@Override
-	public ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, String filter, PageInfo pi) {
-		return gosuDao.selectOptionalGosu(sqlSession, region, regionSub, categoryBigNo, categorySmallNo, filter, pi);
+	public ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, String keyword, String filter, PageInfo pi) {
+		return gosuDao.selectOptionalGosu(sqlSession, region, regionSub, categoryBigNo, categorySmallNo, keyword, filter, pi);
 	}
 	
 	// 고수찾기 상세정보 조회

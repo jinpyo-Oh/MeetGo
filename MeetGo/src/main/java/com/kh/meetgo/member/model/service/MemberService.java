@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.dto.ReviewDto;
-import com.kh.meetgo.gosu.model.vo.Estimate;
-import com.kh.meetgo.gosu.model.vo.GosuImg;
-import com.kh.meetgo.gosu.model.vo.Review;
-import com.kh.meetgo.gosu.model.vo.ReviewImg;
+import com.kh.meetgo.gosu.model.vo.*;
+import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
+import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -130,4 +129,16 @@ public interface MemberService {
 	ReviewDto WrittenReviewDetail(int revNo);
 
 	int checkEmail(String checkEmail);
+
+	int deleteGosuImg(int gosuImgNo);
+
+	GosuInfoCntRequest gosuInfoDetailCnt(int userNo);
+
+	ArrayList<CategorySmall> selectAllService(int loginUser);
+
+	ArrayList<ServiceCategoryRequest> selectAllServiceCategory();
+
+	int insertGosuService(String categorySmallNo, int userNo);
+
+	int deleteGosuService(String categorySmallNo, int userNo);
 }

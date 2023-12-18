@@ -37,7 +37,7 @@
     .pagingBtn{
         border: 0;
         border-radius: 5px;
-        width: 80px;
+        width: 40px;
         height: 40px;
         font-size: 20px;
         color: white;
@@ -80,17 +80,17 @@
 				</tr>
 			</table>
         </div>
-        
-		<br>
         <br>
-	
+        <br>
+		 <br>
 		<div style="margin: auto;">
-
 			<c:choose>
 			<c:when test="${ not empty requestScope.list }">
 			<c:forEach var="r" items="${ requestScope.list }">
 	        <div class="aa" >
+	        	
 				<div class="review-info">
+				
 					<table>
 						<tr>
 							<td>계약서 번호 : &nbsp;</td>
@@ -184,13 +184,21 @@
 		        			<button class="pagingBtn" disabled style="display:none;">prev</button>
 		        		</c:when>
 		        		<c:otherwise>
-		        			<button class="pagingBtn" onclick="location.href='myReview.me?cPage=${ requestScope.pi.currentPage - 1 }'">prev</button>
+		        			<button class="pagingBtn" onclick="location.href='myReview.me?cPage=${ requestScope.pi.currentPage - 1 }'">&lt;</button>
 		        		</c:otherwise>
 		        	</c:choose>            
 		             <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
 		                    					end="${ requestScope.pi.endPage }"
 		                    					step="1">
-					<button class="pageBtn" onclick="location.href='myReview.me?cPage=${ p }'">${ p }</button>
+		           	<c:choose>
+		            	<c:when test="${ requestScope.pi.currentPage eq p }">
+							<button class="pageBtn" disabled style="background-color: lightblue;" onclick="location.href='myReview.me?cPage=${ p }'">${ p }</button>
+		            	</c:when>
+		            	<c:otherwise>
+							<button class="pageBtn" onclick="location.href='myReview.me?cPage=${ p }'">${ p }</button>
+		            	</c:otherwise>
+		            </c:choose>
+		           
 		            </c:forEach>          
 		            <!-- 마지막 페이지면 다음페이지로 이동 불가 -->
 		            <c:choose>
@@ -198,7 +206,7 @@
 			       			<button class="pagingBtn" disabled style="display:none;">next</button>
 			       		</c:when>
 			       		<c:otherwise>
-			       			<button class="pagingBtn" onclick="location.href='myReview.me.me?cPage=${ requestScope.pi.currentPage + 1 }'">next</button>
+			       			<button class="pagingBtn" onclick="location.href='myReview.me.me?cPage=${ requestScope.pi.currentPage + 1 }'">&gt;</button>
 			       		</c:otherwise>
 		       		</c:choose> 
             	</div>

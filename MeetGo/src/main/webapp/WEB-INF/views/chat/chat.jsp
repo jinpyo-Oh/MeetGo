@@ -423,6 +423,9 @@
                                 userInfo += '</div>' +
                                     '<h5 style="margin-left: 20px">포트폴리오</h5>' +
                                     '<div class="info-pofol">';
+                                if (pofolImgList.length == 0) {
+                                    userInfo += '<div style="width:100%!important;"><p style="margin-top: 20px; width: 100%">포트폴리오가 없습니다.</p></div>'
+                                }
                                 for (let i = 0; i < pofolImgList.length; i++) {
                                     userInfo += '<div style="width: 100px!important;"><img class="info-img" onclick="movePofol('+pofolImgList[i].pofolNo+')" data-value="' + pofolImgList[i].pofolImgNo + '" src="' + pofolImgList[i].pofolImgUrl + '"></div>'
                                 }
@@ -709,11 +712,11 @@
                     }
 
                     function deleteChat() {
-                        if (confirm("채팅방을 나가시겠습니까? 기존 대화 내역은 삭제됩니다.")) {
-                            alert("나가기");
-                        } else {
-                            alert("나가기 취소");
+                        if (!confirm("채팅방을 나가시겠습니까? 기존 대화 내역은 삭제됩니다.")) {
+                            return;
                         }
+                        
+                        $
                     }
 				</script>
 				
@@ -915,9 +918,10 @@
         var scriptExecuted = false;
         $(document).ajaxStop(function () {
             <c:if test="${not empty requestScope.chatroomNo}">
+			console.log("안비었다");
             if (!scriptExecuted) {
                 $(document).ready(function () {
-                    $('#chatroomNo${requestScope.chatroomNo}').click();
+                    $('#chatroomId${requestScope.chatroomNo}').click();
                     scriptExecuted = true; // 스크립트 실행 완료 후 플래그를 true로 변경
                     <c:remove var="gno" scope="request" />
                 });

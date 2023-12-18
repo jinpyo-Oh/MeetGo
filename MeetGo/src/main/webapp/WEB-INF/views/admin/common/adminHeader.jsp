@@ -254,7 +254,7 @@
 					<ul class="submenu">
 						<li><a href="#">고수 찾아요 관리</a></li>
 						<li><a href="#">팁 노하우 관리</a></li>
-						<li><a href="#">포트폴리오 관리</a></li>
+						<li><a href="showAdminPofolList.ad">포트폴리오 관리</a></li>
 					</ul>
 				</li>
 				<li class="navItem">

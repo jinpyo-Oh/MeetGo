@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style>
     .table-hover{
-        width: 960px; 
+        width: 1400px; 
         text-align: center;
         padding: auto;
         border-radius: 5px;
@@ -51,7 +51,6 @@
         margin : 0px 3px;
     }
     .pageBtn{
-    	
         border: 0;
         border-radius: 5px;
         width: 30px;
@@ -89,25 +88,25 @@
                 <h2><b><img id="revImg" src="<%= request.getContextPath() %>/resources/images/common/contractImg.png"> 계약 관리</b></h2></td>                
  			</div> 
         	<br>
-            <table style="width: 400px; margin: auto; text-align:center;" id="type">
+            <table style="width: 750px; margin: auto; text-align:center;" id="type">
                 <tr>
-					<td class="type" style="width:100px; border-bottom: 3px solid #2A8FF7"><h5><b>진행중인 계약</b></h5></td>                
-					<td class="type" style="width:100px;"><h5><b>완료된 계약</b></h5> </td>
-					<td class="type" style="width:100px;"><h5><b>검색된 계약</b></h5> </td>
+					<td class="type" style="width:250px; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
+					<td class="type" style="width:250px;"><h4><b>완료된 계약</b></h4> </td>
+					<td class="type" style="width:250px;"><h4><b>검색된 계약</b></h4> </td>
                </tr>
             </table>
 			
-            <br>
+            <br><br>
         	<div id="inCom">
 	            <table class="table-hover" align="center">
 	                <thead style="height: 35px;">
 	                    <tr >
-	                        <th style="width: 100px;">계약번호</th>
-	                        <th style="width: 235px;">계약명</th>
-	                        <th style="width: 100px;">고수번호</th>
-	                        <th style="width: 100px;">고객번호</th>
-	                        <th style="width: 190px;">시작일</th>
-	                        <th style="width: 145px;;">현재상태</th>
+	                        <th style="width: 140px;">계약번호</th>
+	                        <th style="width: 350px;">계약명</th>
+	                        <th style="width: 140px;">고수번호</th>
+	                        <th style="width: 140px;">고객번호</th>
+	                        <th style="width: 280px;">시작일</th>
+	                        <th style="width: 210px;;">현재상태</th>
 	                    </tr>
 	                </thead>
 	                
@@ -120,23 +119,26 @@
 	            <div id="pagingArea">
                 	
             	</div>
+            	
+            	<br>
+            	
+	            <div style="width: 1500px;">
+				    <form id="searchForm" action="" method="get">
+				        <button id="search" class="searchBtn btn btn-secondary">검색</button>
+				        <div class="text">
+				            <input type="text" class="form-control" id="keyword" name="keyword">
+				        </div>
+				        <div class="select">
+				            <select class="custom-select" name="condition" id="condition">
+				                <option value="gosuNo">고수번호</option>
+				                <option value="userNo">고객번호</option>
+				                <option value="estNo">계약번호</option>
+				            </select>
+				        </div>
+				    </form>
+				</div>
         	</div>
             <br>
-            <div style="width: 900px; margin: auto;">
-			    <form id="searchForm" action="" method="get">
-			        <button id="search" class="searchBtn btn btn-secondary">검색</button>
-			        <div class="text">
-			            <input type="text" class="form-control" id="keyword" name="keyword">
-			        </div>
-			        <div class="select">
-			            <select class="custom-select" name="condition" id="condition">
-			                <option value="gosuNo">고수번호</option>
-			                <option value="userNo">고객번호</option>
-			                <option value="estNo">계약번호</option>
-			            </select>
-			        </div>
-			    </form>
-			</div>
     </div>
     
     <script>

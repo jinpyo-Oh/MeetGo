@@ -12,6 +12,7 @@
         border-style: hidden;
         border-radius: 10px;
         margin: center;
+        font-size: 20px;
     }
     
     @font-face {
@@ -32,7 +33,7 @@
         margin: 5px;
     }
     .fix{
-        background-color: #059862d1;
+        background-color: #2A8FF7;
         color: white;
     }
     .back{
@@ -64,14 +65,14 @@
 	<div style="width: 80%; margin: auto;">
         
         <div style="text-align: center; width: 60%; margin: auto;">
-            <br>
-            <a class="back" onclick="back();" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
-			<a class="delete" data-toggle="modal" data-target="#myModal">삭제하기 X</a>
+            <br> <br>
+            <a class="back" onclick="back();" style="text-decoration: none;"><h5><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</h5></a>
+			<a class="delete" data-toggle="modal" data-target="#myModal" style="color: red;"><h5><i class="fa-solid fa-trash">&nbsp; 삭제</i></h5></a>
 		
             <br>
 			<br>
-			
-            <h2>${ requestScope.list.estTitle }(${ requestScope.list.review.estNo }번) 	계약에 대한 리뷰</h2>
+			<br>
+            <h1>${ requestScope.list.estTitle }(${ requestScope.list.review.estNo }번) 	계약에 대한 리뷰</h1>
        
            <br><br>
     		
@@ -103,31 +104,21 @@
 									</c:when>
 									<c:when test="${ requestScope.list.review.revPoint == 1 }">
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-										<i class="rating__star far fa-star"></i>
-										<i class="rating__star far fa-star"></i>
-										<i class="rating__star far fa-star"></i>
-										<i class="rating__star far fa-star"></i>
 									</c:when>
 									<c:when test="${ requestScope.list.review.revPoint == 2 }">
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-										<i class="rating__star far fa-star"></i>
-										<i class="rating__star far fa-star"></i>
-										<i class="rating__star far fa-star"></i>
 									</c:when>
 									<c:when test="${ requestScope.list.review.revPoint == 3 }">
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-										<i class="rating__star far fa-star"></i>
-										<i class="rating__star far fa-star"></i>
 									</c:when>
 									<c:when test="${ requestScope.list.review.revPoint == 4 }">
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
-										<i class="rating__star far fa-star"></i>
 									</c:when>
 									<c:when test="${ requestScope.list.review.revPoint == 5 }">
 										<i class="fa-solid fa-star" style="color: #ffd43b;"></i>
@@ -143,7 +134,7 @@
 	                    </tr>
 	                
 	                    <tr style="height: 320px;">
-	                        <td style="background-color: #059862d1; color: white;">내용</td>
+	                        <td style="background-color: #2A8FF7; color: white;">내용</td>
 	                        <td colspan="3" style="text-align: left;">
 	                        	<textarea id="content" name="revContent" class="form-control" rows="10" style="resize: none; height: 320px; width: 100%;" readonly>${ requestScope.list.review.revContent }	
 	                            </textarea>

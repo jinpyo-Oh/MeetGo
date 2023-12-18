@@ -124,10 +124,14 @@
             R.totalRevPoint,
             R.avgRevPoint
             HAVING M.ENROLL_STATUS = 2
+            <if test="keyword != null and keyword != ''">
+            	AND G.INTRODUCTION LIKE '%' || #{keyword} || '%'
+            	OR G.ELABORATE LIKE '%' || #{keyword} || '%'
+            </if>
         ) 
 	</select>
 
-	<!-- 고수 회원 -->
+	<!-- 고수 회원 -->	
 	<select id="selectOptionalGosu" parameterType="hashMap" resultType="gosuOpt" >       	
                 SELECT *
                 FROM (
@@ -233,7 +237,10 @@
             R.totalRevPoint,
             R.avgRevPoint
             HAVING M.ENROLL_STATUS = 2
-            
+            <if test="keyword != null and keyword != ''">
+            	AND G.INTRODUCTION LIKE '%' || #{keyword} || '%'
+            	OR G.ELABORATE LIKE '%' || #{keyword} || '%'
+            </if>
         ) 
         ORDER BY "${filter}" DESC
 	</select>
