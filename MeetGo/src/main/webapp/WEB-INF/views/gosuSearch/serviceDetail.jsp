@@ -337,6 +337,7 @@
 				<p><b>기본 정보</b></p>
 				<p>연락 가능 시간 : <span>09:00 ~ 18:00</span></p>
 				<p>직원 수 : <b>${ requestScope.list[0].gosu.employees }</b> 명</p>
+
 				<p>개인사업자</p>
 			</div>
 			<br><br>
