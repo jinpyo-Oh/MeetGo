@@ -27,14 +27,12 @@
     }
     .wrap{
    	
-   	border : 1px solid red;
     width: 1000px;
     height: 1000px;
     margin: auto;
     }
 
     .content_1{
-    	border : 1px solid green;
         height: 1000px;
         width: 1000px;
         float: right;
@@ -42,27 +40,23 @@
 
     }
     .content_title{
-    	border : 1px solid pink;   	
         width: 1000px;
         height: 100px;
         box-sizing: border-box;
 
     }
     .content_1_1{
-    	border : 1px solid yellow;
         box-sizing: border-box;
         width: 1000px;
         height: 800px;
     }
     .content_1_2{
-        border : 1px solid red;
         box-sizing: border-box;
         height: 50px;
         width: 1000px;
 
     }
   	.content_1_3{
-  		border : 1px solid purple;
         box-sizing: border-box;
   		width: 1000px;
   		height: 200px;
@@ -120,12 +114,10 @@
     }
     
     .tipmain{
-    border : 1px solid pink;
     width: 1000px;
     height: 800px;
     	}
     .title{
-    border : 1px solid red;
     width: 1000px;
   	height: 70px;
     
@@ -133,7 +125,6 @@
     }
     
     .content{
-    border : 1px solid blue;
     width: 1000px;
     height: 170px;
     
@@ -141,6 +132,8 @@
     .tip_content{
   	cursor : pointer;
     }
+    
+    
    </style>
 </head>
 <body>
@@ -157,45 +150,45 @@
             </div>
      
         <div class="tipmain">
-        <table class="tipList">
-           
-            <tbody>
-                <c:forEach var="m" items="${requestScope.list}">
-                    <tr>
-                        <td class="bno"><b style="font-size:30px; border:1px solid blue;">${m.boardNo}</b></td>
-                        <td class="tip_content" style="width: 1000px; border:1px solid red; ">
-                            <b style="font-size:30px;">
-                                ${m.boardTitle}
-                                <hr>
-                            </b>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="width: 30%; height:100px; border: 1px solid pink; font-size:20px;">
-                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;     ${fn:substring(m.boardContent, 0, 10)}
-                            <c:if test="${fn:length(m.boardContent) > 10}">...</c:if>
-                        
-                        </td>
-                        <td style="width:80%; border : 1px solid blue; height:150px;">
-                        	 
-                        <img src="${boardFile.filePath}">
-                        	  </td>
-                    </tr>
-                    <tr>
-                    <td>
-                     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  <i class="bi bi-eye-fill"></i> ${m.boardCount } 
-                    </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
+     
+       <table class="tipList">
+   
+    <c:forEach var="m" items="${requestScope.dtoList}">
+        <tr>
+            <th class="bno">
+                <b style="font-size:30px;"> ${m.boardNo}</b>
+            </th>
+
+            <th class="tip_content" style=" height:40%; width:250px; ">
+                <b style="font-size:25px;">
+                    &nbsp; &nbsp; &nbsp;  ${m.boardTitle}
+                </b>
+            </th>
+
+            <th style="width: 30%; height:200px;  font-size:20px; width:450px;">
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ${fn:substring(m.boardContent, 0, 10)}
+                <c:if test="${fn:length(m.boardContent) > 10}">...</c:if>
+            </th>
+
+            <th>
+                <img src="${m.bfilePath}" style="width: 200px; height: 250px;">
+            </th>
+		        </tr>
+		    </c:forEach>
+		</table>
+		   			 </div>
+		         
+         
+         
+         
+         
+         
            
             <a href="tipWrite.bo">
              <button type="submit" class="btn btn-primary">글작성</button>
             </a>
            </div>
-              <div id="pagingArea">
+             <div id="pagingArea">
                 <ul class="pagination">
                 
                 	<c:choose>
@@ -234,18 +227,22 @@
                 
                 </ul>
             </div>
-       </div>
+             
+             
+      	 </div>
         
 
 	    	<jsp:include page="../../common/footer.jsp"/>
     
     
     <script>
-	$(".tipmain tr").click(function() {
-	    let bno = $(this).children(".bno").text();
-	    location.href = "tipDetail.bo?bno=" + bno;
-	});
-	
+		$(".tipList tr").click(function() {
+		    let bno = $(this).children(".bno").text();
+		    location.href = "tipDetail.bo?bno=" + bno;
+		});
+		
+
+		
        
     </script>
     

@@ -141,36 +141,60 @@
 </head>
 <body>
 	<jsp:include page="../../common/header.jsp"/>
+	<jsp:include page="../../common/side.jsp"/>
+	
 
- <div class="wrap">
+	<div class="wrap">
+                  <input type="hidden" value="${sessionScope.loginUser}">
       
         <div class="main1">
             <br>
-            <div class="main_notice" style="text-align: center;">
-                <h2 >&nbsp;&nbsp; 공지사항  &nbsp;&nbsp;</h2>
-                   
+            <div style="display: flex; align-items: center;">
+                <h4>&nbsp; &nbsp;&nbsp;</h4>
+                
+                </div>
             </div>
             
             <br>
+            <form id="noticeWrite" action="noticeInsert.bo" method="post" enctype="multipart/form-data">
             
-            <div style="display: flex; ">
-                
+            
+            <div style="display: flex; align-items: center;">
+          
+            <input type="hidden" value="${sessionScope.loginUser}">
+          
+            	
+            	
                 <h4>&nbsp;&nbsp; 제목&nbsp;</h4>
-                
-                <input type="text" style="margin-left: 10px; height: 29px; width: 600px;" placeholder="내용을 입력해주세요.">
+                <label for="title">
+                <input type="text" name="boardTitle" id="title" style="margin-left: 10px; height: 29px; width: 600px;" placeholder="내용을 입력해주세요.">
                 <br>
+                </label>
             </div>
             <hr>
         
-        </div>
+   
         
         <div class="main2">
             <br>    
-            <textarea name="" id="textarea" cols="100" rows="10" placeholder="&nbsp;&nbsp;내용을 입력하세요."></textarea>
+            <label for="content">
+            <textarea name="boardContent" id="content" cols="100" rows="10" placeholder="&nbsp;&nbsp;내용을 입력하세요."></textarea>
+       		</label>
+       </div>
+       	
+        <div class="main3">
+
+            <div class="main3_1" style="text-align: center;">
+               	<label >
+                <input type="file" name ="tipImg" id="fileInput" onchange="displayFileName()">
+                  </label>  
+                <p id="fileName" style="margin-top: 10px;"></p>
+                   
+            </div>
+
+
         </div>
-       
-      
-       
+             
         <div class="main4" style="text-align: right;">
  
             <button class="btn btn-secondary">취&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</button>   
@@ -178,9 +202,11 @@
             <button class="btn btn-primary" style="margin-left: 15px;">작성하기</button>
 
         </div>
+    </form>
 
     </div>
 	<jsp:include page="../../common/footer.jsp"/>
+
 
 </body>
 </html>

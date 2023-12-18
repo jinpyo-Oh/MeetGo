@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.meetgo.board.model.dao.BoardDao;
+import com.kh.meetgo.board.model.dto.BoardFileDto;
+import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.board.model.vo.Reply;
-import com.kh.meetgo.board.model.dto.ReplyDto;
-
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
@@ -72,15 +72,16 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 팁노하우 게시판 리스트 
 	@Override
-	public ArrayList<Board> selectTipList(PageInfo pi) {
+	public ArrayList<BoardFileDto> selectTipList(PageInfo pi) {
 		return boardDao.selectTipList(sqlSession, pi);
 	}
+
 	
 	// 팁노하우 작성하기
 	@Override
 	@Transactional 
-	public int insertTipBoard(Board m) {
-		return boardDao.insertTipBoard(sqlSession, m);
+	public int insertTipBoard(BoardFileDto tipDto ) {
+		return boardDao.insertTipBoard(sqlSession, tipDto);
 	}
 	
 	@Override
@@ -94,7 +95,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.insertTipImg(sqlSession, filePath, boardNo);
 	}
 	
-	public ArrayList<Board_File> selectTipImgList(int boardNo){
+	public ArrayList<BoardFileDto> selectTipImgList(int boardNo){
 		return boardDao.selectTipImgList(sqlSession, boardNo);
 	}
 	
@@ -137,6 +138,16 @@ public class BoardServiceImpl implements BoardService {
 
 	
 	@Override
+	public int selectNoticeListCount() {
+		return boardDao.selectNoticeListCount(sqlSession);
+	}
+	
+	// 고수찾아요 게시판 리스트 
+//	@Override
+//	public ArrayList<Board> selectNoticeList(PageInfo pi) {
+//		return boardDao.selectNoticeList(sqlSession, pi);
+//	}
+	@Override
 	public int insertPofol(Pofol pofol) {
 		return boardDao.insertPofol(sqlSession, pofol);
 	}
@@ -172,6 +183,15 @@ public class BoardServiceImpl implements BoardService {
 		return 0;
 	}
 
+	@Override
+	public ArrayList<BoardFileDto> selectNoticeList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	
 	
 	}
 

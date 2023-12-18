@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.meetgo.board.model.dto.BoardFileDto;
 import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.board.model.vo.Board;
@@ -167,19 +168,19 @@ public class BoardController {
 	public ModelAndView selectTipList(
 			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
 			ModelAndView mv) {
-		
-		int listCount = boardService.selectTipListCount();
-		
+	
+		int listCount = boardService.selectTipListCount();		
 		int pageLimit = 5;
 		int boardLimit = 3;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 						currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Board> list = boardService.selectTipList(pi);
+	
+		ArrayList<BoardFileDto> dtoList = boardService.selectTipList(pi);
 		
-
-		mv.addObject("list", list)
+		
+		mv.addObject("dtoList", dtoList)
 		  .addObject("pi", pi)
 		  .setViewName("board/tip/tipList");
 		return mv;
@@ -194,64 +195,61 @@ public class BoardController {
 	
 	
 	// 팁 노하우 게시판 등록
-	@PostMapping("tipInsert.bo")
-	public String insertTipBoard( 
-							 Model model,
-							  HttpSession session,
-							  @SessionAttribute("loginUser") Member loginUser,
-							  @RequestParam("tipImg") ArrayList<MultipartFile> tipImgArr,
-							  String boardTitle,
-							  String boardContent
-							  ) {
-		
-		int userNo = loginUser.getUserNo();
-		
-		Board tip = new Board();
-		
-		
-		tip.setBoardTitle(boardTitle);
-		tip.setBoardContent(boardContent);
-
-		tip.setUserNo(userNo);
-		
-		
-		int result1 = boardService.insertTipBoard(tip);
-		
-		int boardNo = tip.getBoardNo();
+		@PostMapping("tipInsert.bo")
+		public String insertTipBoard( 
+			        Model model,
+			        HttpSession session,
+			        @SessionAttribute("loginUser") Member loginUser,
+			        @RequestParam("tipImg") ArrayList<MultipartFile> tipImgArr,
+			        String boardTitle,
+			        String boardContent
+					) {
 			
-		int result2 = 0;
-		
-
-		
-		try {	
+			int userNo = loginUser.getUserNo();
+				
+			BoardFileDto tipDto = new BoardFileDto();
 			
-			for(int i = 0; i < tipImgArr.size(); i++) {
+			tipDto.setBoardTitle(boardTitle);
+			tipDto.setBoardContent(boardContent);
+			
+			tipDto.setUserNo(userNo);
+			
+			int result1 = boardService.insertTipBoard(tipDto);
+			
+			int boardNo = tipDto.getBoardNo();
+			
+	
+			int result2 = 0;
 		
-				String filePath = s3Uploader.upload(tipImgArr.get(i), "boardImg");
-		
-				result2 = boardService.insertTipImg(filePath, boardNo);
+			try {	
+			
+				for(int i = 0; i < tipImgArr.size(); i++) {
+			
+					String bfilePath = s3Uploader.upload(tipImgArr.get(i), "boardImg");
+			
+					result2 = boardService.insertTipImg(bfilePath, boardNo);
+			
+				}
+			
+			} catch (IOException e) {
+				e.printStackTrace();
 		
 			}
-		
-		} catch (IOException e) {
-			e.printStackTrace();
-	
+
+			if(result1 * result2 > 0) { 
+				
+				session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
+				
+				return "redirect:/tipList.bo"; // 첫 페이지로 이동
+				
+			} else { 
+				model.addAttribute("errorMsg", "게시글 등록 실패");
+				
+				return "common/errorPage";
+			}
+			
 		}
 
-		if(result1 * result2 > 0) { 
-			
-			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
-			
-			return "redirect:/tipList.bo"; // 첫 페이지로 이동
-			
-		} else { 
-			model.addAttribute("errorMsg", "게시글 등록 실패");
-			
-			return "common/errorPage";
-		}
-		
-	}
-	
 	
 	// 팁노하우 게시판 상세 조회
 	@RequestMapping("tipDetail.bo")
@@ -260,6 +258,7 @@ public class BoardController {
 	
 		int boardNo = Integer.parseInt(bno); 
 		
+		
 		int result = boardService.increaseTipCount(boardNo);
 		
 		
@@ -267,10 +266,10 @@ public class BoardController {
 			
 			Board m = boardService.selectTipBoard(boardNo);
 			
-			ArrayList<Board_File> imgList = boardService.selectTipImgList(boardNo);
+			ArrayList<BoardFileDto> dtoList = boardService.selectTipImgList(boardNo);
 			
 			mv.addObject("m", m)
-			  .addObject("imgList", imgList)
+			  .addObject("dtoList", dtoList)
 			  .setViewName("board/tip/tipDetail"); 
 			
 		} else { 
@@ -282,6 +281,81 @@ public class BoardController {
 		return mv;
 	}
 	
+	
+//	@GetMapping("noticeList.bo")
+//	public ModelAndView selectNoticeList(
+//			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+//			ModelAndView mv) {
+//		
+//		int listCount = boardService.selectNoticeListCount();
+//		
+//		int pageLimit = 5;
+//		int boardLimit = 20;
+//		
+//		PageInfo pi = Pagination.getPageInfo(listCount, 
+//						currentPage, pageLimit, boardLimit);
+//		
+//		ArrayList<Board> list = boardService.selectNoticeList(pi);
+//		
+//		
+//		mv.addObject("list", list)
+//		  .addObject("pi", pi)
+//		  .setViewName("board/notice/noticeList");
+//		return mv;
+//	}
+	
+	@GetMapping("noticeWrite.bo")
+	public String noticeWrite() {
+		
+		return "board/tip/noticeWrite";
+	}
+	
+//	
+//	@PostMapping("noticeInsert.bo")
+//	public String insertNoticeBoard(		
+//							  HttpSession session,
+//							  Model model,
+//							  @SessionAttribute("loginUser") Member loginUser,
+//							  String boardTitle,
+//							  String boardContent
+//							  ) {
+//		
+//		int userNo = loginUser.getUserNo();
+//			
+//	
+//		
+//		int result1 = boardService.insertGosuReqBoard(gosuReq);
+//		
+//		int boardNo = gosuReq.getBoardNo();
+//		
+//	
+//		try {	
+//		
+//			 {
+//		
+//				
+//		
+//			}
+//		
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//	
+//		}
+//
+//		if(result1 * result2 > 0) { 
+//			
+//			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
+//			
+//			return "redirect:/gosuList.bo"; // 첫 페이지로 이동
+//			
+//		} else { 
+//			model.addAttribute("errorMsg", "게시글 등록 실패");
+//			
+//			return "common/errorPage";
+//		}
+//		
+//	}
+
 	
 	
 	@RequestMapping("sendPofol.po")

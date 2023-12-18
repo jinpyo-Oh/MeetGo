@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.meetgo.board.model.dto.BoardFileDto;
 import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Board_File;
@@ -83,7 +84,7 @@ public class BoardDao {
 	}
 	
 	// 팁노하우 리스트 조회 
-	public ArrayList<Board> selectTipList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<BoardFileDto> selectTipList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
@@ -94,9 +95,9 @@ public class BoardDao {
 	}
 	
 	// 팁노하우 게시판 작성
-	public int insertTipBoard(SqlSessionTemplate sqlSession, Board m) {
+	public int insertTipBoard(SqlSessionTemplate sqlSession, BoardFileDto tipDto) {
 		
-		return sqlSession.insert("boardMapper.insertTipBoard", m);
+		return sqlSession.insert("boardMapper.insertTipBoard",tipDto);
 	}
 	
 	// 카운트 
@@ -117,16 +118,16 @@ public class BoardDao {
 	}	
 
 	// 팁노하우 이미지 등록
-		public int insertTipImg(SqlSessionTemplate sqlSession, String filePath, int boardNo) {
+		public int insertTipImg(SqlSessionTemplate sqlSession, String BfilePath, int boardNo) {
 			
 			Map<String, Object> params = new HashMap<>();
-			params.put("filePath", filePath);
+			params.put("BfilePath", BfilePath);
 			params.put("boardNo", boardNo);
 			
 			return sqlSession.insert("boardMapper.insertTipImg", params);
 		}
 		
-		public ArrayList<Board_File>selectTipImgList(SqlSessionTemplate sqlSession, int boardNo){
+		public ArrayList<BoardFileDto>selectTipImgList(SqlSessionTemplate sqlSession, int boardNo){
 			return (ArrayList)sqlSession.selectList("boardMapper.selectTipImgList", boardNo);
 		}
 	
@@ -139,6 +140,23 @@ public class BoardDao {
 		
 		return sqlSession.insert("boardMapper.insertGosuReply", r);
 	}	
+	
+	public int selectNoticeListCount(SqlSessionTemplate sqlSession) {
+		
+		return sqlSession.selectOne("boardMapper.selectNoticeListCount");
+	}
+	
+	// 고수찾아요 리스트 조회 
+	public ArrayList<Board> selectNoticeList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("boardMapper.selectNoticeList", null, rowBounds);
+	}
+	
 	
 	
 	// 포폴리스트 전체카운트

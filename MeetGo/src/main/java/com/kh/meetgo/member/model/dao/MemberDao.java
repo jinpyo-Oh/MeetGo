@@ -159,7 +159,7 @@ public class MemberDao {
     public int insertKakaoMember(SqlSessionTemplate sqlSession, Member member) {
         return sqlSession.insert("memberMapper.insertKakaoMember", member);
     }
-}
+
 
 public int elaborateUpdate(SqlSessionTemplate sqlSession, Gosu g) {
 	// TODO Auto-generated method stub

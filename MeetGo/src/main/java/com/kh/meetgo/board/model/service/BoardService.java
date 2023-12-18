@@ -2,11 +2,11 @@ package com.kh.meetgo.board.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.meetgo.board.model.dto.BoardFileDto;
+import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.board.model.vo.Board_File;
 import com.kh.meetgo.board.model.vo.Reply;
-import com.kh.meetgo.board.model.dto.ReplyDto;
-
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.vo.Pofol;
@@ -40,13 +40,13 @@ public interface BoardService {
 		
 		
 		// 팁노하우 게시판 리스트 조회		
-		ArrayList<Board> selectTipList(PageInfo pi);
+		ArrayList<BoardFileDto> selectTipList(PageInfo pi);
 		
 		// 팁게시판 총 갯수 목록 조회 서비
 		int selectTipListCount();
 
 		// 팁노하우 작성하기 서비스
-		int insertTipBoard(Board m);
+		int insertTipBoard(BoardFileDto tipDto);
 		
 		// 팁노하우 게시글 상세조회
 		Board selectTipBoard(int boardNo);
@@ -64,7 +64,13 @@ public interface BoardService {
 		
 		int insertTipImg(String filePath, int boardNo);
 
-		ArrayList<Board_File> selectTipImgList(int boardNo);
+		ArrayList<BoardFileDto> selectTipImgList(int boardNo);
+	
+		
+		int selectNoticeListCount();
+		
+		ArrayList<BoardFileDto> selectNoticeList(PageInfo pi);
+
 		
 	
 

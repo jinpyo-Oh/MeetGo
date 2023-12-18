@@ -29,6 +29,8 @@
    		<typeAlias type="com.kh.meetgo.gosu.model.dto.ReviewDto" alias="reviewDto"/>
    		<typeAlias type="com.kh.meetgo.board.model.vo.Board_File" alias="boardFile"/>
 		<typeAlias type="com.kh.meetgo.board.model.dto.ReplyDto" alias="replyDto"/>
+		<typeAlias type="com.kh.meetgo.board.model.dto.BoardFileDto" alias="BoardFileDto"/>
+		
 		
 	</typeAliases>
 	

@@ -132,57 +132,8 @@ table, th, td {
             <hr>
         </div>
         <div class="gosu_body_1">
-            <div class="gosu_body_1_1">
-                &nbsp;&nbsp; &nbsp;&nbsp; <b>No</b>
-                <hr>
+            
             </div>
-            <div class="gosu_body_1_2">
-                <b>제목</b>
-                <hr>
-            </div>
-            <div class="gosu_body_1_3">
-                &nbsp;&nbsp;  &nbsp;
-                <b>글쓴이</b> &nbsp;&nbsp; &nbsp;&nbsp;
-                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
-                <b>작성일</b>
-                <hr>
-         </div>
-        </div>
-       
-       <div class="gosu_main">
-        
-            <table class="gosu_first">
-                <tr>
-                    <th style> &nbsp; &nbsp; &nbsp;
-                        <i class="bi bi-megaphone-fill"></i>
-                    </th>
-                    <th class="gosu_notice">게시판 이용안내 및 주의사항 </th>
-                    <th style="text-align: center; padding-left: 9px;">관리자</th>
-                    <th style="text-align: center;">2023-11-28</th>
-                    
-                    
-                </tr>       
-                        
-            </table>
-	           <table class="gosu_content">
-	                <tr>
-	                    <td class="gosu_content_1">
-	                        &nbsp;&nbsp;&nbsp;&nbsp;
-	                        ${ m.boardNo }
-	                    </td>
-	                    <td class="gosu_content_2">
-	                        &nbsp;&nbsp;
-	                        ${ m.boardTitle } </td>
-	                    <td class="gosu_content_3"style="text-align: center;">
-	                        ${ m.userNo }
-	                       
-	                    </td>
-	                    <td class="gosu_content_4"
-	                    style="text-align: center;"
-	                    > ${ m.createDate }
-	                    </td>            
-	               </tr>
-	            </table>   
             
             
             <a href="noticeWrite.bo">
@@ -222,11 +173,11 @@ table, th, td {
 		
 		$("#baordList > tr").click(function() {
 			
-			let mno = $(this).children(".mno").text();
+			let mno = $(this).children(".bno").text();
 			
 			
 			
-			location.href = "detail.go?mno=" + bno;
+			location.href = "noticeDetail.bo?bno=" + bno;
 		});
 	});
 	</script>

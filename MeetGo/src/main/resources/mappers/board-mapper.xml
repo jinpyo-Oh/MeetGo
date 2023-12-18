@@ -29,6 +29,15 @@
 		<result column="USER_NO" property="userNo" />		
 	</resultMap>
 	
+	<resultMap id="boardFileResultSet" type="BoardFileDto">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="BOARD_CONTENT" property="boardContent" />
+		<result column="BOARD_CREATE_DATE" property="boardCreateDate" />	
+		<result column="BOARD_COUNT" property="boardCount" />
+		<result column="BFILE_PATH" property="BfilePath" />		
+	</resultMap>
+	
 	 <resultMap id="memberResultSet" type="member">
 	       <result column="USER_NO" property="userNo" />
 	       <result column="USER_NAME" property="userName" />
@@ -134,35 +143,40 @@
 	</select>
 	
 	<!-- 팁노하우 게시판 리스트 -->
-	<select id="selectTipList" resultMap="boardResultSet">
-		SELECT BOARD_NO
-		     , BOARD_TITLE
-		     , BOARD_CONTENT
-		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
-			 , BOARD_COUNT
-		  FROM BOARD
-		 WHERE BOARD_TYPE = 2
-		 ORDER BY BOARD_NO DESC
+	<select id="selectTipList" resultType="BoardFileDto" >
+	   SELECT B.BOARD_NO AS "boardNo"
+		     , B.BOARD_TITLE AS "boardTitle"
+		     , B.BOARD_CONTENT AS "boardContent"
+		     , TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "boardCreateDate"
+		     , B.BOARD_COUNT AS "boardCount"
+		     , BF.BFILE_PATH AS "BfilePath"
+		     , B.USER_NO AS "userNo"
+		FROM BOARD B
+		LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
+		WHERE B.BOARD_TYPE = 2
+		ORDER BY B.BOARD_NO DESC
 	</select>		
 	
 	<!-- 팁노하우 작성하기 서비스 -->	
-	<insert id="insertTipBoard" parameterType="Board"
+	<insert id="insertTipBoard" parameterType="Board" 
 	useGeneratedKeys="true" keyColumn="BOARD_NO" keyProperty="boardNo">
-			    INSERT INTO BOARD (
-			        BOARD_NO,
-			        BOARD_TITLE,
-			        BOARD_CONTENT,
-			        USER_NO,
-			        BOARD_TYPE
-			         )
-			         VALUES(SEQ_BOARD_NO.NEXTVAL
-			         ,#{boardTitle}
-			         ,#{boardContent}
-			         , 1001
-			         , 2
-			         )
-		    
-	</insert>
+		    INSERT INTO BOARD (
+		        BOARD_NO,
+		        BOARD_TITLE,
+		        BOARD_CONTENT,
+		        USER_NO,
+		        BOARD_TYPE,
+		        BOARD_CREATE_DATE
+		    )
+		    VALUES (
+		        SEQ_BOARD_NO.NEXTVAL,
+		        #{boardTitle},
+		        #{boardContent},
+		        #{userNo},
+		        2,
+				SYSDATE
+		    )
+		</insert>
 	
 	<update id="increaseTipCount" parameterType="_int">
 		UPDATE BOARD
@@ -174,16 +188,17 @@
 		
 	
 	<!--  팁노하우 게시판 상세  -->
-	<select id="selectTipBoard" parameterType="_int" resultMap="boardResultSet">
-		SELECT BOARD_NO
-		     , BOARD_TITLE
-		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
-		     , BOARD_CONTENT
-		     , USER_NO
-		     , BOARD_COUNT
-		  FROM BOARD
-		 WHERE BOARD_NO = #{boardNo}
-		   AND BOARD_TYPE = 2
+	<select id="selectTipBoard" parameterType="_int" resultType="board">
+			SELECT B.BOARD_NO
+		     , B.BOARD_TITLE
+		     , TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
+		     , B.BOARD_CONTENT
+		     , B.USER_NO
+		     , B.BOARD_COUNT
+		     , BFILE_PATH
+		  FROM BOARD B
+		       LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
+		 WHERE B.BOARD_NO =  #{boardNo}
 	</select>
 	
 	<!-- 팁노하우이미지 -->
@@ -193,14 +208,14 @@
                  , BOARD_NO 
                  , BFILE_STATUS
 			) VALUES ( SEQ_BOARD_FILE_NO.NEXTVAL
-			         , #{filePath}
+			         , #{BfilePath}
 			         , #{boardNo}
 			         , 1
 			)
 	</insert>
 	
-	<select id="selectTipImgList" parameterType="_int" resultType="boardFile">
-		SELECT BFILE_PATH AS "filePath"
+	<select id="selectTipImgList"  resultType="BoardFileDto">
+		SELECT BFILE_PATH AS "BfilePath"
 		FROM BOARD_FILE
 		WHERE BOARD_NO = #{boardNo}
 		
@@ -234,6 +249,25 @@
 				    1
 				)
 	</insert>
+	
+	<!-- 공지사항 게시판 게시글 총 갯수 -->
+	<select id="selectNoticeListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM BOARD
+		 WHERE BOARD_TYPE = 3
+	</select>
+	
+	<!-- 공지사항 게시판 리스트 -->
+	<select id="selectNoticeList" resultMap="boardResultSet" >
+		SELECT BOARD_NO
+		     , BOARD_TITLE
+		     , BOARD_CONTENT
+		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
+			 , BOARD_COUNT
+		  FROM BOARD
+		 WHERE BOARD_TYPE = 3
+		 ORDER BY BOARD_NO DESC
+	</select>		
 	
 	<!-- 포폴 리스트 전체카운트 -->
 	<select id="countPofolList" resultType="_int">
