@@ -306,7 +306,6 @@
 	<div class="etc-area" align="right">
 		<!-- 로그인한 유저만 좋아요, 견적요청 이용 가능 -->
 		<c:if test="${ not empty sessionScope.loginUser }">
-			
 			<div style="display:inline-block; text-align:center;">
 				<i onclick="enrollGosuLike()" id="gosuLikeIco" class="bi bi-heart-fill"></i>
 				<img class="report" onclick="reportAlert('${requestScope.list[0].gosu.gosuNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png">
@@ -577,6 +576,7 @@
 	
 	
     $(function(){
+    	
     	isLiked();
     	star(${requestScope.list[0].avgRevPoint});
     	
