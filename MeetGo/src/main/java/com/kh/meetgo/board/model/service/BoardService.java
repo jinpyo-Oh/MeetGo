@@ -2,6 +2,7 @@ package com.kh.meetgo.board.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.meetgo.board.model.dto.BoardDto;
 import com.kh.meetgo.board.model.dto.BoardFileDto;
 import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.vo.Board;
@@ -29,7 +30,7 @@ public interface BoardService {
 		int increaseGosuReqCount(int boardNo);
 		
 		// 고수찾아요 게시글 상세조회
-		Board selectGosuReqBoard(int boardNo);
+		BoardDto selectGosuReqBoard(int boardNo);
 		
 		// 고수이미지 
 		int insertGosuReqImg(String filePath, int boardNo);

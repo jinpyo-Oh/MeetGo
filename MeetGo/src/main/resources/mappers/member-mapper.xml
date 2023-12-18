@@ -540,11 +540,26 @@
     </insert>
     <delete id="deleteGosuService" parameterType="hashMap">
         delete "GOSU-SERVICE"
-        WHERE GOSU_NO = ${userNo} AND CATEGORY_SMALL_NO = ${categorySmallNo}
+        WHERE GOSU_NO = ${userNo} AND CATEGORY_SMALL_NO = #{categorySmallNo}
     </delete>
 	<update id="updatePassword" parameterType="hashMap">
 	    UPDATE MEMBER
 	    SET USER_PWD = #{userPwd}
 	    WHERE USER_EMAIL = #{email}
 	</update>
+    <select id="selectAllWishList" parameterType="_int" resultType="com.kh.meetgo.member.model.dto.WishListRequest">
+        SELECT G.GOSU_NO AS "gosu.gosuNo",
+                G.INTRODUCTION AS "gosu.introduction",
+                G.REGION AS "gosu.region",
+                G.CAREER as "gosu.career",
+                M.USER_PROFILE AS userProfile,
+                M.USER_NAME as userName
+        FROM GOSU G
+        LEFT JOIN MEMBER M ON G.USER_NO = M.USER_NO
+        WHERE G.GOSU_NO IN (
+                SELECT W.GOSU_NO
+                FROM "WISH-LIST" W
+                WHERE W.USER_NO = #{userNo}
+        )
+    </select>
 </mapper>

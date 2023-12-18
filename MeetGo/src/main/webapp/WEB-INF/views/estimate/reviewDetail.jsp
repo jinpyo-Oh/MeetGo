@@ -33,7 +33,7 @@
         margin: 5px;
     }
     .fix{
-        background-color: #059862d1;
+        background-color: #2A8FF7;
         color: white;
     }
     .back{
@@ -150,7 +150,7 @@
 	                    </tr>
 	                
 	                    <tr style="height: 320px;">
-	                        <td style="background-color: #059862d1; color: white;">내용</td>
+	                        <td style="background-color: #2A8FF7; color: white;">내용</td>
 	                        <td colspan="3" style="text-align: left;">
 	                        	<textarea id="content" name="revContent" class="form-control" rows="10" style="resize: none; height: 320px; width: 100%;" readonly>${ requestScope.list.review.revContent }	
 	                            </textarea>

@@ -21,7 +21,6 @@
     
     } 
     
-    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
 .wrap{
     margin: auto;
@@ -113,7 +112,14 @@
 		.category-img-wrapper img{
 			width: 80px;
 			height: 80px;
-}
+		}
+		
+		.report{
+        	width: 50px;
+        	height: 50px;
+        	margin-right:20px;
+        	margin-bottom: 15px;
+        }
 </style>
 </head>
 <body>
@@ -121,23 +127,26 @@
 	<jsp:include page="../../common/side.jsp"/>
 	
   <div class="wrap">
-
+		
+		<br><br><br>
         <div class="gosu_header1">
             &nbsp; &nbsp;
             <b>커뮤니티 > 고수찾기</b>
         </div>
         
    <div class="gosu_header2">
-		    &nbsp; &nbsp;<h2>&nbsp; ${requestScope.m.boardTitle}</h2>
+		    &nbsp; &nbsp;<h2>&nbsp; ${requestScope.m.board.boardTitle}</h2>
 		    &nbsp; &nbsp;
 		</div>
 		<div class="gosu_content1">
 		    <br>
-		    <img src="" id="profileImg" width="70" height="70">   
-		    &nbsp; 
+		    <img src="${ requestScope.m.userProfile }" id="userProfile" width="70" height="70" style="border-radius: 50%;">   
+		    &nbsp; &nbsp;
 		    
-		    ${requestScope.m.userNo}
-		    ${requestScope.m.createDate} &nbsp; &nbsp;<i class="bi bi-eye-fill"></i>
+		    ${requestScope.m.userNickname}
+		    <div style="float:right;">
+		&nbsp;   작성일 :	&nbsp; ${requestScope.m.board.createDate} &nbsp; &nbsp;<i class="bi bi-eye-fill"></i> &nbsp;${requestScope.m.board.boardCount}
+		</div>
 		</div>
         <hr>
         <div class="swiper"> 
@@ -160,7 +169,7 @@
         <img src="${ requestScope.list[0].boardFile.filePath }">
             
             <div style="font-size:25px;">
-            ${ requestScope.m.boardContent }
+            ${ requestScope.m.board.boardContent }
 			</div>
         </div>
 			
@@ -191,7 +200,8 @@
                	</c:choose>
                </tr>
                <tr>
-                   <td colspan="3">댓글(<span id="rcount">0</span>)</td>
+                   <td colspan="2">댓글(<span id="rcount">0</span>)</td>
+                   <td style="text-align:right;"><img class="report" onclick="reportAlert('${requestScope.m.userNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png"></td>
                </tr>
            </thead>
            
@@ -245,7 +255,7 @@
  				url : "gosuRinsert.bo",
  				type : "get",
  				data : { // Ajax 요청 또한 Spring 에서 커맨드 객체 방식 사용 가능
- 					boardNo : ${ requestScope.m.boardNo }, 
+ 					boardNo : ${ requestScope.m.board.boardNo }, 
  					userNo : "${ sessionScope.loginUser.userNo}" ,
  					replyContent : $("#content").val()
  				},
@@ -276,7 +286,7 @@
  		$.ajax({
  			url : "gosuRlist.bo",
  			type : "get",
- 			data : {bno : ${ requestScope.m.boardNo }},
+ 			data : {bno : ${ requestScope.m.board.boardNo }},
  			success : function(result) {
  				
  				let resultStr = "";

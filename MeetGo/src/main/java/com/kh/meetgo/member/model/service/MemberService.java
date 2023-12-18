@@ -8,6 +8,7 @@ import com.kh.meetgo.gosu.model.dto.ReviewDto;
 import com.kh.meetgo.gosu.model.vo.*;
 import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
 import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
+import com.kh.meetgo.member.model.dto.WishListRequest;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -143,4 +144,6 @@ public interface MemberService {
 	int deleteGosuService(String categorySmallNo, int userNo);
 	
 	int updatePassword(String email,String userPwd);
+
+
 }

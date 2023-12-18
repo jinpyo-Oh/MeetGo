@@ -7,6 +7,7 @@ import java.util.Map;
 import com.kh.meetgo.gosu.model.vo.*;
 import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
 import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
+import com.kh.meetgo.member.model.dto.WishListRequest;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -290,6 +291,7 @@ public class MemberDao {
         return sqlSession.delete("memberMapper.deleteGosuService", params);
     }
 
+
 	public int updatePassword(SqlSessionTemplate sqlSession, String email, String userPwd) {
 		
 		Map<String, String> params = new HashMap<>();
@@ -299,6 +301,8 @@ public class MemberDao {
 		
 		return sqlSession.update("memberMapper.updatePassword", params);
 	}
+
+
 
 
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.kh.meetgo.gosu.model.vo.*;
 import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
 import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
+import com.kh.meetgo.member.model.dto.WishListRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -109,10 +110,11 @@ public class MemberController {
 
         return "member/memberWishlist";
     }
-	@RequestMapping("memberAddService.me")
-	public String memberAddService(){
-		return "member/memberAddService";
-	}
+
+    @RequestMapping("memberAddService.me")
+    public String memberAddService() {
+        return "member/memberAddService";
+    }
 
     @RequestMapping("gosuPage.me")
     public String loginGosu(HttpSession session, Model model) {
@@ -213,14 +215,12 @@ public class MemberController {
 
     @ResponseBody
     @RequestMapping(value = "emailCheck.me", produces = "text/html; charset=UTF-8")
-    public String checkEmail(Member m, String userEmail, String userEmail2) {
-
+    public String checkEmail(String userEmail, String userEmail2) {
+        if(userEmail == null || userEmail2 == null){
+            return "NNNNN";
+        }
         String checkEmail1	 = userEmail + "@"+ userEmail2;
-        System.out.println(checkEmail1);
-        m.setUserEmail(checkEmail1);
-        int count = memberService.checkEmail(checkEmail1);
-
-
+        int count = memberService.emailCheck(checkEmail1);
         return (count > 0) ? "NNNNN" : "NNNNY";
     }
 
@@ -771,26 +771,6 @@ public class MemberController {
         }
     }
 
-    /*
-     * @RequestMapping("homeServiceForm") public String homeservice (String
-     * homeservice, Model model) {
-     *
-     * ArrayList<CategoryBig> bigCategoryList
-     * =memberService.SelectCategoryBigList(0);
-     * model.addAttribute("bigCategoryList", bigCategoryList); for (CategoryBig cb:
-     * bigCategoryList) {
-     *
-     * }
-     *
-     *
-     * ArrayList<CategorySmall> smallCategoryList
-     * =memberService.SelectCategorySmallList(0);
-     * model.addAttribute("smallCategoryList", smallCategoryList);
-     *
-     * return homeservice;
-     *
-     * }
-     */
     @GetMapping("myPost.me")
     public ModelAndView selectGosuReqList(
             @RequestParam(value = "cpage", defaultValue = "1") int currentPage,
@@ -812,29 +792,6 @@ public class MemberController {
         return mv;
     }
 
-    /*
-     * @GetMapping("wishilst.me") public ModelAndView
-     * selectWishlist(@RequestParam(value = "cpage", defaultValue = "1") int
-     * currentPage, ModelAndView mv) {
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     * }
-     */
-    /*
-     * @RequestMapping("potoAdd") public void gosuimg(ArrayList<MultipartFile>
-     * gosuImgArr, String gosuImgNo) {
-     *
-     *
-     * try { for(int i = 0; i < gosuImgArr.size(); i++) { String gosuImgUrl =
-     * s3Uploader.upload(gosuImgArr.get(i), "pofolImg"); memberService.potoAdd(
-     * gosuImgUrl, gosuImgNo); } } catch (IOException e) { e.printStackTrace(); } }
-     */
     @ResponseBody
     @PostMapping(value = "uploadFile.cp", produces = "text/json; charset=UTF-8")
     public void uploadFile(HttpSession session, MultipartFile uploadFiles) throws IOException {
@@ -863,43 +820,52 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping(value = "gosuInfoDetailCnt.me", produces = "text/json; charset=UTF-8")
-    public String gosuInfoDetailCnt(HttpSession session){
-		Member m = (Member)session.getAttribute("loginUser");
-		GosuInfoCntRequest gosuInfoCntRequest = memberService.gosuInfoDetailCnt(m.getUserNo());
-		return new Gson().toJson(gosuInfoCntRequest);
+    public String gosuInfoDetailCnt(HttpSession session) {
+        Member m = (Member) session.getAttribute("loginUser");
+        GosuInfoCntRequest gosuInfoCntRequest = memberService.gosuInfoDetailCnt(m.getUserNo());
+        return new Gson().toJson(gosuInfoCntRequest);
     }
 
-	@ResponseBody
-	@GetMapping(value = "selectAllService.me", produces = "text/json; charset=UTF-8")
-	public String selectAllService(HttpSession session){
-		ArrayList<CategorySmall> list = memberService.selectAllService(((Member)session.getAttribute("loginUser")).getUserNo());
-		return new Gson().toJson(list);
-	}
+    @ResponseBody
+    @GetMapping(value = "selectAllService.me", produces = "text/json; charset=UTF-8")
+    public String selectAllService(HttpSession session) {
+        ArrayList<CategorySmall> list = memberService.selectAllService(((Member) session.getAttribute("loginUser")).getUserNo());
+        return new Gson().toJson(list);
+    }
 
-	@ResponseBody
-	@GetMapping(value = "selectAllServiceCategory.me", produces = "text/json; charset=UTF-8")
-	public String selectAllServiceCategory(){
-		ArrayList<ServiceCategoryRequest> list = memberService.selectAllServiceCategory();
-		return new Gson().toJson(list);
-	}
+    @ResponseBody
+    @GetMapping(value = "selectAllServiceCategory.me", produces = "text/json; charset=UTF-8")
+    public String selectAllServiceCategory() {
+        ArrayList<ServiceCategoryRequest> list = memberService.selectAllServiceCategory();
+        return new Gson().toJson(list);
+    }
 
     @ResponseBody
     @GetMapping(value = "insertGosuService.me", produces = "text/json; charset=UTF-8")
-    public void insertGosuService(String categorySmallNo, HttpSession session){
-        Member m = (Member)session.getAttribute("loginUser");
-        ArrayList<CategorySmall> list = memberService.selectAllService(((Member)session.getAttribute("loginUser")).getUserNo());
+    public void insertGosuService(String categorySmallNo, HttpSession session) {
+        Member m = (Member) session.getAttribute("loginUser");
+        ArrayList<CategorySmall> list = memberService.selectAllService(((Member) session.getAttribute("loginUser")).getUserNo());
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getCategorySmallNo() == Integer.parseInt(categorySmallNo)){
+            if (list.get(i).getCategorySmallNo() == Integer.parseInt(categorySmallNo)) {
                 session.setAttribute("errorMsg", "이미 등록된 서비스입니다.");
                 return;
             }
         }
         int result = memberService.insertGosuService(categorySmallNo, m.getUserNo());
     }
+
     @ResponseBody
     @GetMapping(value = "deleteGosuService.me", produces = "text/json; charset=UTF-8")
-    public void deleteGosuService(String categorySmallNo, HttpSession session){
-        Member m = (Member)session.getAttribute("loginUser");
+    public void deleteGosuService(String categorySmallNo, HttpSession session) {
+        Member m = (Member) session.getAttribute("loginUser");
         int result = memberService.deleteGosuService(categorySmallNo, m.getUserNo());
+    }
+
+    @ResponseBody
+    @GetMapping(value = "selectAllWishList.me", produces = "text/json; charset=UTF-8")
+    public String selectAllWishList(HttpSession session) {
+        Member m = (Member) session.getAttribute("loginUser");
+        ArrayList<WishListRequest> list = memberService.selectAllWishList(m.getUserNo());
+        return new Gson().toJson(list);
     }
 }

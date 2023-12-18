@@ -67,23 +67,48 @@
 </head>
 <body>
     <jsp:include page="../common/header.jsp"/>
+    <script>
+        $(function (){
+            selectAllWishList();
+        })
+        function selectAllWishList(){
+            $.ajax({
+                url : "selectAllWishList.me",
+                method : "get",
+                data : {},
+                success : function (data){
+                    console.log(data);
+                    for (let i = 0; i < data.length; i++) {
+                        let content =
+                                '<div class="wishlist-item" name="wishlist">'+
+                                    '<div class="wishlist-content">'+
+                                        '<div class="wishlist-info">'+
+                                            '<h3>'+data[i].userName+'고수님</h3>'+
+                                            '<p>'+data[i].gosu.introduction+'</p>'+
+                                            '<p>'+data[i].gosu.career+'</p>'+
+                                        '</div>'+
+                                    '<img src="'+data[i].userProfile+'" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%;">'+
+                                    '</div>'+
+                                '</div>';
+                        $('.wishList-area').append(content);
+                    }
+                    $('.wishList-area').append('<a class="wishlist-btn" type="submit" href="searchMain.go">고수 찜 하러가기</a>')
+                    
+                },
+                error : function () {
+                    console.log("찜 목록 조회 실패");
+                }
+            })
+        }
+    </script>
+    
     <div class="wishlist-container">
         <div class="wishlist-header">
             <h1>찜한 고수</h1>
         </div>
-        <form action="myWishlist">
-            <div class="wishlist-item" name="wishlist">
-                <div class="wishlist-content">
-                    <div class="wishlist-info">
-                        <h3>${ sessionScope.loginUser.userName }고수님</h3>
-                        <p>편의점 개잘합니다</p>
-                        <p>경력 5년</p>
-                    </div>
-                    <img src="${ sessionScope.loginUser.userProFile }" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%;">
-                </div>
-            </div>
-            <a class="wishlist-btn" type="submit" href="searchMain.go">고수 찜 하러가기</a>
-        </form>
+        <div class="wishList-area">
+        
+        </div>
     </div>
             <jsp:include page="../common/footer.jsp"/>
 </body>

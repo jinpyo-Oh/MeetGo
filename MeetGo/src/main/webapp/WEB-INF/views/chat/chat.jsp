@@ -536,6 +536,7 @@
             function insertEstChat(data, lr, createAt, checkMarkUrl) {
                 let estStatus = data.status;
                 let chat = '';
+                if()
                 checkMarkUrl = checkMarkUrl=="" ? "" : '<img class="checkMark" style="margin-bottom:0px!important" src="' + '<%=request.getContextPath()%>' + '/resources/images/chat/question-icon.png">'
                 if (lr == "receiver") {
                     chat += '<div class="chat-bubble" style="justify-content: flex-end;">'
@@ -842,8 +843,8 @@
                         if(data.sender != ${sessionScope.loginUser.userNo}){
                             addChatList(chatroomNo);
                         }
-                        
                     }
+                    
                     function changeEstStatus(changeEstNo, changeStatus) {
                         if((changeStatus == 3 || changeStatus == 4) && ${sessionScope.loginUser.userStatus eq 2}){
                             alert("확정 버튼과 결제 버튼은 고객만 가능합니다.");

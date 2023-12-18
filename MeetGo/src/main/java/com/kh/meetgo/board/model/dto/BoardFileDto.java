@@ -14,4 +14,7 @@ public class BoardFileDto {
     private int boardCount;
     private String BfilePath;
     private int userNo;
+    private String userNickname;
+    private String userProfile;
+    
 }

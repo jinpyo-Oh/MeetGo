@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.meetgo.board.model.dto.BoardDto;
 import com.kh.meetgo.board.model.dto.BoardFileDto;
 import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.service.BoardService;
@@ -141,11 +142,14 @@ public class BoardController {
 		
 		int boardNo = Integer.parseInt(bno); 
 				
+		
+		
 		int result = boardService.increaseGosuReqCount(boardNo);
+		
 		
 		if(result > 0) { 
 			
-			Board m = boardService.selectGosuReqBoard(boardNo);
+			BoardDto m = boardService.selectGosuReqBoard(boardNo);
 			
 			ArrayList<Board_File> imgList = boardService.selectGosuReqImgList(boardNo);
 			
@@ -253,7 +257,9 @@ public class BoardController {
 	
 	// 팁노하우 게시판 상세 조회
 		@RequestMapping("tipDetail.bo")
-		public ModelAndView selectTipBoard(String bno, ModelAndView mv) {
+		public ModelAndView selectTipBoard(
+				
+				String bno, ModelAndView mv) {
 
 			bno = bno.trim();
 
@@ -263,7 +269,9 @@ public class BoardController {
 		    	
 		        int result = boardService.increaseTipCount(boardNo);
 
-		      
+		        System.out.println(result);
+		        
+		        
 		        if (result > 0) {
 		            
 		        	BoardFileDto m = boardService.selectTipBoard(boardNo);
@@ -332,7 +340,7 @@ public class BoardController {
 		int userNo = loginUser.getUserNo();
 			
 		m.setUserNo(userNo);
-
+		
 		int result = boardService.insertNoticeBoard(m);
 		
 		if(result > 0) { 

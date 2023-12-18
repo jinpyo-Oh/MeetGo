@@ -150,9 +150,10 @@
 
                         <!-- 견적 요청 버튼 -->
                         <div style="width: 100%; height: 15%;" align="center">
-                            <button type="button">
-                                견적 요청하기
-                            </button>
+                        <!-- 로그인하거나, 자기 게시글이 아닐 경우 요청 가능 -->
+                        <c:if test="${ not empty sessionScope.loginUser and sessionScope.loginUser.userNo ne requestScope.list[0].gosu.gosuNo  }">
+							<button type="button" onclick="location.href='insertChatRoom?gno=${requestScope.list[0].gosu.gosuNo}'">견적 요청하기</button>
+						</c:if>
                         </div>
 
                     </div>
