@@ -61,11 +61,11 @@ public class BoardController {
 		int pageLimit = 5;
 		int boardLimit = 20;
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, 
+		PageInfo pi = Pagination.getPageInfo(listCount,
 						currentPage, pageLimit, boardLimit);
 		
 		ArrayList<Board> list = boardService.selectGosuReqList(pi);
-
+		
 		mv.addObject("list", list)
 		  .addObject("pi", pi)
 		  .setViewName("board/gosuRequest/gosuList");
@@ -174,7 +174,7 @@ public class BoardController {
 	
 		int listCount = boardService.selectTipListCount();		
 		int pageLimit = 5;
-		int boardLimit = 3;
+		int boardLimit = 5;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 						currentPage, pageLimit, boardLimit);
@@ -269,16 +269,15 @@ public class BoardController {
 		    	
 		        int result = boardService.increaseTipCount(boardNo);
 
-		        System.out.println(result);
 		        
 		        
 		        if (result > 0) {
 		            
 		        	BoardFileDto m = boardService.selectTipBoard(boardNo);
 		           
-		        	  System.out.println(m);
 		        	
-		        	ArrayList<BoardFileDto> dtoList = boardService.selectTipImgList(boardNo);
+		        	ArrayList<BoardFileDto> dtoList =
+		        			boardService.selectTipImgList(boardNo);
 		        	
 		        	
 		        			mv.addObject("m", m)
@@ -300,6 +299,7 @@ public class BoardController {
 	
 	@GetMapping("noticeList.bo")
 	public ModelAndView selectNoticeList(
+			
 			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
 			ModelAndView mv) {
 		
@@ -311,7 +311,7 @@ public class BoardController {
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 					currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Board> list = boardService.selectNoticeList(pi);
+		ArrayList<BoardDto> list = boardService.selectNoticeList(pi);
 		
 		
 		mv.addObject("list", list)
@@ -359,20 +359,24 @@ public class BoardController {
 	}
 
 	@RequestMapping("noticeDetail.bo")
-	public ModelAndView selectBoard(int bno, 
+	public ModelAndView selectNoticeBoard(String bno, 
 									ModelAndView mv) {
 	
 		
-
-		int result = boardService.increaseNoticeCount(bno);
+		int boardNo = Integer.parseInt(bno); 
+		
+	
+		int result = boardService.increaseNoticeCount(boardNo);		
+		
 		
 		if(result > 0) { 
+			      	
+
+			BoardDto m = boardService.selectNoticeBoard(boardNo);
 			
-			Board m = boardService.selectNoticeBoard(bno);
 			
-			
-			mv.addObject("m", m)
-			  .setViewName("board/notice/noticeDetail"); 
+			mv.addObject("m", m)			  
+			.setViewName("board/notice/noticeDetail"); 
 			
 		} else { 
 			
@@ -382,6 +386,7 @@ public class BoardController {
 		
 		return mv;
 	}
+	
 	
 	@RequestMapping("sendPofol.po")
 	public String sendPofolList() {

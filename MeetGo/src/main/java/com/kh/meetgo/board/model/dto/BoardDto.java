@@ -16,4 +16,7 @@ public class BoardDto {
 	private Board board;
 	private String userProfile;
 	private String userNickname;
+	private int userNo;
+	private String boardNo;
+	private String boardContent;
 }

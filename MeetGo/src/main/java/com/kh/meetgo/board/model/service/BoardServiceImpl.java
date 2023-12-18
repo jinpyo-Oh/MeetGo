@@ -151,7 +151,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
-	public ArrayList<Board> selectNoticeList(PageInfo pi) {
+	public ArrayList<BoardDto> selectNoticeList(PageInfo pi) {
 		return boardDao.selectNoticeList(sqlSession, pi);
 	}
 	
@@ -219,9 +219,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board selectNoticeBoard(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public BoardDto selectNoticeBoard(int boardNo) {
+		return boardDao.selectNoticeBoard(sqlSession, boardNo);
 	}
 
 	

@@ -158,9 +158,9 @@
             
             <div class="main_body_1_2" style="width:50%;  text-align:right;" >
                 &nbsp;  &nbsp; 
-            	  작성일 :${ requestScope.m.boardCreateDate } 
-            	  &nbsp;  &nbsp;    
-                  조회수 : ${ requestScope.m.boardCount } 
+            	  작성일 :&nbsp; ${ requestScope.m.boardCreateDate } 
+            	  &nbsp;  &nbsp;
+            	  <i class="bi bi-eye-fill"></i>  &nbsp; ${ requestScope.m.boardCount } 
             </div>
             
             
@@ -179,20 +179,22 @@
 			
 			    <br> <br>
 			    
-			    <textarea name="" id="textarea" cols="2" rows="5" 
-			    placeholder="&nbsp;&nbsp;" style="width:600px; height:250px; font-size:20px; background-color: transparent;">
-			        ${requestScope.m.boardContent}
-			    </textarea>
+			    <p id="textarea" 
+			    style="width:600px; height:250px; text-align:left; font-size:20px; background-color: transparent;" >${requestScope.m.boardContent}
+			    </p>
 			    
 			    <hr>
 			</div>
             <br>
          <div class="main_body_4">
             <div class="main_body_4_1">
+            <c:if test="${sessionScope.loginUser.userNo eq requestScope.m.userNo }">
                 <br> &nbsp;&nbsp;
                 <button class="btn btn-primary">수정하기</button> 
                 &nbsp;&nbsp;
                 <button class="btn btn-secondary">삭제하기</button>
+            </c:if>
+            
 
             
              </div>
@@ -201,7 +203,7 @@
                 &nbsp;&nbsp; &nbsp;&nbsp;
                 &nbsp;&nbsp; &nbsp;&nbsp;
                 &nbsp;&nbsp; &nbsp;&nbsp;
-                <button class="btn btn-primary">목록으로</button> 
+                <button type="button" onclick="location.href='tipList.bo'" class="btn btn-primary">목록으로</button> 
 
 
             </div>

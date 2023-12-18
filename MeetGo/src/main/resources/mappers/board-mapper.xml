@@ -38,8 +38,7 @@
 		<result column="BFILE_PATH" property="BfilePath" />		
 		<result column="USER_NO" property="userNo" />	
 		<result column="USER_NICKNAME" property="userNickname"/>	
-		<result column="USER_PROFILE" property="userProfile"/>	
-		
+		<result column="USER_PROFILE" property="userProfile"/>			
 	</resultMap>
 	
 	 <resultMap id="memberResultSet" type="member">
@@ -58,7 +57,7 @@
 	       <result column="ADDRESS" property="address"/>
 	       <result column="USER_STATUS" property="userStatus" />
 	       <result column="ENROLL_STATUS" property="enrollStatus"/>
-	    </resultMap>
+	  </resultMap>
 	
 	<!-- 고수찾아요 게시글 총 갯수 -->
 	<select id="selectGosuReqListCount" resultType="_int">
@@ -96,7 +95,7 @@
 			         ,SYSDATE
 			         ,#{userNo}
 			         ,1
-			      
+			      e
 			        )
 			        
 	</insert>	
@@ -287,6 +286,8 @@
 		 WHERE BOARD_TYPE = 3
 	</select>
 	
+
+	
 	<insert id="insertNoticeBoard" parameterType="Board"
 	useGeneratedKeys="true" keyColumn="BOARD_NO" keyProperty="boardNo">
 		INSERT INTO BOARD (
@@ -295,8 +296,7 @@
 			        BOARD_CONTENT,
 			        BOARD_CREATE_DATE,
 			        USER_NO,
-			        BOARD_TYPE
-			       
+			        BOARD_TYPE			       
 			        )
 			         VALUES(SEQ_BOARD_NO.NEXTVAL
 			         ,#{boardTitle}
@@ -310,15 +310,18 @@
 	
 	
 	<!-- 공지사항 게시판 리스트 -->
-	<select id="selectNoticeList" resultMap="boardResultSet" >
-		SELECT BOARD_NO
-		     , BOARD_TITLE
-		     , BOARD_CONTENT
-		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
-			 , BOARD_COUNT
+	<select id="selectNoticeList"  resultType="boardDto">
+		SELECT BOARD_NO as "board.boardNo"
+		     , BOARD_TITLE as "board.boardTitle"
+		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "board.createDate"
+		     , BOARD_CONTENT as "board.boardContent"
+		     , BOARD_COUNT as "board.boardCount"
+		     , USER_NO as "board.userNo"
+		     , (SELECT USER_NICKNAME
+		     	  FROM MEMBER
+		     	 WHERE BOARD.USER_NO = MEMBER.USER_NO) as "userNickname"
 		  FROM BOARD
-		 WHERE BOARD_TYPE = 3
-		 ORDER BY BOARD_NO DESC
+		   WHERE BOARD_TYPE = 3 
 	</select>		
 	
 	<update id="increaseNoticeCount" parameterType="_int">
@@ -328,12 +331,16 @@
 		   AND BOARD_TYPE = 3
 	</update>
 	
-		<select id="selectNoticeBoard" parameterType="_int" resultMap="boardResultSet">
-		SELECT BOARD_NO
-		     , BOARD_TITLE
-		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
-		     , BOARD_CONTENT
-		     , BOARD_COUNT
+	<select id="selectNoticeBoard" parameterType="_int" resultType="boardDto">
+			SELECT BOARD_NO as "board.boardNo"
+			     , BOARD_TITLE as "board.boardTitle"
+			     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "board.createDate"
+			     , BOARD_CONTENT as "board.boardContent"
+			     , BOARD_COUNT as "board.boardCount"
+			     , USER_NO as "board.userNo"
+			     , (SELECT USER_NICKNAME
+			     	  FROM MEMBER
+		     	 WHERE BOARD.USER_NO = MEMBER.USER_NO) as "userNickname"
 		  FROM BOARD
 		 WHERE BOARD_NO = #{boardNo}
 		   AND BOARD_TYPE = 3
