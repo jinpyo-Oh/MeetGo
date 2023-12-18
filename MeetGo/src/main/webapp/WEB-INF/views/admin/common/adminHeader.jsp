@@ -245,15 +245,15 @@
 				<li class="navItem">
 					<a href="#">공지사항 관리 <i class="fa fa-angle-down" aria-hidden="true"></i></a>
 					<ul class="submenu">
-						<li><a href="#">공지사항 관리</a></li>
+						<li><a href="adminNoticeList.ad">공지사항 관리</a></li>
 						<li><a href="#">공지사항 등록</a></li>
 					</ul>
 				</li>
 				<li class="navItem">
 					<a href="#">게시판 관리 <i class="fa fa-angle-down" aria-hidden="true"></i></a>
 					<ul class="submenu">
-						<li><a href="#">고수 찾아요 관리</a></li>
-						<li><a href="#">팁 노하우 관리</a></li>
+						<li><a href="adminGosuRequestList.ad">고수 찾아요 관리</a></li>
+						<li><a href="adminTipList.ad">팁 노하우 관리</a></li>
 						<li><a href="showAdminPofolList.ad">포트폴리오 관리</a></li>
 					</ul>
 				</li>
