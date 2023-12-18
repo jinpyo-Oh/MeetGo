@@ -236,11 +236,6 @@ public class MemberDao {
         return sqlSession.selectOne("memberMapper.WrittenReviewDetail", revNo);
     }
 
-
-	public ReviewDto WrittenReviewDetail(SqlSessionTemplate sqlSession, int revNo) {
-		return sqlSession.selectOne("memberMapper.WrittenReviewDetail", revNo);
-	}
-
 	public int checkEmail(SqlSessionTemplate sqlSession, String checkEmail) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.checkEmail",checkEmail);
