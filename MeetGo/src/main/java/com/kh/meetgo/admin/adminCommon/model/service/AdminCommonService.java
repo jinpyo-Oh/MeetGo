@@ -15,4 +15,6 @@ public interface AdminCommonService {
 	// 수익추이차트용 (select)
 	ArrayList<ChartMemberDto> selectProfit();
 	
+	// 전체회원수 조회용 (select)
+	int selectAllUsers();
 }

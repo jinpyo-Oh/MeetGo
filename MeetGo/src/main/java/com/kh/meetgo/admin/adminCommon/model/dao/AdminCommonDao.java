@@ -21,5 +21,9 @@ public class AdminCommonDao {
 		return (ArrayList)sqlSession.selectList("adminMapper.selectProfit");
 	}
 
+	public int selectAllUsers(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("adminMapper.selectAllUsers");
+	}
+
 
 }

@@ -30,4 +30,9 @@ public class AdminCommonServiceImpl implements AdminCommonService {
 		return adminDao.selectProfit(sqlSession);
 	}
 
+	@Override
+	public int selectAllUsers() {
+		return adminDao.selectAllUsers(sqlSession);
+	}
+
 }
