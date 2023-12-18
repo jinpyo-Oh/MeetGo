@@ -47,6 +47,7 @@ public class AdminMemberController {
         model.addAttribute("cPage", cPage);
         return new Gson().toJson(map);
     }
+
     @ResponseBody
     @GetMapping(value = "selectAllGosu.ad", produces = "text/json; charset=UTF-8")
     public String selectAllGosu(int cPage, Model model){

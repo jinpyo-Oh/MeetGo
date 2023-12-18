@@ -350,6 +350,7 @@
                                     + '<div class="info-detail">'
                                     + '<h5 style="margin-left: 20px">리뷰 목록</h5>'
                                     + '<div class="review-img-area">';
+								if(revImgList)
                                 for (let i = 0; i < revImgList.length; i++) {
                                     userInfo +='<div style="width: 100px!important;"><img class="info-img" onclick="reviewDetail('+revImgList[i].review.revNo+')" src="'+revImgList[i].reviewImg.revImgUrl+'"></div>'
                                 }
