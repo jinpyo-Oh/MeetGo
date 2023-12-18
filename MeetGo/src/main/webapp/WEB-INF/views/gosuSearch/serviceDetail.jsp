@@ -258,7 +258,10 @@
 <body>
 
 <jsp:include page="../common/header.jsp"/>
-
+<script>
+    let $userNo = ${sessionScope.loginUser.userNo};
+    let $gosuNo = ${requestScope.list[0].gosu.gosuNo};
+</script>
 <div class="outer">
 	<div id="detailHead-area">
 		<div id="image-area">
@@ -572,8 +575,6 @@
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
 	
-	let $userNo = ${sessionScope.loginUser.userNo};
-	let $gosuNo = ${requestScope.list[0].gosu.gosuNo};
 	
     $(function(){
     	isLiked();
@@ -617,12 +618,12 @@
     });   
     
     function isLiked(){
-    	
-    	if(${requestScope.isLiked} == 1){
-    		$("#gosuLikeIco").removeClass("bi-heart").addClass("bi-heart-fill");
-    	} else {
-    		$("#gosuLikeIco").removeClass("bi-heart-fill").addClass("bi-heart");
-    	} 
+
+        if (${requestScope.isLiked eq 1}){
+            $("#gosuLikeIco").removeClass("bi-heart").addClass("bi-heart-fill");
+        } else {
+            $("#gosuLikeIco").removeClass("bi-heart-fill").addClass("bi-heart");
+        }
     }
     
     function enrollGosuLike(){
