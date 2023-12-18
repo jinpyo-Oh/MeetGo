@@ -146,4 +146,5 @@ public interface MemberService {
 	int updatePassword(String email,String userPwd);
 
 
+    ArrayList<WishListRequest> selectAllWishList(int userNo);
 }

@@ -303,6 +303,7 @@ public class MemberDao {
 	}
 
 
-
-
+    public ArrayList<WishListRequest> selectAllWishList(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList)sqlSession.selectList("memberMapper.selectAllWishList", userNo);
+    }
 }

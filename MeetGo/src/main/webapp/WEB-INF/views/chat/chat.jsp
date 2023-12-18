@@ -214,6 +214,7 @@
             }
 
             function selectChatList(type , chatroomId) {
+                clearChatList();
                 $.ajax({
                     url: "chatroomList",
                     method: "get",
@@ -477,7 +478,7 @@
                 let createAt = data.createAt;
 				let chatRead = data.chatRead;
                 let checkMarkUrl = "";
-                
+                console.log("!! chatRead : " + chatRead);
                 if(chatRead == 0){
                     checkMarkUrl = '<img class="checkMark" src="' + '<%=request.getContextPath()%>' + '/resources/images/chat/question-icon.png">';
 				}
@@ -536,7 +537,6 @@
             function insertEstChat(data, lr, createAt, checkMarkUrl) {
                 let estStatus = data.status;
                 let chat = '';
-                if()
                 checkMarkUrl = checkMarkUrl=="" ? "" : '<img class="checkMark" style="margin-bottom:0px!important" src="' + '<%=request.getContextPath()%>' + '/resources/images/chat/question-icon.png">'
                 if (lr == "receiver") {
                     chat += '<div class="chat-bubble" style="justify-content: flex-end;">'
@@ -837,6 +837,7 @@
                             "createAt": obj.createAt,
 							"chatRead": obj.chatRead
                         }
+                        console.log(data);
 						if(data.type != "ENTER"){
                             CheckLR(data);
 						}
