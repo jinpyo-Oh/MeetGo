@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="https://kit.fontawesome.com/bb1372cd06.js" crossorigin="anonymous"></script><style>
+
+<style>
 	.detail{
         width: 100%;
         border-style: hidden;
@@ -40,6 +41,14 @@
         float: left;
         height: 30px;
         color: black;
+        cursor: pointer;
+    }
+    .delete{
+    	margin: 5px;
+        float: right;
+        height: 30px;
+        color: red;
+        cursor: pointer;
     }
     #content{
     	background-color: white;
@@ -56,7 +65,19 @@
         <div style="text-align: center; width: 60%; margin: auto;">
             <br>
             <br>
-
+            <c:choose>
+            	<c:when test="${ sessionScope.loginUser.userStatus eq 1 }">
+            		<a class="back" href="myReview.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+				</c:when>
+				<c:otherwise>
+            		<a class="back" href="WrittenReview.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+             	<c:when test="${ requestScope.list.review.gosuNo ne sessionScope.loginUser.userNo }">
+            	    <a class="delete" data-toggle="modal" data-target="#myModal">삭제하기 X</a>
+             	</c:when>
+            </c:choose>
             <h2>나의 리뷰</h2>
        
            <br><br>
@@ -66,9 +87,9 @@
                     <table class="detail" border="1px" style="border-color: black;" >
 	                    <tr class="cons">
 	                        <td class="fix" style="width: 15%; border-top-left-radius: 10px;">계약번호</td>
-	                        <td style="width: 35%;">${ requestScope.list.review.revNo }</td>
+	                        <td style="width: 35%;">${ requestScope.list.review.estNo }</td>
 	                        <td class="fix" style="width: 15%;">계약명</td>
-	                        <td style="color: red; width: 35%;">${ requestScope.list.estTitle }</td>
+	                        <td style="width: 35%;">${ requestScope.list.estTitle }</td>
 	                    </tr>
 	                    <tr class="cons">
 	                        <td class="fix" >고수명</td>
@@ -154,15 +175,7 @@
                 
                 <br>
 
-                <c:choose>
-                	<c:when test="${ requestScope.list.review.gosuNo ne sessionScope.loginUser.userNo }">
-		                <a type="button" href="myReview.me" class="btn btn-warning btn-sm back">목록으로</a>
-		                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">삭제</button>
-                	</c:when>
-                	<c:otherwise>
-		                <a type="button" href="estimate.me" class="btn btn-warning btn-sm back">목록으로</a>
-                	</c:otherwise>
-                </c:choose>
+                
                 
                 <!-- The Modal -->
 				  <div class="modal fade" id="myModal">

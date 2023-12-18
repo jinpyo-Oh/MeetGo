@@ -170,11 +170,30 @@ public class BoardServiceImpl implements BoardService {
 	public ArrayList<PofolImg> pofolDetailImg(int pofolNo) {
 		return boardDao.pofolDetailImg(sqlSession, pofolNo);
 	}
+	
+	@Override
+	public int updatePofol(int pofolNo, String pofolTitle, String pofolPrice, String pofolIntro, String pofolContent) {
+		return boardDao.updatePofol(sqlSession, pofolNo, pofolTitle, pofolPrice, pofolIntro, pofolContent);
+	}
+	@Override
+	public int updatePofolImg(int pofolImgNo, String pofolImgUrl) {
+		return boardDao.updatePofolImg(sqlSession, pofolImgNo, pofolImgUrl);
+	}
+	
+	@Override
+	public int deletePofol(int pofolNo) {
+		return boardDao.deletePofol(sqlSession, pofolNo);
+	}
+	@Override
+	public int deletePofolImg(int pofolNo) {
+		return boardDao.deletePofolImg(sqlSession, pofolNo);
+	}
+	
 
 	@Override
-	public ArrayList<Reply> selectReplyList(int boardNo) {
+	public ArrayList<Reply> selectReplyList(int userNo) {
 		// TODO Auto-generated method stub
-		return null;
+		return boardDao.selectReplyList(sqlSession,userNo);
 	}
 
 	@Override

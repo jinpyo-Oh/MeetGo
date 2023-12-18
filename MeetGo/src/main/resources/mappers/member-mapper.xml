@@ -36,6 +36,7 @@
        <result column="GOSU_NO" property="gosuNo"/>
        <result column="USER_NO" property="userNo"/>
     </resultMap>
+    
     <resultMap id="gosuResultSet" type="gosu">
 		<result column="GOSU_NO" property="gosuNo"/>
 		<result column="INTRODUCTION" property="introduction"/>
@@ -81,7 +82,7 @@
           SELECT *
           FROM MEMBER
           WHERE USER_ID = #{userId}
-          AND (USER_STATUS = '1' OR USER_STATUS = '2')
+          AND (ENROLL_STATUS = '1' OR ENROLL_STATUS = '2' OR ENROLL_STATUS = '3')
     </select>
     <insert id="insertMember" parameterType="member">
        INSERT INTO MEMBER(USER_NO,
@@ -93,7 +94,7 @@
                 USER_GENDER,
                 ADDRESS,   
                 USER_PHONE,
-                USER_STATUS)
+                ENROLL_STATUS)
           VALUES (SEQ_MEMBER_NO.NEXTVAL,
                 #{userId},
                 #{userPwd},
@@ -112,12 +113,12 @@
        USER_PWD = #{userPwd},
        USER_PROFILE = #{userProFile}
        WHERE USER_ID = #{userId}
-        AND (USER_STATUS = '1' OR USER_STATUS = '2')
+        AND (ENROLL_STATUS = '1' OR ENROLL_STATUS = '2')
     </update>
     
     <update id="deleteMember" parameterType="string">
        UPDATE MEMBER
-       SET USER_STATUS = '4'
+       SET ENROLL_STATUS = '4'
        WHERE USER_ID = #{userId}
     </update>
     <select id="idCheck" parameterType="string" resultType="_int">
@@ -148,7 +149,7 @@
     
     <update id="changeStatus" parameterType="member">
        UPDATE MEMBER
-       SET USER_STATUS = #{userStatus}
+       SET ENROLL_STATUS = #{enrollStatus}
        WHERE USER_ID = #{userId}
     </update>
 
@@ -190,6 +191,7 @@
          FROM ESTIMATE
         WHERE (STATUS = '3' OR STATUS = '4')
           AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+        ORDER BY CONFIRMATION_DATE DESC
     </select>
     
     <select id="selectCompleteEstimateList" parameterType="_int" resultType="estimateDto">
@@ -215,6 +217,7 @@
          FROM ESTIMATE
         WHERE STATUS = '5'
           AND (USER_NO = #{userNo} OR GOSU_NO = #{userNo})
+        ORDER BY CONFIRMATION_DATE DESC
     </select>
     
     <select id="selectEstimateDetail" parameterType="_int" resultMap="estimateResultSet">
@@ -360,76 +363,135 @@
 		UPDATE GOSU
 		SET ELABORATE = #{elaborate}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 	
 	<update id="introductionUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET INTRODUCTION = #{introduction}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 	
 		<update id="availableTimeUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET AVAILABLE_TIME = #{availableTime}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 		<update id="educationUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	EDUCATION = #{education}
 		WHERE GOSU_NO = #{userNo}
-		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+		  AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 	</update>
 	<update id="moveDistanceUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	MOVE_DISTANCE= #{moveDistance}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 		
 	</update>
 	<update id="employeesUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	EMPLOYEES= #{employees}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 		
 	</update>
 	<update id="regionUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	REGION= #{region}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
 		
 	</update>
 
-		
-	
-		<update id="careerUpdate" parameterType="gosu">
+	<update id="careerUpdate" parameterType="gosu">
 		UPDATE GOSU
 		SET	CAREER= #{career}
 		WHERE GOSU_NO = #{userNo}
-			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE USER_STATUS = '2')
-		</update>
+			AND USER_NO IN (SELECT USER_NO FROM MEMBER WHERE ENROLL_STATUS = '2')
+	</update>
 
-
-	
-	   <insert id="insertGosuImg" parameterType="gosuImg">
-		  INSERT INTO "GOSU-IMG" (GOSU_IMG_NO,
-		  GOSU_IMG_URL, 
-		  STATUS,
-		  GOSU_NO) 
-		values (SEQ_GOSU_IMG.nextval,
-		 #{gosuImgUrl},
-		  1,
+	<insert id="insertGosuImg" parameterType="gosuImg">
+	  INSERT INTO "GOSU-IMG" (GOSU_IMG_NO,
+	  GOSU_IMG_URL, 
+	  STATUS,
+	  GOSU_NO) 
+	values (SEQ_GOSU_IMG.nextval,
+	 #{gosuImgUrl},
+	  1,
 		#{gosuNo})
     </insert>
+    
     <select id="selectAllGosuImg" parameterType="_int" resultMap="gosuImgResultSet">
     	SELECT *
 		FROM "GOSU-IMG"
 		WHERE GOSU_NO = #{userNo}
     </select>
 
+    <select id="WrittenReviewToMeCount" parameterType="_int" resultType="_int">
+       SELECT COUNT(*)
+         FROM review
+        WHERE REV_STATUS = '1'
+          AND GOSU_NO = #{gosuNo}
+    </select>
 
+	<select id="WrittenReviewToMe" parameterType="_int" resultType="reviewDto">
+		 SELECT REV_NO as "review.revNo"
+            , REV_CONTENT as "review.revContent"
+            , REV_POINT as "review.revPoint"
+            , TO_CHAR(REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+            , GOSU_NO as "review.gosuNo"
+            , EST_NO as "review.estNo"
+            , (SELECT USER_NAME
+		         FROM MEMBER M
+		        WHERE M.USER_NO = REVIEW.USER_NO) AS "userName"
+            , (SELECT REV_IMG_URL
+                 FROM REVIEW_IMG
+                WHERE REVIEW.REV_NO = REVIEW_IMG.REV_NO AND ROWNUM BETWEEN 0 AND 1) AS "revImgUrl" 
+         FROM REVIEW
+        WHERE REV_STATUS = '1'
+          AND GOSU_NO = #{gosuNo}
+        ORDER BY REV_NO DESC
+	</select>
+	
+	<select id="WrittenReviewDetail" parameterType="_int" resultType="reviewDto">
+		SELECT REV_NO AS "review.revNo"
+             , REV_CONTENT AS "review.revContent"
+             , REV_POINT AS "review.revPoint"
+             , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
+             , REV_STATUS AS "review.revStatus"
+             , EST_NO AS "review.estNo"
+             , USER_NO AS "review.userNo"
+             , GOSU_NO AS "review.gosuNo"
+             , (SELECT USER_NAME
+                  FROM MEMBER
+                 WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
+             , (SELECT USER_NAME
+                  FROM MEMBER
+                 WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
+             , (SELECT EST_TITLE
+                  FROM ESTIMATE
+                 WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
+          FROM REVIEW R
+         WHERE R.REV_NO = #{revNo}
+	</select>
+
+    <select id="selectAllMember" resultMap="memberResultSet">
+        select *
+        from member
+    </select>
+    
+    <select id="countAllMember" resultType="_int">
+        select count(*)
+        from member
+    </select>
+    
+    <select id="selectOneMember" parameterType="_int" resultMap="memberResultSet">
+        select *
+        from member
+        where USER_NO = ${userNo}
+    </select>
 </mapper>

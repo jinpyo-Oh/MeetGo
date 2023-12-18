@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://kit.fontawesome.com/53a8c415f1.js" crossorigin="anonymous"></script>
 <style>
     .detail{
         width: 100%;
@@ -39,6 +40,7 @@
         float: left;
         height: 35px;
         color: black;
+        margin-top: 5px;
     }
 </style>
 </head>
@@ -51,6 +53,7 @@
         <div style="text-align: center; width: 60%; margin: auto;">
             <br>
             <br>
+            <a class="back" href="estimate.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
             <br>
 			<div align="center">
 	            <h2>계약서</h2>
@@ -121,8 +124,6 @@
                 
                 <br>
                 
-                <a class="btn btn-warning btn-sm" style="float: left;" href="estimate.me?">뒤로가기</a>
-            	
             	<c:choose>
             		<c:when test="${ sessionScope.loginUser.userNo ne requestScope.est.gosuNo }">
 		                <c:choose>
@@ -179,11 +180,9 @@
 						data : {
 							estNo : '${ requestScope.est.estNo }'
 						}, success : function(){
-							alert("서비스 완료 등록 성공!")
 							location.reload(true);
-							
 						}, error : function(){
-							alert("서비스 완료 등록 오류! 관리자에게 문의하세요.");
+							alert("서비스 완료에 실패하였습니다! 관리자에게 문의하세요.");
 						}
 						
         			});

@@ -1,8 +1,6 @@
 package com.kh.meetgo.member.model.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -42,8 +40,9 @@ public class MemberDao {
     public int idCheck(SqlSessionTemplate sqlSession, String checkId) {
         return sqlSession.selectOne("memberMapper.idCheck", checkId);
     }
+
     public int updateEmailPassword(SqlSessionTemplate sqlSession, String email) {
-        return sqlSession.selectOne("memberMapper.updateEmailPassword",email);
+        return sqlSession.selectOne("memberMapper.updateEmailPassword", email);
     }
 
     public int changeStatus(SqlSessionTemplate sqlSession, Member m) {
@@ -56,7 +55,7 @@ public class MemberDao {
 
     public int emailCheck(SqlSessionTemplate sqlSession, String checkEmail) {
         // TODO Auto-generated method stub
-        return sqlSession.selectOne("memberMapper.emailCheck",checkEmail);
+        return sqlSession.selectOne("memberMapper.emailCheck", checkEmail);
     }
 
 
@@ -74,22 +73,22 @@ public class MemberDao {
         return sqlSession.selectOne("memberMapper.selectCompleteListCount", userNo);
     }
 
-    public ArrayList<Estimate> selectIncompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi1, int userNo){
+    public ArrayList<Estimate> selectIncompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi1, int userNo) {
         int limit = pi1.getBoardLimit();
         int offset = (pi1.getCurrentPage() - 1) * limit;
 
         RowBounds rowBounds = new RowBounds(offset, limit);
 
-        return (ArrayList)sqlSession.selectList("memberMapper.selectIncompleteEstimateList", userNo, rowBounds);
+        return (ArrayList) sqlSession.selectList("memberMapper.selectIncompleteEstimateList", userNo, rowBounds);
     }
 
-    public ArrayList<EstimateDto> selectCompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi2, int userNo){
+    public ArrayList<EstimateDto> selectCompleteEstimateList(SqlSessionTemplate sqlSession, PageInfo pi2, int userNo) {
         int limit = pi2.getBoardLimit();
         int offset = (pi2.getCurrentPage() - 1) * limit;
 
         RowBounds rowBounds = new RowBounds(offset, limit);
 
-        return (ArrayList)sqlSession.selectList("memberMapper.selectCompleteEstimateList", userNo, rowBounds);
+        return (ArrayList) sqlSession.selectList("memberMapper.selectCompleteEstimateList", userNo, rowBounds);
     }
 
     public Estimate selectEstimateDetail(SqlSessionTemplate sqlSession, int eno) {
@@ -133,15 +132,15 @@ public class MemberDao {
 
         RowBounds rowBounds = new RowBounds(offset, limit);
 
-        return (ArrayList)sqlSession.selectList("memberMapper.myReviewList", userNo, rowBounds);
+        return (ArrayList) sqlSession.selectList("memberMapper.myReviewList", userNo, rowBounds);
     }
 
     public ReviewDto myReviewDetail(SqlSessionTemplate sqlSession, int revNo) {
-        return (ReviewDto)sqlSession.selectOne("memberMapper.myReviewDetail", revNo);
+        return (ReviewDto) sqlSession.selectOne("memberMapper.myReviewDetail", revNo);
     }
 
     public ArrayList<ReviewImg> myReviewDetailImg(SqlSessionTemplate sqlSession, int revNo) {
-        return (ArrayList)sqlSession.selectList("memberMapper.myReviewDetailImg", revNo);
+        return (ArrayList) sqlSession.selectList("memberMapper.myReviewDetailImg", revNo);
     }
 
     public int deleteReview(SqlSessionTemplate sqlSession, int revNo) {
@@ -232,4 +231,91 @@ public ArrayList<GosuImg> selectAllGosuImg(SqlSessionTemplate sqlSession, int us
 
 
 
+    public int elaborateUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.elaborateUpdate", g);
+    }
+
+    public int introductionUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.introductionUpdate", g);
+    }
+
+    public Gosu getGosuInfoByUserNo(SqlSessionTemplate sqlSession, int userNo) {
+        // TODO Auto-generated method stub
+        return sqlSession.selectOne("memberMapper.gosuInfoByUserNo", userNo);
+    }
+
+    public int availableTimeUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.availableTimeUpdate", g);
+    }
+
+    public int educationUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.educationUpdate", g);
+    }
+
+    public int moveDistanceUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.moveDistanceUpdate", g);
+    }
+
+    public int employeesUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.employeesUpdate", g);
+    }
+
+    public int regionUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.regionUpdate", g);
+    }
+
+    public int careerUpdate(SqlSessionTemplate sqlSession, Gosu g) {
+        // TODO Auto-generated method stub
+        return sqlSession.update("memberMapper.careerUpdate", g);
+    }
+
+
+
+    /*
+     * public int potoAdd(SqlSessionTemplate sqlSession, String gosuImgUrl, int
+     * gosuImgNo) { // TODO Auto-generated method stub Map<String, Object> params =
+     * new HashMap<>(); params.put("gosuImgUrl", gosuImgUrl);
+     * params.put("gosuImgNo", gosuImgNo); return
+     * sqlSession.insert("memberMapper.insertPotoImg" , params); }
+     */
+    /*
+     * public int potoupdate(SqlSessionTemplate sqlSession, Gosu g) { // TODO
+     * Auto-generated method stub return sqlSession.update(memberMapper.); }
+     */
+
+    public int uploadFile(SqlSessionTemplate sqlSession, GosuImg gosuImg) {
+        // TODO Auto-generated method stub
+        return sqlSession.insert("memberMapper.insertGosuImg", gosuImg);
+    }
+
+    public ArrayList<GosuImg> selectAllGosuImg(SqlSessionTemplate sqlSession, int userNo) {
+        // TODO Auto-generated method stub
+        return (ArrayList) sqlSession.selectList("memberMapper.selectAllGosuImg", userNo);
+    }
+
+
+	public int WrittenReviewToMeCount(SqlSessionTemplate sqlSession, int gosuNo) {
+		return sqlSession.selectOne("memberMapper.WrittenReviewToMeCount", gosuNo);
+	}
+
+	public ArrayList<ReviewDto> WrittenReviewToMeCount(SqlSessionTemplate sqlSession, PageInfo pi, int gosuNo) {
+		
+		int limit = pi.getBoardLimit();
+        int offset = (pi.getCurrentPage() - 1) * limit;
+
+        RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.WrittenReviewToMe", gosuNo, rowBounds);
+	}
+	
+	public ReviewDto WrittenReviewDetail(SqlSessionTemplate sqlSession, int revNo) {
+		return sqlSession.selectOne("memberMapper.WrittenReviewDetail", revNo);
+	}
 }

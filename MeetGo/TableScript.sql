@@ -50,8 +50,8 @@ CREATE TABLE MEMBER
     ADDRESS          VARCHAR2(100)                               NULL,                                     -- 주소
     CREATE_DATE      DATE           DEFAULT SYSDATE,                                                       -- 생성일자
     LAST_ACCESS_DATE DATE           DEFAULT SYSDATE,                                                       -- 최근 접속일
-    USER_STATUS      NUMBER default 1 CHECK (USER_STATUS IN (1, 2))  NULL,                                      -- 1: 일반사용자,  2: 고수,  3: ADMIN
-    ENROLL_STATUS    NUMBER default 1 CHECK (ENROLL_STATUS IN (1, 2, 3, 4) )                                         -- 1: 일반사용자(고수등록),  2: 고수(고수 비활성화,  3: 고수 비활성화(고수 활성화) 4: 회원 탈퇴(회원 비활성화)
+    USER_STATUS      NUMBER default 1 CHECK (USER_STATUS IN (1, 2))  NULL,                                 -- 1: 일반사용자,  2: 고수,  3: ADMIN
+    ENROLL_STATUS    NUMBER default 1 CHECK (ENROLL_STATUS IN (1, 2, 3, 4) )                               -- 1: 일반사용자(고수등록),  2: 고수(고수 비활성화),  3: 고수 비활성화(고수 활성화) 4: 회원 탈퇴(회원 비활성화)
 );
 CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
 
@@ -273,6 +273,7 @@ CREATE TABLE "CHATROOM"
     "CREATE_AT"   DATE DEFAULT SYSDATE, -- 생성일
     "USER_NO"     NUMBER NOT NULL,      -- 사용자 번호
     "GOSU_NO"     NUMBER NOT NULL,      -- 고수 번호
+    "CHATROOM_STATUS" NUMBER CHECK ( CHATROOM_STATUS IN (1,2,3) ), -- 1:활성 2:종료, 3:정지
     FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO),
     FOREIGN KEY (GOSU_NO) REFERENCES GOSU (GOSU_NO)
 );
@@ -360,7 +361,7 @@ CREATE SEQUENCE SEQ_BOARD_NO NOCACHE;
 CREATE TABLE "BOARD_FILE"
 (
     "BFILE_NO"          NUMBER PRIMARY KEY,                           -- 게시글 파일 번호
-    "BFILE_URL"         varchar2(1000) NOT NULL ,                     -- 게시글 파일 URL
+    "BFILE_PATH"         varchar2(1000) NOT NULL ,                     -- 게시글 파일 URL
     "BFILE_STATUS"      VARCHAR2(1) CHECK ( BFILE_STATUS IN (1, 2) ), -- 1:정상 2:비활성화(삭제)
     "BOARD_NO"          NUMBER         NOT NULL                       -- 게시글 번호
 );

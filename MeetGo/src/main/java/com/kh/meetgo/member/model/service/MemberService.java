@@ -88,7 +88,7 @@ public interface MemberService {
 
 	// 서비스 이행 완료
 	int completeEstimate(int eno);
-
+	
 	Member selectMember(Member member);
 
 	int insertKakaoMember(Member member);
@@ -116,6 +116,16 @@ public interface MemberService {
 
 	ArrayList<GosuImg> selectAllGosuImg(int userNo);
 
+
 	
 	
+	
+	// 내게 쓰여진 리뷰 개수 조회 (select)
+	int WrittenReviewToMeCount(int gosuNo);
+	
+	// 내게 쓰여진 리뷰 조회 (select)
+	ArrayList<ReviewDto> WrittenReviewToMe(PageInfo pi, int gosuNo);
+	
+	// 내게 쓰여진 리뷰 상세조회 (selelct)
+	ReviewDto WrittenReviewDetail(int revNo);
 }

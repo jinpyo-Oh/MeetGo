@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="gosuMapper">
-
+    <resultMap id="memberResultSet" type="member">
+       <result column="USER_NO" property="userNo" />
+       <result column="USER_NAME" property="userName" />
+       <result column="USER_ID" property="userId" />
+       <result column="USER_PWD" property="userPwd" />
+       <result column="USER_EMAIL" property="userEmail" />
+       <result column="USER_NICKNAME" property="userNickname" />
+       <result column="USER_GENDER" property="userGender" />
+       <result column="USER_PHONE" property="userPhone" />
+       <result column="USER_PROFILE" property="userProFile" />
+       <result column="CREATE_DATE" property="createDate" />
+       <result column="ADDRESS" property="address"/>
+       <result column="LAST_ACCESS_DATE" property="lastAccessDate" />
+       <result column="ADDRESS" property="address"/>
+       <result column="USER_STATUS" property="userStatus" />
+       <result column="ENROLL_STATUS" property="enrollStatus"/>
+    </resultMap>
 	<!-- 총 고수회원 수 -->
 	<select id="selectOptionalGosuCount" parameterType="hashMap" resultType="_int" >       	
                 SELECT COUNT(*)
@@ -262,7 +278,18 @@
 		  WHERE G.GOSU_NO = #{gosuNo}
 		)
 	</select>	
-	
+	<!-- 고수 활성화 -->
+	<update id="gosuActivate" parameterType="String">
+		UPDATE MEMBER
+		SET ENROLL_STATUS = '2'
+		WHERE USER_ID = #{userId}
+	</update>
+	<!-- 고수 비활성화 -->
+	<update id="deleteGosu" parameterType="String"> 
+		UPDATE MEMBER
+		SET ENROLL_STATUS = '3'
+		WHERE USER_ID = #{userId}
+	</update>
 	<!-- 고수이미지 불러오기 -->
 	<select id="getGosuImg" parameterType="_int" resultType="gosuImg">
 		SELECT GOSU_IMG_NO AS "gosuImgNo",
@@ -313,6 +340,26 @@
 	   WHERE R.GOSU_NO = #{gosuNo}
 	</select>
 	
+	<select id="countGosuLike" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		  FROM GOSU_LIKE
+		 WHERE USER_NO = #{userNo}
+		   AND GOSU_NO = #{gosuNo}
+	</select>
+	
+	<delete id="deleteGosuLike" parameterType="hashMap">
+		DELETE FROM GOSU_LIKE
+		WHERE GOSU_NO = #{gosuNo}
+		  AND USER_NO = #{userNo}
+	</delete>
+	
+	<insert id="insertGosuLike" parameterType="hashMap">
+		INSERT INTO GOSU_LIKE(GOSU_NO
+				   			, USER_NO)
+				       VALUES(#{gosuNo}
+				       		, #{userNo})
+	</insert>
+	
 	<insert id="insertGosu" parameterType="gosu">
 		INSERT INTO GOSU(GOSU_NO
 					   , INTRODUCTION
@@ -347,7 +394,7 @@
 	
 	<update id="changeStatus" parameterType="_int">
 		UPDATE MEMBER
-		   SET USER_STATUS = 2
+		   SET ENROLL_STATUS = 2
 		 WHERE USER_NO = #{userNo} 
 	</update>
 

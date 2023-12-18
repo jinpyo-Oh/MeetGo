@@ -100,12 +100,7 @@
                         가격
                     </th>
                     <td>
-                        <input type="text" class="form-control" id="pofolPrice" name="pofolPrice">
-                        <span><b>원</b></span>
-                        <select class="form-control" id="priceOption">
-                            <option>직접입력</option>
-                            <option>협의 후 결정</option>
-                        </select>
+                        <input type="text" class="form-control" id="pofolPrice" name="pofolPrice" placeholder="10,000원 이상 / 협의 후 결정">
                     </td>
                 </tr>
                 </thead>

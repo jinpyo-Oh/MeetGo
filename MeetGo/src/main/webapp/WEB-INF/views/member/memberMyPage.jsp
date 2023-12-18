@@ -1,11 +1,28 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 마이페이지</title>
+     <!-- JavaScript -->
+	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+	<!-- CSS -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+	<!-- Default theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+	<!-- Semantic UI theme -->
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+    
+    <!-- jQuery 라이브러리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- 부트스트랩에서 제공하고 있는 스타일 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         .mypage-main {
             width: 652px;
@@ -116,11 +133,28 @@
             <hr>
             <ul>
                 <li class="mypage">고수</li>
-                <a href="gosuEnrollForm.go">
-                    <li class="mypage-mini">고수 등록하기 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
-               </a>
+               <c:choose>
+				    <c:when test="${sessionScope.loginUser.enrollStatus eq 1}">
+				        <a href="gosuEnrollForm.go">
+				            <li class="mypage-mini">고수 등록하기 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
+				        </a>
+				    </c:when>
+				    <c:when test="${sessionScope.loginUser.enrollStatus eq 2}">
+				        <a href="gosuDeleteForm.go">
+				            <li class="mypage-mini">고수 비활성화 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
+				        </a>
+				    </c:when>
+				    <c:when test="${sessionScope.loginUser.enrollStatus eq 3}">
+				        <a href="gosuActivate.go">
+				            <li class="mypage-mini">고수 활성화<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
+				        </a>
+				    </c:when>
+				</c:choose>
+
+               
             </ul>
             <hr>
+            
             <ul>
             	<li class="mypage">커뮤니티</li>
                 	<a href="myPost.me">

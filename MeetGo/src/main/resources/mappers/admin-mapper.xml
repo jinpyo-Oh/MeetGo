@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="adminMapper">
+
+   	<resultMap id="estimateResultSet" type="estimate">
+       <result column="EST_NO" property="estNo"/>
+       <result column="EST_TITLE" property="estTitle"/>
+       <result column="EST_CONTENT" property="estContent"/>
+       <result column="EST_ADDRESS" property="estAddress"/>
+       <result column="EST_SERVICE" property="estService"/>
+       <result column="START_DATE" property="startDate"/>
+       <result column="END_DATE" property="endDate"/>
+       <result column="CONFIRMATION_DATE" property="confirmationDate"/>
+       <result column="EST_PRICE" property="estPrice"/>
+       <result column="STATUS" property="status"/>
+       <result column="TID" property="tid"/>
+       <result column="GOSU_NO" property="gosuNo"/>
+       <result column="USER_NO" property="userNo"/>
+    </resultMap>
+
+
+    <resultMap id="reviewImgResultSet" type="reviewImg">
+       <result column="IMG_NO" property="imgNo"/>
+       <result column="REV_IMG_URL" property="revImgUrl"/>
+       <result column="REV_NO" property="revNo"/>
+    </resultMap>
+	
+	
+    
+    <resultMap id="reportList" type="report">
+    	<result column="REPORT_NO" property="reportNo"/>
+    	<result column="REPORT_USER" property="reportUser"/>
+    	<result column="REPORTED_USER" property="reportedUser"/>
+    	<result column="REPORT_CATEGORY" property="reportCategory"/>
+    	<result column="REPORT_CONTENT" property="reportContent"/>
+    	<result column="REPORT_STATUS" property="reportStatus"/>
+    </resultMap>
+
+
+	<resultMap id="memberResultSet" type="member">
+		<result column="USER_NO" property="userNo" />
+		<result column="USER_NAME" property="userName" />
+		<result column="USER_ID" property="userId" />
+		<result column="USER_PWD" property="userPwd" />
+		<result column="USER_EMAIL" property="userEmail" />
+		<result column="USER_NICKNAME" property="userNickname" />
+		<result column="USER_GENDER" property="userGender" />
+		<result column="USER_PHONE" property="userPhone" />
+		<result column="USER_PROFILE" property="userProFile" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="ADDRESS" property="address"/>
+		<result column="LAST_ACCESS_DATE" property="lastAccessDate" />
+		<result column="ADDRESS" property="address"/>
+		<result column="USER_STATUS" property="userStatus" />
+		<result column="ENROLL_STATUS" property="enrollStatus"/>
+	</resultMap>
+	<resultMap id="gosuResultSet" type="gosu">
+		<result column="GOSU_NO" property="gosuNo"/>
+		<result column="INTRODUCTION" property="introduction"/>
+		<result column="EMPLOYEES" property="employees"/>
+		<result column="BUSINESS_STATUS" property="businessStatus"/>
+		<result column="EDUCATION" property="education"/>
+		<result column="CAREER" property="career"/>
+		<result column="ELABORATE" property="elaborate"/>
+		<result column="REGION" property="region"/>
+		<result column="MOVE_DISTANCE" property="moveDistance"/>
+		<result column="AVAILABLE_TIME" property="availableTime"/>
+		<result column="USER_NO" property="userNo"/>
+	</resultMap>
+	<!-- 관리자 계약관리용 -->
+	<select id="adminEstimateInComplListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM ESTIMATE
+		 WHERE (STATUS = '3' OR STATUS = '4')
+	</select>
+		
+	<select id="adminEstimateComplListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM ESTIMATE
+		 WHERE STATUS = '5'
+	</select>
+	
+	<select id="adminEstimateInComplList" resultMap="estimateResultSet">
+		SELECT EST_NO
+		     , EST_TITLE
+		     , EST_CONTENT
+		     , EST_ADDRESS
+		     , EST_SERVICE
+		     , TO_CHAR(START_DATE, 'YYYY-MM-DD') as START_DATE
+		     , END_DATE
+		     , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as CONFIRMATION_DATE
+		     , EST_PRICE
+		     , STATUS
+		     , TID
+		     , GOSU_NO
+		     , USER_NO
+		  FROM ESTIMATE
+		 WHERE (STATUS = '3' OR STATUS = '4')
+         ORDER BY CONFIRMATION_DATE DESC
+    </select>
+    
+    <select id="adminEstimateComplList" resultType="estimateDto">
+		SELECT EST_NO as "estimate.estNo"
+		     , EST_TITLE as "estimate.estTitle"
+		     , EST_CONTENT as "estimate.estContent"
+		     , EST_ADDRESS as "estimate.estAddress"
+		     , EST_SERVICE as "estimate.estService"
+		     , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+		     , END_DATE "estimate.endDate"
+		     , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+		     , EST_PRICE "estimate.estPrice"
+		     , STATUS "estimate.status"
+		     , TID "estimate.tid"
+		     , GOSU_NO "estimate.gosuNo"
+		     , USER_NO "estimate.userNo"
+		     , (SELECT COUNT(*)
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt"
+		     , (SELECT REV_NO
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
+		  FROM ESTIMATE
+		 WHERE STATUS = '5'
+		 ORDER BY CONFIRMATION_DATE DESC
+    </select>
+	
+	<select id="adminEstimateDetail" parameterType="_int" resultType="estimateDto">
+		SELECT EST_NO as "estimate.estNo"
+             , EST_TITLE as "estimate.estTitle"
+             , EST_CONTENT as "estimate.estContent"
+             , EST_ADDRESS as "estimate.estAddress"
+             , EST_SERVICE as "estimate.estService" 
+             , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+             , END_DATE as "estimate.endDate"
+             , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+             , EST_PRICE as "estimate.estPrice"
+             , STATUS as "estimate.status"
+             , TID as "estimate.tid"
+             , GOSU_NO as "estimate.gosuNo"
+             , USER_NO as "estimate.userNo"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE E.USER_NO = M.USER_NO) as "userName"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE E.GOSU_NO = M.USER_NO) as "gosuName"
+          FROM ESTIMATE E
+         WHERE EST_NO = #{eno}	
+	</select>
+	
+	<select id="adminEstimateSearchCount" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		  FROM ESTIMATE
+		 WHERE (STATUS = '3' OR STATUS = '4' OR STATUS = '5')
+		 <choose>
+		 <when test="(condition == 'userNo')">
+		   AND USER_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'gosuNo')">
+		   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'estNo')">
+		   AND EST_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 </choose>
+	</select>
+	
+	<select id="adminEstimateSearch" parameterType="hashMap" resultType="estimateDto">
+		SELECT EST_NO as "estimate.estNo"
+		     , EST_TITLE as "estimate.estTitle"
+		     , EST_CONTENT as "estimate.estContent"
+		     , EST_ADDRESS as "estimate.estAddress"
+		     , EST_SERVICE as "estimate.estService"
+		     , TO_CHAR(START_DATE, 'YYYY-MM-DD') as "estimate.startDate"
+		     , END_DATE "estimate.endDate"
+		     , TO_CHAR(CONFIRMATION_DATE, 'YYYY-MM-DD') as "estimate.confirmationDate"
+		     , EST_PRICE "estimate.estPrice"
+		     , STATUS "estimate.status"
+		     , TID "estimate.tid"
+		     , GOSU_NO "estimate.gosuNo"
+		     , USER_NO "estimate.userNo"
+		     , (SELECT COUNT(*)
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "reviewCnt"
+		     , (SELECT REV_NO
+		          FROM REVIEW
+		         WHERE REVIEW.EST_NO = ESTIMATE.EST_NO) AS "revNo"
+		     , (SELECT USER_NAME
+		      	  FROM MEMBER
+		      	 WHERE MEMBER.USER_NO = ESTIMATE.USER_NO) AS "userName"
+		     , (SELECT USER_NAME
+		      	  FROM MEMBER
+		      	 WHERE MEMBER.USER_NO = ESTIMATE.GOSU_NO) AS "gosuName"
+		  FROM ESTIMATE
+		 WHERE (STATUS = '3' OR STATUS = '4' OR STATUS = '5')
+		 <choose>
+		 <when test="(condition == 'userNo')">
+		   AND USER_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'gosuNo')">
+		   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'estNo')">
+		   AND EST_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 </choose> 
+		  ORDER BY CONFIRMATION_DATE DESC
+	</select> 
+	<!-- 관리자 계약관리용 끝 -->
+	
+	<!-- 관리자 리뷰관리용 -->
+	<select id="selectReviewListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM REVIEW
+		 WHERE REV_STATUS = '1'
+	</select>
+ 
+	<select id="selectReviewList" resultType="reviewDto">
+		SELECT R.REV_NO as "review.revNo"
+             , R.REV_CONTENT as "review.revContent"
+             , R.REV_POINT as "review.revPoint"
+             , TO_CHAR(R.REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+             , R.GOSU_NO as "review.gosuNo"
+             , R.USER_NO as "review.userNo"
+             , R.EST_NO as "review.estNo"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.USER_NO = M.USER_NO) as "userName"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.GOSU_NO = M.USER_NO) as "gosuName"
+             , (SELECT EST_TITLE
+             	  FROM ESTIMATE E
+             	 WHERE R.EST_NO = E.EST_NO) as "estTitle"
+          FROM REVIEW R
+         WHERE REV_STATUS = '1'
+         ORDER BY REV_NO DESC
+	</select>
+	
+	<select id="adminReviewDetail" parameterType="_int" resultType="reviewDto">
+		SELECT REV_NO AS "review.revNo"
+            , REV_CONTENT AS "review.revContent"
+            , REV_POINT AS "review.revPoint"
+            , TO_CHAR(REV_DATE, 'YYYY-MM-DD') AS "review.revDate"
+            , REV_STATUS AS "review.revStatus"
+            , EST_NO AS "review.estNo"
+            , USER_NO AS "review.userNo"
+            , GOSU_NO AS "review.gosuNo"
+            , (SELECT USER_NAME
+                 FROM MEMBER
+                WHERE R.USER_NO = MEMBER.USER_NO) AS "userName"
+            , (SELECT USER_NAME
+                 FROM MEMBER
+                WHERE R.GOSU_NO = MEMBER.USER_NO) AS "gosuName"
+            , (SELECT EST_TITLE
+                 FROM ESTIMATE
+                WHERE R.EST_NO = ESTIMATE.EST_NO) AS "estTitle"
+         FROM REVIEW R
+        WHERE R.REV_NO = #{rno}
+	</select>
+	
+	<select id="adminReviewImg" parameterType="_int" resultMap="reviewImgResultSet">
+       SELECT *
+         FROM REVIEW_IMG
+        WHERE REV_NO = #{rno}
+    </select>
+    
+	<select id="adminReviewSearchCount" parameterType="hashMap" resultType="_int">
+		SELECT COUNT(*)
+		  FROM REVIEW
+		 WHERE REV_STATUS = '1'
+		 <choose>
+		 <when test="(condition == 'userNo')">
+		   AND USER_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'gosuNo')">
+		   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 <when test="(condition == 'estNo')">
+		   AND EST_NO LIKE '%' || #{keyword} || '%'
+		 </when>
+		 </choose>
+	</select>
+	
+	<select id="adminReviewSearch" parameterType="hashMap" resultType="reviewDto">
+		SELECT R.REV_NO as "review.revNo"
+             , R.REV_CONTENT as "review.revContent"
+             , R.REV_POINT as "review.revPoint"
+             , TO_CHAR(R.REV_DATE, 'YYYY-MM-DD') as "review.revDate"
+             , R.GOSU_NO as "review.gosuNo"
+             , R.USER_NO as "review.userNo"
+             , R.EST_NO as "review.estNo"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.USER_NO = M.USER_NO) as "userName"
+             , (SELECT USER_NAME
+             	  FROM MEMBER M
+             	 WHERE R.GOSU_NO = M.USER_NO) as "gosuName"
+             , (SELECT EST_TITLE
+             	  FROM ESTIMATE E
+             	 WHERE R.EST_NO = E.EST_NO) as "estTitle"
+          FROM REVIEW R
+         WHERE REV_STATUS = '1'
+           <choose>
+			 <when test="(condition == 'userNo')">
+			   AND USER_NO LIKE '%' || #{keyword} || '%'
+			 </when>
+			 <when test="(condition == 'gosuNo')">
+			   AND GOSU_NO LIKE '%' || #{keyword} || '%'
+			 </when>
+			 <when test="(condition == 'estNo')">
+			   AND EST_NO LIKE '%' || #{keyword} || '%'
+			 </when>
+		   </choose>
+         ORDER BY REV_NO DESC
+	</select> 
+    
+	<!-- 관리자 리뷰관리용 끝 -->
+	
+	<!-- 신고관리 begin -->
+	<!-- 신고 내역 카운트 -->
+	<select id="selectReportListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT
+	<choose>
+		<when test="reportStatus != 9">
+			WHERE REPORT_STATUS = #{reportStatus}
+		</when>
+		<otherwise>
+		</otherwise>
+	</choose>
+	</select>
+	
+	<select id="selectReportList" parameterType="_int" resultMap="reportList">
+		SELECT *
+			FROM REPORT
+		<choose>
+			<when test="reportStatus != 9">
+				WHERE REPORT_STATUS = #{reportStatus}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<update id="changeReportStatus" parameterType="hashMap">
+		UPDATE REPORT
+		   SET REPORT_STATUS = #{reportStatus}
+		 WHERE REPORT_NO = #{reportNo}
+	</update>
+	
+	<!-- 신고관리 end -->
+
+	<update id="changeEnrollStatus" parameterType="member" >
+		update MEMBER
+		set ENROLL_STATUS = #{enrollStatus}
+		where USER_NO = #{userNo}
+	</update>
+	<select id="countAllGosu" resultType="_int">
+		select count(*)
+		from gosu
+	</select>
+	<select id="selectAllGosu" resultMap="gosuResultSet">
+		select *
+		from gosu G
+		left join
+			(select *
+			from MEMBER
+			)M On G.USER_NO = M.USER_No
+		where ENROLL_STATUS = 2
+	</select>
+	<select id="countAllChatRoom" resultType="_int">
+		select count(*)
+		from chatroom
+	</select>
+
+	<select id="reportDetail" parameterType="_int" resultMap="reportList">
+		SELECT *
+		FROM REPORT
+		WHERE REPORT_NO = #{reportNo}
+	</select>
+	<select id="selectAllChatRoom" resultType="com.kh.meetgo.admin.adminChat.model.dto.AdminChatRequest">
+		select chatroom_no  as "chatroom.chatroomNo",
+		create_at as "chatroom.createAt",
+		C.user_no as "chatroom.userNo" ,
+		C.gosu_no as "chatroom.gosuNo",
+		chatroom_status as "chatroom.chatroomStatus",
+		M.USER_NAME as userName,
+		M2.USER_NAME as gosuName
+		from CHATROOM C
+		left join (
+		select *
+		from MEMBER
+		) M ON (C.user_no= M.USER_NO)
+		left join (
+		select *
+		from MEMBER
+		) M2 ON (C.GOSU_NO = M2.USER_NO)
+	</select>
+	
+	<!-- 관리자메인페이지용 시작 -->
+	<select id="selectMember" resultType="chartMemberDto">
+		SELECT COUNT(*) AS "count"
+		     , EXTRACT(MONTH FROM CREATE_DATE) AS "month"
+		  FROM MEMBER 
+		 WHERE FLOOR(MONTHS_BETWEEN(SYSDATE, CREATE_DATE)) &lt;= 6 
+		 GROUP BY EXTRACT(MONTH FROM CREATE_DATE)
+		 ORDER BY EXTRACT(MONTH FROM CREATE_DATE) ASC
+	</select>
+	
+	<select id="selectProfit" resultType="chartMemberDto">
+		SELECT SUM(TO_NUMBER(REPLACE(EST_PRICE, ',', ''))) AS count
+		     , EXTRACT(MONTH FROM CONFIRMATION_DATE) AS month
+		  FROM ESTIMATE
+		 WHERE (STATUS = '4' OR STATUS = '5')
+		   AND FLOOR(MONTHS_BETWEEN(SYSDATE, CONFIRMATION_DATE)) &lt;= 6 
+		 GROUP BY EXTRACT(MONTH FROM CONFIRMATION_DATE)
+		 ORDER BY EXTRACT(MONTH FROM CONFIRMATION_DATE) ASC
+	</select>
+	
+	
+	
+	
+	<!-- 관리자메인페이지용 끝 -->
+</mapper>

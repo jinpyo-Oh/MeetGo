@@ -26,7 +26,10 @@ public interface GosuService {
 	
 	// 고수등록
 	int insertGosu(Gosu gosu);
-	
+	//고수 비활성화
+	int deleteGosu(String userId);
+	//고수 활성화
+	int gosuActivate(String userId);
 	// 고수 카테고리 등록
 	int insertGosuCate(int service, int gosuNo);
 	
@@ -35,5 +38,10 @@ public interface GosuService {
 	
 	// 고수찾기 - 해당 고수 포폴정보조회
 	ArrayList<PofolOpt> showGosuPofol(int gosuNo);
+	
+	// 고수 좋아요검사
+	int countGosuLike(int userNo, int gosuNo);
+	int deleteGosuLike(int userNo, int gosuNo);
+	int insertGosuLike(int userNo, int gosuNo);
 			
 }

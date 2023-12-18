@@ -73,7 +73,12 @@
 		<br>
 		
 		<div style="width: 1100px; margin: auto;">
-                <h3><b>내가 쓴 리뷰</b></h3>
+			<table>
+				<tr>
+					<td><h3><b style="color:#2a91f7c0;">${ sessionScope.loginUser.userName }</b></h3></td>
+					<td style="padding-top:10px;"><h5>&nbsp;&nbsp;님이 작성하신 리뷰입니다.</h5></td>
+				</tr>
+			</table>
         </div>
         
 		<br>

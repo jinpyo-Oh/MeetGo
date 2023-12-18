@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,20 +16,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.kh.meetgo.board.model.service.BoardService;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.GosuOpt;
 import com.kh.meetgo.gosu.model.dto.PofolOpt;
 import com.kh.meetgo.gosu.model.service.GosuServiceImpl;
 import com.kh.meetgo.gosu.model.vo.GosuImg;
-import com.kh.meetgo.gosu.model.vo.Pofol;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
 @Controller
 public class GosuController {
     
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private GosuServiceImpl gosuService;
     
@@ -36,6 +37,16 @@ public class GosuController {
     @RequestMapping("gosuEnrollForm.go")
     public String gosuEnroll() {
        return "gosu/gosuEnrollForm";
+    }
+    //고수 비활성화페이지로 이동
+    @RequestMapping("gosuDeleteForm.go")
+    public String gosuDelete() {
+    	return "gosu/gosuDeleteForm";
+    }
+    //고수 활성화페이지로 이동
+    @RequestMapping("gosuActivate.go")
+    public String gosuActivate() {
+    	return "gosu/gosuActivate";
     }
     
     // 고수 등록
@@ -79,7 +90,8 @@ public class GosuController {
               
               int result2 = gosuService.changeStatus(gosu.getUserNo());
            }
-           
+           m.setEnrollStatus(2);
+           session.setAttribute("loginUser", m);
            session.setAttribute("alertMsg", "성공적으로 고수 등록이 완료되었습니다.");
 
            return "redirect:/";
@@ -92,6 +104,63 @@ public class GosuController {
            return "common/errorPage";
         }
     
+    }
+    //고수 비활성화
+    @RequestMapping("gosudelete")
+    public String deleteGosu(String userId,
+						   String userPwd,
+						   HttpSession session,
+						   Model model) {
+			String encPwd = ((Member)session.getAttribute("loginUser"))
+				.getUserPwd();
+			if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
+				int result = gosuService.deleteGosu(userId);
+			System.out.println(result);
+			if(result > 0) { //탈퇴 성공
+				session.removeAttribute("loginUser");
+				
+				session.setAttribute("alertMsg", "비활성화가 되었습니다.");
+				
+				return "redirect:/";
+			}else { //실패
+				model.addAttribute("errorMsg","비활성화 실패");
+				return "common/errorPage";	
+
+			}
+			}else {
+				session.setAttribute("alertMsg", "비밀번호를 잘못 입력하였습니다. 확인해주세요.");
+				return "redirect:/myPage.me";
+			}
+    
+	
+    	
+    }
+    //고수 활성화
+    @RequestMapping("gosuActivate")
+    public String gosuActivate(String userId, String userPwd,HttpSession session, Model model) {
+
+	String encPwd = ((Member)session.getAttribute("loginUser"))
+		.getUserPwd();
+	if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
+		int result = gosuService.gosuActivate(userId);
+	System.out.println(result);
+	if(result > 0) { //탈퇴 성공
+		session.removeAttribute("loginUser");
+		
+		session.setAttribute("alertMsg", "활성화가 되었습니다.");
+		
+		return "redirect:/";
+	}else { //실패
+		model.addAttribute("errorMsg","활성화 실패");
+		return "common/errorPage";	
+
+	}
+	}else {
+		session.setAttribute("alertMsg", "비밀번호를 잘못 입력하였습니다. 확인해주세요.");
+		return "redirect:/myPage.me";
+	}
+	
+
     }
     
     // 고수 찾기 포워딩
@@ -116,8 +185,8 @@ public class GosuController {
        PageInfo pi = new PageInfo(); // PageInfo 초기화
        String region = ""; // 지역 문자열 초기화
        
-       int pageLimit = 5;
-       int boardLimit = 5; // 버튼 5개, 리스트 출력 5개 제한
+           int pageLimit = 5;
+           int boardLimit = 5; // 버튼 5개, 리스트 출력 5개 제한
        
        // 고수의 지역(시/도 - 전체 시 or 전국)
        if(regionSub.equals("전체") || regionMain.equals("전체")) {
@@ -152,10 +221,18 @@ public class GosuController {
     // 고수 상세정보로 포워딩
     @ResponseBody
     @RequestMapping(value = "gosuDetail.go")
-    public ModelAndView gosuDetail(String gno
-    							 , ModelAndView mv) {
+    public ModelAndView gosuDetail(String gno,
+    							HttpSession session,
+    							ModelAndView mv) {
     	
     	int gosuNo = Integer.parseInt(gno);
+    	
+    	int isLiked = 0;
+    	
+    	if(session.getAttribute("loginUser") != null) {
+    		int userNo = ((Member)session.getAttribute("loginUser")).getUserNo();
+        	isLiked = gosuService.countGosuLike(userNo, gosuNo);
+    	}
     	
     	ArrayList<GosuOpt> list = gosuService.gosuDetail(gosuNo);
     	ArrayList<GosuImg> imageList = gosuService.getGosuImg(gosuNo);
@@ -164,16 +241,38 @@ public class GosuController {
     	ArrayList<GosuOpt> reviewList = gosuService.getGosuReview(gosuNo);
     	ArrayList<GosuOpt> reviewImgList = gosuService.getGosuReviewImg(gosuNo);
     	
+    	
+    	
     	// gno의 고수정보와 고수 이미지 리턴
     	mv.addObject("list", list)
     	.addObject("imageList", imageList).addObject("pofolList", pofolList)
         .addObject("gno", gosuNo)
         .addObject("reviewList", reviewList).addObject("reviewImgList", reviewImgList)
+        .addObject("isLiked", isLiked)
     	.setViewName("gosuSearch/serviceDetail");
     	
     	return mv;
     }
-    
+     
+    // 고수 좋아요 등록기능
+    @ResponseBody
+    @RequestMapping(value = "enrollGosuLike.go", produces = "text/json; charset=UTF-8")
+    public String enrollGosuLike(String userNumber, String gosuNumber) {
+    	
+    	int userNo = Integer.parseInt(userNumber);
+    	int gosuNo = Integer.parseInt(gosuNumber);
+    	
+    	int isLiked = gosuService.countGosuLike(userNo, gosuNo);
+    	
+    	if(isLiked > 0) { // 좋아요 기록 있을 시 delete
+    		gosuService.deleteGosuLike(userNo, gosuNo);
+    		return new Gson().toJson("좋아요가 취소되었습니다.");
+    	} else { // 좋아요 기록 없을 시 추가
+    		gosuService.insertGosuLike(userNo, gosuNo);
+    		return new Gson().toJson("좋아요에 추가되었습니다");
+    	}
+    	
+    }
 
     
 }

@@ -77,7 +77,7 @@ public interface BoardService {
 
 		
 		// 댓글 리스트 조회 서비스 (ajax)
-		ArrayList<Reply> selectReplyList(int boardNo);
+		ArrayList<Reply> selectReplyList(int userNo);
 		
 		// 댓글 작성 서비스 (ajax)
 		int insertReply(Reply r);
@@ -102,5 +102,12 @@ public interface BoardService {
 		ArrayList<PofolOpt> pofolDetail(int pofolNo);
 		ArrayList<PofolImg> pofolDetailImg(int pofolNo);
 
+		// 포폴 수정하기
+		int updatePofol(int pofolNo, String pofolTitle, String pofolPrice, String pofolIntro, String pofolContent);
+		int updatePofolImg(int pofolImgNo, String pofolImgUrl);
+		
+		// 포폴 삭제하기
+		int deletePofol(int pofolNo);
+		int deletePofolImg(int pofolNo);
 		
 }

@@ -131,9 +131,9 @@ public class BoardDao {
 			return (ArrayList)sqlSession.selectList("boardMapper.selectTipImgList", boardNo);
 		}
 	
-	public ArrayList<ReplyDto> selectGosuReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+	public ArrayList<ReplyDto> selectGosuReplyList(SqlSessionTemplate sqlSession, int userNo) {
 		
-		return (ArrayList)sqlSession.selectList("boardMapper.selectGosuReplyList", boardNo);
+		return (ArrayList)sqlSession.selectList("boardMapper.selectGosuReplyList", userNo);
 	}
 	
 	public int insertGosuReply(SqlSessionTemplate sqlSession, Reply r) {
@@ -207,6 +207,38 @@ public class BoardDao {
 	}
 	public ArrayList<PofolImg> pofolDetailImg(SqlSessionTemplate sqlSession, int pofolNo){
 		return (ArrayList)sqlSession.selectList("boardMapper.pofolDetailImg", pofolNo);
+	}
+	
+	// 포폴 수정하기
+	public int updatePofol(SqlSessionTemplate sqlSession, int pofolNo, String pofolTitle, String pofolPrice, String pofolIntro, String pofolContent) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("pofolNo", pofolNo);
+		params.put("pofolTitle", pofolTitle);
+		params.put("pofolPrice", pofolPrice);
+		params.put("pofolIntro", pofolIntro);
+		params.put("pofolContent", pofolContent);
+		
+		return sqlSession.update("boardMapper.updatePofol", params);
+	}
+	public int updatePofolImg(SqlSessionTemplate sqlSession, int pofolImgNo, String pofolImgUrl) {
+		Map<String, Object> params = new HashMap<>();
+		params.put("pofolImgNo", pofolImgNo);
+		params.put("pofolImgUrl", pofolImgUrl);
+		return sqlSession.update("boardMapper.updatePofolImg", params);
+	}
+	
+	// 포폴 삭제하기 
+	public int deletePofol(SqlSessionTemplate sqlSession, int pofolNo) {
+		return sqlSession.update("boardMapper.deletePofol", pofolNo);
+	}
+	public int deletePofolImg(SqlSessionTemplate sqlSession, int pofolNo) {
+		return sqlSession.delete("boardMapper.deletePofolImg", pofolNo);
+	}
+	
+
+	public ArrayList<Reply> selectReplyList(SqlSessionTemplate sqlSession, int boardNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList",boardNo);
 	}
 
 }

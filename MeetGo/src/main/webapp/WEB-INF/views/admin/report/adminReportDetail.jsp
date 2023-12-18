@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -46,13 +47,15 @@
         height: 40px;
         color: white;
     }
-    #status-update button:hover{opacity: 0.8;}
+    #status-update button:hover{opacity: 0.8; cursor:pointer;}
     #status-update button[type="submit"]{ background-color: #2a91f7c0;}
     #status-update button[type="button"]{ background-color: rgba(128, 128, 128, 0.71);}
     </style>
 </head>
 <body>
-<body>
+
+	<jsp:include page="../common/adminHeader.jsp"/>
+	
     <div class="outer">
         <div align="center">
             <span id="report-pageTitle">
@@ -64,31 +67,44 @@
             </span>
             <br><br>
                 <div align="left">
-                    <p>[ 신고번호 : 00001 ]</p>
+                    <p>[ 신고번호 : ${requestScope.list[0].reportNo} ]</p>
                 </div>
             <hr>
 
             <div align="left">
-                <p>신고한 회원 : </p>
-                <p>신고된 회원 : </p>
-                <p>신고 유형 : <b>허위사실 유포</b></p>
+                <p>신고한 회원 : ${requestScope.list[0].reportUser}</p>
+                <p>신고된 회원 : ${requestScope.list[0].reportedUser}</p>
+                <p>신고 유형 : <b>${requestScope.list[0].reportCategory}</b></p>
                 <p>상태 : 
-                    <span id="reportStatus-text"><b>미확인</b></span>
+                <c:choose>
+                	<c:when test="${requestScope.list[0].reportStatus eq 0}">
+                		<span style="color:red;" id="reportStatus-text"><b>미확인</b></span>
+                	</c:when>
+                	<c:when test="${requestScope.list[0].reportStatus eq 1}">
+                		<span style="color:#2a91f7c0;" id="reportStatus-text"><b>처리대기</b></span>
+                	</c:when>
+                	<c:otherwise>
+                		<span style="color:green;" id="reportStatus-text"><b>처리완료</b></span>
+                	</c:otherwise>
+                </c:choose>
+                    
                 </p>
             </div>
 
             <div>
-                <textarea class="form-control" style="resize: none;" rows="10" readonly></textarea>
+                <textarea class="form-control" style="resize: none;" rows="10" readonly>${requestScope.list[0].reportContent}</textarea>
             </div>
 
             <div align="right">
-                <form id="status-update">
-                    <select id="status-option">
+                <form id="status-update" action="changeReportStatus.ad" method="post">
+                    <select id="status-option" name="changeStatus">
+                    	<option value="0">미확인</option>
                         <option value="1">처리대기</option>
                         <option value="2">처리완료</option>
                     </select>
+                    <input type="hidden" name="targetNo" value="${requestScope.list[0].reportNo}">
                     <button type="submit">변경하기</button>
-                    <button type="button">목록으로</button>
+                    <button type="button" onclick="location.href='adminReportList.ad'">목록으로</button>
                 </form>
             </div>
 

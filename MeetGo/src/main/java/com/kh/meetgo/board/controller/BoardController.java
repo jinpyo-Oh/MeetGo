@@ -64,7 +64,6 @@ public class BoardController {
 						currentPage, pageLimit, boardLimit);
 		
 		ArrayList<Board> list = boardService.selectGosuReqList(pi);
-		
 
 		mv.addObject("list", list)
 		  .addObject("pi", pi)
@@ -185,6 +184,7 @@ public class BoardController {
 		  .setViewName("board/tip/tipList");
 		return mv;
 	}
+	
 	
 	@GetMapping("tipWrite.bo")
 	public String tipWrite() {
@@ -455,19 +455,97 @@ public class BoardController {
 		return mv;
 	}
 	
+	// 포폴 수정페이지로 이동
+	@ResponseBody
+	@RequestMapping("sendUpdatePofol.po")
+	public ModelAndView sendUpdatePofol(String pno, ModelAndView mv) {
+		
+		int pofolNo = Integer.parseInt(pno);
+		
+		ArrayList<PofolOpt> list = boardService.pofolDetail(pofolNo);
+		ArrayList<PofolImg> imgList = boardService.pofolDetailImg(pofolNo);
+		
+		mv.addObject("list", list)
+		.addObject("imgList", imgList)
+		.setViewName("board/portfolio/pofolUpdate");
+		
+		return mv;
+	}
+	
+	// 포폴 수정하기
+	@RequestMapping("updatePofol.po")
+	public String updatePofol(
+			String pofolTitle
+			, String pofolPrice
+			, String pofolIntro
+			, String pofolContent
+			, String pno
+			, Model model
+			, HttpSession session
+			, @RequestParam("pofolImgNo") ArrayList<String> imgNo
+			, @RequestParam("pofolImgUrl") ArrayList<MultipartFile> imgList) {
+		
+		int pofolImgNo = 0;
+		String pofolImgUrl = "";
+		int pofolNo = Integer.parseInt(pno);
+		
+		int result1 = boardService.updatePofol(pofolNo, pofolTitle, pofolPrice, pofolIntro, pofolContent);
+		int result2 = 0;
+		
+		for(int i = 0; i < imgList.size(); i++) {
+			
+			pofolImgNo = Integer.parseInt(imgNo.get(i));
+			
+			try {
+				// 업로드한게 없으면 다음 차수로
+				if(imgList.get(i).getOriginalFilename().isEmpty()) {
+					continue;
+				} else {
+					pofolImgUrl = s3Uploader.upload(imgList.get(i), "pofolImgUrl");
+					result2 = boardService.updatePofolImg(pofolImgNo, pofolImgUrl);
+				}	
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(result1 * result2 > 0) {
+			session.setAttribute("alertMsg", "포트폴리오 수정 성공");
+			return "redirect:/sendPofol.po";
+		} else {
+			model.addAttribute("errorMsg", "포트폴리오 수정 실패");
+			return "common/errorPage";
+		}
+
+	}
+	
+	@RequestMapping("deletePofol.po")
+	public String deletePofol(String pno, HttpSession session, Model model) {
+		
+		int pofolNo = Integer.parseInt(pno);
+		
+		int result1 = boardService.deletePofol(pofolNo);
+		int result2 = boardService.deletePofolImg(pofolNo);
+		
+		if(result1 * result2 > 0) {
+			session.setAttribute("alertMsg", "포트폴리오 삭제 성공");
+			return "redirect:/sendPofol.po";
+		} else {
+			model.addAttribute("errorMsg", "포트폴리오 삭제 실패");
+			return "common/errorPage";
+		}
+		
+		
+	}
+		
 	
 	@ResponseBody
 	@RequestMapping(value = "gosuRlist.bo", produces = "application/json; charset=UTF-8")
-	public String ajaxSelectReplyList(@RequestParam("bno") Integer bno
-												) {
-		
-
-	
+	public String ajaxSelectReplyList(@RequestParam("bno") Integer bno) {
 		ArrayList<ReplyDto> list = boardService.selectGosuReplyList(bno);
-		
-				
 		return new Gson().toJson(list);
 	}
+	
 	
 	@ResponseBody
 	@RequestMapping(value = "gosuRinsert.bo", produces = "text/html; charset=UTF-8")
@@ -475,8 +553,17 @@ public class BoardController {
 		
 
 		int result = boardService.insertGosuReply(r);
-		
 		return (result > 0) ? "success" : "fail";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "rlist.bo", produces = "application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int userNo) {
+		
+		ArrayList<Reply> list = boardService.selectReplyList(userNo);
+
+		
+		return new Gson().toJson(list);
 	}
 	
 	

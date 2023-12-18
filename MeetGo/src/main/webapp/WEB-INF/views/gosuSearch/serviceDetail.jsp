@@ -73,6 +73,13 @@
             margin-right: 5px;
         }
 
+		.bi {
+			font-size:40px;
+			color : red;
+			vertical-align: middle;
+		}
+		.bi:hover{ cursor:pointer; color:#257acec7; }
+		
         /* 요청버튼 */
         #btn-requestService{
             border: 0px;
@@ -285,10 +292,14 @@
 	
 	</div>
 	<div class="etc-area" align="right">
-		<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="red" class="bi bi-heart" viewBox="0 0 16 16">
-			<path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
-		</svg>
-		<button type="button" id="btn-requestService" onclick="location.href='insertChatRoom?gno='+${requestScope.gno}">견적요청</button>
+		
+		<c:if test="${ not empty sessionScope.loginUser }">
+			<div style="display:inline-block; text-align:center;">
+				<i onclick="enrollGosuLike()" id="gosuLikeIco" class="bi bi-heart-fill"></i>
+			</div>		
+		</c:if>	
+
+			<button type="button" id="btn-requestService" onclick="location.href='insertChatRoom?gno='+${requestScope.gno}">견적요청</button>
 		
 		<br><br>
 		<hr>
@@ -545,22 +556,20 @@
 	</div>
 </div>
 
-
-
-
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
-
+	
+	let $userNo = ${sessionScope.loginUser.userNo};
+	let $gosuNo = ${requestScope.list[0].gosu.gosuNo};
+	
     $(function(){
-    	
+    	isLiked();
     	star(${requestScope.list[0].avgRevPoint});
     	
         let $first = $("#tableMenu").find(".tableMenu").eq(0);
         let $second = $("#tableMenu").find(".tableMenu").eq(1);
         let $third = $("#tableMenu").find(".tableMenu").eq(2);
         
-        
-
         $first.click(function(){
             $(this).css("border-bottom", "3px solid #2A8FF7");
             $second.css("border-bottom", "none");
@@ -592,7 +601,34 @@
 
         });
 
-    });
+    });   
+    
+    function isLiked(){
+    	
+    	if(${requestScope.isLiked} == 1){
+    		$("#gosuLikeIco").removeClass("bi-heart").addClass("bi-heart-fill");
+    	} else {
+    		$("#gosuLikeIco").removeClass("bi-heart-fill").addClass("bi-heart");
+    	} 
+    }
+    
+    function enrollGosuLike(){
+	
+    	$.ajax({
+    		type : "get",
+    		url : "enrollGosuLike.go",
+    		data : {userNumber : $userNo,
+    			    gosuNumber : $gosuNo},
+    		success : function(result){
+    			alert(result);
+    			location.reload()
+    		},
+    		error : function(){
+    			alert("ajax통신 실패!");
+    		}
+    	});
+    	
+    }
 
 	function linkPofol(pno) {
 		location.href = "pofolDetail.po?pno=" + pno;

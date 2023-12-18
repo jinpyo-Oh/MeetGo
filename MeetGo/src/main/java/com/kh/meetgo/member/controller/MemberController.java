@@ -3,6 +3,8 @@ package com.kh.meetgo.member.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -162,7 +164,6 @@ public class MemberController {
 		m.setAddress(address);
 		int result = memberService.insertMember(m);
 		if (result > 0) {
-
 			session.setAttribute("alertMsg", "회원 가입 성공");
 			return "redirect:/";
 		} else {
@@ -193,7 +194,10 @@ public class MemberController {
 	@RequestMapping(value = "changeStatus.me", produces = "text/html; charset=UTF-8")
 	public String changeStatus(HttpSession session){
 		Member m = (Member) session.getAttribute("loginUser");
-
+		if(m.getEnrollStatus() != 2) {
+			session.setAttribute("errorMsg", "고수로 등록되지 않거나, 비활성화 상태입니다. 내 정보 조회에서 등록 또는 비활성화가 가능합니다.");
+			return "redirect:/";
+		}
 		if(m != null){
 			int userStatus = m.getUserStatus() == 1 ? 2 : 1;
 			m.setUserStatus(userStatus);
@@ -419,30 +423,66 @@ public class MemberController {
 	@RequestMapping("estimate.me")
 	public ModelAndView myEstimate(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
 
+		mv.setViewName("estimate/myEstimateList");
+		return mv;
+	}
+	
+	@ResponseBody
+	@GetMapping("InComEstimate.me")
+	public String inComEstimateList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage, HttpSession session, Model model) {
+		
 		Member m = (Member)session.getAttribute("loginUser");
-
+		
 		int userNo = m.getUserNo();
-
+		
 		int listCount1 = memberService.selectIncompleteListCount(userNo);
-		int listCount2 = memberService.selectCompleteListCount(userNo);
-
+		
 		int pageLimit = 5;
 		int boardLimit = 5;
+		
+		PageInfo pi2 = Pagination.getPageInfo(listCount1, currentPage, pageLimit, boardLimit);
 
+		ArrayList<Estimate> list2 = memberService.selectIncompleteEstimateList(pi2, userNo);
+		
+		model.addAttribute("cPage", currentPage);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("pi2", pi2);
+		map.put("list2", list2);
+		
+		System.out.println(pi2);
+		System.out.println(list2);
+		
+		return new Gson().toJson(map);
+	}
+	
+	@ResponseBody
+	@GetMapping("comEstimate.me")
+	public String comEstimateList(@RequestParam(value = "cPage", defaultValue = "1") int currentPage, HttpSession session, Model model) {
+		
+		Member m = (Member)session.getAttribute("loginUser");
+		
+		int userNo = m.getUserNo();
+
+		int listCount1 = memberService.selectCompleteListCount(userNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
 		PageInfo pi1 = Pagination.getPageInfo(listCount1,currentPage, pageLimit, boardLimit);
-		PageInfo pi2 = Pagination.getPageInfo(listCount2,currentPage, pageLimit, boardLimit);
-
-		ArrayList<Estimate> list1 = memberService.selectIncompleteEstimateList(pi1, userNo);
-		ArrayList<EstimateDto> list2 = memberService.selectCompleteEstimateList(pi2, userNo);
-
-		// System.out.println(list1);
-		// System.out.println(list2);
-
-		mv.addObject("incomList", list1).addObject("pi1", pi1)
-				.addObject("comList", list2).addObject("pi2", pi2)
-				.setViewName("estimate/myEstimateList");
-
-		return mv;
+	
+		ArrayList<EstimateDto> list1 = memberService.selectCompleteEstimateList(pi1, userNo);
+	
+		model.addAttribute("cPage", currentPage);
+		
+		Map<String, Object> map = new HashMap<>();
+		
+		map.put("pi1", pi1);
+		map.put("list1", list1);
+		map.put("userNo", userNo);
+		
+		return new Gson().toJson(map);
 	}
 
 	@RequestMapping("myReview.me")
@@ -468,6 +508,32 @@ public class MemberController {
 		mv.addObject("list", list).addObject("pi", pi).setViewName("member/memberMyReview");
 
 		return mv;
+	}
+	
+	@RequestMapping("WrittenReview.me")
+	public ModelAndView WrittenReviewToMe(@RequestParam(value= "cPage", defaultValue = "1") int currentPage, ModelAndView mv, HttpSession session) {
+
+		Member m = (Member)session.getAttribute("loginUser");
+
+		int gosuNo = m.getUserNo();
+
+		int listCount = memberService.WrittenReviewToMeCount(gosuNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+		ArrayList<ReviewDto> list = memberService.WrittenReviewToMe(pi, gosuNo);
+
+		System.out.println(m);
+		System.out.println(gosuNo);
+		System.out.println(listCount);
+		System.out.println(list);
+
+		mv.addObject("list", list).addObject("pi", pi).setViewName("gosu/gosuWrittenReviewList");
+
+	    return mv;
 	}
 
 	@RequestMapping("reviewDetail.me")
@@ -495,7 +561,7 @@ public class MemberController {
 
 		return mv;
 	}
-
+	
 	@RequestMapping("deleteReview.me")
 	public String deleteReview(String rno, HttpSession session) {
 
@@ -514,14 +580,18 @@ public class MemberController {
 
 	@ResponseBody
 	@RequestMapping("complete.me")
-	public void completeEstimate(String estNo) {
+	public void completeEstimate(String estNo, HttpSession session) {
 
 		// System.out.println(estNo);
 
 		int eno = Integer.parseInt(estNo);
 
 		int result = memberService.completeEstimate(eno);
-
+		
+		if(result > 0) {
+			
+			session.setAttribute("alertMsg", "서비스가 정상적으로 완료되었습니다!");
+		}
 	}
 	@RequestMapping("elaborateUpdate.me")
 	public String elaborateUpdate(Model model, HttpSession session, String elaborate) {
@@ -733,5 +803,7 @@ public class MemberController {
 		ArrayList<GosuImg> list =  memberService.selectAllGosuImg(userNo);
 		return new Gson().toJson(list);
 	}
+
+
 	
 }

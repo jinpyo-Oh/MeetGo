@@ -32,7 +32,9 @@
 		<typeAlias type="com.kh.meetgo.board.model.dto.BoardFileDto" alias="BoardFileDto"/>
 		
 		
-	</typeAliases>
+		<typeAlias type="com.kh.meetgo.common.model.vo.Report" alias="report"/>
+		<typeAlias type="com.kh.meetgo.admin.adminCommon.model.dto.ChartMemberDto" alias="chartMemberDto"/>
+		</typeAliases>
 	
 
 	<mappers>		
@@ -41,6 +43,7 @@
 		<mapper resource="/mappers/gosu-mapper.xml"/>
 		<mapper resource="/mappers/common-mapper.xml"/>
 		<mapper resource="/mappers/board-mapper.xml"/>
+		<mapper resource="/mappers/admin-mapper.xml"/>
 	</mappers>
 </configuration>
 

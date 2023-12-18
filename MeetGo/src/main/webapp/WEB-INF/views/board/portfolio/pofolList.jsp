@@ -103,7 +103,7 @@
 
 	<script>
 	    function checkUserStatus() {
-	        let userStatus = ${sessionScope.loginUser.userStatus};
+	        let userStatus = ${sessionScope.loginUser.enrollStatus};
 	        if (userStatus == 1) {
 	            alert("고수 회원만 글 작성이 가능합니다.");
 	            return false;
@@ -168,21 +168,18 @@
 	       	function paging(num) {
 	       		currentPage = num;
 	       		$("#currentPage").val(num);
-	       		optionSelect();
 	       		scrollToTop();
 	       	}
 	       	
 	       	function prevPage() {
 	       		num = parseInt($currentPage) - 1;
 	       		$("#currentPage").val(num);
-	       		optionSelect();
 	       		scrollToTop();
 	       	}
 	       	
 	       	function nextPage() {
 	       		num = parseInt($currentPage) + 1;
 	       		$("#currentPage").val(num);
-	       		optionSelect();
 	       		scrollToTop();
 	       	}
 	       	
@@ -242,7 +239,7 @@
 					let startPage = result.pi.startPage;
 					let endPage = result.pi.endPage;
 					let maxPage = result.pi.maxPage;
-					let currnetPage = result.pi.currnetPage;
+					let currentPage = result.pi.currentPage;
 						
             		for(let i = 0; i < list.length; i++){
             			let resultStr = '<div class="pofol-obj">'
