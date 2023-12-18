@@ -243,6 +243,14 @@
         	margin: 2% auto 0 auto;
         	overflow: auto;
         }
+        
+        .report{
+        	width: 50px;
+        	height: 50px;
+        	margin-right:20px;
+        	margin-bottom: 15px;
+        	float:right;
+        }
 	
 	</style>
 </head>
@@ -293,6 +301,7 @@
 	</div>
 	<div class="etc-area" align="right">
 		<!-- 로그인한 유저만 좋아요, 견적요청 이용 가능 -->
+		<img class="report" onclick="reportAlert('${requestScope.list[0].gosu.gosuNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png">
 		<c:if test="${ not empty sessionScope.loginUser }">
 			<div style="display:inline-block; text-align:center;">
 				<i onclick="enrollGosuLike()" id="gosuLikeIco" class="bi bi-heart-fill"></i>
