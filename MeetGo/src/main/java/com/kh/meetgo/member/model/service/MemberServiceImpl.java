@@ -22,6 +22,7 @@ import com.kh.meetgo.member.model.vo.Member;
 // 빈 스캐닝을 통해 자동으로 bean 으로 등록됨
 public class MemberServiceImpl implements MemberService {
 
+
     @Autowired
     private SqlSessionTemplate sqlSession;
 
@@ -327,6 +328,14 @@ public class MemberServiceImpl implements MemberService {
         // TODO Auto-generated method stub
         return memberDao.selectWishlist(sqlSession, gosuNo);
     }
+
+	@Override
+	public int updatePassword(String email, String userPwd) {
+		// TODO Auto-generated method stub
+		return memberDao.updatePassword(sqlSession, email,userPwd);
+	}
+
+ 
 
 
 }

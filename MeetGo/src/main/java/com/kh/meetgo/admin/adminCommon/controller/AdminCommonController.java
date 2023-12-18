@@ -30,8 +30,18 @@ public class AdminCommonController {
     	ArrayList<ChartMemberDto> list2 = adminService.selectProfit();
     	System.out.println(list2);
     	
+    	int sum = 0;
+    	
+    	for(int i = 0; i < list2.size(); i ++) {
+    		sum += (list2.get(i).getCount()/10);
+    	}
+    	
+    	int users = adminService.selectAllUsers();
+    	
     	mv.addObject("list1", list1)
-    	  .addObject("list2", list2)	
+    	  .addObject("list2", list2)
+    	  .addObject("users", users)
+    	  .addObject("sum", sum)
     	  .setViewName("admin/common/adminMainPage");
     	
         return mv;

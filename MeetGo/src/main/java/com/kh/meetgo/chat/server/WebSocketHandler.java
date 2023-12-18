@@ -55,10 +55,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
         // Json객체 → Java객체hgfds.,mn
         Chat chat = new ObjectMapper().readValue(msg, Chat.class);
         Chatroom chatroom = chatService.selectChatroom(chat.getChatroomNo());
-        String text = new Gson().toJson(chat);
-        TextMessage textMessage = new TextMessage(text);
 
-        // 채팅방 세션 목록에 채팅방 x, 처음 들어옴, DB에 채팅방 있음 => 채팅방 생성
+        int personCnt = 0;
+
         if (roomList.get(chatroom.getChatroomNo()) == null && chat.getContent().equals("ENTER_CHAT")) {
             ArrayList<WebSocketSession> sessionTwo = new ArrayList<>();
             // session 추가
@@ -68,21 +67,22 @@ public class WebSocketHandler extends TextWebSocketHandler {
             // RoomList에 추가
             roomList.put(chatroom.getChatroomNo(), sessionTwo);
 //            System.out.println("채팅방 생성");
-        }
-        // 채팅방 세션 목록에 채팅방 o, 처음 들어옴, DB에 채팅방 있음
-        else if (roomList.get(chatroom.getChatroomNo()) != null && chat.getContent().equals("ENTER_CHAT")) {
+        } else if (roomList.get(chatroom.getChatroomNo()) != null && chat.getContent().equals("ENTER_CHAT")) {
+            chat.setChatRead(roomList.get(chat.getChatroomNo()).size());
+            personCnt = roomList.get(chat.getChatroomNo()).size();
             // RoomList에서 해당 방번호를 가진 방이 있는지 확인.
             roomList.get(chatroom.getChatroomNo()).add(session);
             // sessionList에 추가
             sessionList.put(session, chatroom.getChatroomNo());
 //            System.out.println("채팅방 입장");
         } else if (chat.getType().equals("CHANGE")){
+            chat.setChatRead(roomList.get(chat.getChatroomNo()).size());
             System.out.println("계약서 상태 변경");
-        }
-        // 채팅 일시
-        else {
-            int personCnt = roomList.get(chat.getChatroomNo()).size();
+        } else {
+            chat.setChatRead(roomList.get(chat.getChatroomNo()).size());
+            personCnt = roomList.get(chat.getChatroomNo()).size();
             int result = 0;
+            System.out.println("personCnt = " + personCnt);
             if(personCnt > 1){ // 접속자 수가 1명보다 많을 경우 읽은 상태로 메세지 저장
                 chat.setChatRead(1);
                 result = chatService.insertChat(chat);
@@ -96,6 +96,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 System.out.println("실패");
             }
         }
+        String text = new Gson().toJson(chat);
+        TextMessage textMessage = new TextMessage(text);
         for (WebSocketSession sess : roomList.get(chat.getChatroomNo())) {
             sess.sendMessage(textMessage);
         }

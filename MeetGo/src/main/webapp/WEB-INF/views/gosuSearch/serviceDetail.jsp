@@ -86,7 +86,7 @@
             border-radius: 10px;
             width: 200px;
             height: 50px;
-            margin-left: 30px;
+            margin-left: 20px;
             background-color: gray;
             color: white;
             font-size: 22px;
@@ -235,6 +235,7 @@
 	        background-color: rgba(0, 0, 0, 0.4);
 	        display:none;
         }
+		
         #enlarge-form{
         	width: 40%;
         	height: 90%;
@@ -247,9 +248,10 @@
         .report{
         	width: 50px;
         	height: 50px;
-        	margin-right:20px;
+        	margin-left:20px;
         	margin-bottom: 15px;
         	float:right;
+			cursor: pointer;
         }
 	
 	</style>
@@ -257,7 +259,10 @@
 <body>
 
 <jsp:include page="../common/header.jsp"/>
-
+<script>
+    let $userNo = ${sessionScope.loginUser.userNo};
+    let $gosuNo = ${requestScope.list[0].gosu.gosuNo};
+</script>
 <div class="outer">
 	<div id="detailHead-area">
 		<div id="image-area">
@@ -301,12 +306,12 @@
 	</div>
 	<div class="etc-area" align="right">
 		<!-- 로그인한 유저만 좋아요, 견적요청 이용 가능 -->
-		<img class="report" onclick="reportAlert('${requestScope.list[0].gosu.gosuNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png">
 		<c:if test="${ not empty sessionScope.loginUser }">
 			<div style="display:inline-block; text-align:center;">
 				<i onclick="enrollGosuLike()" id="gosuLikeIco" class="bi bi-heart-fill"></i>
-			</div>		
-		</c:if>	
+				<img class="report" onclick="reportAlert('${requestScope.list[0].gosu.gosuNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png">
+			</div>
+		</c:if>
 		<c:if test="${ not empty sessionScope.loginUser }">
 			<button type="button" id="btn-requestService" onclick="location.href='insertChatRoom?gno=${requestScope.list[0].gosu.gosuNo}'">견적요청</button>
 		</c:if>
@@ -337,6 +342,7 @@
 				<p><b>기본 정보</b></p>
 				<p>연락 가능 시간 : <span>09:00 ~ 18:00</span></p>
 				<p>직원 수 : <b>${ requestScope.list[0].gosu.employees }</b> 명</p>
+
 				<p>개인사업자</p>
 			</div>
 			<br><br>
@@ -569,10 +575,9 @@
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
 	
-	let $userNo = ${sessionScope.loginUser.userNo};
-	let $gosuNo = ${requestScope.list[0].gosu.gosuNo};
 	
     $(function(){
+    	
     	isLiked();
     	star(${requestScope.list[0].avgRevPoint});
     	
@@ -614,12 +619,12 @@
     });   
     
     function isLiked(){
-    	
-    	if(${requestScope.isLiked} == 1){
-    		$("#gosuLikeIco").removeClass("bi-heart").addClass("bi-heart-fill");
-    	} else {
-    		$("#gosuLikeIco").removeClass("bi-heart-fill").addClass("bi-heart");
-    	} 
+
+        if (${requestScope.isLiked eq 1}){
+            $("#gosuLikeIco").removeClass("bi-heart").addClass("bi-heart-fill");
+        } else {
+            $("#gosuLikeIco").removeClass("bi-heart-fill").addClass("bi-heart");
+        }
     }
     
     function enrollGosuLike(){

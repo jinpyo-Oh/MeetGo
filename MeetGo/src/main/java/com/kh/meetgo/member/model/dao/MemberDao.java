@@ -9,6 +9,7 @@ import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
 import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
 import com.kh.meetgo.member.model.dto.WishListRequest;
 import org.apache.ibatis.session.RowBounds;
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,9 @@ import com.kh.meetgo.member.model.vo.Member;
 // Repository 타입의 어노테이션을 붙이면
 // 빈 스캐닝을 통해 DAO 형식의 bean 으로 등록됨
 public class MemberDao {
+    private SqlSession sqlSession;
+    private static final String NAMESPACE = "com.kh.meetgo.member.mapper.MemberMapper";
+
 
     public Member loginMember(SqlSessionTemplate sqlSession, Member m) {
         return sqlSession.selectOne("memberMapper.loginMember", m);
@@ -286,6 +290,18 @@ public class MemberDao {
         params.put("userNo", userNo);
         return sqlSession.delete("memberMapper.deleteGosuService", params);
     }
+
+
+	public int updatePassword(SqlSessionTemplate sqlSession, String email, String userPwd) {
+		
+		Map<String, String> params = new HashMap<>();
+       
+		params.put("email", email);
+        params.put("userPwd", userPwd);
+		
+		return sqlSession.update("memberMapper.updatePassword", params);
+	}
+
 
     public ArrayList<WishListRequest> selectAllWishList(SqlSessionTemplate sqlSession, int userNo) {
         return (ArrayList)sqlSession.selectList("memberMapper.selectAllWishList", userNo);

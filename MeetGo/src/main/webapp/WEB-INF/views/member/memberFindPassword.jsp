@@ -50,7 +50,7 @@
         }
 
         .email {
-            background-color: #00C7AE;
+            background-color: #2A8FF7;
             color: white;
             border: none;
             height: 50px;
@@ -65,7 +65,7 @@
         }
 
         .check {
-            background-color: #00C7AE;
+            background-color: #2A8FF7;
             color: white;
             border: none;
             height: 50px;
@@ -95,21 +95,29 @@
         #checkinput {
         	display:none;
         }
+        .backhome{
+        margin-top:150px;
+        	      
+        	
+        }
         .back-btn {
-        	padding : 10px 120px;
-        	background-color: #00C7AE;
+        	padding: 20px 60px;
+        	background-color: #2A8FF7;
         	border-style: none;
         	border-radius: 10px;
         	color: white;
-        	
+        	margin-top:100px;
         }
     </style>
 </head>
 <body>
+    <jsp:include page="../common/header.jsp"/>
+
     <h1 style="text-align: center;">비밀번호 찾기</h1>
 
     <div class="main">
-        <div class="main-info">
+    	<div class="info">  
+    	   <div class="main-info">
             <h3 class="text2">가입한 이메일 주소를 입력해주시요.</h3>
         </div>
         <input type="email" id="email" name="email" placeholder="example@Meetgo" class="pass">
@@ -120,10 +128,13 @@
         </div>
 		
 		<div class="backhome">
-			<a class="back-btn" href="loginForm.me">홈으로</a>
-		</div>
-       
+			<a class="back-btn" href="loginForm.me">로그인 화면으로</a>
+       </div>
+     </div>
+     
     </div>
+    
+    	<jsp:include page="../common/footer.jsp"/>
     
     <script>
         function cert() {

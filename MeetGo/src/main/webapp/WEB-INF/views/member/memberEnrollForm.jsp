@@ -386,6 +386,7 @@
     	        }
     	    });
     	});
+
      $(document).ready(function () {
          $('#email-id').on('input', function () {
              emailCheck();

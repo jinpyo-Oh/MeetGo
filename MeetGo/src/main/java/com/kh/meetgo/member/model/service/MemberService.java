@@ -142,6 +142,9 @@ public interface MemberService {
 	int insertGosuService(String categorySmallNo, int userNo);
 
 	int deleteGosuService(String categorySmallNo, int userNo);
+	
+	int updatePassword(String email,String userPwd);
+
 
     ArrayList<WishListRequest> selectAllWishList(int userNo);
 }

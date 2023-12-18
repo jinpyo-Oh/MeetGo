@@ -517,8 +517,10 @@
 		 ORDER BY EXTRACT(MONTH FROM CONFIRMATION_DATE) ASC
 	</select>
 	
-	
-	
-	
+	<select id="selectAllUsers" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE ENROLL_STATUS = '1' OR ENROLL_STATUS = '2'  OR ENROLL_STATUS = '3'
+	</select>
 	<!-- 관리자메인페이지용 끝 -->
 </mapper>
