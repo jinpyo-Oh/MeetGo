@@ -235,6 +235,7 @@
 	        background-color: rgba(0, 0, 0, 0.4);
 	        display:none;
         }
+		
         #enlarge-form{
         	width: 40%;
         	height: 90%;
