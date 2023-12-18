@@ -163,7 +163,32 @@
 </head>
 <body>
     <jsp:include page="../common/header.jsp" />
-
+	<script>
+        function emailCheck(){
+            $.ajax({
+                url: "emailCheck.me",
+                type: "get",
+                data: {
+                    userEmail:  $('#email-id').val() ,
+                    userEmail2: $('#manualEmailInput').val()
+                },
+                success: function (result) {
+                    if (result === "NNNNN") {
+                        $("#checkResult3").show();
+                        $("#checkResult3").css("color", "red").text("중복된 이메일이 존재합니다. 다시 입력해주세요.");
+                        $("#submitBtn").prop("disabled", true);
+                    } else {
+                        $("#checkResult3").show();
+                        $("#checkResult3").css("color", "green").text("사용 가능한 이메일입니다.");
+                        $("#submitBtn").prop("disabled", false);
+                    }
+                },
+                error: function () {
+                    console.log("이메일 중복 체크용 AJAX 통신 실패!");
+                }
+            });
+        }
+	</script>
     <form action="insert.me" method="post">
         <div class="main">
 	        <h1>회원가입</h1>
@@ -208,7 +233,7 @@
 	
 	        <p class="name1">이메일*</p>
                 <input class="awqs" type="text" placeholder="이메일주소" id="email-id" name="userEmail" required>@
-                <input class="awqss" type="text" id="manualEmailInput"  name="userEmail2"required>
+                <input class="awqss" type="text" id="manualEmailInput"  name="userEmail2" required>
                 <select class="awqs" id="manualEmail" name="domain" required>
                     <option id="emailDomain" value="" disabled selected>선택</option>
                     <option value="meetgo.com">meetgo.com</option>
@@ -230,7 +255,6 @@
         $("#manualEmailInput").prop("disabled", true);
 
         $("#manualEmail").change(function() {
-            console.log($(this).val());
             if ($(this).val() === "직접입력") {
                 $("#manualEmailInput").prop("disabled", false);
                 
@@ -238,11 +262,12 @@
                 $("#manualEmailInput").prop("disabled", true);
                 $("#manualEmailInput").val($(this).val());
             }
+            emailCheck();
         });
 
         $(".awqs").on("input", function() {
             var emailInput = $(this).val();
-            <!--var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput); -->
+            var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput);
             
             if (!isValidEmail) {
 
@@ -362,45 +387,17 @@
     	    });
     	});
      $(document).ready(function () {
-    	    
-    	    
-    	    $('#email-id').keyup(function () {
-    	    	console.log("a")
-    	    	let $emailInput = $(".main input[name=userEmail]");
-        	    let $emailInput2 = $(".main input[name=userEmail]");
-    	        let email = $emailInput.val();
-    	        let email2 = $emailInput.val();
-    	        
-					
-    	        <!-- if (isValidEmail) { -->
-   	            $.ajax({
-   	                url: "emailCheck.me",
-   	                type: "get",
-   	                data: { 
-   	                	userEmail: email ,
-   	                	userEmail2: email2
-   	                	},
-   	                success: function (result) {
-   	                    if (result === "NNNNN") {
-   	                        $("#checkResult3").show();
-   	                        $("#checkResult3").css("color", "red").text("중복된 이메일이 존재합니다. 다시 입력해주세요.");
-   	                        $("#submitBtn").prop("disabled", true);
-   	                    } else {
-   	                        $("#checkResult3").show();
-   	                        $("#checkResult3").css("color", "green").text("사용 가능한 이메일입니다.");
-   	                        $("#submitBtn").prop("disabled", false);
-   	                    }
-   	                },
-   	                error: function () {
-   	                    console.log("이메일 중복 체크용 AJAX 통신 실패!");
-   	                }
-   	            });
-    	        <!-- } else {
-    	            $("#submitBtn").prop("disabled", true);
-    	            $("#checkResult3").hide();
-    	        } -->
-    	    });
-    	});
+         $('#email-id').on('input', function () {
+             emailCheck();
+         });
+
+         $('#manualEmailInput').on('input', function () {
+             emailCheck();
+         });
+		 
+        
+			
+		});
 
      function sample6_execDaumPostcode() {
         new daum.Postcode({

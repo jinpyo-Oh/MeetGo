@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.meetgo.gosu.model.vo.*;
 import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
 import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
+import com.kh.meetgo.member.model.dto.WishListRequest;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -314,6 +315,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int deleteGosuService(String categorySmallNo, int userNo) {
         return memberDao.deleteGosuService(sqlSession, categorySmallNo, userNo);
+    }
+
+    @Override
+    public ArrayList<WishListRequest> selectAllWishList(int userNo) {
+        return memberDao.selectAllWishList(sqlSession, userNo);
     }
 
     @Override

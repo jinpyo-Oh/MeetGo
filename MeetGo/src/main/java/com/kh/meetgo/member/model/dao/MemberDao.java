@@ -7,6 +7,7 @@ import java.util.Map;
 import com.kh.meetgo.gosu.model.vo.*;
 import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
 import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
+import com.kh.meetgo.member.model.dto.WishListRequest;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -284,5 +285,9 @@ public class MemberDao {
         params.put("categorySmallNo", Integer.valueOf(categorySmallNo));
         params.put("userNo", userNo);
         return sqlSession.delete("memberMapper.deleteGosuService", params);
+    }
+
+    public ArrayList<WishListRequest> selectAllWishList(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList)sqlSession.selectList("memberMapper.selectAllWishList", userNo);
     }
 }
