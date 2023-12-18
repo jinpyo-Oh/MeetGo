@@ -8,8 +8,8 @@
 	<title>신고 목록</title>
 	<style>
         .outer {
-            width: 1200px;
-            margin: 20px auto 100px;
+            width: 1400px;
+            margin: 50px auto 100px;
             box-sizing: border-box;
         }
         /* 폰트 */
@@ -30,7 +30,7 @@
         }
 
         #report-pageTitle > svg {
-            margin-bottom: 5px;
+            vertical-align: text-bottom;
         }
 
         #search-option {
@@ -40,13 +40,14 @@
 
         /* 리스트 영역 */
         #list-area {
-            width: 80%;
+            width: 100%;
             margin: auto;
             margin-top: 30px;
         }
 
         #report-list {
-            width: 960px;
+            width: 100%;
+            margin:auto;
             text-align: center;
         }
 
@@ -82,6 +83,8 @@
             font-size: 20px;
             color: white;
             background-color: #2a91f7c0;
+            margin-left:5px;
+        	margin-right:5px;
         }
 	</style>
 </head>
