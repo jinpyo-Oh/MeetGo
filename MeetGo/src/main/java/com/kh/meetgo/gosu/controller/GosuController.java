@@ -121,12 +121,12 @@ public class GosuController {
 
 			if(result > 0) { //탈퇴 성공
 				Member m = (Member) session.getAttribute("loginUser");
-                m.setUserStatus(1);
+                m.setEnrollStatus(3);
                 memberService.changeStatus(m);
                 session.setAttribute("loginUser", m);
 				session.setAttribute("alertMsg", "비활성화가 되었습니다.");
 				return "redirect:/";
-			}else { //실패
+			} else { //실패
 				model.addAttribute("errorMsg","비활성화 실패");
 				return "common/errorPage";	
 			}
@@ -148,6 +148,11 @@ public class GosuController {
 		int result = gosuService.gosuActivate(userId);
 	System.out.println(result);
 	if(result > 0) { //탈퇴 성공
+		Member m = (Member) session.getAttribute("loginUser");
+        m.setEnrollStatus(2);
+        memberService.changeStatus(m);
+        session.setAttribute("loginUser", m);
+
 		session.setAttribute("alertMsg", "활성화가 되었습니다.");
 		
 		return "redirect:/";

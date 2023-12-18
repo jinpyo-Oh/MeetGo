@@ -7,14 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.kh.meetgo.gosu.model.vo.*;
-import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
-import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
-import com.kh.meetgo.member.model.dto.WishListRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -24,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,6 +30,14 @@ import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.common.template.Pagination;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.dto.ReviewDto;
+import com.kh.meetgo.gosu.model.vo.CategorySmall;
+import com.kh.meetgo.gosu.model.vo.Estimate;
+import com.kh.meetgo.gosu.model.vo.GosuImg;
+import com.kh.meetgo.gosu.model.vo.Review;
+import com.kh.meetgo.gosu.model.vo.ReviewImg;
+import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
+import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
+import com.kh.meetgo.member.model.dto.WishListRequest;
 import com.kh.meetgo.member.model.service.MemberService;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
