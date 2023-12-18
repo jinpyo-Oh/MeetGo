@@ -10,23 +10,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style> 
-    @font-face {
+   @font-face {
         font-family: 'Pretendard-Regular';
         src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
         font-weight: 400;
         font-style: normal;
     }
-    * { font-family: 'Pretendard-Regular'; 
     
-    } 
     
     @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
-    div{
-       /*border : 1px solid red; */  
-    }
     .wrap{
    	
+   	font-family: 'Pretendard-Regular'; 
     width: 1000px;
     height: 1000px;
     margin: auto;
@@ -132,7 +128,12 @@
     .tip_content{
   	cursor : pointer;
     }
-    
+  .tip_content:hover {
+  	text-decoration : underline;
+  	cursor : pointer;
+  	
+   
+  }    
     
    </style>
 </head>
@@ -143,7 +144,7 @@
 	  <div class="wrap">
        
         <div class="content_1">
-            
+            <br>
             <div class="content_title" style="text-align: center; font-size: 28px;">        
                 <p>팁과 노하우</p>               
                 <hr>
@@ -171,24 +172,18 @@
             </th>
 
             <th>
-                <img src="${m.bfilePath}" style="width: 200px; height: 250px;">
+                <img src="${m.bfilePath}" style="width: 300px; height: 250px; padding-left:100px;">
             </th>
 		        </tr>
 		    </c:forEach>
 		</table>
 		   			 </div>
-		         
-         
-         
-         
-         
-         
-           
+        	
+        	<div class="footer">
             <a href="tipWrite.bo">
-             <button type="submit" class="btn btn-primary">글작성</button>
+             <button type="submit" class="btn btn-primary">글작성</button>            
             </a>
-           </div>
-             <div id="pagingArea">
+               <div id="pagingArea" style="float:right;" >
                 <ul class="pagination">
                 
                 	<c:choose>
@@ -228,6 +223,12 @@
                 </ul>
             </div>
              
+            
+        	</div>
+         
+           </div>
+            
+          
              
       	 </div>
         

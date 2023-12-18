@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
  <style> 
@@ -145,7 +148,6 @@
 	
 
 	<div class="wrap">
-                  <input type="hidden" value="${sessionScope.loginUser}">
       
         <div class="main1">
             <br>
@@ -157,6 +159,8 @@
             
             <br>
             <form id="noticeWrite" action="noticeInsert.bo" method="post" enctype="multipart/form-data">
+             
+             <input type="hidden" value="${sessionScope.loginUser}">
             
             
             <div style="display: flex; align-items: center;">
@@ -185,11 +189,7 @@
         <div class="main3">
 
             <div class="main3_1" style="text-align: center;">
-               	<label >
-                <input type="file" name ="tipImg" id="fileInput" onchange="displayFileName()">
-                  </label>  
-                <p id="fileName" style="margin-top: 10px;"></p>
-                   
+               
             </div>
 
 
