@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -95,7 +96,11 @@ public class MemberController {
 	public String memberChangePassword() {
 		return "member/memberChangePassword";
 	}
+	@RequestMapping("wishilst.me")
+	public String memberWishlist() {
 	
+		return "member/memberWishlist";
+	}
 	
 	
 	@RequestMapping("gosuPage.me")
@@ -189,6 +194,19 @@ public class MemberController {
 
 		return (count > 0) ? "NNNNN" : "NNNNY";
 	}
+	@ResponseBody
+	@RequestMapping(value = "emailCheck.me", produces = "text/html; charset=UTF-8")
+	public String checkEmail(Member m,String checkEmail ,String userEmail, String userEmail2) {
+		
+		String checkEmail1 = userEmail + ""+userEmail2;
+		m.setUserEmail(checkEmail1);
+			int count = memberService.checkEmail(checkEmail1);
+		
+
+		return (count > 0) ? "NNNNN" : "NNNNY";
+	}
+
+	
 
 
 	@RequestMapping(value = "changeStatus.me", produces = "text/html; charset=UTF-8")
@@ -774,6 +792,21 @@ public class MemberController {
 		  .setViewName("member/memberMyPost");
 		return mv;
 	}
+
+	/*
+	 * @GetMapping("wishilst.me") public ModelAndView
+	 * selectWishlist(@RequestParam(value = "cpage", defaultValue = "1") int
+	 * currentPage, ModelAndView mv) {
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 	/*
 	 * @RequestMapping("potoAdd") public void gosuimg(ArrayList<MultipartFile>
 	 * gosuImgArr, String gosuImgNo) {

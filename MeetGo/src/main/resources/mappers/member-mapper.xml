@@ -68,7 +68,6 @@
 		SELECT *
 		FROM GOSU
 		WHERE GOSU_NO = #{userNo}
-		
 	</select>
 	   <select id="gosuImgInfoByUserNo" parameterType="_int" resultMap="gosuImgResultSet">
 		SELECT *
@@ -494,4 +493,11 @@
         from member
         where USER_NO = ${userNo}
     </select>
+	<select id="selectWishList" parameterType="_int">
+	SELECT *
+	FROM "WISH-LIST"
+	WHERE USER_NO = '1' AND GOSU_NO = '1'
+	</select>
+	
+
 </mapper>

@@ -284,6 +284,18 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.WrittenReviewDetail(sqlSession, revNo);
 	}
 
+	@Override
+	public int checkEmail(String checkEmail) {
+		// TODO Auto-generated method stub
+		return memberDao.checkEmail(sqlSession,checkEmail);
+	}
+
+	@Override
+	public ArrayList<Member> selectWishlist(int gosuNo) {
+		// TODO Auto-generated method stub
+		return memberDao.selectWishlist(sqlSession,gosuNo);
+	}
+
 	
 
 

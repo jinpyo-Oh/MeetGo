@@ -235,4 +235,20 @@ public class MemberDao {
     public ReviewDto WrittenReviewDetail(SqlSessionTemplate sqlSession, int revNo) {
         return sqlSession.selectOne("memberMapper.WrittenReviewDetail", revNo);
     }
+
+
+	public ReviewDto WrittenReviewDetail(SqlSessionTemplate sqlSession, int revNo) {
+		return sqlSession.selectOne("memberMapper.WrittenReviewDetail", revNo);
+	}
+
+	public int checkEmail(SqlSessionTemplate sqlSession, String checkEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.checkEmail",checkEmail);
+	}
+
+	public ArrayList<Member> selectWishlist(SqlSessionTemplate sqlSession, int gosuNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectWishList",gosuNo);
+	}
+
 }
