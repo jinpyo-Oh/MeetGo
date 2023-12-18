@@ -21,7 +21,6 @@
     
     } 
     
-    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css");
 
 .wrap{
     margin: auto;
@@ -113,7 +112,14 @@
 		.category-img-wrapper img{
 			width: 80px;
 			height: 80px;
-}
+		}
+		
+		.report{
+        	width: 50px;
+        	height: 50px;
+        	margin-right:20px;
+        	margin-bottom: 15px;
+        }
 </style>
 </head>
 <body>
@@ -121,7 +127,8 @@
 	<jsp:include page="../../common/side.jsp"/>
 	
   <div class="wrap">
-
+		
+		<br><br><br>
         <div class="gosu_header1">
             &nbsp; &nbsp;
             <b>커뮤니티 > 고수찾기</b>
@@ -193,7 +200,8 @@
                	</c:choose>
                </tr>
                <tr>
-                   <td colspan="3">댓글(<span id="rcount">0</span>)</td>
+                   <td colspan="2">댓글(<span id="rcount">0</span>)</td>
+                   <td style="text-align:right;"><img class="report" onclick="reportAlert('${requestScope.m.userNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png"></td>
                </tr>
            </thead>
            

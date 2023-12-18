@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.kh.meetgo.member.model.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,8 @@ public class GosuController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private GosuServiceImpl gosuService;
+    @Autowired
+    private MemberService memberService;
     
     // 고수 등록페이지로 이동
     @RequestMapping("gosuEnrollForm.go")
@@ -115,17 +118,17 @@ public class GosuController {
 				.getUserPwd();
 			if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
 				int result = gosuService.deleteGosu(userId);
-			System.out.println(result);
+
 			if(result > 0) { //탈퇴 성공
-				session.removeAttribute("loginUser");
-				
+				Member m = (Member) session.getAttribute("loginUser");
+                m.setUserStatus(1);
+                memberService.changeStatus(m);
+                session.setAttribute("loginUser", m);
 				session.setAttribute("alertMsg", "비활성화가 되었습니다.");
-				
 				return "redirect:/";
 			}else { //실패
 				model.addAttribute("errorMsg","비활성화 실패");
 				return "common/errorPage";	
-
 			}
 			}else {
 				session.setAttribute("alertMsg", "비밀번호를 잘못 입력하였습니다. 확인해주세요.");
@@ -145,8 +148,6 @@ public class GosuController {
 		int result = gosuService.gosuActivate(userId);
 	System.out.println(result);
 	if(result > 0) { //탈퇴 성공
-		session.removeAttribute("loginUser");
-		
 		session.setAttribute("alertMsg", "활성화가 되었습니다.");
 		
 		return "redirect:/";
