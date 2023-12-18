@@ -17,7 +17,16 @@
        <result column="GOSU_NO" property="gosuNo"/>
        <result column="USER_NO" property="userNo"/>
     </resultMap>
-
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" property="boardNo" />
+		<result column="BOARD_TITLE" property="boardTitle" />
+		<result column="BOARD_CONTENT" property="boardContent" />
+		<result column="BOARD_CREATE_DATE" property="createDate" /> <!-- 별칭 -->
+		<result column="BOARD_UPDATE_DATE" property="boardUpdate" />
+		<result column="BOARD_COUNT" property="boardCount" />
+		<result column="BOARD_TYPE" property="boardType" />
+		<result column="USER_NO" property="userNo" />
+	</resultMap>
 
     <resultMap id="reviewImgResultSet" type="reviewImg">
        <result column="IMG_NO" property="imgNo"/>
@@ -523,4 +532,15 @@
 		 WHERE ENROLL_STATUS = '1' OR ENROLL_STATUS = '2'  OR ENROLL_STATUS = '3'
 	</select>
 	<!-- 관리자메인페이지용 끝 -->
+
+	<select id="countAllBoard" parameterType="_int" resultType="_int">
+		select count(*)
+		from BOARD
+		where BOARD_TYPE = ${type}
+	</select>
+	<select id="selectAllBoard" parameterType="_int" resultMap="boardResultSet">
+		select *
+		from BOARD
+		where BOARD_TYPE = ${type}
+	</select>
 </mapper>

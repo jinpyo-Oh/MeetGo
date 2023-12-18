@@ -25,6 +25,56 @@
 </head>
 <body>
 <jsp:include page="../../common/adminHeader.jsp"/>
+<script>
+	selectBoard(2, 1);
+
+	function selectBoard(status , cPage){
+		$('#chatList > tbody').empty();
+		$('#button-area').empty();
+		$.ajax({
+			url : "selectBoardList",
+			method : "get",
+			data : {
+				status : status,
+				cPage : cPage
+			},
+			success : function (data){
+				let list = data.list;
+				let pi = data.pi;
+				for (let i = 0; i < list.length; i++) {
+					let content =
+							'<tr>' +
+							'<td width="10%">'+list[i].boardNo+'</td>' +
+							'<td width="20%">'+list[i].boardTitle+'</td>' +
+							'<td width="15%">'+list[i].boardContent+'</td>' +
+							'<td width="15%">'+list[i].createDate+'</td>' +
+							'<td width="10%">'+list[i].boardCount+'</td>' +
+							'</tr>';
+					$('#chatList > tbody').append(content);
+				}
+				let paging = '';
+				if (pi.currentPage == 1) {
+					paging += '<button class="pagingBtn" disabled style="background-color: ">이전</button>'
+				} else {
+					paging += '<button class="pagingBtn" onclick="selectBoard(2, ' + (pi.currentPage - 1) + ')">이전</button>'
+				}
+				for (let i = pi.startPage; i <= pi.endPage; i++) {
+					paging += '<button class="pageBtn" onclick="selectBoard(2, ' + i + ')">' + i + '</button>'
+				}
+				if (pi.currentPage == pi.endPage) {
+					paging += '<button class="pagingBtn" disabled style="background-color: ">다음</button>'
+				} else {
+					paging += '<button class="pagingBtn" onclick="selectBoard(2, ' + (pi.currentPage + 1) + ')">다음</button>'
+				}
+				$('#button-area').append(paging);
+
+			},
+			error : function (){
+				console.log("공지사항 리스트 조회 실패");
+			}
+		})
+	}
+</script>
 <div class="pageTitleArea" align="center">
 	<p class="pageTitle">
 		<img style="width: 40px; height: 40px" src="<%=request.getContextPath()%>/resources/images/chat/tip-icon.png">

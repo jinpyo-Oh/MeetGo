@@ -297,5 +297,9 @@
 		</script>
 		<c:remove var="errorMsg" scope="session" />
 	</c:if>
+
+<script>
+
+</script>
 </body>
 </html>
