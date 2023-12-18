@@ -9,7 +9,7 @@
 <script src="https://kit.fontawesome.com/bb1372cd06.js" crossorigin="anonymous"></script><style>
 <style>
     .table-hover{
-        width: 960px; 
+        width: 1400px; 
         text-align: center;
         padding: auto;
         border-radius: 5px;
@@ -67,8 +67,6 @@
     .none{
     	background-color: none;
     }
-    #searchForm {
-    }
     #searchForm>* {
         float:right;
         margin:5px;
@@ -85,7 +83,7 @@
 	
 	<jsp:include page="../common/adminHeader.jsp" />
 	
-    <div style="width: 100%; margin: auto; min-height: 400px;">
+    <div style="width: 80%; margin: auto; min-height: 400px;">
         
             <br>
             
@@ -100,16 +98,16 @@
  			
  			<br><br>
             
-        	<div id="inCom">
+        	<div id="inCom" align="center">
 	            <table class="table-hover" align="center">
 	                <thead style="height: 35px;">
 	                    <tr>
-	                        <th style="width: 100px;">리뷰번호</th>
-	                        <th style="width: 225px;">계약명</th>
-	                        <th style="width: 135px;">고수명(번호)</th>
-	                        <th style="width: 135px;">고객명(번호)</th>
-	                        <th style="width: 135px;">작성일</th>
-	                        <th style="width: 180px;">별점</th>
+	                        <th style="width: 140px;">리뷰번호</th>
+	                        <th style="width: 350px;">계약명</th>
+	                        <th style="width: 140px;">고수명(번호)</th>
+	                        <th style="width: 140px;">고객명(번호)</th>
+	                        <th style="width: 280px;">작성일</th>
+	                        <th style="width: 210px;">별점</th>
 	                    </tr>
 	                </thead>
 	                <tbody id="listBody">
@@ -194,23 +192,23 @@
 	                </ul>
             	</div>
         	</div>
+	 			<br>
+	        	<div style="width: 1500px;">
+				    <form id="searchForm" action="" method="get">
+				        <button id="search" class="searchBtn btn btn-secondary">검색</button>
+				        <div class="text">
+				            <input type="text" class="form-control" id="keyword" name="keyword">
+				        </div>
+				        <div class="select">
+				            <select class="custom-select" name="condition" id="condition">
+				                <option value="gosuNo">고수번호</option>
+				                <option value="userNo">고객번호</option>
+				                <option value="estNo">계약번호</option>
+				            </select>
+				        </div>
+				    </form>
+				</div>
         	
- 			<br>
-        	<div style="width: 900px; margin: auto;">
-			    <form id="searchForm" action="" method="get">
-			        <button id="search" class="searchBtn btn btn-secondary">검색</button>
-			        <div class="text">
-			            <input type="text" class="form-control" id="keyword" name="keyword">
-			        </div>
-			        <div class="select">
-			            <select class="custom-select" name="condition" id="condition">
-			                <option value="gosuNo">고수번호</option>
-			                <option value="userNo">고객번호</option>
-			                <option value="estNo">계약번호</option>
-			            </select>
-			        </div>
-			    </form>
-			</div>
     </div>
     
     <script>

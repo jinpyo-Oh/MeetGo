@@ -41,6 +41,7 @@
         height: 35px;
         color: black;
         margin-top: 5px;
+        cursor: pointer;
     }
 </style>
 </head>
@@ -51,20 +52,20 @@
     <div style="width: 80%; margin: auto;">
         
         <div style="text-align: center; width: 60%; margin: auto;">
-            <br>
-            <a class="back" onclick="back();" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
+            <br><br>
+            <a class="back" onclick="back();" style="text-decoration: none;"><h5><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</h5></a>
               <c:choose>
                    <c:when test="${ requestScope.est.estimate.status eq 4 }">
-                       <button class="btn btn-danger btn-sm" id="combtn">강제 서비스 완료</button> 
+                       <a class="btn" style="color:red" id="combtn"><h5>강제 서비스 완료</h5></a> 
                        <br>
                    </c:when>
 				</c:choose>	
             <br><br>
 			<div align="center">
-	            <h2><b>계약서</b></h2>
+	            <h1>${ requestScope.est.estimate.estTitle } 계약서</h1>
 			</div>
        
-    		<br>
+    		<br><br>
 
                 <div style="border: 1px solid black; border-radius: 10px;">
                     <table class="detail" border="1px" style="border-color: black;" >
