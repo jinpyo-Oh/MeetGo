@@ -298,7 +298,10 @@
 				<i onclick="enrollGosuLike()" id="gosuLikeIco" class="bi bi-heart-fill"></i>
 			</div>		
 		</c:if>	
+		<c:if test="${ not empty sessionScope.loginUser }">
 			<button type="button" id="btn-requestService" onclick="location.href='insertChatRoom?gno=${requestScope.list[0].gosu.gosuNo}'">견적요청</button>
+		</c:if>
+			
 		<br><br>
 		<hr>
 	</div>
