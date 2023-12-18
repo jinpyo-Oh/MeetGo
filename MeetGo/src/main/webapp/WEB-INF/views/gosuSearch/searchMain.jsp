@@ -265,6 +265,16 @@
 	            </select>
             </div>
         </div>
+        
+        <div>
+        
+        <c:if test="${ not empty requestScope.keyword}">
+        <div align="center" style="font-size:20px; margin-top:30px;">
+        	<b>" ${requestScope.keyword} " </b>로 검색된 결과입니다.
+       	</div>
+        </c:if>
+        
+        </div>
 
         <!-- ajax 통신으로 append해서 출력 -->
         <div id="result-container">
@@ -355,6 +365,7 @@
 	$(function() {
 		
 		// 옵션선택 로드(기본값 보내기)
+		$("#search-input").val("${requestScope.keyword}");
 		optionSelect();
 		
 		// 보낼 데이터 대입, currentPage 초기화
@@ -582,11 +593,11 @@
 		$categorySub = $("#category-sub").val();
 		$currentPage = $("#currentPage").val();
 		$filter = $("#filter").val();
-		
+			
 		// 페이지 이동 시 초기화
 		$("#result-area").empty();
 		$("#paging-area").empty();
-		
+
 		// ajax로 데이터 송신
 		$.ajax({
 			url : "searchGosu.go",
@@ -596,6 +607,7 @@
 					 categoryMain : $categoryMain,
 					 categorySub : $categorySub,
 					 currentPage : $currentPage,
+					 keyword : "${requestScope.keyword}",
 					 filter : $filter
 			},
 			success : function(result) {

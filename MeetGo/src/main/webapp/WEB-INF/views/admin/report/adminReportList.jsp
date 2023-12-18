@@ -8,8 +8,8 @@
 	<title>신고 목록</title>
 	<style>
         .outer {
-            width: 1200px;
-            margin: 20px auto 100px;
+            width: 1400px;
+            margin: 50px auto 100px;
             box-sizing: border-box;
         }
         /* 폰트 */
@@ -30,7 +30,7 @@
         }
 
         #report-pageTitle > svg {
-            margin-bottom: 5px;
+            vertical-align: text-bottom;
         }
 
         #search-option {
@@ -40,13 +40,14 @@
 
         /* 리스트 영역 */
         #list-area {
-            width: 80%;
+            width: 100%;
             margin: auto;
             margin-top: 30px;
         }
 
         #report-list {
-            width: 960px;
+            width: 100%;
+            margin:auto;
             text-align: center;
         }
 
@@ -82,6 +83,8 @@
             font-size: 20px;
             color: white;
             background-color: #2a91f7c0;
+            margin-left:5px;
+        	margin-right:5px;
         }
 	</style>
 </head>
@@ -143,16 +146,14 @@
       		scrollToTop();
       	}
       	
-      	function prevPage() {
-      		num = parseInt(currentPage) - 1;
-      		$("#currentPage").val(num);
+      	function prevPage(num) {
+      		$("#currentPage").val(num - 1);
       		selectReportList(option);
       		scrollToTop();
       	}
       	
-      	function nextPage() {
-      		num = parseInt(currentPage) + 1;
-      		$("#currentPage").val(num);
+      	function nextPage(num) {
+      		$("#currentPage").val(num + 1);
       		selectReportList(option);
       		scrollToTop();
       	}
@@ -230,7 +231,7 @@
 						$("#report-list-content").append(resultStr);
 					}
 					
-					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage()">Prev</button>');
+					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage('+ currentPage +')">Prev</button>');
 					
 					// prev버튼 조건에 따른 숨김처리
 					if(startPage > maxPage){
@@ -256,7 +257,7 @@
     				}     
     				
     				// 다음버튼
-    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage()">Next</button>');
+    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage('+ currentPage +')">Next</button>');
 	    				if(parseInt($("#currentPage").val()) == maxPage){
 	    					nextButton.css("display", "none");
 	    				}

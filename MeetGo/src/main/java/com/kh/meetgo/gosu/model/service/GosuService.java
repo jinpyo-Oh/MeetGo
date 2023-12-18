@@ -11,10 +11,10 @@ import com.kh.meetgo.member.model.vo.Gosu;
 public interface GosuService {
 	
 	// 고수찾기 회원수 조회
-	int selectOptionalGosuCount(String region, String regionSub, int categoryBigNo, int categorySmallNo);
+	int selectOptionalGosuCount(String region, String regionSub, int categoryBigNo, int categorySmallNo, String keyword);
 	
 	// 고수찾기
-	ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, String filter, PageInfo pi);
+	ArrayList<GosuOpt> selectOptionalGosu(String region, String regionSub, int categoryBigNo, int categorySmallNo, String keyword, String filter, PageInfo pi);
 
 	// 고수찾기 상세정보
 	ArrayList<GosuOpt> gosuDetail(int gosuNo);

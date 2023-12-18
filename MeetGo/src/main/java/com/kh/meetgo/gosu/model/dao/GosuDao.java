@@ -19,25 +19,27 @@ public class GosuDao {
 	
 	// 고수 회원수 조회
 	public int selectOptionalGosuCount(SqlSessionTemplate sqlSession, String region
-									  , String regionSub, int categoryBigNo, int categorySmallNo) {
+									  , String regionSub, int categoryBigNo, int categorySmallNo, String keyword) {
 		
 		Map<String, Object> params = new HashMap<>();
 	    params.put("region", region);
 	    params.put("regionSub", regionSub);
 	    params.put("categoryBigNo", categoryBigNo);
 	    params.put("categorySmallNo", categorySmallNo);
+	    params.put("keyword", keyword);
 		
 		return sqlSession.selectOne("gosuMapper.selectOptionalGosuCount", params);
 	}
 	// 고수 회원 조회결과
 	public ArrayList<GosuOpt> selectOptionalGosu(SqlSessionTemplate sqlSession, String region
-			  , String regionSub, int categoryBigNo, int categorySmallNo, String filter, PageInfo pi){
+			  , String regionSub, int categoryBigNo, int categorySmallNo, String keyword, String filter, PageInfo pi){
 		
 		Map<String, Object> params = new HashMap<>();
 	    params.put("region", region);
 	    params.put("regionSub", regionSub);
 	    params.put("categoryBigNo", categoryBigNo);
 	    params.put("categorySmallNo", categorySmallNo);
+	    params.put("keyword", keyword);
 		params.put("filter", filter);
 	    
 		int limit = pi.getBoardLimit();
