@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.meetgo.board.model.dao.BoardDao;
+import com.kh.meetgo.board.model.dto.BoardDto;
 import com.kh.meetgo.board.model.dto.BoardFileDto;
 import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.vo.Board;
@@ -133,7 +134,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board selectGosuReqBoard(int boardNo) {
+	public BoardDto selectGosuReqBoard(int boardNo) {
 		return boardDao.selectGosuReqBoard(sqlSession, boardNo);
 	}
 

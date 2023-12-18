@@ -8,6 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.meetgo.board.model.dto.BoardDto;
 import com.kh.meetgo.board.model.dto.BoardFileDto;
 import com.kh.meetgo.board.model.dto.ReplyDto;
 import com.kh.meetgo.board.model.vo.Board;
@@ -66,7 +67,7 @@ public class BoardDao {
 	}
 	
 	// 고수찾아요 게시판 상세
-	public Board selectGosuReqBoard(SqlSessionTemplate sqlSession, int boardNo) {
+	public BoardDto selectGosuReqBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		
 		return sqlSession.selectOne("boardMapper.selectGosuReqBoard", boardNo);
 	}

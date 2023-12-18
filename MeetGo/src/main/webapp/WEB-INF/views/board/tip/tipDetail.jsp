@@ -128,7 +128,7 @@
 	<jsp:include page="../../common/side.jsp"/>
 	
 	<div class="wrap">
-        <div class="main_title">
+        <div class="main_title" >
        		
             <div class="main_title_1" style="float: left;">
             <br>
@@ -141,25 +141,35 @@
             
         </div>
         <hr>
+        <div>
+        </div>
+        
         <div class="main_body">
           
-            <div class="main_body_1">
-            <div class="main_body_1_1">
+            <div class="main_body_1" style="width:100%;">
+          
+            <div class="main_body_1_1" style="width:50%;  text-align:right;">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              &nbsp;&nbsp; &nbsp;&nbsp;
               &nbsp;&nbsp; &nbsp;&nbsp;
-             조회수 : ${ requestScope.m.boardCount } 
+        
+             
             </div>
             
-            <div class="main_body_1_2">
-                &nbsp;  &nbsp; 작성일 :${ requestScope.m.createDate }
+            <div class="main_body_1_2" style="width:50%;  text-align:right;" >
+                &nbsp;  &nbsp; 
+            	  작성일 :${ requestScope.m.boardCreateDate } 
+            	  &nbsp;  &nbsp;    
+                  조회수 : ${ requestScope.m.boardCount } 
             </div>
+            
+            
             </div>
            
          <div class="main_body_2_1">
             &nbsp;&nbsp; &nbsp;&nbsp;
-            <img src="" id="profileImg" width="100" height="100" >    
-            &nbsp; ${ requestScope.m.userNo } 
+            <img src="${ requestScope.m.userProfile }" id="profileImg" width="70" height="70"   style="border-radius: 50%;" >    
+            &nbsp; ${ requestScope.m.userNickname } 
                  
          </div>
 
@@ -169,7 +179,8 @@
 			
 			    <br> <br>
 			    
-			    <textarea name="" id="textarea" cols="2" rows="5" placeholder="&nbsp;&nbsp;">
+			    <textarea name="" id="textarea" cols="2" rows="5" 
+			    placeholder="&nbsp;&nbsp;" style="width:600px; height:250px; font-size:20px; background-color: transparent;">
 			        ${requestScope.m.boardContent}
 			    </textarea>
 			    

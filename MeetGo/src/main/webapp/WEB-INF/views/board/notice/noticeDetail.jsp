@@ -60,16 +60,16 @@
         width: 100%;
     }
     .main_body_1_1{
+    	border: 1px solid blue;
         height: 50px;
-        float: left;
-        width: 80%;
+        width: 50%;
 
     }
     
     .main_body_1_2{
         height: 50px;
         float: right;
-        width: 20%;
+        width: 50%;
     }
 
     .main_body_2_1{
@@ -144,22 +144,26 @@
         <div class="main_body">
           
             <div class="main_body_1">
-            <div class="main_body_1_1">
+          
+          
+            <div class="main_body_1_1" style="text-align:right;">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              &nbsp;&nbsp; &nbsp;&nbsp;
               &nbsp;&nbsp; &nbsp;&nbsp;
              조회수 : ${ requestScope.m.boardCount } 
             </div>
             
-            <div class="main_body_1_2">
+            <div class="main_body_1_2" style="border: 1px solid red;">
                 &nbsp;  &nbsp; 작성일 :${ requestScope.m.createDate }
             </div>
             </div>
            
          <div class="main_body_2_1">
             &nbsp;&nbsp; &nbsp;&nbsp;
-            <img src="" id="profileImg" width="100" height="100" >    
-            &nbsp; ${ requestScope.m.userNo } 
+            <img src="" id="profileImg" width="70" height="70" >    
+            &nbsp; 
+            
+            ${ requestScope.m.userNickname } 
                  
          </div>
 

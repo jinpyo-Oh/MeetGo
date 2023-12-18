@@ -128,16 +128,18 @@
         </div>
         
    <div class="gosu_header2">
-		    &nbsp; &nbsp;<h2>&nbsp; ${requestScope.m.boardTitle}</h2>
+		    &nbsp; &nbsp;<h2>&nbsp; ${requestScope.m.board.boardTitle}</h2>
 		    &nbsp; &nbsp;
 		</div>
 		<div class="gosu_content1">
 		    <br>
-		    <img src="" id="profileImg" width="70" height="70">   
-		    &nbsp; 
+		    <img src="${ requestScope.m.userProfile }" id="userProfile" width="70" height="70" style="border-radius: 50%;">   
+		    &nbsp; &nbsp;
 		    
-		    ${requestScope.m.userNo}
-		    ${requestScope.m.createDate} &nbsp; &nbsp;<i class="bi bi-eye-fill"></i>
+		    ${requestScope.m.userNickname}
+		    <div style="float:right;">
+		&nbsp;   작성일 :	&nbsp; ${requestScope.m.board.createDate} &nbsp; &nbsp;<i class="bi bi-eye-fill"></i> &nbsp;${requestScope.m.board.boardCount}
+		</div>
 		</div>
         <hr>
         <div class="swiper"> 
@@ -160,7 +162,7 @@
         <img src="${ requestScope.list[0].boardFile.filePath }">
             
             <div style="font-size:25px;">
-            ${ requestScope.m.boardContent }
+            ${ requestScope.m.board.boardContent }
 			</div>
         </div>
 			
@@ -245,7 +247,7 @@
  				url : "gosuRinsert.bo",
  				type : "get",
  				data : { // Ajax 요청 또한 Spring 에서 커맨드 객체 방식 사용 가능
- 					boardNo : ${ requestScope.m.boardNo }, 
+ 					boardNo : ${ requestScope.m.board.boardNo }, 
  					userNo : "${ sessionScope.loginUser.userNo}" ,
  					replyContent : $("#content").val()
  				},
@@ -276,7 +278,7 @@
  		$.ajax({
  			url : "gosuRlist.bo",
  			type : "get",
- 			data : {bno : ${ requestScope.m.boardNo }},
+ 			data : {bno : ${ requestScope.m.board.boardNo }},
  			success : function(result) {
  				
  				let resultStr = "";

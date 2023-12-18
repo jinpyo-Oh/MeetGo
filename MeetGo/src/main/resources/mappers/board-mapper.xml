@@ -36,6 +36,10 @@
 		<result column="BOARD_CREATE_DATE" property="boardCreateDate" />	
 		<result column="BOARD_COUNT" property="boardCount" />
 		<result column="BFILE_PATH" property="BfilePath" />		
+		<result column="USER_NO" property="userNo" />	
+		<result column="USER_NICKNAME" property="userNickname"/>	
+		<result column="USER_PROFILE" property="userProfile"/>	
+		
 	</resultMap>
 	
 	 <resultMap id="memberResultSet" type="member">
@@ -105,11 +109,19 @@
 	</update>
 		
 	<!-- 고수찾아요 게시글 상세 -->	
-	<select id="selectGosuReqBoard" parameterType="_int" resultMap="boardResultSet">
-		SELECT BOARD_NO
-		     , BOARD_TITLE
-		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
-		     , BOARD_CONTENT
+	<select id="selectGosuReqBoard" parameterType="_int" resultType="boardDto">
+		SELECT BOARD_NO as "board.boardNo"
+		     , BOARD_TITLE as "board.boardTitle"
+		     , TO_CHAR(BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "board.createDate"
+		     , BOARD_CONTENT as "board.boardContent"
+		     , BOARD_COUNT as "board.boardCount"
+		     , (SELECT USER_PROFILE
+		     	  FROM MEMBER
+		     	 WHERE BOARD.USER_NO = MEMBER.USER_NO) as "userProfile"
+		     , USER_NO as "board.userNo"
+		     , (SELECT USER_NICKNAME
+		     	  FROM MEMBER
+		     	 WHERE BOARD.USER_NO = MEMBER.USER_NO) as "userNickname"
 		  FROM BOARD
 		 WHERE BOARD_NO = #{boardNo}
 		   AND BOARD_TYPE = 1
@@ -145,7 +157,7 @@
 	</select>
 	
 	<!-- 팁노하우 게시판 리스트 -->
-	<select id="selectTipList" resultType="BoardFileDto" >
+	<select id="selectTipList" resultType="boardFileDto" >
 	   SELECT B.BOARD_NO AS "boardNo"
 		     , B.BOARD_TITLE AS "boardTitle"
 		     , B.BOARD_CONTENT AS "boardContent"
@@ -190,14 +202,20 @@
 		
 	
 	<!--  팁노하우 게시판 상세  -->
-	<select id="selectTipBoard" parameterType="_int" resultType="BoardFileDto">
+	<select id="selectTipBoard" parameterType="_int" resultMap="boardFileResultSet">
 			SELECT B.BOARD_NO
-		     , B.BOARD_TITLE
+		     , B.BOARD_TITLE AS
 		     , TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "BOARD_CREATE_DATE"
 		     , B.BOARD_CONTENT
 		     , B.USER_NO
 		     , B.BOARD_COUNT
 		     , BFILE_PATH
+		     , (SELECT USER_NICKNAME 
+		     	  FROM MEMBER 
+		     	 WHERE MEMBER.USER_NO = B.USER_NO) AS "USER_NICKNAME"
+		     , (SELECT USER_PROFILE
+		     	  FROM MEMBER
+		     	 WHERE MEMBER.USER_NO = B.USER_NO)	AS "USER_PROFILE"
 		  FROM BOARD B
 		       LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
 		 WHERE B.BOARD_NO =  #{boardNo}
