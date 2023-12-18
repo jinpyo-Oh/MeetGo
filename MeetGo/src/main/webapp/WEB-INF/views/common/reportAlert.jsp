@@ -35,7 +35,7 @@
 
 
 
-    .estimate_content p {
+    .service_content p {
         margin: 0;
     }
     .reportCategory {

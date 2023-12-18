@@ -49,7 +49,7 @@ public interface BoardService {
 		int insertTipBoard(BoardFileDto tipDto);
 		
 		// 팁노하우 게시글 상세조회
-		Board selectTipBoard(int boardNo);
+		BoardFileDto selectTipBoard(int boardNo);
 		
 		// 팁노하우 상세조회 서비스
 		// 팁노하우 조회수 증가
@@ -67,12 +67,17 @@ public interface BoardService {
 		ArrayList<BoardFileDto> selectTipImgList(int boardNo);
 	
 		
+		// 공지사항  
+		
 		int selectNoticeListCount();
 		
-		ArrayList<BoardFileDto> selectNoticeList(PageInfo pi);
+		ArrayList<Board> selectNoticeList(PageInfo pi);
 
-		
-	
+		int insertNoticeBoard(Board m);
+
+		int increaseNoticeCount(int boardNo);
+
+		Board selectNoticeBoard(int boardNo);
 
 
 		

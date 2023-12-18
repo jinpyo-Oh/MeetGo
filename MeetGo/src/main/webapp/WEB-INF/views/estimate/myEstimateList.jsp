@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style>
     .table-hover{
-        width: 800px; 
+        width: 1200px; 
         text-align: center;
         padding: auto;
         border-radius: 5px;
@@ -73,24 +73,23 @@
 	
     <div style="width: 80%; margin: auto; min-height: 400px;">
         
-            <br>
-            <a href="adminEstimateList.ad?cPage=1">관리자 계약관리페이지</a>
-            <table style="width: 70%; margin: auto; text-align:center;" id="type">
+            <br><br><br>
+	            <table style="width: 70%; margin: auto; text-align:center;" id="type">
                 <tr>
 					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
 					<td class="type" style="width:20%;"><h4><b>완료된 계약</b></h4> </td>
 					<c:choose>
 						<c:when test="${ sessionScope.loginUser.userStatus eq 1 }">
-							<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="myReview.me?cPage=1" style="color:#2a91f7c0;" class="">내 리뷰 보러가기</a></td>                
+							<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="myReview.me?cPage=1" style="color:#2a91f7c0;" class=""><h5>내 리뷰 보러가기</h5></a></td>                
 						</c:when>
 						<c:when test="${ sessionScope.loginUser.userStatus eq 2 }">
-							<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="WrittenReview.me?cPage=1" style="color:#2a91f7c0;" class="">내게 작성된 리뷰 보러가기</a></td>                
+							<td class="type" style="text-align: right; float:right; margin-top:15px;"><a href="WrittenReview.me?cPage=1" style="color:#2a91f7c0;" class=""><h5>내게 작성된 리뷰 보러가기</h5></a></td>                
 						</c:when>						
 					</c:choose>
                </tr>
             </table>
 			
-            <br><br><br>
+            <br><br><br><br>
         	<div id="inCom">
 	            <table class="table-hover" align="center">
 	                <thead style="height: 35px;">

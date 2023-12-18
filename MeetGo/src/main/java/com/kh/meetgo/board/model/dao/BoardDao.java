@@ -106,8 +106,8 @@ public class BoardDao {
 		return sqlSession.update("boardMapper.selectTipListCount", boardNo);
 	}
 	
-	// 고수찾아요 게시판 상세
-	public Board selectTipBoard(SqlSessionTemplate sqlSession, int boardNo) {
+	// 팁노하우 게시판 상세
+	public BoardFileDto selectTipBoard(SqlSessionTemplate sqlSession, int boardNo) {
 		
 		return sqlSession.selectOne("boardMapper.selectTipBoard", boardNo);
 	}
@@ -127,9 +127,9 @@ public class BoardDao {
 			return sqlSession.insert("boardMapper.insertTipImg", params);
 		}
 		
-		public ArrayList<BoardFileDto>selectTipImgList(SqlSessionTemplate sqlSession, int boardNo){
+	public ArrayList<BoardFileDto>selectTipImgList(SqlSessionTemplate sqlSession, int boardNo){
 			return (ArrayList)sqlSession.selectList("boardMapper.selectTipImgList", boardNo);
-		}
+	}
 	
 	public ArrayList<ReplyDto> selectGosuReplyList(SqlSessionTemplate sqlSession, int userNo) {
 		
@@ -156,6 +156,16 @@ public class BoardDao {
 		
 		return (ArrayList)sqlSession.selectList("boardMapper.selectNoticeList", null, rowBounds);
 	}
+	
+	public int insertNoticeBoard(SqlSessionTemplate sqlSession, Board m) {
+		
+		return sqlSession.insert("boardMapper.insertNoticeBoard", m);
+	}
+	
+	public int increaseNoticeCount(SqlSessionTemplate sqlSession, int boardNo) {
+		
+		return sqlSession.update("boardMapper.increaseNoticeCount", boardNo);
+	}	
 	
 	
 	

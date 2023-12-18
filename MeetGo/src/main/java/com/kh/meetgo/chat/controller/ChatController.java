@@ -176,10 +176,11 @@ public class ChatController {
     }
 
     @GetMapping(value = "/insertChatRoom")
-    public String insertChatRoom(HttpSession session, String gno){
+    public String insertChatRoom(HttpSession session, String gno, Model model){
+        Member m = (Member)session.getAttribute("loginUser");
         if(session.getAttribute("loginUser") != null && gno != null){
             Map<String, Integer> params = new HashMap<>();
-            params.put("userNo", ((Member)session.getAttribute("loginUser")).getUserNo());
+            params.put("userNo", m.getUserNo());
             params.put("gosuNo", Integer.valueOf(gno));
             Chatroom chatroom = chatService.checkChatRoom(params);
             if(chatroom == null) {
@@ -188,12 +189,18 @@ public class ChatController {
                 chatroom.setUserNo(((Member)session.getAttribute("loginUser")).getUserNo());
                 int result = chatService.insertChatRoom(chatroom);
                 if(result > 0) {
-                    return "redirect:/chat.ct?type=All&chatroomNo="+chatroom.getChatroomNo();
+                    model.addAttribute("chatroomNo", chatroom.getChatroomNo());
+                    m.setUserStatus(1);
+                    session.setAttribute("loginUser", m);
+                    return "redirect:/chat.ct?type=All";
                 } else {
                     return "commom/errorPage";
                 }
             }
-            return "redirect:/chat.ct?type=All&chatroomNo="+chatroom.getChatroomNo();
+            model.addAttribute("chatroomNo", chatroom.getChatroomNo());
+            m.setUserStatus(1);
+            session.setAttribute("loginUser", m);
+            return "redirect:/chat.ct?type=All";
         }
         return "commom/errorPage";
     }

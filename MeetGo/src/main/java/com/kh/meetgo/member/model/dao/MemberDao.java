@@ -1,7 +1,12 @@
 package com.kh.meetgo.member.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.kh.meetgo.gosu.model.vo.*;
+import com.kh.meetgo.member.model.dto.GosuInfoCntRequest;
+import com.kh.meetgo.member.model.dto.ServiceCategoryRequest;
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,10 +14,6 @@ import org.springframework.stereotype.Repository;
 import com.kh.meetgo.common.model.vo.PageInfo;
 import com.kh.meetgo.gosu.model.dto.EstimateDto;
 import com.kh.meetgo.gosu.model.dto.ReviewDto;
-import com.kh.meetgo.gosu.model.vo.Estimate;
-import com.kh.meetgo.gosu.model.vo.GosuImg;
-import com.kh.meetgo.gosu.model.vo.Review;
-import com.kh.meetgo.gosu.model.vo.ReviewImg;
 import com.kh.meetgo.member.model.vo.Gosu;
 import com.kh.meetgo.member.model.vo.Member;
 
@@ -246,4 +247,42 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.selectWishList",gosuNo);
 	}
 
+    public int deleteGosuImg(SqlSessionTemplate sqlSession, int gosuImgNo) {
+        return sqlSession.delete("memberMapper.deleteGosuImg", gosuImgNo);
+    }
+
+    public GosuInfoCntRequest gosuInfoDetailCnt(SqlSessionTemplate sqlSession, int userNo) {
+        return sqlSession.selectOne("memberMapper.gosuInfoDetailCnt", userNo);
+    }
+
+    public ArrayList<CategorySmall> selectAllService(SqlSessionTemplate sqlSession, int userNo) {
+        return (ArrayList) sqlSession.selectList("memberMapper.selectAllService", userNo);
+    }
+
+    public ArrayList<ServiceCategoryRequest> selectAllServiceCategory(SqlSessionTemplate sqlSession) {
+        ArrayList<ServiceCategoryRequest> serviceCategoryRequests = new ArrayList<>();
+        ArrayList<CategoryBig> list = (ArrayList) sqlSession.selectList("memberMapper.selectAllBigCategory");
+        for (int i = 0; i < list.size(); i++) {
+            ServiceCategoryRequest data = new ServiceCategoryRequest();
+            data.setCategoryBig(list.get(i));
+            int categoryBigNo = list.get(i).getCategoryBigNo();
+            data.setCategorySmalls((ArrayList) sqlSession.selectList("memberMapper.selectAllSmallCategory", categoryBigNo));
+            serviceCategoryRequests.add(data);
+        }
+        return serviceCategoryRequests;
+    }
+
+    public int insertGosuService(SqlSessionTemplate sqlSession, String categorySmallNo, int userNo) {
+        Map<String, Integer> params = new HashMap<>();
+        params.put("categorySmallNo", Integer.valueOf(categorySmallNo));
+        params.put("userNo", userNo);
+        return sqlSession.insert("memberMapper.insertGosuService", params);
+    }
+
+    public int deleteGosuService(SqlSessionTemplate sqlSession, String categorySmallNo, int userNo) {
+        Map<String, Integer> params = new HashMap<>();
+        params.put("categorySmallNo", Integer.valueOf(categorySmallNo));
+        params.put("userNo", userNo);
+        return sqlSession.delete("memberMapper.deleteGosuService", params);
+    }
 }

@@ -15,6 +15,7 @@
         font-weight: 400;
         font-style: normal;
     }
+    
     .wrap { font-family: 'Pretendard-Regular'; 
     
     } 
@@ -58,7 +59,7 @@
     height: 40px;
     box-sizing: border-box;
     width: 20%;
-    float: right;
+    text-align: right;
 }
 .gosu_main{
 
@@ -176,11 +177,15 @@ table, th, td {
                 <hr>
             </div>
             <div class="gosu_body_1_3">
-                &nbsp;&nbsp;  &nbsp;
-                <b>글쓴이</b> &nbsp;&nbsp; &nbsp;&nbsp;
-                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                
+                
                 <b>작성일</b>
-                <hr>
+                
+                 &nbsp;&nbsp; &nbsp;&nbsp;
+                <b>조회수</b>
+                &nbsp;
+                
+                
          </div>
         </div>
        
@@ -193,7 +198,7 @@ table, th, td {
                         <i class="bi bi-megaphone-fill"></i>
                     </th>
                     <th class="gosu_notice">게시판 이용안내 및 주의사항 </th>
-                    <th style="text-align: center; padding-left: 9px;">관리자</th>
+               
                     <th style="text-align: center;">2023-11-28</th>
                     
                     
@@ -203,18 +208,22 @@ table, th, td {
            <table class="boardList">
             <c:forEach var="m" items="${ requestScope.list }">
               		<tr onclick="sendGosuReqDetail( ${m.boardNo} )">
-       
-                    <td class="bno">
-                        ${m.boardNo}
+       				
+       				
+       				 <td class="bno">
+                     &nbsp; &nbsp; &nbsp;  ${m.boardNo}
                     </td>
-                    <td class="gosu_content_2">
-                         ${m.boardTitle} </td>
-                 
+                    <td class="gosu_content_2" style="padding-left : px;">
+                       ${m.boardTitle} </td>
+                	
                     <td class="gosu_content_4"
                     style="text-align: center;"
                     >  ${m.createDate}
                    
-                    </td>            
+                    </td>    
+                      <td class="gosu_content_2" style="width:40px;">
+                         ${m.boardCount} </td>
+                	        
                </tr>
                
                </c:forEach>

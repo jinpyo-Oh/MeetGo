@@ -9,120 +9,120 @@
 <head>
 	<title>MeetGo 관리자 메인 페이지</title>
 <style>
-	#main{
-		display: flex;
-	}
-	#myChart{
-		width:800px;
-		height:800px;
-		float:left;
-	}
-	#chart1{
-		width:700px;
-		height:800px;
-		float:left;
-	}
-	#chartdiv {
-		width: 700px; /* Set the desired width */
-	    height: 440px; /* Set the desired height */
-	    margin: auto;
-	    float:right;
-	    box-sizing: border-box;
-	}
-	#chart2{
-		width:800px;
-		height:400px;
-	}
-</style>
+    #main {
+      display: flex;
+    }
+
+    #chart1 {
+      width: 850px;
+      height: 800px;
+      float: left;
+    }
+
+    #chart2 {
+      width: 850px;
+      height: 800px;
+      float: right;
+    }
+    
+    #myChart{
+    	width:700px;
+    	height: 800px;
+    }
+    
+    #lineChart{
+    	width: 700px;
+    	height: 800px;
+    }
+    
+  </style>
 </head>
 <body>
-    <jsp:include page="adminHeader.jsp"/>
-	<div style="width: 80%; margin: auto; text-align:center">
-		
-		<br>
-		
-		<h1>메인페이지</h1>
-		
-		<br>
-		<div id="main">
-			<div id="chart1" style="text-align:center">
-				<h4 style="width:800px;">회원가입추이(6개월)</h4> <br>
-		  		<canvas id="myChart"></canvas>
-			</div>
-			<div id="chart2" style="text-align:center">
-				<h4>수익 추이</h4>
-				<div id="chartdiv"></div>
-			</div>
-		</div>
-		
-	</div>
-	
-	<script>
-    var labels = [];
-    var dataValues = [];
+  <jsp:include page="adminHeader.jsp" />
+  <div style="width: 80%; margin: auto; text-align:center">
+    <br><br>
+    <h1>메인페이지</h1>
+    <br><br>
+    <div id="main">
+      <div id="chart1" style="text-align:center">
+        <h4 style="width:100%;">회원가입 현황</h4> <br>
+        <canvas id="myChart" width="750px;" height="550px;"></canvas>
+      </div>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div id="chart2" style="text-align:center">
+        <h4 style="width:100%;">수익 현황</h4> <br>
+        <canvas id="lineChart" width="750px;" height="550px;"></canvas>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var labels1 = [];
+    var dataValues1 = [];
 
     <c:forEach var="chartMemberDto" items="${requestScope.list1}">
-        labels.push('${chartMemberDto.month}월');
-        dataValues.push(${chartMemberDto.count});
+      labels1.push('${chartMemberDto.month}월');
+      dataValues1.push(${chartMemberDto.count});
     </c:forEach>
 
-    // Your existing chart initialization code
-    const ctx = document.getElementById('myChart');
+    var ctx1 = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx1, {
+      type: 'bar',
+      data: {
+        labels: labels1,
+        datasets: [{
+          label: '회원 수',
+          data: dataValues1,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
+    // 2번 차트
+    var ctx2 = document.getElementById('lineChart').getContext('2d');
+        var lineChartData = {
+            labels: [],
             datasets: [{
-                label: '회원 수',
-                data: dataValues,
-                borderWidth: 1
+                label: 'Monthly Sales',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: false
             }]
-        },
-        options: {
+        };
+
+        <c:forEach var="dataPoint" items="${requestScope.list2}">
+            lineChartData.labels.push('${dataPoint.month}'); // Assuming month is a string
+            lineChartData.datasets[0].data.push(${dataPoint.count});
+        </c:forEach>
+
+        var lineChartOptions = {
             scales: {
+                x: {
+                    type: 'category',
+                    labels: lineChartData.labels
+                },
                 y: {
-                    beginAtZero: true
+                    type: 'linear',
+                    position: 'left'
                 }
             }
-        }
-    });
-    
-    var chartData = [];
-    <c:forEach var="dataPoint" items="${requestScope.list2}">
-        chartData.push({
-            "value": ${dataPoint.count},
-            "months": ${dataPoint.month}
+        };
+
+        var lineChart = new Chart(ctx2, {
+            type: 'line',
+            data: lineChartData,
+            options: lineChartOptions
         });
-    </c:forEach>
-
-    // Create chart instance
-    var chart = am4core.create("chartdiv", am4charts.XYChart);
-
-    // Add data dynamically
-    chart.data = chartData;
-
-    // Create a date axis and a value axis
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-    // Create a series for the smoothed line chart
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.dateX = "months";
-    series.dataFields.valueY = "value";
-
-    // Enable smoothing for the series
-    series.tensionX = 0.8;
-    series.tensionY = 0.8;
-
-    // Add a cursor
-    chart.cursor = new am4charts.XYCursor();
-
-    // Add scrollbar
-    chart.scrollbarX = new am4core.Scrollbar();
-
-    // Add legend
-    chart.legend = new am4charts.Legend();
-</script>
+  </script>
 </body>
 </html>

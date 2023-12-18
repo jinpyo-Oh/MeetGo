@@ -53,10 +53,10 @@
         <div style="text-align: center; width: 60%; margin: auto;">
             <br>
             <br>
-            <a class="back" href="estimate.me" style="text-decoration: none;"><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</a>
-            <br>
-			<div align="center">
-	            <h2>계약서</h2>
+            <a class="back" href="estimate.me" style="text-decoration: none;"><h5><i class="fas fa-chevron-left"></i>&nbsp; 목록으로</h5></a>
+            <br><br>
+			<div align="center;" style="text-align:center; margin: auto;">
+	            <h2 align="center;">계약서</h2>
 			</div>
        
     		<br>
@@ -128,16 +128,16 @@
             		<c:when test="${ sessionScope.loginUser.userNo ne requestScope.est.gosuNo }">
 		                <c:choose>
 		                   <c:when test="${ requestScope.est.status eq 3 }">
-		                       <button class="btn btn-success btn-sm" id="apibtn">결제</button> 
+		                       <button class="btn btn-success" id="apibtn">결제</button> 
 		                   </c:when>
 		                   <c:when test="${ requestScope.est.status eq 4 }">
-		                       <button class="btn btn-success btn-sm" id="combtn">서비스 완료</button> 
+		                       <button class="btn btn-success" id="combtn" style="margin-bottom: 3px;">서비스 완료</button> 
 		                       <br><br>
+						       <div style="float : right;">완료 시 버튼을 꼭 눌러주세요.</div>
 		                      
-						       <div style="float : right;">서비스 완료 시 버튼을 꼭 눌러주세요.</div>
 		                   </c:when>
 		                   <c:otherwise>
-		                       <button class="btn btn-success btn-sm" id="apibtn" style="display: none;">결제</button> 
+		                       <button class="btn btn-success" id="apibtn" style="display: none;">결제</button> 
 		                   </c:otherwise>
 						</c:choose>	
             		</c:when>

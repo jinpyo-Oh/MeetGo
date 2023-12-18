@@ -252,25 +252,119 @@ public class BoardController {
 
 	
 	// 팁노하우 게시판 상세 조회
-	@RequestMapping("tipDetail.bo")
-	public ModelAndView selectTipBoard(String bno, 
-									ModelAndView mv) {
+		@RequestMapping("tipDetail.bo")
+		public ModelAndView selectTipBoard(String bno, ModelAndView mv) {
+
+			bno = bno.trim();
+
+		    try {
+		        
+		    	int boardNo = Integer.parseInt(bno);
+		    	
+		        int result = boardService.increaseTipCount(boardNo);
+
+		      
+		        if (result > 0) {
+		            
+		        	BoardFileDto m = boardService.selectTipBoard(boardNo);
+		           
+		        	  System.out.println(m);
+		        	
+		        	ArrayList<BoardFileDto> dtoList = boardService.selectTipImgList(boardNo);
+		        	
+		        	
+		        			mv.addObject("m", m)
+		                    .addObject("dtoList", dtoList)
+		                    .setViewName("board/tip/tipDetail");
+		        } else {
+		            mv.addObject("errorMsg", "게시글 상세조회 실패")
+		                    .setViewName("common/errorPage");
+		        }
+		    } catch (NumberFormatException e) {
+		        // 숫자로 변환에 실패한 경우에 대한 처리
+		        mv.addObject("errorMsg", "게시글 번호가 올바르지 않습니다.")
+		                .setViewName("common/errorPage");
+		    }
+
+		    return mv;
+		}
 	
-		int boardNo = Integer.parseInt(bno); 
+	
+	@GetMapping("noticeList.bo")
+	public ModelAndView selectNoticeList(
+			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+			ModelAndView mv) {
+		
+		int listCount = boardService.selectNoticeListCount();
+		
+		int pageLimit = 5;
+		int boardLimit = 20;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, 
+					currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Board> list = boardService.selectNoticeList(pi);
 		
 		
-		int result = boardService.increaseTipCount(boardNo);
+		mv.addObject("list", list)
+		  .addObject("pi", pi)
+		  .setViewName("board/notice/noticeList");
+		  return mv;
 		
+	}
+	
+	@GetMapping("noticeWrite.bo")
+	public String noticeWrite() {
+		
+		return "board/notice/noticeWrite";
+	}
+
+	
+	@PostMapping("noticeInsert.bo")
+	public String insertNoticeBoard(	
+							  Board m,
+							  HttpSession session,
+							  Model model,
+							  @SessionAttribute("loginUser") Member loginUser
+							  
+							  ) {
+		
+		int userNo = loginUser.getUserNo();
+			
+		m.setUserNo(userNo);
+
+		int result = boardService.insertNoticeBoard(m);
 		
 		if(result > 0) { 
 			
-			Board m = boardService.selectTipBoard(boardNo);
+			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
 			
-			ArrayList<BoardFileDto> dtoList = boardService.selectTipImgList(boardNo);
+			return "redirect:/noticeList.bo"; 
+			
+		} else { 
+			
+			
+			model.addAttribute("errorMsg", "게시글 등록 실패");
+			
+			return "common/errorPage";
+		}
+	}
+
+	@RequestMapping("noticeDetail.bo")
+	public ModelAndView selectBoard(int bno, 
+									ModelAndView mv) {
+	
+		
+
+		int result = boardService.increaseNoticeCount(bno);
+		
+		if(result > 0) { 
+			
+			Board m = boardService.selectNoticeBoard(bno);
+			
 			
 			mv.addObject("m", m)
-			  .addObject("dtoList", dtoList)
-			  .setViewName("board/tip/tipDetail"); 
+			  .setViewName("board/notice/noticeDetail"); 
 			
 		} else { 
 			
@@ -280,83 +374,6 @@ public class BoardController {
 		
 		return mv;
 	}
-	
-	
-//	@GetMapping("noticeList.bo")
-//	public ModelAndView selectNoticeList(
-//			@RequestParam(value = "cpage", defaultValue = "1") int currentPage,
-//			ModelAndView mv) {
-//		
-//		int listCount = boardService.selectNoticeListCount();
-//		
-//		int pageLimit = 5;
-//		int boardLimit = 20;
-//		
-//		PageInfo pi = Pagination.getPageInfo(listCount, 
-//						currentPage, pageLimit, boardLimit);
-//		
-//		ArrayList<Board> list = boardService.selectNoticeList(pi);
-//		
-//		
-//		mv.addObject("list", list)
-//		  .addObject("pi", pi)
-//		  .setViewName("board/notice/noticeList");
-//		return mv;
-//	}
-	
-	@GetMapping("noticeWrite.bo")
-	public String noticeWrite() {
-		
-		return "board/tip/noticeWrite";
-	}
-	
-//	
-//	@PostMapping("noticeInsert.bo")
-//	public String insertNoticeBoard(		
-//							  HttpSession session,
-//							  Model model,
-//							  @SessionAttribute("loginUser") Member loginUser,
-//							  String boardTitle,
-//							  String boardContent
-//							  ) {
-//		
-//		int userNo = loginUser.getUserNo();
-//			
-//	
-//		
-//		int result1 = boardService.insertGosuReqBoard(gosuReq);
-//		
-//		int boardNo = gosuReq.getBoardNo();
-//		
-//	
-//		try {	
-//		
-//			 {
-//		
-//				
-//		
-//			}
-//		
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//	
-//		}
-//
-//		if(result1 * result2 > 0) { 
-//			
-//			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
-//			
-//			return "redirect:/gosuList.bo"; // 첫 페이지로 이동
-//			
-//		} else { 
-//			model.addAttribute("errorMsg", "게시글 등록 실패");
-//			
-//			return "common/errorPage";
-//		}
-//		
-//	}
-
-	
 	
 	@RequestMapping("sendPofol.po")
 	public String sendPofolList() {
