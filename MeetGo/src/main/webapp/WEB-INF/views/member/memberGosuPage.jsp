@@ -21,6 +21,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            width: 100%;
         }
 
         .gosu-page {
@@ -37,14 +38,15 @@
         }
 
         .profile-img {
-            width: 300px;
-            height: 300px;
+            width: 250px;
+            height: 250px;
         }
 
         .img {
-            width: 300px;
-            height: 300px;
+            width: 250px;
+            height: 250px;
             border-radius: 30px;
+            object-fit: cover;
         }
 
         .overview {
@@ -53,7 +55,7 @@
             justify-content: space-around;
             align-items: center;
             width: 100%;
-            margin-top: 0px;
+            padding: 0 30px;
         }
 
         .item {
@@ -96,7 +98,7 @@
         }
 
         .my-profile-name {
-            font-size: .875rem;
+            font-size: 18px;
             font-weight: 500;
             line-height: 1.43;
             gap: 1rem;
@@ -119,7 +121,7 @@
             gap: 1rem;
             justify-content: flex-end;
             align-items: center;
-            font-size: .875rem;
+            font-size: 18px;
             font-weight: 600;
             line-height: 1.43;
             flex: 1;
@@ -138,10 +140,13 @@
         }
 
         .service {
-            background-color: #00c7ae;
-            border-radius: 30px;
+            background-color: #2A8FF7;
+			border: 1px solid #1673d1;
+			margin: 5px;
+            border-radius: 10px;
             padding: 10px 20px;
-            color: #f2f2f2;
+            color: white;
+			position: relative;
         }
 
         .container {
@@ -159,7 +164,7 @@
 
         .file-body {
             position: relative;
-			width: 800px;
+            width: 800px;
         }
 
         .value-text {
@@ -327,8 +332,9 @@
             text-align: center;
             background-color: #f9f9f9; /* 배경색 추가 */
             transition: border 0.3s ease-in-out; /* 경계선 변화에 애니메이션 적용 */
-			box-sizing: border-box;
-			margin: 0;
+            box-sizing: border-box;
+            margin: 0;
+
             &:hover {
                 border: 2px dashed #00796b;
             }
@@ -347,33 +353,50 @@
             width: 100%;
             height: 100%;
         }
-        .gosu-img-card{
+
+        .gosu-img-card {
             position: relative;
             display: inline-block;
             width: 130px;
             height: 130px;
             border-radius: 10px;
             margin: 20px;
+			padding: 10px 10px 0 0;
         }
+
         .delete-img-icon {
-            position:absolute;
-            right: 5px;
-            top: 5px;
-            width: 20px!important;
-            height: 20px!important;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px !important;
+            height: 20px !important;
             cursor: pointer;
         }
-		.potolist{
-			width: 800px;
-			
+		.service-card {
+			position: relative;
+			padding : 5px 5px 0 0;
+		}
+        .potolist {
+            width: 800px;
+
+        }
+		.service-icon{
+			position: absolute;
+			width: 20px;
+			height: 20px;
+			right: 0;
+			top: 0;
+			cursor: pointer;
 		}
 	</style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
+<jsp:include page="../member/serviceCategory.jsp"/>
 <script>
     $(function () {
         selectAllGosuImg();
+        selectAllService();
     })
 </script>
 <div class="gosu-page">
@@ -388,24 +411,40 @@
 		<div class="info">
 			<ul class="overview">
 				<li class="item">
-					<div class="point">0</div>
-					<div class="label">리뷰평점</div>
+					<div class="point" id="reviewAvg">0</div>
+					<div class="label">리뷰 평점</div>
 				</li>
 				<li class="item">
-					<div class="point">0</div>
-					<div class="label">리뷰수</div>
+					<div class="point" id="reviewCnt">0</div>
+					<div class="label">리뷰 수</div>
 				</li>
 				<li class="item">
-					<div class="point">0</div>
-					<div class="label">고용수</div>
+					<div class="point" id="employmentCnt">0</div>
+					<div class="label">고용 수</div>
 				</li>
 			</ul>
 			<div class="btn">
-				<a class="btn1">활동분석</a>
-				<a class="btn2">미리보기</a>
+				<a class="btn1 meetgo-btn">활동분석</a>
+				<a class="btn2 meetgo-btn">미리보기</a>
 			</div>
 		</div>
 	</div>
+	<script>
+		$.ajax({
+			url : "gosuInfoDetailCnt.me",
+			method : "get",
+			dataType: "json",
+			success : function (data){
+                $('#reviewAvg').text(data.reviewAvg);
+                $('#reviewCnt').text(data.reviewCnt);
+                $('#employmentCnt').text(data.employmentCnt);
+   				console.log(data);
+			},
+			error : function (){
+                console.log("고수 정보 카운트 실패")
+			}
+		})
+	</script>
 	<div class="my-profile-name">
 		<div class="comp-hader">
 			<div class="hading">
@@ -424,41 +463,75 @@
 			</div>
 		</div>
 	</div>
-	<div class="my-profile-name">
-		<div class="comp-hader">
-			<div class="hading">
-				<h2>대표서비스</h2>
-				<div class="action-group-wapper">
-				
-				</div>
-			</div>
-		</div>
-		<div class="info">
-			<div class="value">
-				<p>편의점 심부름</p>
-			</div>
-		</div>
-	</div>
 	
 	<div class="my-profile-name">
 		<div class="comp-hader">
 			<div class="hading">
-				<h2>제공서비스</h2>
+				<h2>제공 서비스</h2>
 				<div class="action-group-wapper">
-					<div class="type">
-						<div class="update" onclick="openServiceModal()">
-							수정
-						</div>
-					</div>
 				</div>
 			</div>
-		</div>
+		</div><br>
 		<div class="info">
-			<div class="value">
-				<a class="service" href="addService.me">+서비스 추가</a>
+			<div class="service-area" style="flex-wrap: wrap; display: flex">
+			
 			</div>
+			
 		</div>
 	</div>
+	<script>
+		function selectAllService(){
+            $('.service-area').empty();
+            $.ajax({
+				url : "selectAllService.me",
+				method : "get",
+				dataType : "json",
+				data : {},
+				success : function (data){
+    				console.log(data);
+                    for (let i = 0; i < data.length; i++) {
+						let service = data[i];
+                        let content =
+							'<div class="service-card">' +
+                            '<button class="service">'+data[i].categorySmallName+'</button>' +
+							'<img class="service-icon" onclick="deleteService('+data[i].categorySmallNo+')" src="<%=request.getContextPath()%>/resources/images/common/minus-icon.png">'
+                            '</div>';
+						$('.service-area').append(content);
+                    }
+                    let content =
+						'<div class="value">' +
+                        '<button class="service meetgo-btn" onclick="displayShow()">+ 서비스 추가</button>' +
+                		'</div>';
+                    $('.service-area').append(content);
+				},
+				error : function (){
+                    console.log("서비스 조회 실패");
+				}
+			})
+		}
+        function deleteService(serviceNo){
+            if(!confirm("서비스를 삭제하시겠습니까?")){
+                return;
+			}
+        	$.ajax({
+				url : "deleteGosuService.me",
+				method : "get",
+				data : {
+                    categorySmallNo : serviceNo
+				},
+				success : function (){
+                    selectAllService();
+                    alert("서비스 삭제 성공");
+				},
+				error : function (){
+                  console.log("서비스 삭제 실패")
+				}
+			})
+		}
+        function displayShow(){
+            $('#modalServiceCategory').css("display", "block");
+		}
+	</script>
 	<form action="introductionUpdate.me">
 		<div class="my-profile-name">
 			<div class="comp-hader">
@@ -695,21 +768,18 @@
 	
 	<div class="my-profile-name">
 		<div class="comp-hader">
-			<div class="hading">
-				<h2 align="left">고수 소개 이미지</h2>
-			</div>
-		
+			<h2>고수 소개 이미지</h2>
+			<div>고수 소개 이미지는 7개까지 등록 가능합니다.</div>
 		</div>
 		<div class="info">
 			<div class="value">
-				<div>고수 소개 이미지는 7개까지 등록 가능합니다.</div>
 				<div class="media-body">
 					<ul>
 						<li>
 							<div class="file-body">
 								
 								<div class="potolist">
-        
+								
 								</div>
 							</div>
 						</li>
@@ -718,8 +788,8 @@
 				</div>
 			</div>
 		</div>
-		</form>
 	</div>
+	<input type="hidden" id="potoListSize"></div>
 </div>
 <jsp:include page="../common/footer.jsp"/>
 
@@ -742,7 +812,8 @@
             contentType: false,
             data: formData,
             success: function (result) {
-
+                $('#potoListSize').val($('#potoListSize').val() + 1);
+                selectAllGosuImg();
             },
             error: function () {
                 alert("파일 업로드 실패");
@@ -751,6 +822,7 @@
     }
 
     function selectAllGosuImg() {
+        $('.potolist').empty();
         $.ajax({
             url: "selectAllGosuImg",
             method: "GET",
@@ -760,25 +832,47 @@
                 $('#potoListSize').val(data.length);
                 for (let i = 0; i < data.length; i++) {
                     let gosuImg = data[i];
+                    let id = "uploadedImage" + gosuImg.gosuImgNo;
                     let content = '<div class="gosu-img-card">' +
-                                    '<img class="poto1" id="uploadedImage' + gosuImg.gosuImgNo + '"src="' + gosuImg.gosuImgUrl + '">' +
-                                    '<img class="delete-img-icon" src="<%=request.getContextPath()%>/resources/images/common/delete-icon.png">' +
-                                '</div>' ;
+                        '<img class="poto1" id="' + id + '"src="' + gosuImg.gosuImgUrl + '">' +
+                        '<img class="delete-img-icon" onclick="deleteGosuImg(' + id + ')" src="<%=request.getContextPath()%>/resources/images/common/delete-icon.png">' +
+                        '</div>';
                     $('.potolist').append(content);
                 }
-	
+
                 let content = '<div class="gosu-img-card"><label class="file-upload-container">' +
-					'<span class="plus-icon">+</span>' +
-					'<input type="file" id="uploadFiles" onChange="loadFile(this);">' +
-                    '</label>' +
-                    '<input type="hidden" id="potoListSize"></div>';
+                    '<span class="plus-icon">+</span>' +
+                    '<input type="file" id="uploadFiles" onChange="loadFile(this);">' +
+                    '</label>';
                 $('.potolist').append(content);
-                
+
             },
             error: function () {
                 alert("파일 업로드 에러");
             }
         });
+    }
+
+    function deleteGosuImg(id) {
+        if (!confirm("사진을 삭제하시겠습니까?")) {
+            return;
+        }
+        $(id).closest('.gosu-img-card').remove();
+        let gosuImgNo = $(id).attr('id').match(/uploadedImage(\d+)/)[1];
+
+        $.ajax({
+            url: "deleteGosuImg.me",
+            method: "GET",
+            data: {
+                gosuImgNo: gosuImgNo
+            },
+            success: function () {
+                selectAllGosuImg();
+            },
+            error: function () {
+                console.log("사진 삭제 실패");
+            }
+        })
     }
 </script>
 

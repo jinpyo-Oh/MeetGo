@@ -265,7 +265,7 @@
         where USER_NO = ${userNo} and GOSU_NO = ${gosuNo}
     </select>
     <insert id="insertChatRoom" parameterType="chatroom" useGeneratedKeys="true" keyColumn="CHATROOM_NO" keyProperty="chatroomNo">
-        insert into CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-        values (SEQ_CHATROOM_NO.nextval, sysdate, ${userNo}, ${gosuNo})
+        insert into CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO, CHATROOM_STATUS)
+        values (SEQ_CHATROOM_NO.nextval, sysdate, ${userNo}, ${gosuNo},1)
     </insert>
 </mapper>

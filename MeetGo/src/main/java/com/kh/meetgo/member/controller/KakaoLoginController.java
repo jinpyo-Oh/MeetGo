@@ -38,7 +38,7 @@ public class KakaoLoginController {
         } else {
             int result = memberService.insertKakaoMember(member);
         }
-        session.setAttribute("loginUser", member);
+        session.setAttribute("loginUser", member1);
         return "redirect:/";
     }
 }

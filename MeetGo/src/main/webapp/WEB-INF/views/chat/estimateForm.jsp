@@ -16,7 +16,7 @@
         display: none;
     }
 
-    .estimate_content {
+    .service_content {
         width: 40%;
         height: 90%;
         margin: 2% auto 0 auto;
@@ -32,21 +32,21 @@
 		height: 25px;
         cursor: pointer;
 	}
-    .estimate_content::-webkit-scrollbar {
+    .service_content::-webkit-scrollbar {
         width: 10px;
     }
-    .estimate_content::-webkit-scrollbar-thumb {
+    .service_content::-webkit-scrollbar-thumb {
         background-color: #808080;
         border-radius: 10px;
         background-clip: padding-box;
         border: 2px solid transparent;
     }
-    .estimate_content::-webkit-scrollbar-track {
+    .service_content::-webkit-scrollbar-track {
         background-color: #fdfdfd;
         border-radius: 10px;
         box-shadow: inset 0px 0px 5px white;
     }
-    .estimate_content p {
+    .service_content p {
         margin: 0;
     }
 
@@ -231,7 +231,7 @@
 
 <div id="modalWrapEstEnroll">
 	
-	<div class="estimate_content">
+	<div class="service_content">
 		<div class="est-header">
 			<h1>계약서</h1>
 			<img id="est-cancel" onclick="displayNone()" src="https://cdn.icon-icons.com/icons2/1524/PNG/512/x_106506.png">
