@@ -298,7 +298,7 @@
 				<i onclick="enrollGosuLike()" id="gosuLikeIco" class="bi bi-heart-fill"></i>
 			</div>		
 		</c:if>	
-			<button type="button" id="btn-requestService" onclick="location.href='insertChatRoom?gno='+${requestScope.gno}">견적요청</button>
+			<button type="button" id="btn-requestService" onclick="location.href='insertChatRoom?gno=${requestScope.list[0].gosu.gosuNo}'">견적요청</button>
 		<br><br>
 		<hr>
 	</div>
