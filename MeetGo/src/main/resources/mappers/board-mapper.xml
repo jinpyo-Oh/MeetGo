@@ -86,16 +86,13 @@
 			        BOARD_CONTENT,
 			        BOARD_CREATE_DATE,
 			        USER_NO,
-			        BOARD_TYPE
-			       
-			        )
+			        BOARD_TYPE)
 			         VALUES(SEQ_BOARD_NO.NEXTVAL
 			         ,#{boardTitle}
 			         ,#{boardContent}
 			         ,SYSDATE
 			         ,#{userNo}
 			         ,1
-			      e
 			        )
 			        
 	</insert>	
@@ -524,7 +521,16 @@
 		DELETE FROM POFOL_IMG
 		WHERE POFOL_NO = #{pofolNo}
 	</delete>
-
+	<select id="countAllMyPost" parameterType="_int" resultType="_int">
+		select COUNT(*)
+		from BOARD
+		where USER_NO = #{userNo}
+	</select>
+	<select id="selectAllMyPost" parameterType="_int" resultMap="boardResultSet">
+		select *
+		from BOARD
+		where USER_NO = #{userNo}
+	</select>
 </mapper>
 
 

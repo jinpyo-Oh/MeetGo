@@ -115,15 +115,7 @@
                 <a class="btn" href="myPageInfo.me">계정설정</button>
             </a>
         </div>
-        <hr>
-        <div class="body">
-            <ul>
-                <li class="mypage">결제내역</li>
-                <a href="">
-                    <li class="mypage-mini">결제 내역 바로가기  <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"></li>
-                </a>  
-            </ul>
-            <hr>
+
              <ul>
                 <li class="mypage">찜 목록</li>
                 <a href="wishilst.me">

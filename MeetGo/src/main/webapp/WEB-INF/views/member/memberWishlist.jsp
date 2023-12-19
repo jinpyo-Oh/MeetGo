@@ -77,7 +77,10 @@
                 method : "get",
                 data : {},
                 success : function (data){
-                    console.log(data);
+                    if(data.length == 0){
+                        let content = '<div style="text-align: center; font-size: 20px; height: 300px; line-height: 300px">찜한 고수가 없습니다.</div>'
+                        $('.wishList-area').append(content);
+                    }
                     for (let i = 0; i < data.length; i++) {
                         let content =
                                 '<div class="wishlist-item" name="wishlist">'+

@@ -142,7 +142,7 @@
             <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow3">
             <div class="item-info">
                 <p>********</p>
-                <input type="text" class="form-control" id="userPwd" Placeholder="변경할 비밀번호를 입력해주세요." name="userPwd" readonly required>
+                <input type="password" class="form-control" id="userPwd" Placeholder="변경할 비밀번호를 입력해주세요." name="userPwd" readonly required>
                 
             </div>
             
@@ -151,7 +151,6 @@
             <div class="item-title">
                 <p>휴대폰 전화번호</p>
             </div>
-            <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow4">
             
             <div class="item-info">
                 <p>${ sessionScope.loginUser.userPhone }</p>

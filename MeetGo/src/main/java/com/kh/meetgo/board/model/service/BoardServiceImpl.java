@@ -196,7 +196,17 @@ public class BoardServiceImpl implements BoardService {
 	public int deletePofolImg(int pofolNo) {
 		return boardDao.deletePofolImg(sqlSession, pofolNo);
 	}
-	
+
+	@Override
+	public int countAllMyPost(int userNo) {
+		return boardDao.countAllMyPost(sqlSession, userNo);
+	}
+
+	@Override
+	public ArrayList<Board> selectAllMyPost(PageInfo pi, int userNo) {
+		return boardDao.selectAllMyPost(sqlSession, pi, userNo);
+	}
+
 
 	@Override
 	public ArrayList<Reply> selectReplyList(int userNo) {
