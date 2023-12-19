@@ -542,7 +542,7 @@
 
 	<select id="selectAllBoard" parameterType="_int" resultMap="boardResultSet">
 		select *
-		from BOARD
+		 from BOARD
 		where BOARD_TYPE = ${type}
 	</select>
 

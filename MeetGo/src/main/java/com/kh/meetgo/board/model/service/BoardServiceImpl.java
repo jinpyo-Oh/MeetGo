@@ -233,6 +233,11 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectNoticeBoard(sqlSession, boardNo);
 	}
 
+	@Override
+	public int deleteBoard(int bno) {
+		return boardDao.deleteBoard(sqlSession, bno);
+	}
+
 	
 	
 	}

@@ -198,7 +198,7 @@
                 &nbsp;&nbsp;
                 <button class="btn btn-primary">수정하기</button> 
                 &nbsp;&nbsp;
-                <button class="btn btn-secondary">삭제하기</button>
+                <button class="btn btn-secondary" onclick="deleteboard('${ requestScope.m.boardNo }');">삭제하기</button>
             </c:if>
             
 
@@ -218,6 +218,15 @@
         
     </div>
     </div>
+    <script>
+		function deleteboard(bno) {
+			
+			
+			location.href = "deleteBoard.bo?bno=" + bno;
+			
+		}
+
+    </script>
     
     <jsp:include page="../../common/footer.jsp"/>
     

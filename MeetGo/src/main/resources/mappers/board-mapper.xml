@@ -65,6 +65,7 @@
 		SELECT COUNT(*)
 		  FROM BOARD
 		 WHERE BOARD_TYPE = 1
+		   AND BOARD_STATUS = 1 
 	</select>
 	
 	<!-- 고수찾아요 게시판 리스트 조회 -->
@@ -75,6 +76,7 @@
 			 , BOARD_COUNT
 		  FROM BOARD
 		 WHERE BOARD_TYPE = 1
+		   AND BOARD_STATUS = 1
 		 ORDER BY BOARD_NO DESC
 	</select>
 	
@@ -151,6 +153,7 @@
 		SELECT COUNT(*)
 		  FROM BOARD
 		 WHERE BOARD_TYPE = 2
+		   AND BOARD_STATUS = 1
 	</select>
 	
 	<!-- 팁노하우 게시판 리스트 -->
@@ -165,6 +168,7 @@
 		 FROM BOARD B
 		 LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
 		WHERE B.BOARD_TYPE = 2
+		  AND BOARD_STATUS = 1
 		ORDER BY B.BOARD_NO DESC
 	</select>		
 	
@@ -216,6 +220,7 @@
 		  FROM BOARD B
 		       LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
 		 WHERE B.BOARD_NO =  #{boardNo}
+		   
 	</select>
 	
 	<!-- 팁노하우이미지 -->
@@ -282,6 +287,7 @@
 		SELECT COUNT(*)
 		  FROM BOARD
 		 WHERE BOARD_TYPE = 3
+		   AND BOARD_STATUS = 1
 	</select>
 	
 
@@ -320,6 +326,7 @@
 		     	 WHERE BOARD.USER_NO = MEMBER.USER_NO) as "userNickname"
 		  FROM BOARD
 		   WHERE BOARD_TYPE = 3 
+		     AND BOARD_STATUS = 1
 	</select>		
 	
 	<update id="increaseNoticeCount" parameterType="_int">
@@ -342,6 +349,7 @@
 		  FROM BOARD
 		 WHERE BOARD_NO = #{boardNo}
 		   AND BOARD_TYPE = 3
+		   AND BOARD_STATUS = 1
 	</select>
 	
 	
@@ -532,6 +540,12 @@
 		from BOARD
 		where USER_NO = #{userNo}
 	</select>
+	
+	<update id="deleteBoard" parameterType="_int">
+		UPDATE BOARD
+		   SET BOARD_STATUS = '2'
+		 WHERE BOARD_NO = #{bno}
+	</update>
 </mapper>
 
 
