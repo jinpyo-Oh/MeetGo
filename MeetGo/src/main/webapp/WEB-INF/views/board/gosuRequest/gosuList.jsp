@@ -65,7 +65,7 @@
 
     width: 1000px;
     box-sizing: border-box;
-    height: 630px;
+    height: 530px;
     
 }
 table, th, td {
@@ -112,7 +112,7 @@ table, th, td {
 .gosu_footer{
     float: center;
     width: 1000px;
-    height: 100px;
+    height: 30px;
     box-sizing: border-box;
 
 }
@@ -145,12 +145,34 @@ table, th, td {
   color: #fff; /* You can set the hover text color to your preference */
 }
   
-  .gosu_content_2:hover {
-  	text-decoration : underline;
-  	cursor : pointer;
-  	
-   
-  }
+.gosu_content_2:hover {
+	text-decoration : underline;
+	cursor : pointer;
+	
+ 
+}
+
+.pagingBtn{
+	border: 0;
+	border-radius: 5px;
+	width: 30px;
+	height: 40px;
+	font-size: 20px;
+	color: white;
+	background-color: #2a91f7c0;
+	margin : 0px 3px;
+}
+.pageBtn{
+    border: 0;
+    border-radius: 5px;
+    width: 30px;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    background-color: #2a91f7c0;
+    margin : 0px 3px;
+}
+
 </style>
 </head>
 <body>
@@ -160,13 +182,25 @@ table, th, td {
 		
 		 <div class="wrap">
 
-        
+        <br><br>
+
         <div class="gosu_header">
         
             <br>
             <h2>고수찾아요</h2>
             <hr>
         </div>
+        
+        <a href="gosuWrite.bo" style="float:right;">
+     	<c:choose>
+		<c:when test="${  not empty sessionScope.loginUser }">
+        	<button type="submit" class="btn btn-primary">글작성</button>
+     	</c:when>
+     	</c:choose>
+        </a>
+        
+        <br><br>
+        
         <div class="gosu_body_1">
             <div class="gosu_body_1_1">
                 &nbsp;&nbsp; &nbsp;&nbsp; <b>No</b>
@@ -229,55 +263,37 @@ table, th, td {
            
             
        </div>
-       <a href="gosuWrite.bo">
-       	<c:choose>
-       		<c:when test="${  not empty sessionScope.loginUser }">
-		        <button type="submit" class="btn btn-primary">글작성</button>
-       		</c:when>
-       	</c:choose>
-        </a>
+        
        <div class="gosu_footer" >
     
 		</div>
-   		   <div id="pagingArea">
-                <ul class="pagination">
+  			<div id="pagingArea" align="center">
+               
+             	<c:choose>
+            		<c:when test="${ requestScope.pi.currentPage eq 1 }">
+                 		<button class="pagingBtn" href="#">&lt;</button>
+                	</c:when>
+                	<c:otherwise>
+                 		<button class="pagingBtn" href="gosuList.bo?cpage=${ requestScope.pi.currentPage - 1 }">&lt;</button>
+                	</c:otherwise>
+                </c:choose>
                 
-                	<c:choose>
-                		<c:when test="${ requestScope.pi.currentPage eq 1 }">
-	                    	<li class="page-item disabled">
-	                    		<a class="page-link" href="#">Previous</a>
-	                    	</li>
-                    	</c:when>
-                    	<c:otherwise>
-	                    	<li class="page-item">
-	                    		<a class="page-link" href="gosuList.bo?cpage=${ requestScope.pi.currentPage - 1 }">Previous</a>
-	                    	</li>
-                    	</c:otherwise>
-                    </c:choose>
-                    
-                    <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
-                    					 end="${ requestScope.pi.endPage }"
-                    					step="1">
-                    	<li class="page-item">
-                    		<a class="page-link" href="gosuList.bo?cpage=${ p }">${ p }</a>
-                    	</li>
-                    </c:forEach>
-                    
-                    <c:choose>
-                    	<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
-		                    <li class="page-item disabled">
-		                    	<a class="page-link" href="#">Next</a>
-		                    </li>
-		                </c:when>
-		                <c:otherwise>
-		                    <li class="page-item">
-		                    	<a class="page-link" href="gosuList.bo?cpage=${ requestScope.pi.currentPage + 1 }">Next</a>
-		                    </li>
-		                </c:otherwise>
-                	</c:choose>
+                <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
+                					 end="${ requestScope.pi.endPage }"
+                					step="1">
+                	<button class="pageBtn" href="gosuList.bo?cpage=${ p }">${ p }</button>
+                </c:forEach>
                 
-                </ul>
-            </div>
+                <c:choose>
+	               	<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
+	                 	<button class="pagingBtn" href="#">&gt;</button>
+	                </c:when>
+                <c:otherwise>
+                    <button class="pagingBtn" href="gosuList.bo?cpage=${ requestScope.pi.currentPage + 1 }">&gt;</button>
+                </c:otherwise>
+              	</c:choose>
+               
+           </div>
        </div>
       
 	    	<jsp:include page="../../common/footer.jsp"/>

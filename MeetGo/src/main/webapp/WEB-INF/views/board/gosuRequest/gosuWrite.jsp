@@ -21,7 +21,7 @@
 
  .wrap{
     width: 1000px;
-    height: 700px;
+    height: 800px;
     margin: auto;
     box-sizing: border-box;
  }
@@ -50,7 +50,6 @@
     opacity: 0.5;
     margin-top: 5px;
     margin-right: 10px;
-
  }
 
  .gosu_img_1{
@@ -75,6 +74,7 @@
     width: 1000px;
     height: 280px;
     box-sizing: border-box;
+    
 }
 #gosu_content{
     margin: auto; /* 가운데 정렬 스타일 추가 */
@@ -83,8 +83,10 @@
 *:focus {
     outline: 0;
 }
-textarea{
+.gosu_content > textarea {
     resize: none;
+    border: 1px solid lightgray;
+    border-collapse: 5px;
 }
 .input-file-button1,
     .input-file-button2,
@@ -111,22 +113,24 @@ textarea{
         <form id="gosuWrite" action="gosuInsert.bo" method="post" enctype="multipart/form-data"> 
 	     
 	     <input type="hidden" value="${sessionScope.loginUser}">
-        
+        <br>
+        	<br>
         <div class="gosu_title">
-        
+        	
             <div class="gosu_title_1">
                 <h4><b>&nbsp;&nbsp;&nbsp;고수찾기</b></h4>  
             </div>
             <div class="gosu_title_2">              
                 
-                <button type="submit" id="title_btn" style="float: right; font-size: 20px;">등록하기</button>
+                <button type="submit" id="title_btn" style="float: right; font-size: 20px;"><h5>등록하기</h5></button>
             </div>
         </div>
         
         <div class="gosu_img_1">
             &nbsp;&nbsp;<i class="bi bi-camera-fill" style="font-size: 27px;"></i>&nbsp;&nbsp;&nbsp; <span
-                id="fileCount">0</span>/5
+                id="fileCount">0</span>/5 &nbsp;&nbsp; 사진 5장 첨부 필수
         </div>
+        <br>
         <div class="gosu_img_2" style="text-align: center;">
             &nbsp;&nbsp;&nbsp;
             
@@ -140,6 +144,7 @@ textarea{
             &nbsp;&nbsp;&nbsp; 
             <img src="" id="profileImg5" width="150" height="150" onclick="handleImageClick('#gosutitle5');">   
         
+        	<br><br>
             
             <hr>
             
@@ -164,7 +169,7 @@ textarea{
             </label>
         </div>
         <br>
-        
+        <br>
         <div class="gosu_head"> <label for="title">
             &nbsp;&nbsp;&nbsp; <input type="text" name="boardTitle" id="title"
             placeholder="제목을 입력하세요."
@@ -175,15 +180,38 @@ textarea{
         <div class="gosu_category">
             &nbsp;&nbsp; 
                 &nbsp;&nbsp;&nbsp;&nbsp;
+                카테고리 &nbsp;&nbsp;   
                 <select name="" style="height: 30px; width: 150px;">
-                    <option value="new">카테고리</option>
-                    <option value="writer">레슨</option>
-                    <option value="title">코딩</option>
+                    <option value="new" selected>전체</option>
+                    <option value="writer">홈/리빙</option>
+                    <option value="title">취미/교육</option>
+                    <option value="title">건강/미용</option>
+                    <option value="title">디자인</option>
+                    <option value="title">이벤트</option>
+                    <option value="title">IT/개발</option>
+                    <option value="title">비즈니스</option>
+                    <option value="title">법률/행정</option>
+                    <option value="title">기타</option>
                 </select>&nbsp;&nbsp;&nbsp;&nbsp;
+                지역 &nbsp;&nbsp;
                 <select name="" style="height: 30px; width:150px;">
-                    <option value="new">지역명</option>
-                    <option value="writer">서울</option>
-                    <option value="title">경기</option>
+              		<option selected>전체</option>
+                    <option>서울</option>
+                    <option>인천</option>
+                    <option>대전</option>
+                    <option>대구</option>
+                    <option>부산</option>
+                    <option>울산</option>
+                    <option>광주</option>
+                    <option>경기</option>
+                    <option>강원</option>
+                    <option>충북</option>
+                    <option>충남</option>
+                    <option>전남</option>
+                    <option>전북</option>
+                    <option>경북</option>
+                    <option>경남</option>
+                    <option>제주</option>
                 </select>
                 <hr>
         </div>
@@ -192,7 +220,7 @@ textarea{
             <label for="content">
             <textarea id="content" class="form-control" name="boardContent" cols="30" rows="10" placeholder="&nbsp;&nbsp;고수를 쉽게 찾으려면 보다 구체적으로 적어주시면 더욱 빠르게 찾을 수 있습니다&#13;
             예) 드럼 레슨을 도와주실 고수분 찾아요 &#13; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;예)&nbsp;화장실 청소를 도와 줄 고수분 찾아요"
-            style="border: none; height: 200px; width: 900px; font-size: 20px; ;"></textarea>
+            style="border: 1px solid lightgray; height: 200px; width: 1000px; font-size: 20px; ;"></textarea>
         </label>
         </div>
    
@@ -200,7 +228,7 @@ textarea{
 
     </div>
 
-    	<jsp:include page="../../common/footer.jsp"/>
+    <jsp:include page="../../common/footer.jsp"/>
     
     <script>
         

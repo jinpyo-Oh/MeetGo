@@ -92,7 +92,7 @@
             </table>
 			
             <br><br>
-        	<div id="inCom">
+        	<div id="inCom" style="min-height: 500px;">
         		<h5 align="center" style="text-decoration: none;">√ 표시된 계약은 의뢰하신 계약입니다.</h5>
         		<br>
 	            <table class="table-hover" align="center">
@@ -114,10 +114,10 @@
 	            </table>
 	            
 	            <br><br><br><br>
-		            <div id="pagingArea">
-	            	
-	            	</div>
         	</div>
+            <div id="pagingArea">
+           	
+           	</div>
            
     </div>
     
@@ -184,7 +184,7 @@
 	                    	}
 		    				content += 
 		    				'</td>' +
-		    				'<td>채팅</td>' +
+		    				'<td><a class="btn btn-primary btn-sm" href="chat.ct?type=all">채팅</a></td>' +
 		    				'</tr>'
 			    				
 	    					$('#listBody').append(content);
