@@ -163,7 +163,7 @@
                 	<a href="noticeList.bo">
                    	 <li class="mypage-mini">공지사항<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                 	</a>
-                	<a href="Guide.me">
+                	<a href="guide.me">
                     	<li class="mypage-mini">믿고 안내<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                 	</a>
             </ul>

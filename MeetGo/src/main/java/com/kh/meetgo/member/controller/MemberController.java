@@ -107,7 +107,7 @@ public class MemberController {
 
         return "member/memberWishlist";
     }
-    @RequestMapping("Guide.me")
+    @RequestMapping("guide.me")
     public String memberGuide() {
 
         return "member/meegoGuide";
