@@ -356,12 +356,13 @@
 	
 	<!-- 포폴 리스트 전체조회 -->
 	<select id="selectPofolList" parameterType="hashMap" resultType="pofolOpt">
-        SELECT P.POFOL_NO AS "pofol.pofolNo",
+        SELECT DISTINCT P.POFOL_NO AS "pofol.pofolNo",
 			   P.POFOL_TITLE AS "pofol.pofolTitle",
 			   P.POFOL_VISITED AS "pofol.pofolVisited",
 			   P.POFOL_STATUS AS "pofol.pofolStatus",
                P.POFOL_SERVICE AS "pofol.pofolService",
 			   P.GOSU_NO AS "pofol.gosuNo",
+			   P.POFOL_CREATE_DATE AS "pofol.createDate",
                CS.CATEGORY_BIG_NO AS "categoryBigNo",
                CS.CATEGORY_SMALL_NAME AS "categorySmallName",
                PI.POFOL_IMG_URL AS "firstImg"
