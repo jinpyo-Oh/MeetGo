@@ -65,7 +65,10 @@ public class AdminBoardController {
     @ResponseBody
     @PostMapping(value = "adminInsertNotice.insert", produces = "text/json; charset=UTF-8")
     public void adminInsertNotice(MultipartFile boardImg, String boardTitle, String boardContent, HttpSession session) throws IOException {
-        String url = s3Uploader.upload(boardImg, "boardImg");
+        String url = "";
+        if(boardImg != null){
+            url = s3Uploader.upload(boardImg, "boardImg");
+        }
         Board board = new Board();
         board.setBoardTitle(boardTitle);
         board.setBoardContent(boardContent);

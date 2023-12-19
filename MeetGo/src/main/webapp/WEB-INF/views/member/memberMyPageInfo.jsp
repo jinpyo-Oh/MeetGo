@@ -14,6 +14,9 @@
           integrity="sha384-gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <style>
+        img {
+            object-fit: cover !important;
+        }
         .main {
             width: 600px;
             height: 1100px;

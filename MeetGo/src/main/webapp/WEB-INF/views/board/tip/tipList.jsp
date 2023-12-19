@@ -175,17 +175,21 @@
 			<br>
 			
 			<table class="tipList" style="width: 1000px; text-align:center;">
-				<tr>
-					<th style="widows: 15%"> 글번호</th>
-					<th style="widows: 25%"> 제목</th>
-					<th style="widows: 60%" colspan="2"> 내용</th>
-				</tr>
+				<thead>
+					<tr>
+						<th style="width: 15%"> 글번호</th>
+						<th style="width: 25%"> 제목</th>
+						<th style="width: 60%" colspan="2"> 내용</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+				</tbody>
 				<c:forEach var="m" items="${requestScope.dtoList}">
 					<tr id="concon">
 						<td class="bno">
 							<b style="font-size:30px;"> ${m.boardNo}</b>
 						</td>
-						
 						<td class="tip_content">
 							<b style="font-size:25px;">
 									${m.boardTitle}
@@ -211,7 +215,6 @@
 			<br><br><br>
 			
 			<div id="pagingArea" align="center">
-				
 				<c:choose>
 					<c:when test="${ requestScope.pi.currentPage eq 1 }">
 						<button class="pagingBtn" href="#">&lt;</button>
@@ -221,13 +224,11 @@
 						</button>
 					</c:otherwise>
 				</c:choose>
-				
 				<c:forEach var="p" begin="${ requestScope.pi.startPage }"
 						   end="${ requestScope.pi.endPage }"
 						   step="1">
 					<button class="pageBtn" href="tipList.bo?cpage=${ p }">${ p }</button>
 				</c:forEach>
-				
 				<c:choose>
 					<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
 						<button class="pagingBtn" href="#">&gt;</button>
@@ -237,19 +238,10 @@
 						</button>
 					</c:otherwise>
 				</c:choose>
-			
 			</div>
-		
-		
 		</div>
-	
 	</div>
-
-
 </div>
-
-
-
 
 <script>
     $("#concon").click(function () {

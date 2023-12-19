@@ -174,10 +174,7 @@
          <div class="main_body_3_1">
 			  
 			    
-			   <p id="textarea" 
-			    style="width:600px; height:250px; text-align:left; font-size:20px; background-color: transparent;" >
-				${requestScope.m.board.boardContent}
-				</p>
+			   <textarea id="textarea"style="width:900px; height: 100%; text-align:left; font-size:20px; background-color: transparent;" disabled>${requestScope.m.board.boardContent}</textarea>
 			    
 			    <hr>
 			</div>

@@ -17,6 +17,9 @@
 	
 	
 	<style>
+        img {
+            object-fit: cover !important;
+        }
         .info {
             display: flex;
             flex-direction: column;

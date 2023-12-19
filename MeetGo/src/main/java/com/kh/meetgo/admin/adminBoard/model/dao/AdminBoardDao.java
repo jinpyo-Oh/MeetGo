@@ -27,11 +27,14 @@ public class AdminBoardDao {
 
     public int insertNotice(SqlSessionTemplate sqlSession, String url, Board board) {
         int result1 = sqlSession.insert("adminMapper.insertNotice", board);
-        Map<String, Object> map = new HashMap<>();
-        map.put("boardNo", board.getBoardNo());
-        map.put("url", url);
-        System.out.println("map = " + map);
-        int result2 = sqlSession.insert("adminMapper.insertNoticeImg", map);
+        int result2 = 1;
+        if(!url.isEmpty()){
+            Map<String, Object> map = new HashMap<>();
+            map.put("boardNo", board.getBoardNo());
+            map.put("url", url);
+            System.out.println("map = " + map);
+            result2 = sqlSession.insert("adminMapper.insertNoticeImg", map);
+        }
         return result1*result2;
     }
 

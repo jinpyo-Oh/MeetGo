@@ -25,6 +25,9 @@
 	
 </head>
 <style>
+	img {
+		object-fit: cover !important;
+	}
     html, body {
         margin: 0;
         font-family: 'Noto Sans KR', sans-serif;

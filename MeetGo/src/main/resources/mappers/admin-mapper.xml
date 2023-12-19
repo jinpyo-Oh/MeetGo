@@ -544,11 +544,12 @@
 		select *
 		 from BOARD
 		where BOARD_TYPE = ${type}
+		order by BOARD_CREATE_DATE desc
 	</select>
 
 	<insert id="insertNotice" parameterType="board" useGeneratedKeys="true" keyColumn="BOARD_NO" keyProperty="boardNo">
-		insert into BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, USER_NO)
-		values (SEQ_BOARD_NO.nextval, #{boardTitle}, #{boardContent}, sysdate, sysdate, 0, 3, #{userNo})
+		insert into BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, USER_NO, BOARD_STATUS)
+		values (SEQ_BOARD_NO.nextval, #{boardTitle}, #{boardContent}, sysdate, sysdate, 0, 3, #{userNo}, 1)
 	</insert>
 
 	<insert id="insertNoticeImg" parameterType="hashmap">

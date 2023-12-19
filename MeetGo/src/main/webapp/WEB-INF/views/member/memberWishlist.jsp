@@ -69,7 +69,7 @@
         }
     </style>
 </head>
-<body>
+<body style="height: 100%">
     <jsp:include page="../common/header.jsp"/>
     <script>
         $(function (){
@@ -112,7 +112,7 @@
         <div class="wishlist-header">
             <h1>찜한 고수</h1>
         </div>
-        <div class="wishList-area">
+        <div class="wishList-area" style="min-height: 700px">
         	
         </div>
     </div>

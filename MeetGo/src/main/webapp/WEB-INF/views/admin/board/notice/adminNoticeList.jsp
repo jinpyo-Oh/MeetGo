@@ -4,8 +4,8 @@
 	<title>Title</title>
 	<style>
         #list-area {
-            width: 1000px;
-            height: 700px;
+            width: 1400px;
+            min-height: 700px;
             align-items: center;
             text-align: center;
             margin: auto;
@@ -63,6 +63,9 @@
             }
         })
     }
+    function redirectToNoticeDetail(boardNo){
+        location.href ="noticeDetail.bo?bno="+boardNo;
+	}
 	function selectBoard(status , cPage){
 		$('#chatList > tbody').empty();
 		$('#button-area').empty();
@@ -81,18 +84,16 @@
                     console.log(list[i]);
 					let content =
                         '<tr onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' +
-                        '<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardNo + '</td>' +
-                        '<td width="20%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardTitle + '</td>' +
-                        '<td width="15%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].createDate.substring(0, 16) + '</td>' +
-                        '<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardCount + '</td>' +
-                        '<td width="10%">';
+							'<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardNo + '</td>' +
+							'<td width="20%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardTitle + '</td>' +
+							'<td width="15%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].createDate.substring(0, 16) + '</td>' +
+							'<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardCount + '</td>' +
+							'<td width="10%">';
                         	if(list[i].boardStatus == 1){
                         		content += '<button class="meetgo-red" onclick="deleteBoard(' + list[i].boardNo + ', ' + pi.currentPage + ')">게시글 삭제</button>';
                         	} else {
                         		content += '<p style="color: red" disabled>삭제된 게시글</p>';
                         	}
-                        	
-                        // (list[i].boardStatus ==  1 ? '<button class="meetgo-red" onclick="deleteBoard(' + list[i].boardNo + ', ' + pi.currentPage + ')">게시글 삭제</button>' : '<p style="color: red" disabled>삭제된 게시글</p>') +
                         content += '</td>' +
                         '</tr>';
 					$('#chatList > tbody').append(content);
@@ -136,7 +137,7 @@
 <div style="height:600px;" align="center" id="list-area" class="table table-borderless table-hover">
 	<table class="chatTable" id="chatList">
 		<thead>
-			<tr>
+			<tr style="background-color: #2A8FF7; color: white">
 				<td width="10%">게시글 번호</td>
 				<td width="20%">제목</td>
 				<td width="15%">게시글 생성일</td>

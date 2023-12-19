@@ -306,7 +306,7 @@ public class BoardController {
 		int listCount = boardService.selectNoticeListCount();
 		
 		int pageLimit = 5;
-		int boardLimit = 20;
+		int boardLimit = 10;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, 
 					currentPage, pageLimit, boardLimit);

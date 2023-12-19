@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>고수 찾기</title>
     <style>
+        img {
+            object-fit: cover !important;
+        }
     /* 폰트 */
     @font-face {
         font-family: 'Pretendard-Regular';

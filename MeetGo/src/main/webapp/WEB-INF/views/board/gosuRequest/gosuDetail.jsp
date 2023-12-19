@@ -19,8 +19,10 @@
     }
     * { font-family: 'Pretendard-Regular'; 
     
-    } 
-    
+    }
+    img {
+        object-fit: cover !important;
+    }
 
 .wrap{
     margin: auto;

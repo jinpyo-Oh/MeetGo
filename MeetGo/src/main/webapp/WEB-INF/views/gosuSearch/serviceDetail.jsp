@@ -15,6 +15,9 @@
 	
 	
 	<style>
+        img {
+            object-fit: cover !important;
+        }
         /* 폰트 */
         @font-face {
             font-family: 'Pretendard-Regular';

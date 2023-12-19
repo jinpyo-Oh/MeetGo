@@ -24,6 +24,9 @@
     <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
+        img {
+            object-fit: cover !important;
+        }
         .mypage-main {
             width: 652px;
             height:900px;
