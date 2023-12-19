@@ -112,6 +112,11 @@ public class MemberController {
 
         return "member/memberWishlist";
     }
+    @RequestMapping("Guide.me")
+    public String memberGuide() {
+
+        return "member/meegoGuide";
+    }
 
     @RequestMapping("memberAddService.me")
     public String memberAddService() {
@@ -193,6 +198,16 @@ public class MemberController {
             model.addAttribute("errorMsg", "회원 가입 실패");
             return "common/errorPage";
         }
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "nickNameCheck.me", produces = "text/html; charset=UTF-8")
+    public String nickNameCheck(String nickNameCheck) {
+
+        int count = memberService.nickNameCheck(nickNameCheck);
+
+
+        return (count > 0) ? "NNNNN" : "NNNNY";
     }
 
     @ResponseBody

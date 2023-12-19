@@ -153,23 +153,17 @@
                     	<li class="mypage-mini">커뮤니티 작성글/댓글 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow" ></li>
                 	</a>
             </ul>
-            <hr>
-            <ul>
-            	<li class="mypage">신고</li>
-                	<a href="">
-                    	<li class="mypage-mini">신고 내역 <img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"></li>
-                	</a>
-            </ul>
+             
             <hr>
             	<ul>
                 	<a href="">
                     	<li class="mypage">설정</li>
                 	</a>
             
-                	<a href="">
+                	<a href="noticeList.bo">
                    	 <li class="mypage-mini">공지사항<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                 	</a>
-                	<a href="">
+                	<a href="Guide.me">
                     	<li class="mypage-mini">믿고 안내<img src="https://assets.cdn.soomgo.com/icons/icon-mypage-list-arrow.svg" class="arrow"> </li>
                 	</a>
             </ul>

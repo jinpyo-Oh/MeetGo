@@ -213,6 +213,7 @@
 	        <input class="name" type="text" name="userName" id="userName" placeholder="이름(실명)을 입력해주세요." required>
 	        <p class="name1">닉네임*</p>
 	        <input class="name" type="text" name="userNickname" id="userNickname" placeholder="별명을 입력해주세요." required>
+	        <div id="checkResult4" style="font-size: 0.8em; display: none;"></div>
 	        
 	        <p class="name1">성별*</p>
 	        <div class="select">
@@ -276,6 +277,12 @@
             }
         });
     });
+     
+    
+     
+     
+     
+     
      $(function() {
  		
  		// 아이디를 입력받는 input 요소 객체를 변수에 담아두기
@@ -287,7 +294,7 @@
  			// 단, 우선 최소 5글자 이상으로 입력되어 있을 경우에만
  			console.log($idInput);
  			// ajax 를 요청해서 중복체크를 하도록 해보자
- 			if($idInput.val().length >= 6) {
+ 			if($idInput.val().length >= 3) {
  				
  				// 중복 체크 요청 보내기
  				$.ajax({
@@ -450,6 +457,55 @@
      
      
      
+</script>
+
+<script>
+$(function() {
+	 let $nickInput = $(".main input[name=userNickname]");
+	 
+	 $nickInput.keyup(function() {
+		
+		 if($nickInput.val().length >= 1) {
+			 console.log($nickInput)	;
+			 $.ajax({
+				 url : "nickNameCheck.me",
+				 type : "get",
+				 data : {nickNameCheck : $nickInput.val()},
+				 success : function(result) {
+					 if(result ==	 "NNNNN"){    	 							
+	 					// 빨간색 메세지 출력
+	 					$("#checkResult4").show();
+	 					$("#checkResult4").css("color", "red").text("중복된 닉네임이 존재합니다. 다시 입력해 주세요.");
+	 							
+	 					// 회원가입 버튼 비활성화
+	 					$(".main button[type=submit]").attr("disabled", true);
+					 }else { // 사용 가능
+							
+							// 초록색 메세지 출력
+							$("#checkResult4").show();
+							$("#checkResult4").css("color", "green").text("사용 가능한 닉네임입니다!");
+							
+							// 회원가입 버튼 활성화
+							$(".main button[type=submit]").attr("disabled", false);
+							
+						}
+				 },
+				 error : function() {
+						console.log("닉네임 중복 체크용 ajax 통신 실패!");
+					}
+				 
+			 });
+		 } else { // 3글자 미만일 때
+				
+				// 회원가입버튼 비활성화
+				$(".main button[type=submit]").attr("disabled", true);
+			
+				// 메세지 숨기기
+				$("#checkResult4").hide();
+			}
+	 });
+	 
+});
 </script>
 </body>
 </html>
