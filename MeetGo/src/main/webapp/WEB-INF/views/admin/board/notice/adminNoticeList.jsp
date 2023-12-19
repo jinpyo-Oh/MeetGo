@@ -76,16 +76,24 @@
 			success : function (data){
 				let list = data.list;
 				let pi = data.pi;
+				
 				for (let i = 0; i < list.length; i++) {
-                    let content =
+                    console.log(list[i]);
+					let content =
                         '<tr onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' +
                         '<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardNo + '</td>' +
                         '<td width="20%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardTitle + '</td>' +
                         '<td width="15%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].createDate.substring(0, 16) + '</td>' +
                         '<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardCount + '</td>' +
-                        '<td width="10%">' +
-                        (list[i].boardStatus == 1 ? '<button class="meetgo-red" onclick="deleteBoard(' + list[i].boardNo + ', ' + pi.currentPage + ')">게시글 삭제</button>' : '<p style="color: red" disabled>삭제된 게시글</p>') +
-                        '</td>' +
+                        '<td width="10%">';
+                        	if(list[i].boardStatus == 1){
+                        		content += '<button class="meetgo-red" onclick="deleteBoard(' + list[i].boardNo + ', ' + pi.currentPage + ')">게시글 삭제</button>';
+                        	} else {
+                        		content += '<p style="color: red" disabled>삭제된 게시글</p>';
+                        	}
+                        	
+                        // (list[i].boardStatus ==  1 ? '<button class="meetgo-red" onclick="deleteBoard(' + list[i].boardNo + ', ' + pi.currentPage + ')">게시글 삭제</button>' : '<p style="color: red" disabled>삭제된 게시글</p>') +
+                        content += '</td>' +
                         '</tr>';
 					$('#chatList > tbody').append(content);
 				}
@@ -117,24 +125,15 @@
 	}
 </script>
 <div class="pageTitleArea" align="center">
+	<br>
 	<p class="pageTitle">
 		<img style="width: 40px; height: 40px" src="<%=request.getContextPath()%>/resources/images/chat/notice-icon.png">
 		공지사항 관리
 	</p>
+	<br>
 	<hr>
 </div>
-<div align="center" id="list-area" class="table table-borderless table-hover">
-	<div class="search-box" style="display: flex; align-items: center; justify-content: flex-end;">
-		<select id="searchType" style="box-sizing: border-box; height: 30px; ">
-			<option value="title">제목</option>
-			<option value="content">내용</option>
-			<option value="number">글 번호</option>
-		</select>
-		<input type="text" class="" id="searchInput" placeholder="검색어 입력">
-		<button class="btn meetgo-btn"  style="height: 30px; box-sizing: border-box" type="button" onclick="">
-			<i class="fas fa-search fa-sm"></i>
-		</button>
-	</div>
+<div style="height:600px;" align="center" id="list-area" class="table table-borderless table-hover">
 	<table class="chatTable" id="chatList">
 		<thead>
 			<tr>

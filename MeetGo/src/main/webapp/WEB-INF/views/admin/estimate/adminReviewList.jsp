@@ -40,7 +40,6 @@
         font-weight: 400;
         font-style: normal;
     }
-    * { font-family: 'Pretendard-Regular'; }
     
     #pagingBtn-area{margin-top: 80px;}
     

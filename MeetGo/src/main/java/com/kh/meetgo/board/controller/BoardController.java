@@ -596,6 +596,16 @@ public class BoardController {
 		return new Gson().toJson(list);
 	}
 	
+	@RequestMapping("deleteBoard.bo")
+	public String deleteBoard(String bno) {
+		
+		int boardNo = Integer.parseInt(bno);
+		
+		int result = boardService.deleteBoard(boardNo);
+		
+		return "board/tip/tipList";
+	
+	}
 	
 	
 	

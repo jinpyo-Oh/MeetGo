@@ -153,14 +153,14 @@
      	
      	<br>
         
-        <table class="tipList" id="tipListTable" >
+        <table class="tipList" style="width: 1000px; text-align:center;">
    		<tr>
-   			<th> 글번호 </th>
-   			<th> 제목 </th>
-   			<th colspan="2"> 내용 </th>
+   			<th style="widows: 15%"> 글번호 </th>
+   			<th style="widows: 25%"> 제목 </th>
+   			<th style="widows: 60%" colspan="2"> 내용 </th>
    		</tr>
     	<c:forEach var="m" items="${requestScope.dtoList}">
-        <tr>
+        <tr id="concon">
             <td class="bno" >
                 <b style="font-size:30px;"> ${m.boardNo}</b>
             </td>
@@ -231,7 +231,7 @@
     
     
     <script>
-		$(".tipList tr").click(function() {
+		$("#concon").click(function() {
 		    let bno = $(this).children(".bno").text();
 		    location.href = "tipDetail.bo?bno=" + bno;
 		});

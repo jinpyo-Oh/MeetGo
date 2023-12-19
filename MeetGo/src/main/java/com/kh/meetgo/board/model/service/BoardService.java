@@ -119,4 +119,6 @@ public interface BoardService {
 	int countAllMyPost(int userNo);
 
 	ArrayList<Board> selectAllMyPost(PageInfo pi, int userNo);
+	
+	int deleteBoard(int bno);
 }

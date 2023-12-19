@@ -265,4 +265,8 @@ public class BoardDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return (ArrayList) sqlSession.selectList("boardMapper.selectAllMyPost", userNo, rowBounds);
 	}
+
+	public int deleteBoard(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.update("boardMapper.deleteBoard", bno);
+	}
 }
