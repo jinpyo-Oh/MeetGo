@@ -123,7 +123,7 @@ public class GosuController {
 				Member m = (Member) session.getAttribute("loginUser");
                 m.setEnrollStatus(3);
                 memberService.changeStatus(m);
-                session.setAttribute("loginUser", m);
+                session.removeAttribute("loginUser");
 				session.setAttribute("alertMsg", "비활성화가 되었습니다.");
 				return "redirect:/";
 			} else { //실패
