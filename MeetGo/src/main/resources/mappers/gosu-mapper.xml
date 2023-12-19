@@ -75,7 +75,8 @@
                             AND G.REGION LIKE #{region} || '%'
                         </when>
                         <when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
-                            AND G.REGION = #{region}
+                            AND ((LENGTH(G.REGION) = 2 AND SUBSTR(G.REGION, 1, 2) = SUBSTR(#{region}, 1, 2))
+                	         OR G.REGION = #{region})
                         </when>
                     </choose>
                 </trim>
@@ -96,7 +97,8 @@
                             AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
                         </when>
                         <otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
-                            AND G.REGION = #{region}
+                            AND ((LENGTH(G.REGION) = 2 AND SUBSTR(G.REGION, 1, 2) = SUBSTR(#{region}, 1, 2))
+                	         OR G.REGION = #{region})
                             AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
                         </otherwise>  
                     </choose>
@@ -188,7 +190,8 @@
                             AND G.REGION LIKE #{region} || '%'
                         </when>
                         <when test="(regionSub != '전체') and (categoryBigNo == 0)"> <!-- 시/도 && 시/군/구 | 전체 서비스 -->
-                            AND G.REGION = #{region}
+                              AND ((LENGTH(G.REGION) = 2 AND SUBSTR(G.REGION, 1, 2) = SUBSTR(#{region}, 1, 2))
+                	         OR G.REGION = #{region})
                         </when>
                     </choose>
                 </trim>
@@ -209,7 +212,8 @@
                             AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
                         </when>
                         <otherwise> <!-- 시/도 시/군/구 | 특정 서비스 -->
-                            AND G.REGION = #{region}
+                            AND ((LENGTH(G.REGION) = 2 AND SUBSTR(G.REGION, 1, 2) = SUBSTR(#{region}, 1, 2))
+                	         OR G.REGION = #{region})
                             AND S.CATEGORY_SMALL_NO = #{categorySmallNo}
                         </otherwise>  
                     </choose>
