@@ -83,15 +83,15 @@
                     }
                     for (let i = 0; i < data.length; i++) {
                         let content =
-                                '<div class="wishlist-item" name="wishlist">'+
-                                    '<div class="wishlist-content">'+
-                                        '<div class="wishlist-info">'+
-                                            '<h3>'+data[i].userName+'고수님</h3>'+
-                                            '<p>'+data[i].gosu.introduction+'</p>'+
-                                            '<p>'+data[i].gosu.career+'</p>'+
-                                        '</div>'+
-                                    '<img src="'+data[i].userProfile+'" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%;">'+
-                                    '</div>'+
+                                '<div class="wishlist-item" name="wishlist" onclick="location.href=\'gosuDetail.go?gno=' + data[i].gosu.gosuNo + '\'">' +
+                                    '<div class="wishlist-content">' +
+                                        '<div class="wishlist-info">' +
+                                            '<h3>' + data[i].userName + '고수님</h3>' +
+                                            '<p>' + data[i].gosu.introduction + '</p>' +
+                                            '<p>' + data[i].gosu.career + '</p>' +
+                                        '</div>' +
+                                    '<img src="' + data[i].userProfile + '" alt="Profile" style="width: 80px; height: 80px; border-radius: 50%;">' +
+                                    '</div>' +
                                 '</div>';
                         $('.wishList-area').append(content);
                     }

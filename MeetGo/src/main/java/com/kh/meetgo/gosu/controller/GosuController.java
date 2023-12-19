@@ -172,7 +172,6 @@ public class GosuController {
     // 고수 찾기 포워딩
     @RequestMapping("searchMain.go")
     public String sendMain(Model model, String keyword) {
-    	
     	model.addAttribute("keyword", keyword);
     	return "gosuSearch/searchMain";
     }

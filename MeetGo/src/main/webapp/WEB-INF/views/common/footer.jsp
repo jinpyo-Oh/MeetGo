@@ -70,16 +70,16 @@
 					</div>
 					<nav class="footer-nav-list">
 						<li>
-							<a>공지사항</a>
+							<a href="noticeList.bo">공지사항</a>
 						</li>
 						<li>
-							<a>고수찾기</a>
+							<a href="searchMain.go">고수찾기</a>
 						</li>
 						<li>
-							<a>커뮤니티</a>
+							<a href="gosuList.bo">커뮤니티</a>
 						</li>
 						<li>
-							<a>고객센터</a>
+							<a href="adminMainPage.ad">관리자 페이지</a>
 						</li>
 					</nav>
 				</div>

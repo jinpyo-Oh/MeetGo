@@ -197,7 +197,7 @@
 		<div class=""> <!-- 카티고리 영역 시작 -->
 			<ul class="main-category">
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/all-icon.png" alt="전체" class="category-img" data-v-4f2bc4d0>
@@ -207,7 +207,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/home-icon.png" alt="홈/리빙" class="category-img" data-v-4f2bc4d0>
@@ -217,7 +217,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/hobby-icon.png" alt="취미/교육" class="category-img" data-v-4f2bc4d0>
@@ -227,7 +227,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/health-icon.png" alt="건강/미용" class="category-img" data-v-4f2bc4d0>
@@ -237,7 +237,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/design-icon.png" alt="디자인" class="category-img" data-v-4f2bc4d0>
@@ -247,7 +247,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/event-icon.png" alt="이벤트" class="category-img" data-v-4f2bc4d0>
@@ -257,7 +257,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/develop-icon.png" alt="IT/개발" class="category-img">
@@ -267,7 +267,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/business-icon.png" alt="비즈니스" class="category-img" data-v-4f2bc4d0>
@@ -277,7 +277,7 @@
 					</a>
 				</li>
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/Admin-icon.png" alt="법률/행정" class="category-img" data-v-4f2bc4d0>
@@ -288,7 +288,7 @@
 				</li>
 
 				<li class="category-item">
-					<a href="">
+					<a href="searchMain.go">
 						<div class="category-icon">
 							<div class="category-img-wrapper">
 								<img src="<%=request.getContextPath()%>/resources/images/common/mainPage/guitar-icon.png" alt="기타" class="category-img">
@@ -299,7 +299,7 @@
 				</li>
 			</ul>
 		</div> <!-- 카티고리 영역 끝 -->
-		
+
 		
 		
 		<section> <!-- 포트폴리오 영역 -->

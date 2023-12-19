@@ -182,21 +182,20 @@ table, th, td {
             </table>   
            </div>
            <div>
-            <a href="noticeWrite.bo">
-            	<c:choose>
-	            	<c:when test="${  not empty sessionScope.loginUser }">
-		                <button type="submit" class="btn btn-primary" >글작성</button>
-	            	</c:when>
-            	</c:choose>
-            </a>
+<%--            <a href="noticeWrite.bo">--%>
+<%--            	<c:choose>--%>
+<%--	            	<c:when test="${  not empty sessionScope.loginUser }">--%>
+<%--		                <button type="submit" class="btn btn-primary" >글작성</button>--%>
+<%--	            	</c:when>--%>
+<%--            	</c:choose>--%>
+<%--            </a>--%>
             </div>
             <div>
             
             </div>
             <br>
-      		<div id="pagingArea">
+      		<div id="pagingArea" >
                 <ul class="pagination">
-                
                 	<c:choose>
                 		<c:when test="${ requestScope.pi.currentPage eq 1 }">
 	                    	<li class="page-item disabled">

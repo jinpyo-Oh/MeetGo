@@ -107,7 +107,7 @@
     }
     .main2{
     width: 1000px;
-    height: 600px;
+    height:400px;
     box-sizing: border-box;
 
     }
@@ -191,12 +191,11 @@
                    
             </div>
 
-
         </div>
        
         <div class="main4" style="text-align: right;">
  
-            <button class="btn btn-secondary">취&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</button>   
+            <button type="button" onclick="window.history.back();" class="btn btn-secondary">취&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</button>
             
             <button class="btn btn-primary" style="margin-left: 15px;">작성하기</button>
 

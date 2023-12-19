@@ -29,7 +29,7 @@ public class AdminPofolController {
 	@RequestMapping("showAdminPofolList.ad")
 	public String showAdminPofolList() {
 		// 단순 헤더에서 포워딩
-		return "admin/board/adminPofolList";
+		return "admin/board/portfolio/adminPofolList";
 	}
 	
 	@ResponseBody
@@ -61,7 +61,7 @@ public class AdminPofolController {
 		
 		ArrayList<PofolOpt> list = adminPofolService.adminPofolDetail(pofolNo);
 		
-		mv.addObject("list", list).setViewName("admin/board/adminPofolDetail");
+		mv.addObject("list", list).setViewName("admin/board/portfolio/adminPofolDetail");
 		
 		return mv;
 	}
