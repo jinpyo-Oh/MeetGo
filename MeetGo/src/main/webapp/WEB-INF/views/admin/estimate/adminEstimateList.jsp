@@ -217,7 +217,7 @@
 	    		    	
 	    		    	if(data.pi2.currentPage == i){
 	    		    		
-							paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
+							paging += '<button class="pageBtn" disabled style="background-color:rgb(32, 93, 154);" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
 	    		    	} else{
 	    		    		
 							paging += '<button class="pageBtn" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
@@ -290,7 +290,7 @@
 	    		    	
 	    		    	if(data.pi1.currentPage == i){
 	    		    		
-							paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="comEst('+ i +')">' + i + '</button>';	    		    	
+							paging += '<button class="pageBtn" disabled style="background-color:rgb(32, 93, 154);" onclick="comEst('+ i +')">' + i + '</button>';	    		    	
 	    		    	} else{
 	    		    		
 							paging += '<button class="pageBtn" onclick="comEst('+ i +')">' + i + '</button>';	    		    	
@@ -390,7 +390,7 @@
 	    		    	
 	    		    	if(data.pi.currentPage == i){
 	    		    		
-							paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="search('+ i + ', ' + keyword + ', ' + condition + ')">' + i + '</button>'	    		    	
+							paging += '<button class="pageBtn" disabled style="background-color:rgb(32, 93, 154);" onclick="search('+ i + ', ' + keyword + ', ' + condition + ')">' + i + '</button>'	    		    	
 	    		    	} else{
 	    		    		
 	    		    		paging += '<button class="pageBtn" onclick="search(' + i + ', \'' + keyword + '\', \'' + condition + '\')">' + i + '</button>';	    		    	

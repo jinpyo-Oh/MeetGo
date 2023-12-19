@@ -85,15 +85,16 @@
     }
     .main_body_4 {
         width: 1000px;
-        height: 165px;    
+        height: 65px; 
+        float: left;   
         }
     .main_body_4_1{
-        width: 80%;
+        width: 70%;
         height: 100%;
         float: left;
     }   
     .main_body_4_2{
-        width: 20%;
+        width: 30%;
         height: 100%;
         float: right;
     }
@@ -121,6 +122,13 @@
     #tipImg {
     	
     }
+    
+    .report{
+    	width: 50px;
+    	height: 50px;
+    	margin-right:20px;
+    	margin-bottom: 15px;
+    }
 </style>
 </head>
 <body>
@@ -128,11 +136,13 @@
 	<jsp:include page="../../common/side.jsp"/>
 	
 	<div class="wrap">
+	<br>
         <div class="main_title" >
        		
+       		<br>
             <div class="main_title_1" style="float: left;">
             <br>
-            <h4 style="font-size:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <h4 style="font-size:40px">&nbsp;&nbsp;&nbsp;
             ${ requestScope.m.boardTitle }
             </h4>
         
@@ -140,6 +150,7 @@
          
             
         </div>
+        <br><br>
         <hr>
         <div>
         </div>
@@ -148,11 +159,12 @@
           
             <div class="main_body_1" style="width:100%;">
           
-            <div class="main_body_1_1" style="width:50%;  text-align:right;">
+            <div class="main_body_1_1" style="width:50%; text-align:left;">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             &nbsp;&nbsp; &nbsp;&nbsp;
-              &nbsp;&nbsp; &nbsp;&nbsp;
-        
+             &nbsp;&nbsp;
+        		<img src="${ requestScope.m.userProfile }" id="profileImg" width="70" height="70"   style="border-radius: 50%;" >    
+            &nbsp; ${ requestScope.m.userNickname } 
+                 
              
             </div>
             
@@ -166,12 +178,6 @@
             
             </div>
            
-         <div class="main_body_2_1">
-            &nbsp;&nbsp; &nbsp;&nbsp;
-            <img src="${ requestScope.m.userProfile }" id="profileImg" width="70" height="70"   style="border-radius: 50%;" >    
-            &nbsp; ${ requestScope.m.userNickname } 
-                 
-         </div>
 
          <div class="main_body_3_1">
 			    <br>
@@ -189,7 +195,7 @@
          <div class="main_body_4">
             <div class="main_body_4_1">
             <c:if test="${sessionScope.loginUser.userNo eq requestScope.m.userNo }">
-                <br> &nbsp;&nbsp;
+                &nbsp;&nbsp;
                 <button class="btn btn-primary">수정하기</button> 
                 &nbsp;&nbsp;
                 <button class="btn btn-secondary">삭제하기</button>
@@ -199,17 +205,16 @@
             
              </div>
             <div class="main_body_4_2">
-                <br>
                 &nbsp;&nbsp; &nbsp;&nbsp;
                 &nbsp;&nbsp; &nbsp;&nbsp;
                 &nbsp;&nbsp; &nbsp;&nbsp;
+                <img class="report" onclick="reportAlert('${requestScope.m.userNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png">
                 <button type="button" onclick="location.href='tipList.bo'" class="btn btn-primary">목록으로</button> 
 
 
             </div>
         
         </div>
-     
         
     </div>
     </div>

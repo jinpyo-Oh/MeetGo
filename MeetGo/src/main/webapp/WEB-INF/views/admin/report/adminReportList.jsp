@@ -65,27 +65,27 @@
             margin-top: 80px;
         }
 
-        .pagingBtn {
-            border: 0;
-            border-radius: 5px;
-            width: 80px;
-            height: 40px;
-            font-size: 20px;
-            color: white;
-            background-color: #2a91f7c0;
-        }
-
-        .pageBtn {
-            border: 0;
-            border-radius: 5px;
-            width: 40px;
-            height: 40px;
-            font-size: 20px;
-            color: white;
-            background-color: #2a91f7c0;
-            margin-left:5px;
-        	margin-right:5px;
-        }
+        .pagingBtn{
+	        border: 0;
+	        border-radius: 5px;
+	        width: 30px;
+	        height: 40px;
+	        font-size: 20px;
+	        color: white;
+	        background-color: #2a91f7c0;
+	        margin : 0px 3px;
+	    }
+	    .pageBtn{
+	    	
+	        border: 0;
+	        border-radius: 5px;
+	        width: 30px;
+	        height: 40px;
+	        font-size: 20px;
+	        color: white;
+	        background-color: #2a91f7c0;
+	        margin : 0px 3px;
+	    }
 	</style>
 </head>
 <body>
@@ -93,12 +93,12 @@
 <div class="outer">
 	<div align="center">
 		<p id="report-pageTitle">
-			<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="rgba(204, 29, 29)"
+			<svg style="margin-top:5px; margin-right:4px;"xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="rgba(204, 29, 29)"
 				 class="bi bi-person-exclamation" viewBox="0 0 16 16">
 				<path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z"/>
 				<path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5Zm0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1Z"/>
 			</svg>
-			신고내역 관리
+			신고 내역
 		</p>
 		<hr>
 	</div>
@@ -231,7 +231,7 @@
 						$("#report-list-content").append(resultStr);
 					}
 					
-					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage('+ currentPage +')">Prev</button>');
+					let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage('+ currentPage +')">&lt;</button>');
 					
 					// prev버튼 조건에 따른 숨김처리
 					if(startPage > maxPage){
@@ -257,7 +257,7 @@
     				}     
     				
     				// 다음버튼
-    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage('+ currentPage +')">Next</button>');
+    				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage('+ currentPage +')">&gt;</button>');
 	    				if(parseInt($("#currentPage").val()) == maxPage){
 	    					nextButton.css("display", "none");
 	    				}

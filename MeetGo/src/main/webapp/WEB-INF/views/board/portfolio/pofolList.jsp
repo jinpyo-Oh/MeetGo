@@ -120,7 +120,11 @@
 	            <c:if test="${not empty sessionScope.loginUser}">
 	                <form action="sendPofolWrite.po" method="post" onsubmit="return checkUserStatus();">
 	                    <input type="hidden" value="${sessionScope.loginUser.userNo}">
-	                    <button type="submit" id="btn-write">글작성</button>
+	                    <c:choose>
+		                    <c:when test="${  not empty sessionScope.loginUser }">
+			                    <button type="submit" id="btn-write">글작성</button>
+		                    </c:when>
+	                    </c:choose>
 	                </form>
 	        	</c:if>
 	        </div>

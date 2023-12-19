@@ -21,6 +21,26 @@
         .pageTitle{
             font-size: 30px;
         }
+        .pagingBtn{
+        border: 0;
+        border-radius: 5px;
+        width: 30px;
+        height: 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #2a91f7c0;
+        margin : 0px 3px;
+    }
+    .pageBtn{
+        border: 0;
+        border-radius: 5px;
+        width: 30px;
+        height: 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #2a91f7c0;
+        margin : 0px 3px;
+    }
 	</style>
 </head>
 <body>
@@ -54,17 +74,21 @@
 				}
 				let paging = '';
 				if (pi.currentPage == 1) {
-					paging += '<button class="pagingBtn" disabled style="background-color: ">이전</button>'
+					paging += '<button class="pagingBtn" disabled style="background-color: ">&lt;</button>'
 				} else {
-					paging += '<button class="pagingBtn" onclick="selectBoard(2, ' + (pi.currentPage - 1) + ')">이전</button>'
+					paging += '<button class="pagingBtn" onclick="selectBoard(2, ' + (pi.currentPage - 1) + ')">&lt;</button>'
 				}
 				for (let i = pi.startPage; i <= pi.endPage; i++) {
-					paging += '<button class="pageBtn" onclick="selectBoard(2, ' + i + ')">' + i + '</button>'
+					if(pi.currentPage == i){
+						paging += '<button class="pageBtn" style="background-color:rgb(32, 93, 154);" onclick="selectBoard(2, ' + i + ')">' + i + '</button>'
+					} else {
+						paging += '<button class="pageBtn" onclick="selectBoard(2, ' + i + ')">' + i + '</button>'
+					}
 				}
 				if (pi.currentPage == pi.endPage) {
-					paging += '<button class="pagingBtn" disabled style="background-color: ">다음</button>'
+					paging += '<button class="pagingBtn" disabled style="background-color: ">&gt;</button>'
 				} else {
-					paging += '<button class="pagingBtn" onclick="selectBoard(2, ' + (pi.currentPage + 1) + ')">다음</button>'
+					paging += '<button class="pagingBtn" onclick="selectBoard(2, ' + (pi.currentPage + 1) + ')">&gt;</button>'
 				}
 				$('#button-area').append(paging);
 
