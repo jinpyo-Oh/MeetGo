@@ -73,7 +73,9 @@
 	
     <div style="width: 80%; margin: auto; min-height: 400px;">
         
-            <br><br><br>
+            <br><br>
+            	
+            <br>
 	            <table style="width: 70%; margin: auto; text-align:center;" id="type">
                 <tr>
 					<td class="type" style="width:20%; border-bottom: 3px solid #2A8FF7"><h4><b>진행중인 계약</b></h4></td>                
@@ -89,11 +91,14 @@
                </tr>
             </table>
 			
-            <br><br><br><br>
+            <br><br>
         	<div id="inCom">
+        		<h5 align="center" style="text-decoration: none;">√ 표시된 계약은 의뢰하신 계약입니다.</h5>
+        		<br>
 	            <table class="table-hover" align="center">
 	                <thead style="height: 35px;">
 	                    <tr >
+	                    	<th style="width: 4%;"></th>
 	                        <th style="width: 10%;">계약번호</th>
 	                        <th style="width: 25%;">계약명</th>
 	                        <th style="width: 10%;">고수번호</th>
@@ -156,22 +161,31 @@
 	    				
 		    			for(let i = 0; i < list.length; i++){
 		    				let content = 
-			    					'<tr>'+
-				                    '<td class="eno">'+list[i].estNo+'</td>' +
-				                    '<td class="truncate">'+list[i].estTitle+'</td>' +
-				                    '<td>'+list[i].gosuNo+'</td>' +
-				                    '<td>'+list[i].userNo+'</td>' +
-				                    '<td>'+list[i].startDate+'</td>' +
-				                    '<td>';
-				    				if(list[i].status == 3){
-			                    		content += '결제 대기';
-			                    	} else {
-			                    		content += '결제 완료';
-			                    	}
-				    				content += 
-				    				'</td>' +
-				    				'<td>채팅</td>' +
-				    				'</tr>'
+			    					'<tr>';
+			    					
+			    			if(${ sessionScope.loginUser.userNo } == list[i].gosuNo){
+			    				content += "<td></td>";
+			    			} else {
+			    				content += "<td> √ </td>";	
+			    			}
+			    			
+			    			content +=
+			    			
+		                    '<td class="eno">'+list[i].estNo+'</td>' +
+		                    '<td class="truncate">'+list[i].estTitle+'</td>' +
+		                    '<td>'+list[i].gosuNo+'</td>' +
+		                    '<td>'+list[i].userNo+'</td>' +
+		                    '<td>'+list[i].startDate+'</td>' +
+		                    '<td>';
+		    				if(list[i].status == 3){
+	                    		content += '결제 대기';
+	                    	} else {
+	                    		content += '결제 완료';
+	                    	}
+		    				content += 
+		    				'</td>' +
+		    				'<td>채팅</td>' +
+		    				'</tr>'
 			    				
 	    					$('#listBody').append(content);
 		    			}
@@ -188,7 +202,7 @@
 		    		    	
 		    		    	if(data.pi2.currentPage == i){
 		    		    		
-								paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
+								paging += '<button class="pageBtn" disabled style="background-color:rgb(32, 93, 154);" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
 		    		    	} else{
 		    		    		
 								paging += '<button class="pageBtn" onclick="inComEst('+ i +')">' + i + '</button>'	    		    	
@@ -239,8 +253,16 @@
     		    	if(list.length != 0){
     		    		
 	    		    	for(let i = 0; i < list.length; i++){
-		    		    	let content =
-	    		    		'<tr>'+
+		    		    	let content = '<tr>';
+	    		    		
+	    		    		if(${ sessionScope.loginUser.userNo } == list[i].estimate.gosuNo){
+			    				content += "<td></td>";
+			    			} else {
+			    				content += "<td> √ </td>";	
+			    			}
+	    		    		
+	    		    		content +=
+	    		    		
 		                    '<td class="eno">'+list[i].estimate.estNo+'</td>' +
 		                    '<td class="truncate">'+list[i].estimate.estTitle+'</td>' +
 		                    '<td>'+list[i].estimate.gosuNo+'</td>' +
@@ -293,7 +315,7 @@
 		    		    	
 		    		    	if(data.pi1.currentPage == i){
 		    		    		
-								paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="comEst('+ i +')">' + i + '</button>';	    		    	
+								paging += '<button class="pageBtn" disabled style="background-color:rgb(32, 93, 154);" onclick="comEst('+ i +')">' + i + '</button>';	    		    	
 		    		    	} else{
 		    		    		
 								paging += '<button class="pageBtn" onclick="comEst('+ i +')">' + i + '</button>';	    		    	

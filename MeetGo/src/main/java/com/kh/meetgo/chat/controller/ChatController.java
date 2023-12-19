@@ -210,4 +210,15 @@ public class ChatController {
     public String selectEst(String estNo){
         return new Gson().toJson(memberService.selectEstimateDetail(Integer.parseInt(estNo)));
     }
+
+    @ResponseBody
+    @GetMapping(value = "outChatRoom", produces = "text/json; charset=UTF-8")
+    public void outChatRoom(String chatroomNo, HttpSession session){
+        Member m = (Member) session.getAttribute("loginUser");
+        Map<String, Object> map = new HashMap<>();
+        map.put("chatroomNo", chatroomNo);
+        map.put("userNo", m.getUserNo());
+        map.put("userStatus", m.getUserStatus());
+        int result = chatService.outChatRoom(map);
+    }
 }

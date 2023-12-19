@@ -43,6 +43,7 @@
     * { font-family: 'Pretendard-Regular'; }
     
     #pagingBtn-area{margin-top: 80px;}
+    
     .pagingBtn{
         border: 0;
         border-radius: 5px;
@@ -53,6 +54,7 @@
         background-color: #2a91f7c0;
         margin : 0px 3px;
     }
+    
     .pageBtn{
     	
         border: 0;
@@ -64,13 +66,16 @@
         background-color: #2a91f7c0;
         margin : 0px 3px;
     }
+    
     .none{
     	background-color: none;
     }
+    
     #searchForm>* {
         float:right;
         margin:5px;
     }
+    
     #revImg{
     	width:50px;
     	height:50px;
@@ -196,8 +201,11 @@
 	        	<div style="width: 1500px;">
 				    <form id="searchForm" action="" method="get">
 				        <button id="search" class="searchBtn btn btn-secondary">검색</button>
-				        <div class="text">
+				        <div class="input-group" style="width:300px;">
 				            <input type="text" class="form-control" id="keyword" name="keyword">
+				            <div class="input-group-append">
+						        <button class="btn btn-outline-secondary" type="button" id="clearKeyword">&times;</button>
+						    </div>
 				        </div>
 				        <div class="select">
 				            <select class="custom-select" name="condition" id="condition">
@@ -212,7 +220,27 @@
     </div>
     
     <script>
+			
+	    $(document).ready(function () {
 
+	    	$("#clearKeyword").click(function () {
+
+	    		$("#keyword").val("");
+
+	    		goToAdminReviewList();
+	        });
+	    });
+	
+	    // Function to navigate to the "전체 목록" link or perform other actions
+	    function goToAdminReviewList() {
+	        window.location.href = "adminReviewList.ad";
+	    }
+	
+	    // Function to navigate to the "전체 목록" link
+	    function goToAdminReviewList() {
+	        window.location.href = "adminReviewList.ad";
+	    }
+    
 	    $("#searchForm").submit(function(event) {
 	        event.preventDefault();
 	        let keyword = $("#keyword").val();
@@ -309,7 +337,7 @@
 	    		    	
 	    		    	if(data.pi.currentPage == i){
 	    		    		
-							paging += '<button class="pageBtn" disabled style="background-color:lightblue;" onclick="search('+ i + ', ' + keyword + ', ' + condition + ')">' + i + '</button>'	    		    	
+							paging += '<button class="pageBtn" disabled style="background-color:rgb(32, 93, 154);" onclick="search('+ i + ', ' + keyword + ', ' + condition + ')">' + i + '</button>'	    		    	
 	    		    	} else{
 	    		    		
 	    		    		paging += '<button class="pageBtn" onclick="search(' + i + ', \'' + keyword + '\', \'' + condition + '\')">' + i + '</button>';	    		    	

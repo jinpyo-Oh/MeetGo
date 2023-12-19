@@ -58,10 +58,7 @@
   		border : 1px solid hotpink;
   		box-sizing: border-box;
   		width: 1000px;
-
   	}		
-  		
-  
     .content_main3_2{
         width: 30%;
         box-sizing: border-box;
@@ -80,7 +77,6 @@
         text-align: center;
         float: right;
     }
-    
     .content_1_3_1{
         width: 70%;
         box-sizing: border-box;
@@ -91,32 +87,25 @@
         box-sizing: border-box;
         text-align: center;
         float: right;
-
         display: flex;
         justify-content: center;
         align-items: center;
-
     }
-    
     .tipmain{
-    width: 1000px;
-    
+	    width: 1000px;
     	}
-    
-    
     .content{
-    width: 1000px;
+   	 width: 1000px;
     
     }
     .tip_content{
-  	cursor : pointer;
+  		cursor : pointer;
     }
-  .tip_content:hover {
-  	text-decoration : underline;
-  	cursor : pointer;
-  	
-   
-  }    
+  
+    .tip_content:hover {
+  		text-decoration : underline;
+  		cursor : pointer;
+    }    
     
    </style>
 </head>
@@ -127,7 +116,7 @@
 	  <div class="wrap">
        
         <div class="content_1">
-            <br>
+            <br><br><br>
             <div class="content_title" style="text-align: center; font-size: 28px;">        
                 <p>팁과 노하우</p>               
                 <hr>
@@ -164,9 +153,16 @@
         	
         	<div class="footer">
             <a href="tipWrite.bo">
-             <button type="submit" class="btn btn-primary">글작성</button>            
+            <c:choose>
+            	<c:when test="${  not empty sessionScope.loginUser }">
+		            <button type="submit" class="btn btn-primary" align="right">글작성</button>            
+            	</c:when>
+            </c:choose>
             </a>
-               <div id="pagingArea" style="float:right;" >
+            
+            <br><br><br>
+            
+               <div id="pagingArea" style="" >
                 <ul class="pagination">
                 
                 	<c:choose>

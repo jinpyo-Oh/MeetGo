@@ -183,7 +183,11 @@ table, th, td {
            </div>
            <div>
             <a href="noticeWrite.bo">
-                <button type="submit" class="btn btn-primary" >글작성</button>
+            	<c:choose>
+	            	<c:when test="${  not empty sessionScope.loginUser }">
+		                <button type="submit" class="btn btn-primary" >글작성</button>
+	            	</c:when>
+            	</c:choose>
             </a>
             </div>
             <div>

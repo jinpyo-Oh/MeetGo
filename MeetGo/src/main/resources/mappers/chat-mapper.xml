@@ -86,14 +86,14 @@
                 SELECT USER_NAME, USER_NO, USER_PROFILE
                 FROM MEMBER
                 ) M ON CR.GOSU_NO = M.USER_NO
-                WHERE CR.USER_NO = #{userNo}
+                WHERE CR.USER_NO = #{userNo} AND cr.CHATROOM_STATUS = 1
             </when>
             <otherwise>
                 LEFT JOIN (
                 SELECT USER_NAME, USER_NO, USER_PROFILE
                 FROM MEMBER
                 ) M ON CR.USER_NO = M.USER_NO
-                WHERE CR.GOSU_NO = #{userNo}
+                WHERE CR.GOSU_NO = #{userNo} AND cr.CHATROOM_STATUS = 1
             </otherwise>
         </choose>
     </select>
@@ -283,4 +283,18 @@
         WHERE W.USER_NO = #{userNo}
         )
     </select>
+    <update id="outChatRoom" parameterType="hashmap">
+        <choose>
+            <when test="userStatus == 1">
+                update CHATROOM
+                set USER_NO = -1, CHATROOM_STATUS = 2
+                where CHATROOM_NO = #{chatroomNo}
+            </when>
+            <otherwise>
+                update CHATROOM
+                set GOSU_NO = -1, CHATROOM_STATUS = 2
+                where CHATROOM_NO = #{chatroomNo}
+            </otherwise>
+        </choose>
+    </update>
 </mapper>

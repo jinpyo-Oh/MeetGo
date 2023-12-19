@@ -230,7 +230,11 @@ table, th, td {
             
        </div>
        <a href="gosuWrite.bo">
-        <button type="submit" class="btn btn-primary">글작성</button>
+       	<c:choose>
+       		<c:when test="${  not empty sessionScope.loginUser }">
+		        <button type="submit" class="btn btn-primary">글작성</button>
+       		</c:when>
+       	</c:choose>
         </a>
        <div class="gosu_footer" >
     

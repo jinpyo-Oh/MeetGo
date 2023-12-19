@@ -19,6 +19,6 @@ public class AdminChatDao {
         int limit = pi.getBoardLimit();
         int offset = (pi.getCurrentPage() - 1) * limit;
         RowBounds rowBounds = new RowBounds(offset, limit);
-        return (ArrayList) sqlSession.selectList("adminMapper.selectAllChatRoom", rowBounds);
+        return (ArrayList) sqlSession.selectList("adminMapper.selectAllChatRoom",null, rowBounds);
     }
 }

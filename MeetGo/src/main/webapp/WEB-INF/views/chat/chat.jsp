@@ -670,7 +670,7 @@
 						</div>
 						<div class="input-button">
 							<button id="send-message-btn" onclick="sendMessage('M')" class="meetgo-btn">전송</button>
-							<button class="meetgo-btn" onclick="deleteChat()">채팅방 나가기</button>
+							<button class="meetgo-btn" onclick="deleteChat(chatroomNo)">채팅방 나가기</button>
 						</div>
 					</div>
 				</div>
@@ -713,12 +713,23 @@
                         $('#send-message-btn').attr('onclick', "sendMessage('M')");
                     }
 
-                    function deleteChat() {
+                    function deleteChat(chatroomNo) {
                         if (!confirm("채팅방을 나가시겠습니까? 기존 대화 내역은 삭제됩니다.")) {
                             return;
                         }
-                        
-                        $
+                        $.ajax({
+							url : "outChatRoom",
+							method : "get",
+							data : {
+                                chatroomNo : chatroomNo
+							},
+							success : function (){
+       							location.reload();
+							},
+							error : function (){
+                                console.log("채팅방 나가기");
+							}
+						})
                     }
 				</script>
 				
