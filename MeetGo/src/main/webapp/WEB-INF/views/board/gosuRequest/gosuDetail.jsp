@@ -201,7 +201,7 @@
                </tr>
                <tr>
                    <td colspan="2">댓글(<span id="rcount">0</span>)</td>
-                   <td style="text-align:right;"><img class="report" onclick="reportAlert('${requestScope.m.userNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png"></td>
+                   <td style="text-align:right;"><img class="report" onclick="reportAlert('${requestScope.m.board.userNo}')" src="<%=request.getContextPath()%>/resources/images/common/report-icon.png"></td>
                </tr>
            </thead>
            
@@ -215,6 +215,11 @@
 	   
 	        </div>
 	      
+	        <div class="gosu_bottom">
+	        	<a href="gosuList.bo">
+	            <button type="submit" id="gosu_btn" class="btn btn-secondary" >목록가기</button>
+	        	</a>
+	        </div>
 	        <hr>
 	       
  	     
@@ -222,11 +227,6 @@
       
 	
         
-        <div class="gosu_bottom">
-        	<a href="gosuList.bo">
-            <button type="submit" id="gosu_btn" class="btn btn-secondary" >목록가기</button>
-        	</a>
-        </div>
     	<jsp:include page="../../common/footer.jsp"/>
    
    

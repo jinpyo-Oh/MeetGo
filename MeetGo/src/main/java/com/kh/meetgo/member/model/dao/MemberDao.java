@@ -306,4 +306,9 @@ public class MemberDao {
     public ArrayList<WishListRequest> selectAllWishList(SqlSessionTemplate sqlSession, int userNo) {
         return (ArrayList)sqlSession.selectList("memberMapper.selectAllWishList", userNo);
     }
+
+	public int nickNameCheck(SqlSessionTemplate sqlSession, String nickNameCheck) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.nickNameCheck",nickNameCheck);
+	}
 }

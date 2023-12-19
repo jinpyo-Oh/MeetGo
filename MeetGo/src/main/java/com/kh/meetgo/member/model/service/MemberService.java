@@ -147,4 +147,6 @@ public interface MemberService {
 
 
     ArrayList<WishListRequest> selectAllWishList(int userNo);
+
+	int nickNameCheck(String nickNameCheck);
 }

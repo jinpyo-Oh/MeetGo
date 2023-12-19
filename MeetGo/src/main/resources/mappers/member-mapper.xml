@@ -120,6 +120,11 @@
         SET ENROLL_STATUS = '4'
         WHERE USER_ID = #{userId}
     </update>
+      <select id="nickNameCheck" parameterType="string" resultType="_int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE USER_NICKNAME = #{nickNameCheck}
+    </select>
     <select id="idCheck" parameterType="string" resultType="_int">
         SELECT COUNT(*)
         FROM MEMBER

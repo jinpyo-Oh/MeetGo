@@ -335,6 +335,12 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updatePassword(sqlSession, email,userPwd);
 	}
 
+	@Override
+	public int nickNameCheck(String nickNameCheck) {
+		// TODO Auto-generated method stub
+		return memberDao.nickNameCheck(sqlSession, nickNameCheck);
+	}
+
  
 
 

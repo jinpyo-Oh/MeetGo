@@ -423,12 +423,10 @@
 					<div class="label">고용 수</div>
 				</li>
 			</ul>
-			<div class="btn">
-				<a class="btn1 meetgo-btn">활동분석</a>
-				<a class="btn2 meetgo-btn">미리보기</a>
-			</div>
+		
 		</div>
 	</div>
+	
 	<script>
 		$.ajax({
 			url : "gosuInfoDetailCnt.me",

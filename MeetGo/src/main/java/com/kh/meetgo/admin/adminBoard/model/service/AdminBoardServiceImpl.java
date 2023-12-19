@@ -24,4 +24,14 @@ public class AdminBoardServiceImpl implements AdminBoardService{
     public ArrayList<Board> selectAllBoard(PageInfo pi, String status) {
         return adminBoardDao.selectAllBoard(sqlSession,pi, status);
     }
+
+    @Override
+    public int insertNotice(String url, Board board) {
+        return adminBoardDao.insertNotice(sqlSession,url, board);
+    }
+
+    @Override
+    public int deleteBoard(int boardNo) {
+        return adminBoardDao.deleteBoard(sqlSession, boardNo);
+    }
 }

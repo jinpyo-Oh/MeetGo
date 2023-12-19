@@ -29,7 +29,29 @@ public class ChatDao {
     }
 
     public int insertChat(SqlSessionTemplate sqlSession, Chat chat) {
+        if(chat.getType().equals("M")){
+            chat.setContent(changeTagMethod(chat.getContent()));
+        }
         return sqlSession.insert("chatMapper.insertChat", chat);
+    }
+    public String changeTagMethod(String message) {
+
+        String rtnStr = null;
+        StringBuffer strTxt = new StringBuffer("");
+        char chrBuff;
+        int len = message.length();
+        for(int i = 0; i < len; i++) {
+            chrBuff = (char)message.charAt(i);
+            switch(chrBuff) {
+                case '<': strTxt.append("&lt;"); break;
+                case '>': strTxt.append("&gt;"); break;
+                case '&': strTxt.append("&amp;"); break;
+                default:
+                    strTxt.append(chrBuff);
+            }
+        }
+        rtnStr = strTxt.toString();
+        return rtnStr;
     }
 
     public Member selectChatUserInfo(SqlSessionTemplate sqlSession, String no) {
@@ -108,5 +130,9 @@ public class ChatDao {
 
     public ArrayList<ChatReviewDto> selectUserReviewList(SqlSessionTemplate sqlSession, int userNo) {
         return (ArrayList)sqlSession.selectList("chatMapper.selectUserReviewList", userNo);
+    }
+
+    public int outChatRoom(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+        return sqlSession.update("chatMapper.outChatRoom", map);
     }
 }

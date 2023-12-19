@@ -85,6 +85,11 @@ public class ChatServiceImpl implements ChatService{
     }
 
     @Override
+    public int outChatRoom(Map<String, Object> map) {
+        return chatDao.outChatRoom(sqlSession, map);
+    }
+
+    @Override
     public Member selectChatGosuInfo(int chatroomNo) {
         return chatDao.selectChatGosuInfo(sqlSession,chatroomNo);
     }

@@ -46,27 +46,26 @@
 	    text-align: center;
     }
     #adminPofol-list tr:hover{ cursor:pointer;}
-    .pagingBtn {
-	    border: 0;
-	    border-radius: 5px;
-	    width: 80px;
-	    height: 40px;
-	    font-size: 20px;
-	    color: white;
-	    background-color: #2a91f7c0;
-	}
-
-	.pageBtn {
-	    border: 0;
-	    border-radius: 5px;
-	    width: 40px;
-	    height: 40px;
-	    font-size: 20px;
-	    color: white;
-	    background-color: #2a91f7c0;
-	    margin-left:5px;
-		margin-right:5px;
-	}
+    .pagingBtn{
+        border: 0;
+        border-radius: 5px;
+        width: 30px;
+        height: 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #2a91f7c0;
+        margin : 0px 3px;
+    }
+    .pageBtn{
+        border: 0;
+        border-radius: 5px;
+        width: 30px;
+        height: 40px;
+        font-size: 20px;
+        color: white;
+        background-color: #2a91f7c0;
+        margin : 0px 3px;
+    }
 
 </style>
 </head>
@@ -223,7 +222,7 @@
 					  $("#pofol-list-content").append(resultStr);							
 				  }
 				  
-				  let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage('+ currentPage +')">Prev</button>');
+				  let prevButton = $('<button type="button" class="pagingBtn" onclick="prevPage('+ currentPage +')">&lt;</button>');
 					
 					// prev버튼 조건에 따른 숨김처리
 					if(startPage > maxPage){
@@ -249,7 +248,7 @@
   				}     
   				
   				// 다음버튼
-  				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage('+ currentPage +')">Next</button>');
+  				let nextButton = $('<button type="button" class="pagingBtn" onclick="nextPage('+ currentPage +')">&gt;</button>');
 	    				if(parseInt($("#currentPage").val()) == maxPage){
 	    					nextButton.css("display", "none");
 	    				}
