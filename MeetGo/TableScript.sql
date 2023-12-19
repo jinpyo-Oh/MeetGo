@@ -352,6 +352,7 @@ CREATE TABLE "BOARD"
     "BOARD_UPDATE_DATE" DATE   DEFAULT SYSDATE,                              -- 수정일
     "BOARD_COUNT"       NUMBER DEFAULT 0,                                    -- 조회수
     "BOARD_TYPE"        VARCHAR2(1) CHECK ( BOARD_TYPE IN ('1', '2', '3') ), -- 1:자유, 2:팁, 3:공지
+    "BOARD_STATUS"      VARCHAR2(1) default 1 CHECK ( BOARD_STATUS IN('1', '2') ),     -- 1: 활성, 2: 비활성
     "USER_NO"           NUMBER         NOT NULL,                             -- 사용자 번호
     FOREIGN KEY (USER_NO) REFERENCES MEMBER (USER_NO)
 );

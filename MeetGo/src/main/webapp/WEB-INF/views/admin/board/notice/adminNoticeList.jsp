@@ -27,7 +27,22 @@
 <jsp:include page="../../common/adminHeader.jsp"/>
 <script>
 	selectBoard(3, 1);
-
+    function deleteBoard(boardNo, cPage){
+        console.log("ㅇㅅㅇ");
+        $.ajax({
+            url :"deleteBoard.ad",
+            method: "get",
+            data : {
+                boardNo : boardNo
+            },
+            success : function (){
+                selectBoard(3 , cPage)
+            },
+            error : function (){
+                console.log("삭제 실패");
+            }
+        })
+    }
 	function selectBoard(status , cPage){
 		$('#chatList > tbody').empty();
 		$('#button-area').empty();
@@ -42,14 +57,16 @@
 				let list = data.list;
 				let pi = data.pi;
 				for (let i = 0; i < list.length; i++) {
-					let content =
-							'<tr>' +
-								'<td width="10%">'+list[i].boardNo+'</td>' +
-								'<td width="20%">'+list[i].boardTitle+'</td>' +
-								'<td width="15%">'+list[i].boardContent+'</td>' +
-								'<td width="15%">'+list[i].createDate+'</td>' +
-								'<td width="10%">'+list[i].boardCount+'</td>' +
-							'</tr>';
+                    let content =
+                        '<tr onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' +
+                        '<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardNo + '</td>' +
+                        '<td width="20%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardTitle + '</td>' +
+                        '<td width="15%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].createDate.substring(0, 16) + '</td>' +
+                        '<td width="10%" onclick="redirectToNoticeDetail(' + list[i].boardNo + ')">' + list[i].boardCount + '</td>' +
+                        '<td width="10%">' +
+                        (list[i].boardStatus == 1 ? '<button class="meetgo-red" onclick="deleteBoard(' + list[i].boardNo + ', ' + pi.currentPage + ')">게시글 삭제</button>' : '<p style="color: red" disabled>삭제된 게시글</p>') +
+                        '</td>' +
+                        '</tr>';
 					$('#chatList > tbody').append(content);
 				}
 				let paging = '';
@@ -99,9 +116,9 @@
 			<tr>
 				<td width="10%">게시글 번호</td>
 				<td width="20%">제목</td>
-				<td width="15%">게시글 등록일</td>
-				<td width="15%">게시글 수정일</td>
+				<td width="15%">게시글 생성일</td>
 				<td width="10%">게시글 조회수</td>
+				<td width="15%">게시글 상태</td>
 			</tr>
 		</thead>
 		<tbody>
