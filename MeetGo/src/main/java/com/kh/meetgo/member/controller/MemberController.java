@@ -107,6 +107,7 @@ public class MemberController {
 
         return "member/memberWishlist";
     }
+
     @RequestMapping("guide.me")
     public String memberGuide() {
 
@@ -129,7 +130,6 @@ public class MemberController {
 
     }
 
-    
 
     @RequestMapping("login.me")
     public ModelAndView loginMember(Member m,
@@ -148,6 +148,12 @@ public class MemberController {
 
         boolean check = bCryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd());
         if (check) {
+            if (loginUser.getEnrollStatus() == 5) {
+                session.setAttribute("loginUser", loginUser);
+                session.setAttribute("alertMsg", "관리자 로그인 성공.");
+                mv.setViewName("redirect:/adminMainPage.ad");
+                return mv;
+            }
             session.setAttribute("loginUser", loginUser);
             session.setAttribute("alertMsg", "로그인 성공.");
             mv.setViewName("redirect:/");
@@ -168,8 +174,7 @@ public class MemberController {
         }
         return mv;
     }
-    
-  
+
 
     @RequestMapping("logout.me")
     public String loginMember(HttpSession session) {
@@ -194,7 +199,7 @@ public class MemberController {
             return "common/errorPage";
         }
     }
-    
+
     @ResponseBody
     @RequestMapping(value = "nickNameCheck.me", produces = "text/html; charset=UTF-8")
     public String nickNameCheck(String nickNameCheck) {
@@ -228,10 +233,10 @@ public class MemberController {
     @ResponseBody
     @RequestMapping(value = "emailCheck.me", produces = "text/html; charset=UTF-8")
     public String checkEmail(String userEmail, String userEmail2) {
-        if(userEmail == null || userEmail2 == null){
+        if (userEmail == null || userEmail2 == null) {
             return "NNNNN";
         }
-        String checkEmail1	 = userEmail + "@"+ userEmail2;
+        String checkEmail1 = userEmail + "@" + userEmail2;
         int count = memberService.emailCheck(checkEmail1);
         return (count > 0) ? "NNNNN" : "NNNNY";
     }
@@ -788,7 +793,7 @@ public class MemberController {
             HttpSession session,
             @RequestParam(value = "cPage", defaultValue = "1") int currentPage,
             ModelAndView mv) {
-        Member m = (Member)session.getAttribute("loginUser");
+        Member m = (Member) session.getAttribute("loginUser");
         int listCount = boardService.countAllMyPost(m.getUserNo());
         int pageLimit = 5;
         int boardLimit = 5;

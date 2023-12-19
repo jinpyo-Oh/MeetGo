@@ -50,10 +50,11 @@ CREATE TABLE MEMBER
     ADDRESS          VARCHAR2(100)                                          NULL,                          -- 주소
     CREATE_DATE      DATE           DEFAULT SYSDATE,                                                       -- 생성일자
     LAST_ACCESS_DATE DATE           DEFAULT SYSDATE,                                                       -- 최근 접속일
-    USER_STATUS      NUMBER         default 1 CHECK (USER_STATUS IN (1, 2)) NULL,                          -- 1: 일반사용자,  2: 고수,  3: ADMIN
-    ENROLL_STATUS    NUMBER         default 1 CHECK (ENROLL_STATUS IN (1, 2, 3, 4) )                       -- 1: 일반사용자(고수등록),  2: 고수(고수 비활성화),  3: 고수 비활성화(고수 활성화) 4: 회원 탈퇴(회원 비활성화)
+    USER_STATUS      NUMBER         default 1 CHECK (USER_STATUS IN (1, 2 )) NULL,                          -- 1: 일반사용자,  2: 고수,  3: ADMIN
+    ENROLL_STATUS    NUMBER         default 1 CHECK (ENROLL_STATUS IN (1, 2, 3, 4, 5) )                       -- 1: 일반사용자(고수등록),  2: 고수(고수 비활성화),  3: 고수 비활성화(고수 활성화) 4: 회원 탈퇴(회원 비활성화) 5: 관리자
 );
 CREATE SEQUENCE SEQ_MEMBER_NO NOCACHE;
+INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE, USER_STATUS, ENROLL_STATUS) VALUES (-1, 'admin', 'admin', '$2a$10$NeWRZi7TdCDp6qKGOWNW/OfFyRNDus/gJ1ti5lgWLD911nu0IWNzy', 'admin', 'M', 'admin@meetgo.com', '123132132', 'https://heurm-tutorial.vlpt.us/images/default_thumbnail.png', '서울 강동구 암사11길 5 123', TIMESTAMP '2023-12-20 02:52:57', TIMESTAMP '2023-12-20 02:52:57', 1, 5);
 
 CREATE TABLE REPORT
 (

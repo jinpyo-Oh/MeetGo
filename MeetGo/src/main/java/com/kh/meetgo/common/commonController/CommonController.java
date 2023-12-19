@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -48,4 +49,9 @@ public class CommonController {
         return new Gson().toJson(report);
     }
 
+    @RequestMapping("noAccessAdmin.ad")
+    public String noAccessAdmin(HttpSession session) {
+        session.setAttribute("alertMsg", "관리자만 접근 가능합니다.");
+        return "redirect:/";
+    }
 }

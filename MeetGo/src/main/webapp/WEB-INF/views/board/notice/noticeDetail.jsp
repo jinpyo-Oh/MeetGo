@@ -140,6 +140,7 @@
          	
             
         </div>
+        <br>
         <hr>
         <div class="main_body">
           
@@ -167,7 +168,7 @@
          <div class="main_body_2_1" style="text-align:right;">
             
             
-            ${ requestScope.m.userNickname } 
+            작성자 : ${ requestScope.m.userNickname }
                  
          </div>
 
@@ -184,15 +185,13 @@
                 <br> &nbsp;&nbsp;
                 <button class="btn btn-primary">수정하기</button> 
                 &nbsp;&nbsp;
-                <button class="btn btn-secondary">삭제하기</button>           
+                <button class="btn btn-secondary">삭제하기</button>
              </div>
             
             <div class="main_body_4_2">
                 <br>
                 &nbsp;&nbsp; &nbsp;&nbsp;
-                &nbsp;&nbsp; &nbsp;&nbsp;
-                &nbsp;&nbsp; &nbsp;&nbsp;
-                <button class="btn btn-primary">목록으로</button> 
+                <button onclick="window.history.back();" class="btn btn-primary">목록으로</button>
 
 
             </div>

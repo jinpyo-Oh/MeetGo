@@ -227,6 +227,13 @@
 
 </style>
 <body>
+<script>
+	$(function (){
+		if(${sessionScope.loginUser.enrollStatus != 5}){
+			location.href ="noAccessAdmin.ad";
+		}
+	})
+</script>
 <header class="admin-header">
 	<div class="header-nav">
 		<div class="addmin-logo-area" style="cursor: pointer; position: relative" onclick="location.href='adminMainPage.ad	'">
@@ -279,11 +286,11 @@
 	
 	<div class="admin-right-box">
 		<div class="admin-right-box-1">
-			<p>어드민 페이지(admin123) 접속 중</p>
+			<p>${sessionScope.loginUser.userName}님이 접속중입니다.</p>
 		</div>
 		<div class="admin-right-box-2">
 			<button class="admin-button" onclick="location.href=<%=request.getContextPath()%>/">MeetGo 바로가기</button>
-			<button class="admin-button">로그아웃</button>
+			<button class="admin-button" onclick="location.href='logout.me'">로그아웃</button>
 		</div>
 	</div>
 </header>
