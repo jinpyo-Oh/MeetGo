@@ -35,7 +35,7 @@
 		<result column="BOARD_CONTENT" property="boardContent" />
 		<result column="BOARD_CREATE_DATE" property="boardCreateDate" />	
 		<result column="BOARD_COUNT" property="boardCount" />
-		<result column="BFILE_PATH" property="BfilePath" />		
+		<result column="BFILE_URL" property="BfilePath" />		
 		<result column="USER_NO" property="userNo" />	
 		<result column="USER_NICKNAME" property="userNickname"/>	
 		<result column="USER_PROFILE" property="userProfile"/>			
@@ -86,16 +86,13 @@
 			        BOARD_CONTENT,
 			        BOARD_CREATE_DATE,
 			        USER_NO,
-			        BOARD_TYPE
-			       
-			        )
+			        BOARD_TYPE)
 			         VALUES(SEQ_BOARD_NO.NEXTVAL
 			         ,#{boardTitle}
 			         ,#{boardContent}
 			         ,SYSDATE
 			         ,#{userNo}
 			         ,1
-			      e
 			        )
 			        
 	</insert>	
@@ -162,7 +159,7 @@
 		     , B.BOARD_CONTENT AS "boardContent"
 		     , TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "boardCreateDate"
 		     , B.BOARD_COUNT AS "boardCount"
-		     , BF.BFILE_PATH AS "BfilePath"
+		     , BF.BFILE_URL AS "BfilePath"
 		     , B.USER_NO AS "userNo"
 		FROM BOARD B
 		LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
@@ -208,7 +205,7 @@
 		     , B.BOARD_CONTENT
 		     , B.USER_NO
 		     , B.BOARD_COUNT
-		     , BFILE_PATH
+		     , BFILE_URL
 		     , (SELECT USER_NICKNAME 
 		     	  FROM MEMBER 
 		     	 WHERE MEMBER.USER_NO = B.USER_NO) AS "USER_NICKNAME"
@@ -223,7 +220,7 @@
 	<!-- 팁노하우이미지 -->
 	<insert id="insertTipImg" parameterType="hashMap">
 		INSERT INTO BOARD_FILE( BFILE_NO
-                 , BFILE_PATH 
+                 , BFILE_URL 
                  , BOARD_NO 
                  , BFILE_STATUS
 			) VALUES ( SEQ_BOARD_FILE_NO.NEXTVAL
@@ -234,7 +231,7 @@
 	</insert>
 	
 	<select id="selectTipImgList"  resultType="BoardFileDto">
-		SELECT BFILE_PATH AS "BfilePath"
+		SELECT BFILE_URL AS "BfilePath"
 		FROM BOARD_FILE
 		WHERE BOARD_NO = #{boardNo}
 		
@@ -356,12 +353,13 @@
 	
 	<!-- 포폴 리스트 전체조회 -->
 	<select id="selectPofolList" parameterType="hashMap" resultType="pofolOpt">
-        SELECT P.POFOL_NO AS "pofol.pofolNo",
+        SELECT DISTINCT P.POFOL_NO AS "pofol.pofolNo",
 			   P.POFOL_TITLE AS "pofol.pofolTitle",
 			   P.POFOL_VISITED AS "pofol.pofolVisited",
 			   P.POFOL_STATUS AS "pofol.pofolStatus",
                P.POFOL_SERVICE AS "pofol.pofolService",
 			   P.GOSU_NO AS "pofol.gosuNo",
+			   P.POFOL_CREATE_DATE AS "pofol.createDate",
                CS.CATEGORY_BIG_NO AS "categoryBigNo",
                CS.CATEGORY_SMALL_NAME AS "categorySmallName",
                PI.POFOL_IMG_URL AS "firstImg"
@@ -523,7 +521,16 @@
 		DELETE FROM POFOL_IMG
 		WHERE POFOL_NO = #{pofolNo}
 	</delete>
-
+	<select id="countAllMyPost" parameterType="_int" resultType="_int">
+		select COUNT(*)
+		from BOARD
+		where USER_NO = #{userNo}
+	</select>
+	<select id="selectAllMyPost" parameterType="_int" resultMap="boardResultSet">
+		select *
+		from BOARD
+		where USER_NO = #{userNo}
+	</select>
 </mapper>
 
 

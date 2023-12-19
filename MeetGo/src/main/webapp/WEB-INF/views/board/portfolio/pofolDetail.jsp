@@ -62,6 +62,7 @@
        /* 포트폴리오 이미지 스와이퍼 */
        .swiper {
        margin: 0;
+       margin-left:10px;
        width: 470px;
        height: 420px;
        position: relative;

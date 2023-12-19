@@ -62,11 +62,6 @@ public class MemberController {
         return "member/memberChecknumber";
     }
 
-    @RequestMapping("myPost.me")
-    public String myPost() {
-        return "member/memberMyPost";
-    }
-
     @RequestMapping("comment.me")
     public String comment() {
         return "member/memberComment";
@@ -789,20 +784,19 @@ public class MemberController {
     }
 
     @GetMapping("myPost.me")
-    public ModelAndView selectGosuReqList(
-            @RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+    public ModelAndView selectAllMyPost(
+            HttpSession session,
+            @RequestParam(value = "cPage", defaultValue = "1") int currentPage,
             ModelAndView mv) {
-
-        int listCount = boardService.selectGosuReqListCount();
+        Member m = (Member)session.getAttribute("loginUser");
+        int listCount = boardService.countAllMyPost(m.getUserNo());
         int pageLimit = 5;
         int boardLimit = 5;
 
         PageInfo pi = Pagination.getPageInfo(listCount,
                 currentPage, pageLimit, boardLimit);
 
-        ArrayList<Board> list = boardService.selectGosuReqList(pi);
-
-
+        ArrayList<Board> list = boardService.selectAllMyPost(pi, m.getUserNo());
         mv.addObject("list", list)
                 .addObject("pi", pi)
                 .setViewName("member/memberMyPost");

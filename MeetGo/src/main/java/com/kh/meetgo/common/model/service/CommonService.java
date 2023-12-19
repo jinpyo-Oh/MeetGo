@@ -1,6 +1,8 @@
 package com.kh.meetgo.common.model.service;
 
+import com.kh.meetgo.board.model.vo.Board;
 import com.kh.meetgo.common.model.dao.CommonDao;
+import com.kh.meetgo.common.model.dto.BoardRequest;
 import com.kh.meetgo.common.model.dto.PoFolRequest;
 import com.kh.meetgo.common.model.vo.Report;
 import com.kh.meetgo.member.model.vo.Gosu;
@@ -26,5 +28,8 @@ public class CommonService {
 
     public int insertReport(Report report) {
         return commonDao.insertReport(sqlSession, report);
+    }
+
+    public ArrayList<BoardRequest> selectMainTipList() { return commonDao.selectMainTipList(sqlSession);
     }
 }

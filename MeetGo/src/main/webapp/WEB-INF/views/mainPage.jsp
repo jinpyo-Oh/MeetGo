@@ -67,6 +67,7 @@
 			height: 300px;
 			text-align: center;
 			margin: 20px;
+			cursor: pointer;
 		}
 		.portfolio-img {
 			position: relative;
@@ -155,6 +156,11 @@
 
 <body>
 	<jsp:include page="common/header.jsp"/>
+	<script>
+		$(function (){
+            selectMainTipList();
+		})
+	</script>
 	<div class="content">
 		
 		
@@ -299,7 +305,7 @@
 		<section> <!-- 포트폴리오 영역 -->
 			<div class="main-header">
 				<h2>MeetGo 포트폴리오</h2>
-				<a href="<%=request.getContextPath()%>/sendPofol.po" class="go-list" data-v-1b5b0368 data-v-3daa4096>
+				<a href="sendPofol.po" class="go-list" data-v-1b5b0368 data-v-3daa4096>
 					<span data-v-1b5b0368>전체보기</span>
 					<img style="width: 15px; height: 15px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX///8AAABZWVn8/PxkZGRNTU309PRtbW06OjpWVlZSUlJbW1tJSUn39/dpaWn5+flERESsrKyioqJAQECOjo63t7cLCwva2tqXl5dzc3MWFhYtLS3j4+PLy8thYWHCwsKampqAgIAfHx/e3t41NTXHcqcgAAAD30lEQVR4nO2dC3ITMRBEpWyy+WGMTZyvA3Hg/mckWw4QLNmrdpwSbzTvANR0Tc9Mi61yQngP/eLu7P764Xy+fNc/89/SX8U/nN/UruYDeLyOb7mqXc/BmcUNvtWu6MDMNwXGeFK7poOSEfgyjLWrOiBZgTEe1a7rYGwRGONF7coOxFaBVmZxh0AbRt0p0MK6WewWyDfqzZhAfBc/jStkz+L3AoHsLn4pUgiexWmZQHAXy0w6QJ3F0VOBN+rItf8HZkYVegg1avkcDhDXzVJSiJzFZ00isIu3mkLgLBaf/N/wNmryn4hj8GZxpUrkGfXCvsRzVSLOqN2lKhG3brojVSLPqPIs8k6/3MUGZhHXxU7eqA3MIm6jBtmoDcxiA0bFrRsPcBa66AHOQhc9wFnoYtfAq1+WiDOqHuBwGdUDXAbcuvEAZ6GL/urPgNuo/urP0IBRG5DYgFFx68Zf/Rlwp98DnIUueoDLgNuoHuAy8Ix6Yl+iH40U3Lrxo5EBd/r9s42FLrbw2Ua+i7iN2sJnmwZe/bJRcevGA5yFLrYQ4Bo4Gh7gUnBGbSHA+WebFNy68QCXAXf6PcBZ6GILR8MDXApvFv1oWJDoAS4Ft2781Z8Bd/o9wFnooh7g7mqXLCPP4rx2xTJyuulrV6wiBzjgL6OrRq1d7x6IRwP4C/7i0VjUrncPtFl8ql3uPvSKwlXtavegL/xlW2wP+5JfX/4Lbw67r5JA3i6dnmkCcfdQtGiMt7UrFpmoAuOkdskanWrROKtdssZEXDK43C3PYDytXbLGVDr0A8e1S9aQz0T8XLtkDS2qDcAsqp8JWAfVqIabwYk8gzCL2j8TskCYRfWoBlsyvbxkYBbVZxDWwc6j2iY0i3pU24Q2g7JFYTPoUY0u0PyL3n5Us34m7Ec16y96j2p0gXpUg1nUflTzFz1coPmo5h9fEmAW9aiWAJtBf9HTBXpUS4AtGf/4QhfoUS2BNoPWo5r9jy8e1TaBWdTPRALMovajmvUz4S/6BNgM+scXukB/0dMF+scXukDzUc1f9Akwi3pUS4DNoL/o6QI9qiXAlox/fKEL9KiWQJtB61HNP74kmJ9BmEXDsXWBT6pAmEW13x0bgC2ZEFaiQJpFQ7DewfCoCaTN4AsLSSDPoiHcWhcYVoJA3gwOzMsFAmdwoHwOkRZ9YWldYAjPpi06MCsSyFwyrzyYtuhAQapBdzAUHAzwDL5yZdmia3ZKtCBwp0S+RddslWhF4FaJNiy6JivRksCsRDsWXZM8hnl/5GaMjZcU70/cjLNcvXHoj9rVfAz97PTn/fXD5WxZu5Lt/AJjmD6cEME9/gAAAABJRU5ErkJggg==">
 				</a>
@@ -317,19 +323,19 @@
                                 let pofolUrl = data[i].firstImg;
                                 let userUrl = data[i].gosuImg;
                                 let pofolTitle = (pofol.pofolTitle).replaceAll(" ", "").length > 10 ? pofol.pofolTitle.substring(0,12) + "..." : pofol.pofolTitle;
-                                var pofolCard = '<div class="portfolio-card">' +
-													'<div class="portfolio-img">' +
-														'<img src="'+pofolUrl+'">' +
-														'<div class="portfolio-img-text">' +
-															'<h4>'+pofolTitle+'</h4>' +
-															'<p>'+pofol.pofolService+'</p>' +
-														'</div>' +
-													'</div>' +
-													'<div class="portfolio-info">' +
-														'<img src="'+userUrl+'">' +
-														'<p>'+data[i].userNickname+'</p>' +
-													'</div>' +
-												'</div>';
+                                var pofolCard = '<div onclick="location.href=\'pofolDetail.po?pno=' + pofol.pofolNo + '\'" class="portfolio-card">' +
+                                    '<div class="portfolio-img">' +
+                                    '<img src="' + pofolUrl + '">' +
+                                    '<div class="portfolio-img-text">' +
+                                    '<h4>' + pofolTitle + '</h4>' +
+                                    '<p>' + pofol.pofolService + '</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="portfolio-info">' +
+                                    '<img src="' + userUrl + '">' +
+                                    '<p>' + data[i].userNickname + '</p>' +
+                                    '</div>' +
+                                    '</div>';
                                 $('.main-pofol').append(pofolCard);
                             }
                             $('.main-pofol').slick({
@@ -382,57 +388,54 @@
 			</script>
 		</section>
 		<br><br>
+		
+		<script>
+			function selectMainTipList(){
+                $.ajax({
+					url : "selectMainTipList",
+					method: "get",
+					data : {},
+					success : function (data){
+                        console.log(data);
+                        for (let i = 0; i < Math.min(data.length, 2); i++) {
+							let content =
+								'<div class="tip-card">' +
+                                '<div class="tip-card-header">' +
+                                '<div class="tip-card-img">' +
+                                '<img src="'+data[i].member.userProFile+'" alt="">' +
+                                '</div>' +
+                                '<div class="tip-card-info">' +
+                                '<div class="card-name">'+data[i].member.userName+'</div>' +
+                                '</div>' +
+                                '<a href="tipDetail.bo?bno='+data[i].board.boardNo+'">' +
+                                '<span data-v-1b5b0368>더보기</span>' +
+                                '<img style="width: 15px; height: 15px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX///8AAABZWVn8/PxkZGRNTU309PRtbW06OjpWVlZSUlJbW1tJSUn39/dpaWn5+flERESsrKyioqJAQECOjo63t7cLCwva2tqXl5dzc3MWFhYtLS3j4+PLy8thYWHCwsKampqAgIAfHx/e3t41NTXHcqcgAAAD30lEQVR4nO2dC3ITMRBEpWyy+WGMTZyvA3Hg/mckWw4QLNmrdpwSbzTvANR0Tc9Mi61yQngP/eLu7P764Xy+fNc/89/SX8U/nN/UruYDeLyOb7mqXc/BmcUNvtWu6MDMNwXGeFK7poOSEfgyjLWrOiBZgTEe1a7rYGwRGONF7coOxFaBVmZxh0AbRt0p0MK6WewWyDfqzZhAfBc/jStkz+L3AoHsLn4pUgiexWmZQHAXy0w6QJ3F0VOBN+rItf8HZkYVegg1avkcDhDXzVJSiJzFZ00isIu3mkLgLBaf/N/wNmryn4hj8GZxpUrkGfXCvsRzVSLOqN2lKhG3brojVSLPqPIs8k6/3MUGZhHXxU7eqA3MIm6jBtmoDcxiA0bFrRsPcBa66AHOQhc9wFnoYtfAq1+WiDOqHuBwGdUDXAbcuvEAZ6GL/urPgNuo/urP0IBRG5DYgFFx68Zf/Rlwp98DnIUueoDLgNuoHuAy8Ix6Yl+iH40U3Lrxo5EBd/r9s42FLrbw2Ua+i7iN2sJnmwZe/bJRcevGA5yFLrYQ4Bo4Gh7gUnBGbSHA+WebFNy68QCXAXf6PcBZ6GILR8MDXApvFv1oWJDoAS4Ft2781Z8Bd/o9wFnooh7g7mqXLCPP4rx2xTJyuulrV6wiBzjgL6OrRq1d7x6IRwP4C/7i0VjUrncPtFl8ql3uPvSKwlXtavegL/xlW2wP+5JfX/4Lbw67r5JA3i6dnmkCcfdQtGiMt7UrFpmoAuOkdskanWrROKtdssZEXDK43C3PYDytXbLGVDr0A8e1S9aQz0T8XLtkDS2qDcAsqp8JWAfVqIabwYk8gzCL2j8TskCYRfWoBlsyvbxkYBbVZxDWwc6j2iY0i3pU24Q2g7JFYTPoUY0u0PyL3n5Us34m7Ec16y96j2p0gXpUg1nUflTzFz1coPmo5h9fEmAW9aiWAJtBf9HTBXpUS4AtGf/4QhfoUS2BNoPWo5r9jy8e1TaBWdTPRALMovajmvUz4S/6BNgM+scXukB/0dMF+scXukDzUc1f9Akwi3pUS4DNoL/o6QI9qiXAlox/fKEL9KiWQJtB61HNP74kmJ9BmEXDsXWBT6pAmEW13x0bgC2ZEFaiQJpFQ7DewfCoCaTN4AsLSSDPoiHcWhcYVoJA3gwOzMsFAmdwoHwOkRZ9YWldYAjPpi06MCsSyFwyrzyYtuhAQapBdzAUHAzwDL5yZdmia3ZKtCBwp0S+RddslWhF4FaJNiy6JivRksCsRDsWXZM8hnl/5GaMjZcU70/cjLNcvXHoj9rVfAz97PTn/fXD5WxZu5Lt/AJjmD6cEME9/gAAAABJRU5ErkJggg==">' +
+                                '</a>' +
+                                '</div>' +
+                                        '<div class="tip-card-content">' +
+                                '<div>'+data[i].board.boardContent+'</div>' +
+                                '</div>' +
+                                '</div>';
+                                $('#main-tip-list').append(content);
+                        }
+					},
+					error : function (){
+                        console.log("팁 리스트 조회 실패")
+					}
+				})
+			}
+		</script>
 		<section> <!-- MeetGo 꿀팁 영역 시작 -->
 			<div class="main-header">
 				<h2>MeetGo 꿀팁</h2>
-				<a href="/portfolio/?from=main-portfolio" class="go-list" data-v-1b5b0368 data-v-3daa4096>
+				<a href="tipList.bo" class="go-list" data-v-1b5b0368 data-v-3daa4096>
 					<span data-v-1b5b0368>전체보기</span>
 					<img style="width: 15px; height: 15px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX///8AAABZWVn8/PxkZGRNTU309PRtbW06OjpWVlZSUlJbW1tJSUn39/dpaWn5+flERESsrKyioqJAQECOjo63t7cLCwva2tqXl5dzc3MWFhYtLS3j4+PLy8thYWHCwsKampqAgIAfHx/e3t41NTXHcqcgAAAD30lEQVR4nO2dC3ITMRBEpWyy+WGMTZyvA3Hg/mckWw4QLNmrdpwSbzTvANR0Tc9Mi61yQngP/eLu7P764Xy+fNc/89/SX8U/nN/UruYDeLyOb7mqXc/BmcUNvtWu6MDMNwXGeFK7poOSEfgyjLWrOiBZgTEe1a7rYGwRGONF7coOxFaBVmZxh0AbRt0p0MK6WewWyDfqzZhAfBc/jStkz+L3AoHsLn4pUgiexWmZQHAXy0w6QJ3F0VOBN+rItf8HZkYVegg1avkcDhDXzVJSiJzFZ00isIu3mkLgLBaf/N/wNmryn4hj8GZxpUrkGfXCvsRzVSLOqN2lKhG3brojVSLPqPIs8k6/3MUGZhHXxU7eqA3MIm6jBtmoDcxiA0bFrRsPcBa66AHOQhc9wFnoYtfAq1+WiDOqHuBwGdUDXAbcuvEAZ6GL/urPgNuo/urP0IBRG5DYgFFx68Zf/Rlwp98DnIUueoDLgNuoHuAy8Ix6Yl+iH40U3Lrxo5EBd/r9s42FLrbw2Ua+i7iN2sJnmwZe/bJRcevGA5yFLrYQ4Bo4Gh7gUnBGbSHA+WebFNy68QCXAXf6PcBZ6GILR8MDXApvFv1oWJDoAS4Ft2781Z8Bd/o9wFnooh7g7mqXLCPP4rx2xTJyuulrV6wiBzjgL6OrRq1d7x6IRwP4C/7i0VjUrncPtFl8ql3uPvSKwlXtavegL/xlW2wP+5JfX/4Lbw67r5JA3i6dnmkCcfdQtGiMt7UrFpmoAuOkdskanWrROKtdssZEXDK43C3PYDytXbLGVDr0A8e1S9aQz0T8XLtkDS2qDcAsqp8JWAfVqIabwYk8gzCL2j8TskCYRfWoBlsyvbxkYBbVZxDWwc6j2iY0i3pU24Q2g7JFYTPoUY0u0PyL3n5Us34m7Ec16y96j2p0gXpUg1nUflTzFz1coPmo5h9fEmAW9aiWAJtBf9HTBXpUS4AtGf/4QhfoUS2BNoPWo5r9jy8e1TaBWdTPRALMovajmvUz4S/6BNgM+scXukB/0dMF+scXukDzUc1f9Akwi3pUS4DNoL/o6QI9qiXAlox/fKEL9KiWQJtB61HNP74kmJ9BmEXDsXWBT6pAmEW13x0bgC2ZEFaiQJpFQ7DewfCoCaTN4AsLSSDPoiHcWhcYVoJA3gwOzMsFAmdwoHwOkRZ9YWldYAjPpi06MCsSyFwyrzyYtuhAQapBdzAUHAzwDL5yZdmia3ZKtCBwp0S+RddslWhF4FaJNiy6JivRksCsRDsWXZM8hnl/5GaMjZcU70/cjLNcvXHoj9rVfAz97PTn/fXD5WxZu5Lt/AJjmD6cEME9/gAAAABJRU5ErkJggg==">
 				</a>
 			</div>
-			<div class="main-portfolio">
-				<div class="tip-card">
-					<div class="tip-card-header">
-						<div class="tip-card-img">
-							<img c src="https://img.allurekorea.com/allure/2023/05/style_6451ca47394b6-960x1200.jpg" alt="">
-						</div>
-						<div class="tip-card-info">
-							<div class="card-category">부분·피팅모델 알바</div>
-							<div class="card-name">정채연</div>
-						</div>
-						<a href="">
-							<span data-v-1b5b0368>더보기</span>
-							<img style="width: 15px; height: 15px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX///8AAABZWVn8/PxkZGRNTU309PRtbW06OjpWVlZSUlJbW1tJSUn39/dpaWn5+flERESsrKyioqJAQECOjo63t7cLCwva2tqXl5dzc3MWFhYtLS3j4+PLy8thYWHCwsKampqAgIAfHx/e3t41NTXHcqcgAAAD30lEQVR4nO2dC3ITMRBEpWyy+WGMTZyvA3Hg/mckWw4QLNmrdpwSbzTvANR0Tc9Mi61yQngP/eLu7P764Xy+fNc/89/SX8U/nN/UruYDeLyOb7mqXc/BmcUNvtWu6MDMNwXGeFK7poOSEfgyjLWrOiBZgTEe1a7rYGwRGONF7coOxFaBVmZxh0AbRt0p0MK6WewWyDfqzZhAfBc/jStkz+L3AoHsLn4pUgiexWmZQHAXy0w6QJ3F0VOBN+rItf8HZkYVegg1avkcDhDXzVJSiJzFZ00isIu3mkLgLBaf/N/wNmryn4hj8GZxpUrkGfXCvsRzVSLOqN2lKhG3brojVSLPqPIs8k6/3MUGZhHXxU7eqA3MIm6jBtmoDcxiA0bFrRsPcBa66AHOQhc9wFnoYtfAq1+WiDOqHuBwGdUDXAbcuvEAZ6GL/urPgNuo/urP0IBRG5DYgFFx68Zf/Rlwp98DnIUueoDLgNuoHuAy8Ix6Yl+iH40U3Lrxo5EBd/r9s42FLrbw2Ua+i7iN2sJnmwZe/bJRcevGA5yFLrYQ4Bo4Gh7gUnBGbSHA+WebFNy68QCXAXf6PcBZ6GILR8MDXApvFv1oWJDoAS4Ft2781Z8Bd/o9wFnooh7g7mqXLCPP4rx2xTJyuulrV6wiBzjgL6OrRq1d7x6IRwP4C/7i0VjUrncPtFl8ql3uPvSKwlXtavegL/xlW2wP+5JfX/4Lbw67r5JA3i6dnmkCcfdQtGiMt7UrFpmoAuOkdskanWrROKtdssZEXDK43C3PYDytXbLGVDr0A8e1S9aQz0T8XLtkDS2qDcAsqp8JWAfVqIabwYk8gzCL2j8TskCYRfWoBlsyvbxkYBbVZxDWwc6j2iY0i3pU24Q2g7JFYTPoUY0u0PyL3n5Us34m7Ec16y96j2p0gXpUg1nUflTzFz1coPmo5h9fEmAW9aiWAJtBf9HTBXpUS4AtGf/4QhfoUS2BNoPWo5r9jy8e1TaBWdTPRALMovajmvUz4S/6BNgM+scXukB/0dMF+scXukDzUc1f9Akwi3pUS4DNoL/o6QI9qiXAlox/fKEL9KiWQJtB61HNP74kmJ9BmEXDsXWBT6pAmEW13x0bgC2ZEFaiQJpFQ7DewfCoCaTN4AsLSSDPoiHcWhcYVoJA3gwOzMsFAmdwoHwOkRZ9YWldYAjPpi06MCsSyFwyrzyYtuhAQapBdzAUHAzwDL5yZdmia3ZKtCBwp0S+RddslWhF4FaJNiy6JivRksCsRDsWXZM8hnl/5GaMjZcU70/cjLNcvXHoj9rVfAz97PTn/fXD5WxZu5Lt/AJjmD6cEME9/gAAAABJRU5ErkJggg==">
-						</a>
-					</div>
-					<div class="tip-card-content">
-						<div>
-							메이크업 헤어 + 모델 시간당 포토샵 포함시 10만원으로 진행 합니다
-							촬영 끝나고 5일 안에 보정본 보내 드립니다 포토샵 as 가능합니다
-						</div>
-					</div>
-				</div>
-				<div class="tip-card">
-					<div class="tip-card-header">
-						<div class="tip-card-img">
-							<img src="https://img.allurekorea.com/allure/2023/05/style_6451ca47394b6-960x1200.jpg" alt="">
-						</div>
-						<div class="tip-card-info">
-							<div class="card-category">부분·피팅모델 알바</div>
-							<div class="card-name">정채연</div>
-						</div>
-						<a href="">
-							<span data-v-1b5b0368>더보기</span>
-							<img style="width: 15px; height: 15px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAb1BMVEX///8AAABZWVn8/PxkZGRNTU309PRtbW06OjpWVlZSUlJbW1tJSUn39/dpaWn5+flERESsrKyioqJAQECOjo63t7cLCwva2tqXl5dzc3MWFhYtLS3j4+PLy8thYWHCwsKampqAgIAfHx/e3t41NTXHcqcgAAAD30lEQVR4nO2dC3ITMRBEpWyy+WGMTZyvA3Hg/mckWw4QLNmrdpwSbzTvANR0Tc9Mi61yQngP/eLu7P764Xy+fNc/89/SX8U/nN/UruYDeLyOb7mqXc/BmcUNvtWu6MDMNwXGeFK7poOSEfgyjLWrOiBZgTEe1a7rYGwRGONF7coOxFaBVmZxh0AbRt0p0MK6WewWyDfqzZhAfBc/jStkz+L3AoHsLn4pUgiexWmZQHAXy0w6QJ3F0VOBN+rItf8HZkYVegg1avkcDhDXzVJSiJzFZ00isIu3mkLgLBaf/N/wNmryn4hj8GZxpUrkGfXCvsRzVSLOqN2lKhG3brojVSLPqPIs8k6/3MUGZhHXxU7eqA3MIm6jBtmoDcxiA0bFrRsPcBa66AHOQhc9wFnoYtfAq1+WiDOqHuBwGdUDXAbcuvEAZ6GL/urPgNuo/urP0IBRG5DYgFFx68Zf/Rlwp98DnIUueoDLgNuoHuAy8Ix6Yl+iH40U3Lrxo5EBd/r9s42FLrbw2Ua+i7iN2sJnmwZe/bJRcevGA5yFLrYQ4Bo4Gh7gUnBGbSHA+WebFNy68QCXAXf6PcBZ6GILR8MDXApvFv1oWJDoAS4Ft2781Z8Bd/o9wFnooh7g7mqXLCPP4rx2xTJyuulrV6wiBzjgL6OrRq1d7x6IRwP4C/7i0VjUrncPtFl8ql3uPvSKwlXtavegL/xlW2wP+5JfX/4Lbw67r5JA3i6dnmkCcfdQtGiMt7UrFpmoAuOkdskanWrROKtdssZEXDK43C3PYDytXbLGVDr0A8e1S9aQz0T8XLtkDS2qDcAsqp8JWAfVqIabwYk8gzCL2j8TskCYRfWoBlsyvbxkYBbVZxDWwc6j2iY0i3pU24Q2g7JFYTPoUY0u0PyL3n5Us34m7Ec16y96j2p0gXpUg1nUflTzFz1coPmo5h9fEmAW9aiWAJtBf9HTBXpUS4AtGf/4QhfoUS2BNoPWo5r9jy8e1TaBWdTPRALMovajmvUz4S/6BNgM+scXukB/0dMF+scXukDzUc1f9Akwi3pUS4DNoL/o6QI9qiXAlox/fKEL9KiWQJtB61HNP74kmJ9BmEXDsXWBT6pAmEW13x0bgC2ZEFaiQJpFQ7DewfCoCaTN4AsLSSDPoiHcWhcYVoJA3gwOzMsFAmdwoHwOkRZ9YWldYAjPpi06MCsSyFwyrzyYtuhAQapBdzAUHAzwDL5yZdmia3ZKtCBwp0S+RddslWhF4FaJNiy6JivRksCsRDsWXZM8hnl/5GaMjZcU70/cjLNcvXHoj9rVfAz97PTn/fXD5WxZu5Lt/AJjmD6cEME9/gAAAABJRU5ErkJggg==">
-						</a>
-					</div>
-					<div class="tip-card-content">
-						<div>
-							메이크업 헤어 + 모델 시간당 포토샵 포함시 10만원으로 진행 합니다
-							촬영 끝나고 5일 안에 보정본 보내 드립니다 포토샵 as 가능합니다
-						</div>
-					</div>
-				</div>
+			<div class="main-portfolio" id="main-tip-list">
+				
+			
 			</div>
 		</section><!-- MeetGo 꿀팁 영역 끝 -->
 	</div>

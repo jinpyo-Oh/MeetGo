@@ -392,8 +392,8 @@
 											<div class="user-menu">
 												<ul>
 													<li><div onclick="window.location.href='myPage.me'">내 정보 조회</div></li>
-													<li><div onclick="window.location.href=''">견적 목록</div></li>
-													<li><div onclick="window.location.href=''">내 리뷰 관리</div></li>
+													<li><div onclick="window.location.href='estimate.me?cPage=1'">견적 목록</div></li>
+													<li><div onclick="window.location.href='myReview.me?cPage=1'">내 리뷰 관리</div></li>
 												</ul>
 											</div>
 											<hr>
@@ -413,7 +413,7 @@
 												<ul>
 													<li><div onclick="window.location.href='myPage.me'">내 정보 조회</div></li>
 													<li><div onclick="window.location.href='gosuPage.me'">고수 프로필 관리</div></li>
-													<li><div onclick="window.location.href=''">견적 목록</div></li>
+													<li><div onclick="window.location.href='estimate.me?cPage=1'">견적 목록</div></li>
 												</ul>
 											</div>
 											<hr>

@@ -115,5 +115,8 @@ public interface BoardService {
 		// 포폴 삭제하기
 		int deletePofol(int pofolNo);
 		int deletePofolImg(int pofolNo);
-		
+
+	int countAllMyPost(int userNo);
+
+	ArrayList<Board> selectAllMyPost(PageInfo pi, int userNo);
 }

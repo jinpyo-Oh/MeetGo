@@ -563,7 +563,7 @@
         LEFT JOIN MEMBER M ON G.USER_NO = M.USER_NO
         WHERE G.GOSU_NO IN (
                 SELECT W.GOSU_NO
-                FROM "WISH-LIST" W
+                FROM "GOSU_LIKE" W
                 WHERE W.USER_NO = #{userNo}
         )
     </select>

@@ -255,4 +255,14 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectReplyList",boardNo);
 	}
 
+	public int countAllMyPost(SqlSessionTemplate sqlSession, int userNo) {
+		return sqlSession.selectOne("boardMapper.countAllMyPost", userNo);
+	}
+
+	public ArrayList<Board> selectAllMyPost(SqlSessionTemplate sqlSession, PageInfo pi, int userNo) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (ArrayList) sqlSession.selectList("boardMapper.selectAllMyPost", userNo, rowBounds);
+	}
 }
