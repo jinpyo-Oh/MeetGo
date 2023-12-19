@@ -189,19 +189,19 @@
         <div class="main3">
 
             <div class="main3_1" style="text-align: center;">
-               
-            </div>
-
-
-        </div>
-             
-        <div class="main4" style="text-align: right;">
+               	<div class="main4" style="text-align: right;">
  
             <button class="btn btn-secondary">취&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소</button>   
             
             <button class="btn btn-primary" style="margin-left: 15px;">작성하기</button>
 
         </div>
+            </div>
+	
+
+        </div>
+             
+        
     </form>
 
     </div>

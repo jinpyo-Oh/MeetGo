@@ -134,7 +134,6 @@
 		채팅방 관리
 	</p>
 	<hr>
-
 </div>
 <div align="center" id="list-area" class="table table-borderless table-hover">
 	<div class="search-box" style="display: flex; align-items: center; justify-content: flex-end;">

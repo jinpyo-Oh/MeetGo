@@ -140,7 +140,7 @@
 		</div>
 		<div class="gosu_content1">
 		    <br>
-		    <img src="${ requestScope.m.userProfile }" id="userProfile" width="70" height="70" style="border-radius: 50%;">   
+		    <img src="${ requestScope.m.userProfile }" id="userProfile" width="70px;" height="70px;" style="border-radius: 50%;">   
 		    &nbsp; &nbsp;
 		    
 		    ${requestScope.m.userNickname}

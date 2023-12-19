@@ -27,9 +27,9 @@
     height: 1000px;
     margin: auto;
     }
-
+	#tipListTable th{ height: 100px; padding-left:40px; padding-right:40px;}
+	
     .content_1{
-        height: 1000px;
         width: 1000px;
         float: right;
         box-sizing: border-box;
@@ -37,35 +37,28 @@
     }
     .content_title{
         width: 1000px;
-        height: 100px;
         box-sizing: border-box;
 
     }
     .content_1_1{
         box-sizing: border-box;
         width: 1000px;
-        height: 800px;
     }
     .content_1_2{
         box-sizing: border-box;
-        height: 50px;
         width: 1000px;
 
     }
   	.content_1_3{
         box-sizing: border-box;
   		width: 1000px;
-  		height: 200px;
   				
   		}
   	.content_1_title{
   		border : 1px solid hotpink;
   		box-sizing: border-box;
   		width: 1000px;
-  		height: 50px;
-  		
-  		
-  	
+
   	}		
   		
   
@@ -74,13 +67,11 @@
         box-sizing: border-box;
         text-align: center;
         float: right;
-        height: 20%;
     }
     .content_main4_1{
         width: 70%;
         box-sizing: border-box;
         float: left;
-        height: 20%;
         
     }
     .content_main4_2{
@@ -88,21 +79,19 @@
         box-sizing: border-box;
         text-align: center;
         float: right;
-        height: 20%;
     }
     
     .content_1_3_1{
         width: 70%;
         box-sizing: border-box;
-        float: left;
-        height: 20%;      
+        float: left;      
     }
     .content_1_3_2{
         width: 30%;
         box-sizing: border-box;
         text-align: center;
         float: right;
-        height: 20%;
+
         display: flex;
         justify-content: center;
         align-items: center;
@@ -111,18 +100,12 @@
     
     .tipmain{
     width: 1000px;
-    height: 800px;
+    
     	}
-    .title{
-    width: 1000px;
-  	height: 70px;
     
-    
-    }
     
     .content{
     width: 1000px;
-    height: 170px;
     
     }
     .tip_content{
@@ -150,29 +133,29 @@
                 <hr>
             </div>
      
-        <div class="tipmain">
+        <div class="tipmain" align="center">
      
-       <table class="tipList">
+       <table class="tipList" id="tipListTable" >
    
-    <c:forEach var="m" items="${requestScope.dtoList}">
+    	<c:forEach var="m" items="${requestScope.dtoList}">
         <tr>
-            <th class="bno">
+            <th class="bno" >
                 <b style="font-size:30px;"> ${m.boardNo}</b>
             </th>
 
-            <th class="tip_content" style=" height:40%; width:250px; ">
+            <th class="tip_content">
                 <b style="font-size:25px;">
-                    &nbsp; &nbsp; &nbsp;  ${m.boardTitle}
+                     ${m.boardTitle}
                 </b>
             </th>
 
-            <th style="width: 30%; height:200px;  font-size:20px; width:450px;">
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ${fn:substring(m.boardContent, 0, 10)}
+            <th style="font-size:20px; ">
+                ${fn:substring(m.boardContent, 0, 10)}
                 <c:if test="${fn:length(m.boardContent) > 10}">...</c:if>
             </th>
 
             <th>
-                <img src="${m.bfilePath}" style="width: 300px; height: 250px; padding-left:100px;">
+                <img src="${m.bfilePath}" style="width:200px; height:200px;">
             </th>
 		        </tr>
 		    </c:forEach>

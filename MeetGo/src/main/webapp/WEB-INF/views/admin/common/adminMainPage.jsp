@@ -6,6 +6,7 @@
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <head>
 	<title>MeetGo 관리자 메인 페이지</title>
 <style>
@@ -42,14 +43,26 @@
   <div style="width: 80%; margin: auto; text-align:center">
     <br><br>
     <h1>메인페이지</h1>
-    <br><br>
+    <br><br><br>
     <div id="main">
       <div id="chart1" style="text-align:center">
+      	<table>
+      		<tr>
+      			<td><h5>현재 가입 회원 수 : ${ requestScope.users } 명</h5></td>
+      		</tr>
+      	</table>
+      	<br>
         <h4 style="width:100%;">회원가입 현황</h4> <br>
         <canvas id="myChart" width="750px;" height="550px;"></canvas>
       </div>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <div id="chart2" style="text-align:center">
+      	<table>
+      		<tr>
+      			<td><h5>6개월간 수익 총액 : <fmt:formatNumber value="${requestScope.sum}" pattern="###,###원" /></h5></td>
+      		</tr>
+      	</table>
+      	<br>
         <h4 style="width:100%;">수익 현황</h4> <br>
         <canvas id="lineChart" width="750px;" height="550px;"></canvas>
       </div>
@@ -92,7 +105,7 @@
         var lineChartData = {
             labels: [],
             datasets: [{
-                label: 'Monthly Sales',
+                label: '단위(원)',
                 data: [],
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 2,
@@ -101,8 +114,8 @@
         };
 
         <c:forEach var="dataPoint" items="${requestScope.list2}">
-            lineChartData.labels.push('${dataPoint.month}'); // Assuming month is a string
-            lineChartData.datasets[0].data.push(${dataPoint.count});
+            lineChartData.labels.push('${dataPoint.month}월'); // Assuming month is a string
+            lineChartData.datasets[0].data.push(${dataPoint.count}/10);
         </c:forEach>
 
         var lineChartOptions = {

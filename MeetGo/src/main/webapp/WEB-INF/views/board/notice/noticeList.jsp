@@ -156,24 +156,25 @@ table, th, td {
        
        <div class="notice_main">
                  
-           <table class="noticeList" style="">
+           <table class="noticeList">
+            
             <c:forEach var="m" items="${ requestScope.list }">
-              		<tr onclick="sendNoticeDetail( ${m.boardNo} )">		
+              		<tr onclick="sendNoticeDetail( ${m.board.boardNo} )">		
        				 <td class="bno">
-                     &nbsp; &nbsp; &nbsp;  ${m.boardNo}
+                     &nbsp; &nbsp; &nbsp;  ${m.board.boardNo}
                     </td>
                     <td class="notice_content_1" style="width :50%;">
-                       ${m.boardTitle} 	
+                       ${m.board.boardTitle} 	
                      </td>
                 	
                     <td class="notice_content_2"
                     style=" width:7%;"
                     > 
-                     ${m.createDate}
+                     ${m.board.createDate}
                    
                     </td>    
                       <td class="notice_content_3" style="width:10%;  padding-left: 40px;">
-                         ${m.boardCount} </td>
+                         ${m.board.boardCount} </td>
                 	        
                </tr>
                
@@ -185,30 +186,52 @@ table, th, td {
                 <button type="submit" class="btn btn-primary" >글작성</button>
             </a>
             </div>
+            <div>
+            
+            </div>
+            <br>
+      		<div id="pagingArea">
+                <ul class="pagination">
+                
+                	<c:choose>
+                		<c:when test="${ requestScope.pi.currentPage eq 1 }">
+	                    	<li class="page-item disabled">
+	                    		<a class="page-link" href="#">Previous</a>
+	                    	</li>
+                    	</c:when>
+                    	<c:otherwise>
+	                    	<li class="page-item">
+	                    		<a class="page-link" href="noticeList.bo?cpage=${ requestScope.pi.currentPage - 1 }">Previous</a>
+	                    	</li>
+                    	</c:otherwise>
+                    </c:choose>
+                    
+                    <c:forEach var="p" begin="${ requestScope.pi.startPage }" 
+                    					 end="${ requestScope.pi.endPage }"
+                    					step="1">
+                    	<li class="page-item">
+                    		<a class="page-link" href="noticeList.bo?cpage=${ p }">${ p }</a>
+                    	</li>
+                    </c:forEach>
+                    
+                    <c:choose>
+                    	<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
+		                    <li class="page-item disabled">
+		                    	<a class="page-link" href="#">Next</a>
+		                    </li>
+		                </c:when>
+		                <c:otherwise>
+		                    <li class="page-item">
+		                    	<a class="page-link" href="noticeList.bo?cpage=${ requestScope.pi.currentPage + 1 }">Next</a>
+		                    </li>
+		                </c:otherwise>
+                	</c:choose>
+                
+                </ul>
+            </div>
+     
        </div>
-       <div class="list-bar">
-        <nav aria-label="Page navigation example" >
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="t">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-       <div class="gosu_footer" >
-   		
-   		
-       </div>
+       
       
 	    	<jsp:include page="../../common/footer.jsp"/>
 	

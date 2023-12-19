@@ -36,7 +36,7 @@
 </style>
 </head>
 <body>
-<jsp:include page="../common/adminHeader.jsp"/>
+<jsp:include page="../../common/adminHeader.jsp"/>
 	<div class="outer">
 		<span style="font-size:32px;"><b>${requestScope.list[0].userNickname}</b>님의 포트폴리오 정보</span>
 		<br><br>

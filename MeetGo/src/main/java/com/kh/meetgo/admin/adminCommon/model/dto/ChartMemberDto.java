@@ -12,5 +12,6 @@ import lombok.ToString;
 public class ChartMemberDto {
 	
 	int count;
+	int profit = count / 10;
 	String month;
 }

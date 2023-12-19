@@ -147,8 +147,7 @@ public class BoardDao {
 		return sqlSession.selectOne("boardMapper.selectNoticeListCount");
 	}
 	
-	// 고수찾아요 리스트 조회 
-	public ArrayList<Board> selectNoticeList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<BoardDto> selectNoticeList(SqlSessionTemplate sqlSession, PageInfo pi) {
 		
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
@@ -167,6 +166,10 @@ public class BoardDao {
 		
 		return sqlSession.update("boardMapper.increaseNoticeCount", boardNo);
 	}	
+	public BoardDto selectNoticeBoard(SqlSessionTemplate sqlSession, int boardNo) {
+		
+		return sqlSession.selectOne("boardMapper.selectNoticeBoard", boardNo);
+	}
 	
 	
 	

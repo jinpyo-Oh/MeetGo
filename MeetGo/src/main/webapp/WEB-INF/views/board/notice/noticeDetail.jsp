@@ -60,9 +60,8 @@
         width: 100%;
     }
     .main_body_1_1{
-    	border: 1px solid blue;
         height: 50px;
-        width: 50%;
+        width: 100%;
 
     }
     
@@ -133,11 +132,12 @@
             <div class="main_title_1" style="float: left;">
             <br>
             <h4 style="font-size:40px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            ${ requestScope.m.boardTitle }
+         			 ${requestScope.m.board.boardTitle}
+            
+            
             </h4>
-        
         	</div>
-         
+         	
             
         </div>
         <hr>
@@ -146,35 +146,38 @@
             <div class="main_body_1">
           
           
-            <div class="main_body_1_1" style="text-align:right;">
+            <div class="main_body_1_1" style="">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
              &nbsp;&nbsp; &nbsp;&nbsp;
               &nbsp;&nbsp; &nbsp;&nbsp;
-             조회수 : ${ requestScope.m.boardCount } 
+             
+				  
+            <div class="main_body_1_2" style="text-align:right;">
+               작성일 : ${ requestScope.m.board.createDate }
+               &nbsp;  &nbsp; 
+               <i class="bi bi-eye-fill"></i>  &nbsp; ${ requestScope.m.board.boardCount } 
+              
             </div>
-            
-            <div class="main_body_1_2" style="border: 1px solid red;">
-                &nbsp;  &nbsp; 작성일 :${ requestScope.m.createDate }
+				
             </div>
+          
+           
             </div>
            
-         <div class="main_body_2_1">
-            &nbsp;&nbsp; &nbsp;&nbsp;
-            <img src="" id="profileImg" width="70" height="70" >    
-            &nbsp; 
+         <div class="main_body_2_1" style="text-align:right;">
+            
             
             ${ requestScope.m.userNickname } 
                  
          </div>
 
          <div class="main_body_3_1">
-			    <br>
-			
-			    <br> <br>
+			  
 			    
-			    <textarea name="" id="textarea" cols="2" rows="5" placeholder="&nbsp;&nbsp;">
-			        ${requestScope.m.boardContent}
-			    </textarea>
+			   <p id="textarea" 
+			    style="width:600px; height:250px; text-align:left; font-size:20px; background-color: transparent;" >
+				${requestScope.m.board.boardContent}
+				</p>
 			    
 			    <hr>
 			</div>
@@ -184,10 +187,9 @@
                 <br> &nbsp;&nbsp;
                 <button class="btn btn-primary">수정하기</button> 
                 &nbsp;&nbsp;
-                <button class="btn btn-secondary">삭제하기</button>
-
-            
+                <button class="btn btn-secondary">삭제하기</button>           
              </div>
+            
             <div class="main_body_4_2">
                 <br>
                 &nbsp;&nbsp; &nbsp;&nbsp;

@@ -179,13 +179,10 @@ table, th, td {
             <div class="gosu_body_1_3">
                 
                 
-                <b>작성일</b>
-                
+                <b>작성일</b>              
                  &nbsp;&nbsp; &nbsp;&nbsp;
                 <b>조회수</b>
-                &nbsp;
-                
-                
+                &nbsp;                              
          </div>
         </div>
        
@@ -197,8 +194,9 @@ table, th, td {
                     <th> &nbsp; &nbsp; &nbsp;
                         <i class="bi bi-megaphone-fill"></i>
                     </th>
+                 
                     <th class="gosu_notice">게시판 이용안내 및 주의사항 </th>
-               
+        
                     <th style="text-align: center;">2023-11-28</th>
                     
                     

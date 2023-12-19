@@ -72,13 +72,13 @@ public interface BoardService {
 		
 		int selectNoticeListCount();
 		
-		ArrayList<Board> selectNoticeList(PageInfo pi);
+		ArrayList<BoardDto> selectNoticeList(PageInfo pi);
 
 		int insertNoticeBoard(Board m);
 
 		int increaseNoticeCount(int boardNo);
 
-		Board selectNoticeBoard(int boardNo);
+		BoardDto selectNoticeBoard(int boardNo);
 
 
 		

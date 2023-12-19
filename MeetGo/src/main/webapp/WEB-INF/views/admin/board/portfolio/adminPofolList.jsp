@@ -71,7 +71,7 @@
 </style>
 </head>
 <body>
-<jsp:include page="../common/adminHeader.jsp"/>
+<jsp:include page="../../common/adminHeader.jsp"/>
 
 	<input type="hidden" id="currentPage" name="currentPage" value="1">
 	
