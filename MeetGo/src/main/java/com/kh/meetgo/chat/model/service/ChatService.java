@@ -59,4 +59,6 @@ public interface ChatService {
     int changeAllEstStatus(Estimate estimate);
 
     ArrayList<ChatReviewDto> selectUserReviewList(int userNo);
+
+    int outChatRoom(Map<String, Object> map);
 }
