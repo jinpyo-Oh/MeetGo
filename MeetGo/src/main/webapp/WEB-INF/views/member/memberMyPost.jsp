@@ -26,9 +26,10 @@
         }
 
         .comment-main {
+        	height: 1200px;
             padding: 20px;
             margin: 20px auto;
-            width: 80%;
+            width: 60%;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }

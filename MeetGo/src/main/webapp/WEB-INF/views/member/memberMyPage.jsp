@@ -26,7 +26,9 @@
     <style>
         .mypage-main {
             width: 652px;
-            margin: 0 auto; /* Add this line to center the main div horizontally */
+            height:900px;
+            margin: 0 auto;
+
         }
         .mypage-main a {
             text-decoration: none;
@@ -115,7 +117,6 @@
                 <a class="btn" href="myPageInfo.me">계정설정</button>
             </a>
         </div>
-
              <ul>
                 <li class="mypage">찜 목록</li>
                 <a href="wishilst.me">
