@@ -442,7 +442,13 @@
 	
 		<div>
 			<p style="font-size:22px;"><b>리뷰&nbsp;<span>${requestScope.list[0].reviewCount}</span>건</b></p>
-			<span id="star-rate">${requestScope.list[0].avgRevPoint}</span>
+			<span id="star-rate"></span>
+			
+			<script>
+				let avgRevPoint = ${requestScope.list[0].avgRevPoint}
+				let avgRevPointPrint = avgRevPoint.toFixed(1);
+				$("#star-rate").html(avgRevPointPrint);
+			</script>
 	
 			<script> // 별점 함수
 				function star(avg) {	
