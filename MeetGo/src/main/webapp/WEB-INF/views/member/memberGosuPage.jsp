@@ -26,7 +26,7 @@
 
         .gosu-page {
             width: 720px;
-            height: 3300px;
+            height: 2400px;
             margin: 0px auto;
             box-sizing: border-box;
 

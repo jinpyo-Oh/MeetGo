@@ -11,11 +11,15 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
+            
         }
         .wishlist-container {
+                    text-align: center;
+        
             max-width: 600px;
             margin: 20px auto;
             background-color: #fff;
+            min-height: 800px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -95,7 +99,6 @@
                                 '</div>';
                         $('.wishList-area').append(content);
                     }
-                    $('.wishList-area').append('<a class="wishlist-btn" type="submit" href="searchMain.go">고수 찜 하러가기</a>')
                     
                 },
                 error : function () {
@@ -110,7 +113,7 @@
             <h1>찜한 고수</h1>
         </div>
         <div class="wishList-area">
-        
+        	
         </div>
     </div>
             <jsp:include page="../common/footer.jsp"/>

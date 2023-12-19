@@ -4,15 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고수 비활성화</title>
-    
-    <!-- 폰트 어썸 링크 추가 -->
+    <title>고수 활성화</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
 
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f2f2f2;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -21,16 +19,21 @@
         }
 
         .deleteForm {
+            margin: 50px auto;
+            width: 80%;
+            max-width: 500px;
             background-color: #fff;
-            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         p {
             font-size: 18px;
             margin-bottom: 20px;
+            color: #555;
         }
 
         form {
@@ -40,8 +43,10 @@
         }
 
         label {
-            font-size: 16px;
+            display: block;
+            text-align: left;
             margin-bottom: 8px;
+            color: #333;
         }
 
         #userPwd {
@@ -54,12 +59,12 @@
         }
 
         .delete-btn {
-            background-color: #dc3545;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 16px;
+            background-color: #e74c3c;
+            color: white;
             border: none;
-            border-radius: 5px;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
         }

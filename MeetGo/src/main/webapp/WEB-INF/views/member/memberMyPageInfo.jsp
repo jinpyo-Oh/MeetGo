@@ -16,7 +16,7 @@
     <style>
         .main {
             width: 600px;
-            height: 1300px;
+            height: 1100px;
             margin: 0 auto;
             text-align: center;
             padding:20px;

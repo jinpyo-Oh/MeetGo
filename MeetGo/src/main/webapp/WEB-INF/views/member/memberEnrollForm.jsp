@@ -245,7 +245,7 @@
 			
 	        <div class="tq">
 	            <button type="submit" class="wqq">가입완료</button>
-	            <button class="wqq1" onclick="goBack()">가입취소</button>
+	            <button type="button" class="wqq1" onclick="goBack()">가입취소</button>
 	        </div>
     	</div>
 </form>
