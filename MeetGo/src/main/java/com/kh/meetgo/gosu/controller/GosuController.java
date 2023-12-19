@@ -77,8 +77,7 @@ public class GosuController {
         
         gosu.setRegion(region);
         
-        System.out.println(gosu);
-        
+
         int result = gosuService.insertGosu(gosu);
         
         if(result > 0) {
@@ -123,9 +122,9 @@ public class GosuController {
 				Member m = (Member) session.getAttribute("loginUser");
                 m.setEnrollStatus(3);
                 memberService.changeStatus(m);
-                session.removeAttribute("loginUser");
+                session.setAttribute("loginUser", m);
 				session.setAttribute("alertMsg", "비활성화가 되었습니다.");
-				return "redirect:/";
+				return "redirect:/myPage.me";
 			} else { //실패
 				model.addAttribute("errorMsg","비활성화 실패");
 				return "common/errorPage";	
@@ -146,16 +145,13 @@ public class GosuController {
 		.getUserPwd();
 	if(bCryptPasswordEncoder.matches(userPwd, encPwd)) {
 		int result = gosuService.gosuActivate(userId);
-	System.out.println(result);
 	if(result > 0) { //탈퇴 성공
 		Member m = (Member) session.getAttribute("loginUser");
         m.setEnrollStatus(2);
         memberService.changeStatus(m);
         session.setAttribute("loginUser", m);
-
 		session.setAttribute("alertMsg", "활성화가 되었습니다.");
-		
-		return "redirect:/";
+		return "redirect:/myPage.me";
 	}else { //실패
 		model.addAttribute("errorMsg","활성화 실패");
 		return "common/errorPage";	

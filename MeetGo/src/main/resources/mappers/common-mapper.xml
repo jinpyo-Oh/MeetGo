@@ -52,6 +52,7 @@
     </insert>
     <select id="selectMainTipList" resultType="com.kh.meetgo.common.model.dto.BoardRequest">
         select B.BOARD_NO as "board.boardNo",
+        B.BOARD_TITLE as "board.boardTitle",
         B.BOARD_CONTENT as "board.boardContent",
         B.USER_NO as "board.userNo",
         M.USER_NO as "member.userNo",

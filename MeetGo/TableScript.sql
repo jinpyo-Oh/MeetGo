@@ -71,12 +71,12 @@ CREATE SEQUENCE SEQ_REPORT_NO NOCACHE;
 CREATE TABLE GOSU
 (
     "GOSU_NO"         NUMBER PRIMARY KEY,                            -- 고수 번호
-    "INTRODUCTION"    VARCHAR2(255)  NOT NULL,                       -- 소개
+    "INTRODUCTION"    VARCHAR2(2000)  NOT NULL,                       -- 소개
     "EMPLOYEES"       NUMBER         NOT NULL,                       -- 직원 수
     "BUSINESS_STATUS" NUMBER CHECK ( BUSINESS_STATUS IN (1, 2, 3) ), -- 일반, 개인, 법인
     "EDUCATION"       VARCHAR2(100)  NOT NULL,                       -- 학력
     "CAREER"          VARCHAR2(1000) NOT NULL,                       -- 경력
-    "ELABORATE"       VARCHAR2(255)  NOT NULL,                       -- 서비스 상세 설명
+    "ELABORATE"       VARCHAR2(2000)  NOT NULL,                       -- 서비스 상세 설명
     "REGION"          VARCHAR2(100)  NOT NULL,                       -- 지역
     "MOVE_DISTANCE"   VARCHAR2(150)  NULL,                           -- 이동 가능 거리
     "AVAILABLE_TIME"  VARCHAR2(200)  NULL,                           -- 이용 가능 시간
@@ -274,7 +274,7 @@ CREATE TABLE "CHAT"
     "CHAT_NO"     NUMBER PRIMARY KEY,                        -- 1대1 채팅 번호
     "CONTENT"     VARCHAR2(1000) NOT NULL,                   -- 내용
     "SENDER"      NUMBER         NOT NULL,                   -- 발신자
-    "READ"        NUMBER CHECK ( READ IN (0, 1) ),           -- 수신 여부
+    "CHAT_READ"        NUMBER CHECK ( CHAT_READ IN (0, 1) ),           -- 수신 여부
     "TYPE"        CHAR(1) CHECK ( TYPE IN ('P', 'M', 'E') ), -- P:사진 , M:메세지, E:견적서
     "CREATE_AT"   DATE DEFAULT SYSDATE,                      -- 작성시간
     "CHATROOM_NO" NUMBER         NOT NULL,                   -- 채팅방 번호
@@ -381,283 +381,123 @@ CREATE TABLE "EMAIL_AUTHENTICATION"
 );
 CREATE SEQUENCE SEQ_EMAIL_NO NOCACHE;
 
-INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                           USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE)
-VALUES (1001, '윤아', 'user01', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER01', 'M',
-        'dltkdgus1850@gmail.com', '01035483929',
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTA2MjJfMjk2/MDAxNjI0MzM1MjAxODcz.Rts7NekerZ35zKgVJtX5n3ZBtQq0n8jSi1Aq6JcU0WEg.7Z3yCyxY9PnCZfBazkvwTLB3BmtHghYBZcEAlt7pEmMg.JPEG.hwoarangx2/img_(3).jpg?type=w800',
-        '서울시 영등포구', TIMESTAMP '2023-12-06 14:21:56', TIMESTAMP '2023-12-06 14:21:56');
-INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                           USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE)
-VALUES (1002, '수지', 'user02', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER02', 'M',
-        'dltkdgus1851@gmail.com', '01035483929',
-        'https://i.pinimg.com/originals/d0/55/34/d05534b4a66c74ae771a4924d2013567.jpg', '안산시 상록구',
-        TIMESTAMP '2023-12-06 14:21:56', TIMESTAMP '2023-12-06 14:21:56');
-INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                           USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE)
-VALUES (1003, '예인', 'user03', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER03', 'M',
-        'dltkdgus1852@gmail.com', '01035483929',
-        'https://images.chosun.com/resizer/Gv1OSCS21WKiHrz9S32T_9OJE5s=/464x0/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/KWWWC6BHCE26YVUNF3HDGWMCNU.jpg',
-        '대전 오정동', TIMESTAMP '2023-12-06 14:21:56', TIMESTAMP '2023-12-06 14:21:56');
-INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                           USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE)
-VALUES (1004, '예은', 'user04', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', 'USER04', 'M',
-        'dltkdgus1853@gmail.com', '01035483929',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFUAZ1bNfqiTna5ztoL_d_0auPA2ffL79VEw&usqp=CAU', '대전 은행동',
-        TIMESTAMP '2023-12-06 14:21:56', TIMESTAMP '2023-12-06 14:21:56');
-INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE,
-                           USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE)
-VALUES (1005, '강형욱', 'user05', '$2a$10$/Y9I7rISMRvUDWigufjhq.f0qeML9zbM/PLGTTO5hFU6sdjp8g6NG', '강형욱 닉네임', 'M',
-        'dltkdgus1854@gmail.com', '01035483929',
-        'https://i.namu.wiki/i/XTZnBt8HC2JTiBDx9NydLAKPS9NiyTI7yPxMjVKkYFNuvkoBVfgRoggMVJ1pkkb7utpNKES0yOYdJj5VJSS-lvqyUwq5Q6_EEieX32UeEGwLlULu-y0th8woJtzMA9PXQNdz8NCH73Xaoav1XevU0Q.webp',
-        '안산시 상록구', TIMESTAMP '2023-12-06 17:26:57', TIMESTAMP '2023-12-06 17:26:57');
+INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE, USER_STATUS, ENROLL_STATUS) VALUES (100001, '아이유', 'user02', '$2a$10$NeWRZi7TdCDp6qKGOWNW/OfFyRNDus/gJ1ti5lgWLD911nu0IWNzy', '아이유', 'F', 'user02@meetgo.com', '1035483930', 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/chat/c1a6add6-05d2-46c1-bc95-44214dbec3beWYIxPKdUjBauftY4bXqEhaWJ0_5Jjj4dH7e0eiyusZX0em1PR45gGQLIIOU7QJ8dtonVPSIlegFlHngTE4C-xPtt744teMSTthpW06ckrX_4EtrXGnbz1OKniYqES6cY0dMTOgwAJxN2xYqbWsrSMA.webp', '서울 강동구 암사11길 5 12', TIMESTAMP '2023-12-20 00:41:00', TIMESTAMP '2023-12-20 00:41:00', 1, 2);
+INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE, USER_STATUS, ENROLL_STATUS) VALUES (100000, '윤아', 'user01', '$2a$10$NeWRZi7TdCDp6qKGOWNW/OfFyRNDus/gJ1ti5lgWLD911nu0IWNzy', '윤아', 'F', 'user01@meetgo.com', '1035483929', 'https://i.namu.wiki/i/y2lujrSoDEWEszUujZTMXj4XN5XjbG6Wss4HVaKjyvjswNxPvsRIhoo90SmpOQRCFeXJekSX4bHF8OyNPM4vRb27c3emB3AW487e5_wVCK8yjJ8Zv3UYCtFk5mwoBlffslEIIGmmkEWZ-zBa3qGeiA.webp', '서울 강동구 암사11길 5 11', TIMESTAMP '2023-12-20 00:41:00', TIMESTAMP '2023-12-20 00:41:00', 1, 2);
+INSERT INTO MEETGO.MEMBER (USER_NO, USER_NAME, USER_ID, USER_PWD, USER_NICKNAME, USER_GENDER, USER_EMAIL, USER_PHONE, USER_PROFILE, ADDRESS, CREATE_DATE, LAST_ACCESS_DATE, USER_STATUS, ENROLL_STATUS) VALUES (100002, '수지', 'user03', '$2a$10$NeWRZi7TdCDp6qKGOWNW/OfFyRNDus/gJ1ti5lgWLD911nu0IWNzy', '수지', 'F', 'user03@mee1o.com', '1035483931', 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/chat/eba6c97f-d912-4c0d-9b43-9232c7e29671PicsArt_04-06-07.01.16.png', '서울 강동구 암사11길 5 13', TIMESTAMP '2023-12-20 00:41:00', TIMESTAMP '2023-12-20 00:41:00', 1, 2);
+INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION, MOVE_DISTANCE, AVAILABLE_TIME, USER_NO) VALUES (100000, '4회 수업으로 고음과 저음의 소리를 내게 해드립니다. (연습실 있음) 쉰목소리,고음 개선을 해부학, 음향학 음성 치료 기반으로 진행합니다.', 1, 2, '대구사이버대학교', '4년차', '✔️ 레슨은 주1회, 월4회 1시간 기준이며, 장소는 홍대입니다.
+✔️ 원활한 수업 진행을 위해 정원제로 진행합니다.
+(2023년 2월 기준 1자리 가능)
+✔️ 최소 4회 수업 안에 저음과 고음역의 소리는 내실 수 있게 만들어드립니다.
+✔️ 음성학과 음향학을 토대로 기본적인 이론들에 대한 설명으로 진행합니다.(추상적인 설명의 레슨이 아닙니다.)
+✔️ 센터의 연습실은 추가 비용 없이 24시간 이용 가능합니다.', '서울 중구', '협의 가능', '09 ~ 18', 100000);
+INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION, MOVE_DISTANCE, AVAILABLE_TIME, USER_NO) VALUES (100001, '4회 수업으로 고음과 저음의 소리를 내게 해드립니다. (연습실 있음) 쉰목소리,고음 개선을 해부학, 음향학 음성 치료 기반으로 진행합니다.', 1, 2, '대구사이버대학교', '4년차', '✔️ 레슨은 주1회, 월4회 1시간 기준이며, 장소는 홍대입니다.
+✔️ 원활한 수업 진행을 위해 정원제로 진행합니다.
+(2023년 2월 기준 1자리 가능)
+✔️ 최소 4회 수업 안에 저음과 고음역의 소리는 내실 수 있게 만들어드립니다.
+✔️ 음성학과 음향학을 토대로 기본적인 이론들에 대한 설명으로 진행합니다.(추상적인 설명의 레슨이 아닙니다.)
+✔️ 센터의 연습실은 추가 비용 없이 24시간 이용 가능합니다.', '서울 중구', '협의 가능', '09 ~ 18', 100001);
+INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION, MOVE_DISTANCE, AVAILABLE_TIME, USER_NO) VALUES (100002, '4회 수업으로 고음과 저음의 소리를 내게 해드립니다. (연습실 있음) 쉰목소리,고음 개선을 해부학, 음향학 음성 치료 기반으로 진행합니다.', 1, 2, '대구사이버대학교', '4년차', '✔️ 레슨은 주1회, 월4회 1시간 기준이며, 장소는 홍대입니다.
+✔️ 원활한 수업 진행을 위해 정원제로 진행합니다.
+(2023년 2월 기준 1자리 가능)
+✔️ 최소 4회 수업 안에 저음과 고음역의 소리는 내실 수 있게 만들어드립니다.
+✔️ 음성학과 음향학을 토대로 기본적인 이론들에 대한 설명으로 진행합니다.(추상적인 설명의 레슨이 아닙니다.)
+✔️ 센터의 연습실은 추가 비용 없이 24시간 이용 가능합니다.', '서울 중구', '협의 가능', '9 ~ 18', 100002);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100000, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/02f6f5d2-fcbb-4039-a8fb-2a1ea073c2a6%EC%9D%B4%EB%8B%88%EC%8A%A4%ED%94%84%EB%A6%AC%20%ED%99%94%EB%B3%B4.%20%EC%9C%A4%EC%95%84.%20E%28YUE4045%29%20%281%29_shop1_145934.png', 1, 100000);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100001, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/757e443c-e89f-48e0-a96b-248f5a590237832822012882.jpg', 1, 100000);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100002, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/7776e16b-fc0a-4e28-a035-d99cdf1340f0EC9DB4EB8B88EC8AA4ED9484EBA6AC20ED9994EBB3B4.20EC9CA4EC9584.20E28YUE4045292028229.png', 1, 100000);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100003, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/60d5ca77-3609-4d36-b612-9fea05219bebJvayifmIQMTK3tMN-EwJteH3DwgErjuxdfCH3KFlAFQLaAu5phRW9hogHg82u3dz-w5vu-r6NOCBOjVJ8OLISZirvtaehw-IzlMd8zbXmKf1SdEY9CmCK9niM_bZw7n-HbI9YYXWNrE4NBGzwA5z-Q.webp', 1, 100001);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100004, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/0b6a84d1-65ae-40b5-ba3c-7791d68f39baVZmeEJZ5d-hbjb3w9fh3uq0fJSNGuqB1h5308djiBTbWCgbQmOqaRqcHs6I_AfrA0sAFkHEJ3yI6T4EsTWsuRQ5rytmfBe2nXwasqyGHZ_POm8ADRtmg6RRzujpgxxQXyWKqjuO9rsdV8SDF7yBYkg.webp', 1, 100001);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100005, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/551b1aab-89b8-405f-a5ac-89ff1406c0f42qu-5DPgJlXNYukoniDcvO3ngM0a0zrHIvb2ftAPlrY8AopOyD-d7x76bFCJ9mrtmgRCkJLk1WauT3irLYvmP4dzbvebD2PejkJBavmTGKvLr6TFk2ePrBXFxRuPdoG_lNV4HSRoMDQx7aS110rJ3w.webp', 1, 100001);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100006, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/1b03dccc-0b48-418d-9314-d5490d65524b14749984_976131_4321_org.webp', 1, 100001);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100007, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/6651c8e3-255f-441c-896d-f47cce69c828dae6a4ac9078292b803bcba03699ee98.jpg', 1, 100002);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100008, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/00043ce7-0a8b-4934-ae59-7f1dc6068c57f08G1BMdsnYbZcq0qq4Mm024ZoGVn0vEVzApKKN29RjcJScZKHQgpqhnMmb1fpwuubWZ1yVymgwO2cQCOjas7nHKpQ6LUAMojl3AaJqYLcTb8R6A6qMJRhz5jMtNNKJa-ylOesj7Xo5imcmpVhahTQ.webp', 1, 100002);
+INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO) VALUES (100009, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/a297bcc5-9c8f-4784-9f2c-be841c851ebeziEunGC4L8w078EVB83X0rS-TbBno3cuqyW8pkOhH_XTJkb3rXwX4sUgapoI2tZnv3mQQpRoPLJ5sTJaL0AAnseVYMZWYi8DHivbYNeCIJ-7JvnONETMBL3ZQ9_0eKr-T4QgtUPcVUzY_m8lv5Z_CA.webp', 1, 100002);
+INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO) VALUES (100000, 201);
+INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO) VALUES (100001, 201);
+INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO) VALUES (100002, 201);
+INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_SERVICE, POFOL_TITLE, POFOL_INTRO, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE, POFOL_STATUS, GOSU_NO) VALUES (100000, 201, ' 한달안에 바뀌는 프리미엄 보컬레슨', '♡대표제자들
+레이디스코드.
+에디킴.
+한희준(아메리칸아이돌top9진출)
+김명기(k pop 스타)
+슈퍼스타K ㅡ top11.등등....
+다수의 제자들 가수데뷔 및 싱글앨범발매.
+뮤지컬배우, 보컬트레이너, 대학교수로 활동중.', '협의 후 결정', '진짜 숨은 보석들 ..반짝반짝 빛나는 다이아몬드로 만들어주겠어요.
+보컬트레이너가 레슨받으러오는 보컬트레이너에게 레슨받으세요^^
+대학가려면 나에게오라~!!', 13, TIMESTAMP '2023-12-20 01:08:00', 1, 100000);
+INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_SERVICE, POFOL_TITLE, POFOL_INTRO, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE, POFOL_STATUS, GOSU_NO) VALUES (100001, 201, ' 한달안에 바뀌는 프리미엄 보컬레슨', '♡대표제자들
+레이디스코드.
+에디킴.
+한희준(아메리칸아이돌top9진출)
+김명기(k pop 스타)
+슈퍼스타K ㅡ top11.등등....
+다수의 제자들 가수데뷔 및 싱글앨범발매.
+뮤지컬배우, 보컬트레이너, 대학교수로 활동중.', '협의 후 결정', '진짜 숨은 보석들 ..반짝반짝 빛나는 다이아몬드로 만들어주겠어요.
+보컬트레이너가 레슨받으러오는 보컬트레이너에게 레슨받으세요^^
+대학가려면 나에게오라~!!', 29, TIMESTAMP '2023-12-20 01:08:00', 1, 100001);
+INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_SERVICE, POFOL_TITLE, POFOL_INTRO, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE, POFOL_STATUS, GOSU_NO) VALUES (100002, 201, ' 한달안에 바뀌는 프리미엄 보컬레슨', '♡대표제자들
+레이디스코드.
+에디킴.
+한희준(아메리칸아이돌top9진출)
+김명기(k pop 스타)
+슈퍼스타K ㅡ top11.등등....
+다수의 제자들 가수데뷔 및 싱글앨범발매.
+뮤지컬배우, 보컬트레이너, 대학교수로 활동중.', '협의 후 결정', '진짜 숨은 보석들 ..반짝반짝 빛나는 다이아몬드로 만들어주겠어요.
+보컬트레이너가 레슨받으러오는 보컬트레이너에게 레슨받으세요^^
+대학가려면 나에게오라~!!', 15, TIMESTAMP '2023-12-20 01:08:00', 1, 100002);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100000, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/pofolImg/73880cef-7480-4de5-8387-b888eebde1d1image_readtop_2020_1184994_16057513814436291.jpg', 100000);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100001, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/pofolImg/9b397322-4803-4bc8-a389-651f1d72d72fimage__2020_1184994_16057513814436295.jpg', 100000);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100002, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/pofolImg/c418c61c-81a4-4191-8c73-04249714f21c1659669091158897.jpg', 100000);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100003, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/pofolImg/5896f9a5-a819-4cc3-9bee-0e9b56e4b35dimage_readbot_2020_1184994_16057513814436293.jpg', 100000);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100004, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/1b03dccc-0b48-418d-9314-d5490d65524b14749984_976131_4321_org.webp', 100001);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100005, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/34da0efc-402e-42f5-aff2-46133fd6f086DdoJhVFV0AA3wnL.jpg', 100001);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100006, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/c44166b7-4395-4970-918e-faa1a06a7005LuE2JdQ5fMPQcY4-aAEzi7NBHAavoNO-DQt9kt1hdUs6zRvA1d_v_ZIOwRpQevQkNhxZT41JGiuPESOxdkyTit5Cq3pIl-DRjxfAP3A5mmAY2ocJc4U8hnya6K6GDnqpxnkhAqfV12SG3P6eq4b8kA.webp', 100001);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100007, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/84c4c368-0b0e-49d5-8d0a-a610b42bbc73img_314633_1.jpg', 100002);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100008, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/00043ce7-0a8b-4934-ae59-7f1dc6068c57f08G1BMdsnYbZcq0qq4Mm024ZoGVn0vEVzApKKN29RjcJScZKHQgpqhnMmb1fpwuubWZ1yVymgwO2cQCOjas7nHKpQ6LUAMojl3AaJqYLcTb8R6A6qMJRhz5jMtNNKJa-ylOesj7Xo5imcmpVhahTQ.webp', 100002);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100009, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/a297bcc5-9c8f-4784-9f2c-be841c851ebeziEunGC4L8w078EVB83X0rS-TbBno3cuqyW8pkOhH_XTJkb3rXwX4sUgapoI2tZnv3mQQpRoPLJ5sTJaL0AAnseVYMZWYi8DHivbYNeCIJ-7JvnONETMBL3ZQ9_0eKr-T4QgtUPcVUzY_m8lv5Z_CA.webp', 100002);
+INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO) VALUES (100010, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/9d8c6ebb-3d5a-4642-9745-f749b215fc9020171022183112870.jpg', 100002);
+INSERT INTO MEETGO.BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, BOARD_STATUS, USER_NO) VALUES (100000, '스키를 재밌고 즐겁게 배우는꿀팁', '1.부츠착용요령
+-부츠양쪽으로 벌린후 발앞쪽부터 밀어넣은후 뒷꿈치를맟추면 발이 아프지 않아요
+2. 스키복착용 요령
+-스노우컷을 바깥쪽으로 착용해주세요
+3.스키이동요령
+-어깨에 걸치거나 세로로 잡고 이동
+4.부츠착용시 이동요령
+-부츠착용시 발목이 움직이지 않기 때문에 뒷꿈치로 뒤뚱뒤뚱 걸어야 넘어지지 않아요', TIMESTAMP '2023-12-20 02:24:28', TIMESTAMP '2023-12-20 02:24:28', 0, '2', '1', 100001);
+INSERT INTO MEETGO.BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, BOARD_STATUS, USER_NO) VALUES (100001, '좋은 보컬트레이너 찾는법', '감각을 말로 알려주려는 트레이너는 피하자. 모든 레슨은 녹화 또는 녹음을 요청하세요
 
-INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
-                         MOVE_DISTANCE, AVAILABLE_TIME, USER_NO)
-VALUES (1004, '고수 소개 입니다.', 2, 1, '대졸', '총 경력 12년', '서비스 상세 설명 내용 입니다.', '대전 대덕구 오정동', '이동 가능 거리 입니다.', '상시 이용 가능',
-        1004);
-INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
-                         MOVE_DISTANCE, AVAILABLE_TIME, USER_NO)
-VALUES (1001, '고수 소개 입니다.2', 3, 1, '대졸', '총 경력 2년', '서비스 상세 설명 내용 입니다.2', '대전 대덕구 오정동', '이동 가능 거리 입니다.', '상시 이용 가능',
-        1001);
-INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
-                         MOVE_DISTANCE, AVAILABLE_TIME, USER_NO)
-VALUES (1002, '고수 소개 입니다.3', 4, 1, '대졸', '총 경력 3년', '서비스 상세 설명 내용 입니다.2', '대전 대덕구 오정동', '이동 가능 거리 입니다.', '상시 이용 가능',
-        1002);
-INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
-                         MOVE_DISTANCE, AVAILABLE_TIME, USER_NO)
-VALUES (1003, '고수 소개 입니다.4', 5, 1, '대졸', '총 경력 3년', '서비스 상세 설명 내용 입니다.4', '대전 대덕구 오정동', '이동 가능 거리 입니다.', '상시 이용 가능',
-        1003);
-INSERT INTO MEETGO.GOSU (GOSU_NO, INTRODUCTION, EMPLOYEES, BUSINESS_STATUS, EDUCATION, CAREER, ELABORATE, REGION,
-                         MOVE_DISTANCE, AVAILABLE_TIME, USER_NO)
-VALUES (1005, '고수 소개 입니다.5', 30, 1, '대졸', '총 경력 10년', '서비스 상세 설명 내용 입니다.4', '대전 대덕구 오정동', '이동 가능 거리 입니다.', '상시 이용 가능',
-        1005);
+단 한번이라도, 아니 이게 왜 안되지 라는 말을 하는 트레이너는 피해야 합니다.
+어떤 감각이던 느낄 수 있도록 설계된 수많은 훈련들이 있습니다. 공부를 하지 않은 트레이너는 이 훈련을 소개해줄 수 없고, 감각만을 설명해줄 수 있습니다.', TIMESTAMP '2023-12-20 02:25:39', TIMESTAMP '2023-12-20 02:25:39', 0, '2', '1', 100001);
+INSERT INTO MEETGO.BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, BOARD_STATUS, USER_NO) VALUES (100002, '더 나은 삶을 위한 반려견 교육', '“반려견을 가르치려 하지 마라 “
+“반려견을 반려견으로써 존중하라 “
+“반려견을 우리로부터 자유로울 수 있는 권리를 줘라”
+"반려견을 삶 안에 들어올 수 있게 하라"
+반려견의 행동을 고치려는 방향보다는 [더 나은 삶]을 목표로 진행하는 것이 보다 효과적입니다.', TIMESTAMP '2023-12-20 02:26:19', TIMESTAMP '2023-12-20 02:26:19', 0, '2', '1', 100001);
+INSERT INTO MEETGO.BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, BOARD_STATUS, USER_NO) VALUES (100003, '웨딩 스냅사진 예쁘게 찍히는 시간별 꿀팁', '1. 예쁜 미소 장착!
+2. 엉덩이는 의자 끝까지 밀기!
+3. 턱은 살짝 당겨주기!
+4. 허리 펴주고!
+5. 손도 예쁘게! ', TIMESTAMP '2023-12-20 02:26:53', TIMESTAMP '2023-12-20 02:26:53', 0, '2', '1', 100001);
+INSERT INTO MEETGO.BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, BOARD_STATUS, USER_NO) VALUES (100004, '블로그 작성하는 방법', '블로그를 성장시키고 키워드를 잘 잡아서 상위노출을 시킨 다음에 수익화를 만들고 싶죠? 블로그 글에도 원칙이 있습니다. 네이버가 원하는 원칙을 담아줘야 네이버에서는 그 글이 잘 작성되고 전문적이고 정보성이 있는 글이라고 생각해서 상위로 올려주죠. 그 다음 네이버에서 제공하는 서비스를 필요한 곳곳에 담아준다면 더 예쁜 글로 꾸며줄 수 있어 완성도를 높이는 조건이 됩니다.', TIMESTAMP '2023-12-20 02:27:25', TIMESTAMP '2023-12-20 02:27:25', 0, '2', '1', 100001);
+INSERT INTO MEETGO.BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, BOARD_STATUS, USER_NO) VALUES (100005, '이직 면접 이거 놓치면 불합격!', '1. 경험 정리가 되지 못하고 있다면 핵심 한방을 잡을 수 없습니다!
+지금이라도 경험을 정리하자!
+경험은 원인-해결책-성과-마인드셋 순으로!
+마인드셋은 성과를 만든 내 가치관과 기준!
 
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1001,
-        'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbDFPiU%2Fbtq3l4mrZ3W%2FeQLiyy6LgxvtMskWjWebQ0%2Fimg.png',
-        1, 1001);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1002,
-        'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmMLME%2Fbtq3lTk2Zre%2F2YJxcU7D3kzVQzCfeXxKfK%2Fimg.png',
-        1, 1001);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1003, 'https://blog.kakaocdn.net/dn/brrmR8/btq3mOwy8N4/PFK2KSxXDuVmmJfkLj49a1/img.gif', 1, 1001);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1004,
-        'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F5dktJ%2Fbtq3nDadVUw%2F899KJS8hSZD4kArtYPpyYk%2Fimg.png',
-        1, 1001);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1005, 'https://image.ytn.co.kr/general/jpg/2017/1214/201712141100066324_d.jpg', 1, 1005);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1006, 'https://image.ytn.co.kr/general/jpg/2017/1107/201711071050061704_d.jpg', 1, 1005);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1007, 'https://image.cine21.com/resize/cine21/article/2016/0908/10_10_26__57d0ba822d0ac[W578-].jpg', 1, 1005);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1008, 'https://thumb.mt.co.kr/06/2021/06/2021060412382435678_1.jpg/dims/optimize/', 1, 1005);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1009, 'https://www.newstap.co.kr/news/photo/202306/196638_315386_479.jpg', 1, 1002);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1010, 'https://file.mk.co.kr/meet/neds/2023/09/image_readtop_2023_676485_16939644025613848.jpg', 1, 1002);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1011, 'https://spnimage.edaily.co.kr/images/photo/files/NP/S/2023/10/PS23101800067.jpg', 1, 1002);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1012,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMjAxMThfMjk2/MDAxNjQyNTAzNTgzNDkw.c3DbzQrTBPz-3jv2xTy1DATLEyKcqczUJrTL7bGavWwg.OyCcxen_bScrOvqyK2vIXGdiaWjpbCjdzqM709AFzGkg.JPEG.luck1995/1641868505.jpg?type=w800',
-        1, 1003);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1013,
-        'https://post-phinf.pstatic.net/MjAxNzEyMTFfMjYg/MDAxNTEyOTc1MjM1Njgz.BcYjbCLZSJ7w71sTE9S-k81t72J5e04o4buJXjU20Igg.dsvhdJVdcVEa4XLDBqOfsFjjFSqjGJyq9RUGL3YxE5kg.JPEG/%EC%97%91%EC%8A%A4%ED%8F%AC%EC%B8%A0%EB%89%B4%EC%8A%A4_%EB%AE%A4%EC%A7%81%EB%B1%85%ED%81%AC_%EC%B6%9C%EA%B7%BC%EA%B8%B8_%EB%9F%AC%EB%B8%94%EB%A6%AC%EC%A6%88_%EC%A0%95%EC%98%88%EC%9D%B82.jpg?type=w800_q75',
-        1, 1003);
-INSERT INTO MEETGO."GOSU-IMG" (GOSU_IMG_NO, GOSU_IMG_URL, STATUS, GOSU_NO)
-VALUES (1014,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTAyMTFfMjQ4/MDAxNjEzMDQ1OTkwOTYz.xqbjfoMuBAPXSPL23HqHgpDB1O0E6S64s4zXfrA6IUog.ZKWQyx7KMz-EauPFkoYXsxvCUAYGuz9tSfqFe8oZ8J4g.JPEG.yetall_0522/1613045987446.jpg?type=w800',
-        1, 1003);
+2. 이직 동기는 잊지 말자!
+이직 동기는 애인이 어디가 마음에 드냐는 말과 동급!
+네가 돈이 많아서!전 여친과 싸워서!그냥 네가 좋아서!라는 말은사랑하지 않는다는 말!
+잊지 말자! 현 여친(이직회사)이 좋은 이유는 전 여친(기존회사)이 마음에 안 들어서가 아니다!
 
-INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_TITLE, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE,
-                          POFOL_STATUS, GOSU_NO, POFOL_SERVICE, POFOL_INTRO)
-VALUES (1001, '포폴 제목', '100000', '포폴 내용이 들어가는 자리입니다 시작
+3. 취준감각을 모르겠는가?
+자소서를 계속 쓰면서설득 감각을 익혀라!
+산업분석, 회사 분석, 꾸준한 지원! 한 우물만 판다면 손해다!', TIMESTAMP '2023-12-20 02:28:07', TIMESTAMP '2023-12-20 02:28:07', 0, '2', '1', 100001);
+INSERT INTO MEETGO.BOARD_FILE (BFILE_NO, BFILE_URL, BFILE_STATUS, BOARD_NO) VALUES (100000, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/c3a8b8e2-9e91-46d7-ad85-a82bb18f8b23291fec81-3db3-4635-aa8f-74d6ccd69cd3.webp', '1', 100000);
+INSERT INTO MEETGO.BOARD_FILE (BFILE_NO, BFILE_URL, BFILE_STATUS, BOARD_NO) VALUES (100001, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/6d7bae0d-5d5a-4954-9f20-5f47a36114de20171022183112870.jpg', '1', 100001);
+INSERT INTO MEETGO.BOARD_FILE (BFILE_NO, BFILE_URL, BFILE_STATUS, BOARD_NO) VALUES (100002, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/910a70a0-efbb-4d7b-ab5b-4dfd45f44a356cfed276-9edd-4121-b06e-df423c0bc922.webp', '1', 100002);
+INSERT INTO MEETGO.BOARD_FILE (BFILE_NO, BFILE_URL, BFILE_STATUS, BOARD_NO) VALUES (100003, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/aa7ef23e-c451-4a06-a497-95f68b0585a876cff799-5be2-4714-8360-6ae11c457715.webp', '1', 100003);
+INSERT INTO MEETGO.BOARD_FILE (BFILE_NO, BFILE_URL, BFILE_STATUS, BOARD_NO) VALUES (100004, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/08a86012-11e0-4f23-adc9-34c11cc89e69baec3f4b-64a0-43c7-a8a8-8ee2f7deba58.webp', '1', 100004);
+INSERT INTO MEETGO.BOARD_FILE (BFILE_NO, BFILE_URL, BFILE_STATUS, BOARD_NO) VALUES (100005, 'https://kh-meetgo.s3.ap-northeast-2.amazonaws.com/gosuImg/5ce4d703-0b39-4a7f-914e-f47107376ba7daa7675e-e26d-4a0e-ac1f-ad53dc98a46a.webp', '1', 100005);
 
-
-포폴 내용이 들어가는 자리입니다 끝', 1549, TIMESTAMP '2023-12-06 17:10:38', 1, 1001, 503, '포폴 소개 입니다.');
-INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_TITLE, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE,
-                          POFOL_STATUS, GOSU_NO, POFOL_SERVICE, POFOL_INTRO)
-VALUES (1002, '포폴 제목', '200000', '포폴 내용이 들어가는 자리입니다 시작
-
-
-포폴 내용이 들어가는 자리입니다 끝', 517, TIMESTAMP '2023-12-06 17:19:48', 1, 1002, 601, '포폴 소개 입니다.');
-INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_TITLE, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE,
-                          POFOL_STATUS, GOSU_NO, POFOL_SERVICE, POFOL_INTRO)
-VALUES (1003, '포폴 제목', '300000', '포폴 내용이 들어가는 자리입니다 시작
-
-
-포폴 내용이 들어가는 자리입니다 끝', 18196, TIMESTAMP '2023-12-06 17:20:12', 1, 1003, 301, '포폴 소개 입니다.');
-INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_TITLE, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE,
-                          POFOL_STATUS, GOSU_NO, POFOL_SERVICE, POFOL_INTRO)
-VALUES (1004, '포폴 제목', '400000', '포폴 내용이 들어가는 자리입니다 시작
-
-
-포폴 내용이 들어가는 자리입니다 끝', 14196, TIMESTAMP '2023-12-06 17:20:29', 1, 1004, 208, '포폴 소개 입니다.');
-INSERT INTO MEETGO.POFOL (POFOL_NO, POFOL_TITLE, POFOL_PRICE, POFOL_CONTENT, POFOL_VISITED, POFOL_CREATE_DATE,
-                          POFOL_STATUS, GOSU_NO, POFOL_SERVICE, POFOL_INTRO)
-VALUES (1005, '애견 훈련 애견 훈련 애견 훈련', '500000', '포폴 내용이 들어가는 자리입니다 시작
-
-
-포폴 내용이 들어가는 자리입니다 끝', 888453, TIMESTAMP '2023-12-07 09:37:43', 1, 1005, 903, '포폴 소개 입니다.');
-
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1001,
-        'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcBhplU%2Fbtq3mdjiuOO%2FktXGCDpVuxWHXTkEcvRoX1%2Fimg.png',
-        1001);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1002, 'https://blog.kakaocdn.net/dn/Y0hDr/btq3oTKh2Qp/Rdu1fyfcGWYkLQ9nOHXOH0/img.gif', 1001);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1003, 'https://blog.kakaocdn.net/dn/qK39X/btq3qffoE5D/iDvORGEfKpbwfsqaaWQWo1/img.gif', 1001);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1004, 'https://cdn.sisaweek.com/news/photo/202212/201322_201374_5222.jpg', 1002);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1005,
-        'https://i.namu.wiki/i/lMp2Nma6E26uLPOtwfbFpapq-ywhL6nW2_M6oMHLNRffe4ExiR0hdDXzrYaVp0ccJZMBekkHpWNTX34Q1qnf23wjC4Ov8kNthIceEqwdANoJoUtxj7RUiels0PBe7QWZ1AuHAarYyAOF318x72j5yA.webp',
-        1002);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1006,
-        'https://i.namu.wiki/i/19WEfovKTZUZQkOXyv7_yUh1MMByWY2jK6yyBMNphWJFHJ0IcQj-OLcEbq3-8e93DJv-bOADGPzJaSqxfTuLmrm1WMwSsoq6F6ywGsKZ469r2RZtGSSFIYmpWpxw6zgwOPj7xYLKNwbO_H2xbhK3vQ.webp',
-        1002);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1007,
-        'https://i.namu.wiki/i/38yxNKHZ3nWKrb1pxM4sDgmiYN6TlfGfiCYM0xfprgHRCG297C-Wi8xm1B-qesPvExJyMGxkxkOV21nN70Nec9m5GLdv37oisrt8apeBPVklVUfaspbNvBpQIz1uyepQdIPLpY2tK0zmSokKR7V8Xg.webp',
-        1003);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1008,
-        'https://i.namu.wiki/i/O4v4FG1b6mjpwFu-PYQ9M8UHWyk3624LLJLO_kYIHDlQNLUROEYlBaVmPDruBT3ika-3F_qiRsrcoSidMlR2J7Z_evseiI5ISJLNnTuDp3JhuPpejhuMOq8QV1jf5mTpPptJcC30NTRSUNjDEByElA.webp',
-        1003);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1009,
-        'https://i.namu.wiki/i/c2tkhRc14Eokb5jl89naN4LRs7i1pXTfZy44E5cSv55EjYbAM25uBxhR4Fk12-Pg-h4YsWGDUG1VF_JAWCgeNh_LSGbB3Ah6UIbJbJZHtWokZTndeXnY3LKac1L4qxDW8zh_1g_xY4u7VXA_drYzFQ.webp',
-        1003);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1010,
-        'https://i.namu.wiki/i/BeOJpo46wpbxWO5WI2N3mgQ1s_yNkYt1N2QPu6oyfQf-Qnx6Bcuw0rvx1Uo4__XshbTsVoYNpbFWssiVluuqDv9Z430_kBi7ZZH7V8Ykb2KuwBe_IMoEDRt048qseEpsrbqa_m5bUCFVVoTqagz7JQ.webp',
-        1004);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1011,
-        'https://i.namu.wiki/i/BeOJpo46wpbxWO5WI2N3mgQ1s_yNkYt1N2QPu6oyfQf-Qnx6Bcuw0rvx1Uo4__XshbTsVoYNpbFWssiVluuqDv9Z430_kBi7ZZH7V8Ykb2KuwBe_IMoEDRt048qseEpsrbqa_m5bUCFVVoTqagz7JQ.webp',
-        1004);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1012,
-        'https://i.namu.wiki/i/BeOJpo46wpbxWO5WI2N3mgQ1s_yNkYt1N2QPu6oyfQf-Qnx6Bcuw0rvx1Uo4__XshbTsVoYNpbFWssiVluuqDv9Z430_kBi7ZZH7V8Ykb2KuwBe_IMoEDRt048qseEpsrbqa_m5bUCFVVoTqagz7JQ.webp',
-        1004);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1013, 'https://i3.ruliweb.com/img/22/06/25/181986ea237544783.jpeg', 1005);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1014, 'https://img.animalplanet.co.kr/news/2021/03/17/700/qwsj32n45p38j2kzs496.jpg', 1005);
-INSERT INTO MEETGO.POFOL_IMG (POFOL_IMG_NO, POFOL_IMG_URL, POFOL_NO)
-VALUES (1015,
-        'https://img2.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202203/24/xportsnews/20220324003039598dwsu.jpg',
-        1005);
-
-INSERT INTO MEETGO.REVIEW (REV_NO, REV_CONTENT, REV_POINT, REV_DATE, REV_STATUS, EST_NO, USER_NO, GOSU_NO)
-VALUES (1001, '리뷰 내용이 들어가는 자리입니다.', 3, TIMESTAMP '2023-12-06 19:14:21', '1', 1, 1002, 1001);
-INSERT INTO MEETGO.REVIEW (REV_NO, REV_CONTENT, REV_POINT, REV_DATE, REV_STATUS, EST_NO, USER_NO, GOSU_NO)
-VALUES (1002, '리뷰 내용이 들어가는 자리입니다.', 4, TIMESTAMP '2023-12-06 19:15:28', '1', 2, 1003, 1001);
-INSERT INTO MEETGO.REVIEW (REV_NO, REV_CONTENT, REV_POINT, REV_DATE, REV_STATUS, EST_NO, USER_NO, GOSU_NO)
-VALUES (1003, '리뷰 내용이 들어가는 자리입니다.', 4, TIMESTAMP '2023-12-06 19:15:29', '1', 3, 1004, 1001);
-INSERT INTO MEETGO.REVIEW (REV_NO, REV_CONTENT, REV_POINT, REV_DATE, REV_STATUS, EST_NO, USER_NO, GOSU_NO)
-VALUES (1004, '리뷰 내용이 들어가는 자리입니다.', 5, TIMESTAMP '2023-12-06 19:15:29', '1', 4, 1005, 1001);
-
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1002,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMjAxMDdfNTEg/MDAxNjQxNTQxMTQ0Mjg2.mb0NUwj0A8qEjE-2ULfbY1cX0lSmJXD3NWlhlsH58U0g.oKbkr49vDJoBaAF2YCeX0n5Kc0Hq70gvwsbOt1YKPo0g.JPEG.41minit/1641534121049.jpg?type=w800',
-        1001);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1003,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTJfMjc5/MDAxNjM5MjQ5ODI1MTYz.-NtkV4Ael9s6Cnq_trhv2ATQJqF2qUq50jq_dtEL-8Ug.w-P4I5pY0EtGHEWcmS8_UKkTF6LNBeQrwypfM2mhtekg.JPEG.41minit/1639154079953%EF%BC%8D0.jpg?type=w800',
-        1001);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1004,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTJfMjg2/MDAxNjM5MjQ5ODI1NTU3.bEgs_j_ZaQgWAgAnjJ2daUIQlUzKuAud4l6KRXgqiw0g.qt0LjkvDb9WRPR1j_WEOjwZS642aXaI36iWDxvsqW2Ug.JPEG.41minit/1639153272211%EF%BC%8D4.jpg?type=w800',
-        1002);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1005,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMjAxMTBfMjg3/MDAxNjQxNzk3NjA1NTM1.CpZEacZh4RGuux3OqlK4FsiaU9uSABJXz-I39fFKhqwg.f6_dcOrxcjB6qQiEpVlQRLEg41Z52Ede9s3YIhGxehwg.JPEG.41minit/1641769858708.jpg?type=w800',
-        1002);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1006,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTJfMjAy/MDAxNjM5MjQ5ODI2MTU1.iPx-ZkSbFWhd4XPRwNbkePRKQn8r4ynm86zpqRNQNtUg.VnCCLmcPkMVZepUITvxiGfEX3q742ZCOJHjzDnqW3PQg.JPEG.41minit/1639153272211%EF%BC%8D5.jpg?type=w800',
-        1002);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1007,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTJfMjUz/MDAxNjM5MjQ5ODI3NjI4.k7C9kpZ61NjKzsOA5gpQL0yVLNqDFffJg8Nzq9csy2Ig.ZVD1oKVmoinvwpHxHw5qYU_GytxmYho-aITP7P9mrn0g.JPEG.41minit/1639153272211%EF%BC%8D6.jpg?type=w800',
-        1003);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1008,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMjAxMTBfMzYg/MDAxNjQxNzk3NjA2NjA5.ch2knv1PXnZ2aEY1Km2yuTGM5Qa2BbhQYKcXBieFaiUg.YFmYJPHHuanrPjbasVR3fJdlaF8RUGADAtcbpENkDD4g.JPEG.41minit/1641631265233.jpg?type=w800',
-        1003);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1009,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTEyMTJfODcg/MDAxNjM5MjQ5ODI4MDUz.RK_Ci32uWkgzv4sTTrlLowPU0bLil6qVMF1jTLKJHEAg.ra83ge0ifH7-tyv7mwa-3WOJL8sgOcSk3qQ80YUMvC0g.JPEG.41minit/1639153272211%EF%BC%8D7.jpg?type=w800',
-        1003);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1010,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMjAxMDdfMjUg/MDAxNjQxNTQxMTU0NjQ5.wJF87eSDcrEaj-Q1qFAn6EXBYDn5Ky-96vd8JkcQjw4g.P09T_flYvkP8ornyd1eZgT2w938smesRrZBdwKTPc-cg.JPEG.41minit/1641533871473.jpg?type=w800',
-        1004);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1011,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMjAxMDdfMTYw/MDAxNjQxNTQxMTU1MTAy.XzVv9cOH5LIW2fVyEZxoEp8Um7YVKoJ6HHXoA2ZPR6Yg._xtZz8IuT8DelOa_sgSZnDAUquZPQS9xdN09BHYMBpkg.JPEG.41minit/1641533869444.jpg?type=w800',
-        1004);
-INSERT INTO MEETGO.REVIEW_IMG (IMG_NO, REV_IMG_URL, REV_NO)
-VALUES (1012,
-        'https://mblogthumb-phinf.pstatic.net/MjAyMTEyMjJfMTUx/MDAxNjQwMTUwOTUzMTQ1.gIoNSEUcIMFK_LReraNVAHnjPsU7RijJrNEY40Wbydkg.eB-NsX78rHgJaNdujL1ve8jGexnFCtuf-NeQqb99v4Ug.JPEG.41minit/1640148409666.jpg?type=w800',
-        1004);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1001, TIMESTAMP '2023-12-06 17:49:51', 1002, 1001);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1002, TIMESTAMP '2023-12-06 17:50:07', 1003, 1001);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1003, TIMESTAMP '2023-12-06 17:50:26', 1004, 1001);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1004, TIMESTAMP '2023-12-06 17:50:37', 1005, 1001);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1005, TIMESTAMP '2023-12-06 17:54:47', 1001, 1002);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1006, TIMESTAMP '2023-12-06 17:54:48', 1001, 1004);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1007, TIMESTAMP '2023-12-06 17:54:48', 1001, 1003);
-INSERT INTO MEETGO.CHATROOM (CHATROOM_NO, CREATE_AT, USER_NO, GOSU_NO)
-VALUES (1008, TIMESTAMP '2023-12-07 17:16:36', 1001, 1005);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1001, 201);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1001, 503);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1001, 303);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1001, 304);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1002, 201);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1002, 503);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1002, 303);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1002, 304);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1002, 601);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1005, 903);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1005, 602);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1005, 403);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1005, 404);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1005, 902);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1004, 301);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1004, 302);
-INSERT INTO MEETGO."GOSU-SERVICE" (GOSU_NO, CATEGORY_SMALL_NO)
-VALUES (1004, 303);
 
 commit;

@@ -116,7 +116,7 @@
             <a href="myPageInfo.me"class="">
                <img src="${ sessionScope.loginUser.userProFile }" id="uploadImage">
                 <h2 class="name">${ sessionScope.loginUser.userName}고객님</h2> <br>
-                <p>tomy2213@naver.com</p>
+                <p>${ sessionScope.loginUser.userEmail}</p>
                 <a class="btn" href="myPageInfo.me">계정설정</button>
             </a>
         </div>

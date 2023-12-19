@@ -405,6 +405,7 @@
                                 '<img src="'+data[i].member.userProFile+'" alt="">' +
                                 '</div>' +
                                 '<div class="tip-card-info">' +
+								'<div>'+(data[i].board.boardTitle.length > 17 ? data[i].board.boardTitle.substring(0, 17) + "..." : data[i].board.boardTitle)+'</div>' +
                                 '<div class="card-name">'+data[i].member.userName+'</div>' +
                                 '</div>' +
                                 '<a href="tipDetail.bo?bno='+data[i].board.boardNo+'">' +
@@ -413,7 +414,7 @@
                                 '</a>' +
                                 '</div>' +
                                         '<div class="tip-card-content">' +
-                                '<div>'+data[i].board.boardContent+'</div>' +
+                                '<div>'+(data[i].board.boardContent.length > 90 ? data[i].board.boardContent.substring(0, 90) + "..." : data[i].board.boardContent)+'</div>' +
                                 '</div>' +
                                 '</div>';
                                 $('#main-tip-list').append(content);

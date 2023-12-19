@@ -42,14 +42,12 @@ public class EmailController {
         }
         certNoList.put(email, "" + charSet);
 
-        System.out.println(certNoList);
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setSubject("MEETGO 임시 비밀번호 ");
         message.setText("안녕하세요 MEETGO 임시비밀번호입니다." + str);
         message.setTo(email);
         String encPwd = bCryptPasswordEncoder.encode(str);
-        System.out.println(encPwd);
         mailSender.send(message);
         certNoList.put(email, str);
         memberService.updatePassword(email, encPwd);

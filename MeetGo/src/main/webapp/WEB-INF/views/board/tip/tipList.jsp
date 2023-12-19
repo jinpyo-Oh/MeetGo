@@ -177,35 +177,40 @@
 			<table class="tipList" style="width: 1000px; text-align:center;">
 				<thead>
 					<tr>
-						<th style="width: 15%"> 글번호</th>
-						<th style="width: 25%"> 제목</th>
-						<th style="width: 60%" colspan="2"> 내용</th>
+						<th style="width: 15%">글번호</th>
+						<th style="width: 25%">사진</th>
+						<th style="width: 20%">제목</th>
+						<th style="width: 20%">작성자</th>
+						<th style="width: 15%">작성일</th>
+						<th style="width: 10%">조회수</th>
 					</tr>
 				</thead>
 				<tbody>
-				
-				</tbody>
 				<c:forEach var="m" items="${requestScope.dtoList}">
 					<tr id="concon">
 						<td class="bno">
-							<b style="font-size:30px;"> ${m.boardNo}</b>
+							<p style="font-size:20px;"> ${m.boardNo}</p>
+						</td>
+						<td>
+							<img src="${m.bfilePath}" style="width:150px; height:150px;">
 						</td>
 						<td class="tip_content">
-							<b style="font-size:25px;">
+							<p style="font-size:20px;">
 									${m.boardTitle}
-							</b>
+							</p>
 						</td>
-						
 						<td style="font-size:20px; ">
-								${fn:substring(m.boardContent, 0, 10)}
-							<c:if test="${fn:length(m.boardContent) > 10}">...</c:if>
+							${m.userNickname}
 						</td>
-						
-						<td>
-							<img src="${m.bfilePath}" style="width:200px; height:200px;">
+						<td style="font-size:20px; ">
+								${m.boardCreateDate}
+						</td>
+						<td style="font-size:20px; ">
+								${m.boardCount}
 						</td>
 					</tr>
 				</c:forEach>
+				</tbody>
 			</table>
 		</div>
 		
@@ -217,25 +222,30 @@
 			<div id="pagingArea" align="center">
 				<c:choose>
 					<c:when test="${ requestScope.pi.currentPage eq 1 }">
-						<button class="pagingBtn" href="#">&lt;</button>
+						<button class="pagingBtn" onclick="location.href='#'">&lt;</button>
 					</c:when>
 					<c:otherwise>
-						<button class="pagingBtn" href="tipList.bo?cpage=${ requestScope.pi.currentPage - 1 }">&lt;
-						</button>
+						<button class="pagingBtn" onclick="location.href='tipList.bo?cpage=${requestScope.pi.currentPage - 1}'">&lt;</button>
 					</c:otherwise>
 				</c:choose>
 				<c:forEach var="p" begin="${ requestScope.pi.startPage }"
 						   end="${ requestScope.pi.endPage }"
 						   step="1">
-					<button class="pageBtn" href="tipList.bo?cpage=${ p }">${ p }</button>
+					<c:choose>
+						<c:when test="${ requestScope.pi.currentPage eq p }">
+							<button class="pageBtn" style="color: black" disabled onclick="location.href='tipList.bo?cpage=${p}'">${ p }</button>
+						</c:when>
+						<c:otherwise>
+							<button class="pageBtn" onclick="location.href='tipList.bo?cpage=${p}'">${ p }</button>
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
 				<c:choose>
 					<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
 						<button class="pagingBtn" href="#">&gt;</button>
 					</c:when>
 					<c:otherwise>
-						<button class="pagingBtn" href="tipList.bo?cpage=${ requestScope.pi.currentPage + 1 }">&gt;
-						</button>
+						<button class="pagingBtn" onclick="location.href='tipList.bo?cpage=${requestScope.pi.currentPage + 1}'">&gt;</button>
 					</c:otherwise>
 				</c:choose>
 			</div>

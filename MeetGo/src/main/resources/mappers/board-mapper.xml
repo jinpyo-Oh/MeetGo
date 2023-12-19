@@ -158,17 +158,19 @@
 	
 	<!-- 팁노하우 게시판 리스트 -->
 	<select id="selectTipList" resultType="boardFileDto" >
-	   SELECT B.BOARD_NO AS "boardNo"
-		    , B.BOARD_TITLE AS "boardTitle"
-		    , B.BOARD_CONTENT AS "boardContent"
-		    , TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "boardCreateDate"
-		    , B.BOARD_COUNT AS "boardCount"
-		    , BF.BFILE_URL AS "BfilePath"
-		    , B.USER_NO AS "userNo"
-		 FROM BOARD B
-		 LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
+		SELECT B.BOARD_NO AS "boardNo"
+				, B.BOARD_TITLE AS "boardTitle"
+				, B.BOARD_CONTENT AS "boardContent"
+				, TO_CHAR(B.BOARD_CREATE_DATE, 'YYYY-MM-DD') AS "boardCreateDate"
+				, B.BOARD_COUNT AS "boardCount"
+				, BF.BFILE_URL AS "BfilePath"
+				, B.USER_NO AS "userNo"
+				, M.USER_NICKNAME AS "userNickname"
+		FROM BOARD B
+			LEFT JOIN BOARD_FILE BF ON B.BOARD_NO = BF.BOARD_NO
+			LEFT JOIN MEMBER M ON M.USER_NO = B.USER_NO
 		WHERE B.BOARD_TYPE = 2
-		  AND BOARD_STATUS = 1
+		AND BOARD_STATUS = 1
 		ORDER BY B.BOARD_NO DESC
 	</select>		
 	

@@ -110,7 +110,6 @@ public class ChatController {
     @ResponseBody
     @PostMapping(value = "/insertEstimate")
     public String insertEstimate(@RequestBody Estimate estimate) {
-        System.out.println("estimate = " + estimate);
         int result = chatService.insertEstimate(estimate);
         return String.valueOf(estimate.getEstNo());
     }
@@ -159,7 +158,6 @@ public class ChatController {
             estimate.setStatus(status);
             int result = 0;
             if(estimate.getStatus().equals("3")){
-                System.out.println("estimate = " + estimate);
                 result = chatService.changeAllEstStatus(estimate);
             }
             int result2 = chatService.changeEstStatus(estimate);

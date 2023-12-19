@@ -35,10 +35,14 @@ public class KakaoLoginController {
                 session.setAttribute("errorMsg", "이미 가입한 이메일입니다.");
                 return "common/errorPage";
             }
+            session.setAttribute("alertMsg", "로그인 성공.");
+            session.setAttribute("loginUser", member1);
         } else {
+            session.setAttribute("alertMsg", "카카오 회원가입 성공.");
             int result = memberService.insertKakaoMember(member);
+            Member member2 = memberService.selectMember(member);
+            session.setAttribute("loginUser", member2);
         }
-        session.setAttribute("loginUser", member1);
         return "redirect:/";
     }
 }

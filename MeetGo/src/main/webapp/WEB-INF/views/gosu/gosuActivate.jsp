@@ -9,20 +9,17 @@
 
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f2f2f2;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding: 0;
+            background-color: #f2f2f2;
         }
 
         .deleteForm {
-            margin: 50px auto;
+            margin: 200px auto;
             width: 80%;
             max-width: 500px;
             background-color: #fff;
+            border: 1px solid lightgray;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
@@ -30,23 +27,26 @@
             box-sizing: border-box;
         }
 
-        p {
+        .deleteForm p {
             font-size: 18px;
             margin-bottom: 20px;
             color: #555;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label {
+        .deleteForm label {
             display: block;
             text-align: left;
             margin-bottom: 8px;
             color: #333;
+        }
+
+        .deleteForm input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
 
         #userPwd {
@@ -75,14 +75,16 @@
     </style>
 </head>
 <body>
+<jsp:include page="../common/header.jsp"/>
+
     <div class="deleteForm">
-        <p>계정을 활성화합니다!</p>
+        <p>고수를 활성화합니다!</p>
         <form action="gosuActivate" method="post">
             <label for="userPwd">Password:</label>
             <input type="password" id="userPwd" name="userPwd" placeholder="Enter Password" required>
             <input type="hidden" name="userId" value="${sessionScope.loginUser.userId}">
-            
-            <button type="submit" class="delete-btn"><i class="fas fa-user-lock"></i> 계정 활성화</button>
+            <button type="submit" class="delete-btn"><i class="fas fa-user-lock"></i> 고수 활성화</button>
+            <button type="button" style="width: 100%; padding: 12px; margin: 10px 0 0 0 ;" class="meetgo-btn" onclick="window.history.back();">뒤로가기</button>
         </form>
     </div>
 </body>

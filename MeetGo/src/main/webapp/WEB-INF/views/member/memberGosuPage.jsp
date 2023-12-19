@@ -660,7 +660,7 @@
 			<div class="info">
 				
 				<div class="value">
-					<div id="descriptionDisplayText"><p> ${sessionScope.loginGosu.elaborate}</p></div>
+					<div id="descriptionDisplayText"><textarea style="resize: none; width: 100%; height: 200px; border: none"> ${sessionScope.loginGosu.elaborate}</textarea></div>
 					<input type="text" name="elaborate" id="descriptionEditInput" style="display: none;"
 						   class="editable-field">
 					<button id="descriptionSaveButton" style="display: none;" onclick="saveChanges('description')"

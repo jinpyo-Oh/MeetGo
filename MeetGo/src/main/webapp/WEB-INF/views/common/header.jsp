@@ -38,6 +38,10 @@
 	<script src="https://kit.fontawesome.com/53a8c415f1.js" crossorigin="anonymous"></script>
 </head>
 <style>
+	* {
+		font-family: 'Noto Sans KR', sans-serif !important;
+
+	}
     html, body {
         margin: 0;
         font-family: 'Noto Sans KR', sans-serif;
@@ -510,6 +514,13 @@
 				}
 			})
 			$('#modalWrapReport').css("display", "flex");
+		}
+		function resizeTextarea() {
+			var textarea = document.getElementById('myTextarea');
+			textarea.style.height = 'auto'; // 높이를 자동으로 조절하도록 초기화
+
+			// 스크롤 높이를 현재 스크롤 높이로 설정
+			textarea.style.height = (textarea.scrollHeight) + 'px';
 		}
     </script>
     

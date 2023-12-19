@@ -338,7 +338,7 @@
 		<div id="firstTb">
 			<div>
 				<p><b>서비스 정보</b></p>
-				<p><span>"</span>${ requestScope.list[0].gosu.elaborate }<span>"</span></p>
+				<textarea  style="border: none; width: 100%; height: 200px;  resize: none" >${ requestScope.list[0].gosu.elaborate }</textarea>
 			</div>
 			<br><br><br>
 			<div>
@@ -357,11 +357,11 @@
 				<p><b>최종학력</b></p>
 				<p>${ requestScope.list[0].gosu.education }</p>
 			</div>
-			
+
 			<br><br><br>
 			<!-- 사진 영역 -->
 			<p><b>사진 및 상세설명</b></p>
-			
+
 			<div align="center"
 				 style="display:flex; flex-wrap: wrap; margin: auto;">
 				<c:choose>
@@ -370,7 +370,7 @@
 								   end="${ requestScope.imageList.size() }"
 								   step="1">
 							<img class="gosuImgThumb" src="${ requestScope.imageList[p-1].gosuImgUrl }"
-								 width="320px" height="250px" 
+								 width="320px" height="250px"
 								 style="object-fit: cover; margin-right:10px; margin-left:10px; margin-bottom: 20px" data-toggle="modal" data-target="#myModal" >
 						</c:forEach>
 					</c:when>
@@ -381,7 +381,7 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-			
+
 			<!-- 사진 크게보기 -->
 			<div class="modal" id="myModal">
 				<div class="modal-dialog" >
@@ -398,9 +398,9 @@
 				</div>
 				</div>
 			</div>
-			
+
 		</div>
-		
+
 		<!-- slick 연동 -->
 		<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 		<script type="text/javascript">
@@ -416,21 +416,21 @@
                 });
             });
 		</script>
-	
+
 	</div>
-	
-	
+
+
 	<!-- 리뷰 -->
 	<div id="secondTb" style="display: none; width:700px;">
-	
+
 			<p style="font-size:22px;"><b>사진</b></p>
 			<div align="center" style="width:700px; margin-bottom:120px;">
-			
+
 			<c:choose>
 				<c:when test="${ not empty requestScope.reviewImgList }">
 					<c:forEach var="p" begin="1" end="4" step="1" >
 						<img class="reviewImg" src="${requestScope.reviewImgList[p-1].reviewImgUrl }"
-						onclick="openEnlargeImg();" width="150px" height="150px">	
+						onclick="openEnlargeImg();" width="150px" height="150px">
 					</c:forEach>
 					<div align="left">
 					<br>
@@ -442,34 +442,34 @@
 				</c:otherwise>
 			</c:choose>
 			</div>
-	
+
 		<div>
 			<p style="font-size:22px;"><b>리뷰&nbsp;<span>${requestScope.list[0].reviewCount}</span>건</b></p>
 			<span id="star-rate"></span>
-			
+
 			<script>
 				let avgRevPoint = ${requestScope.list[0].avgRevPoint}
 				let avgRevPointPrint = avgRevPoint.toFixed(1);
 				$("#star-rate").html(avgRevPointPrint);
 			</script>
-	
+
 			<script> // 별점 함수
-				function star(avg) {	
+				function star(avg) {
 					// 소수점 첫째자리 정수로 할당
 					let halfPoint = parseInt((avg % 1 * 10).toFixed(0));
-					
+
 					for(let i = 0; i < 5; i++) {
-						
+
 						if(i < Math.floor(avg)) { // 정수 자리수만큼 별 채우기
 							$(".star").children().eq(i).addClass("bi-star-fill").removeClass("bi-star");
 						}
 						if(halfPoint != 0 && halfPoint > 4) { // 1~4일 경우 내림, 5이상 반개
 							$(".star").children().eq(Math.floor(avg)).addClass("bi-star-half").removeClass("bi-star");
-						} 
-						
+						}
+
 					}
 				}
-					
+
 				function revStar(point, index){
 					for(let i = 0; i < 5; i++) {
 						if(i < Math.floor(point)) { // 정수 자리수만큼 별 채우기
@@ -478,7 +478,7 @@
 					}
 				}
 			</script>
-			
+
 			<!-- 별점 -->
              <div class="star">
 	  	         <i class="bi-0 bi-star"></i>
@@ -489,7 +489,7 @@
 			 </div>
 
 			<br><br>
-				
+
 			<!-- 리뷰 영역 -->
 			<c:choose>
 				<c:when test="${ not empty requestScope.reviewList}">
@@ -505,12 +505,12 @@
 					</c:forEach>
 				</c:when>
 			</c:choose>
-							
+
 			<span onclick="openEnlargeRev();" class="showMoreTag">&raquo; more...</span>
 
 		</div>
 	</div>
-	
+
 	<!-- 리뷰이미지 확대 커스텀창 -->
 	<div id="enlargeImg-background">
 		<div id="enlargeImg-form">
@@ -521,7 +521,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 리뷰리스트 커스텀창 -->
 	<div id="enlarge-background">
 		<div id="enlarge-form">
@@ -551,7 +551,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 포트폴리오 -->
 	<div id="thirdTb" style="display: none; margin:auto;">
 		<p>
@@ -561,21 +561,21 @@
 			</svg>
 			<b>포트폴리오</b>
 		</p>
-		
+
 		<br>
-		
+
 		<div style="display: flex; flex-wrap: wrap; width:800px;">
-		
+
 		<c:forEach var="item" items="${ requestScope.pofolList }">
 			<div align="center" style="margin-left: 5px; margin-right: 5px;">
 				<img class="pofolThumbnail" src="${ item.firstImg }" onclick="linkPofol(${ item.pofol.pofolNo });" style="width: 220px; height: 150px; object-fit: cover;">
 				<p>${ item.pofol.pofolTitle }</p>
 			</div>
-		</c:forEach>			
+		</c:forEach>
 		</div>
-	
+
 	</div>
-	
+
 	<div align="center" id="backToListBtn">
 		<button type="button" onclick="history.back();">목록으로</button>
 	</div>
@@ -583,17 +583,17 @@
 
 <!-- 고수 상세메뉴 이벤트핸들링 -->
 <script>
-	
-	
+
+
     $(function(){
-    	
+
     	isLiked();
     	star(${requestScope.list[0].avgRevPoint});
-    	
+
         let $first = $("#tableMenu").find(".tableMenu").eq(0);
         let $second = $("#tableMenu").find(".tableMenu").eq(1);
         let $third = $("#tableMenu").find(".tableMenu").eq(2);
-        
+
         $first.click(function(){
             $(this).css("border-bottom", "3px solid #2A8FF7");
             $second.css("border-bottom", "none");
@@ -625,8 +625,8 @@
 
         });
 
-    });   
-    
+    });
+
     function isLiked(){
 
         if (${requestScope.isLiked eq 1}){
@@ -635,9 +635,9 @@
             $("#gosuLikeIco").removeClass("bi-heart-fill").addClass("bi-heart");
         }
     }
-    
+
     function enrollGosuLike(){
-	
+
     	$.ajax({
     		type : "get",
     		url : "enrollGosuLike.go",
@@ -651,18 +651,18 @@
     			alert("ajax통신 실패!");
     		}
     	});
-    	
+
     }
 
 	function linkPofol(pno) {
 		location.href = "pofolDetail.po?pno=" + pno;
 	}
-	
+
 	// 확대창 보이기
-	function openEnlargeImg() {	
+	function openEnlargeImg() {
 		$("#enlargeImg-background").css("display", "block");
 	}
-	
+
 	function openEnlargeRev() {
 		$("#enlarge-background").css("display", "block");
         <c:forEach var="p" begin="1" end="${requestScope.reviewList.size()}" step="1">
@@ -671,18 +671,18 @@
 	        revStar(reviewPoint, index);
 	    </c:forEach>
 	}
-	
+
 	// 배경 누를 시 다시 숨기기
 	let enImg = document.getElementById("enlargeImg-background");
     window.addEventListener('click', (e) => {
         e.target == enImg ? $('#enlargeImg-background').css("display", "none") : false;
     });
-    
+
 	let enRev = document.getElementById("enlarge-background");
     window.addEventListener('click', (e) => {
         e.target == enRev ? $('#enlarge-background').css("display", "none") : false;
     });
-    
+
 </script>
 
 <jsp:include page="../common/footer.jsp"/>

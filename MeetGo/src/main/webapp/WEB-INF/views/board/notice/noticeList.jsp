@@ -24,10 +24,9 @@
 
         .wrap {
             margin: auto;
-            height: 1000px;
             width: 1000px;
             box-sizing: border-box;
-
+			height: 900px;
         }
 
         .notice_header {
@@ -142,11 +141,31 @@
 			cursor: pointer;
 			background-color: lightgray;
 		}
+		.pagingBtn {
+			border: 0;
+			border-radius: 5px;
+			width: 30px;
+			height: 40px;
+			font-size: 20px;
+			color: white;
+			background-color: #2a91f7c0;
+			margin: 0px 3px;
+		}
+
+		.pageBtn {
+			border: 0;
+			border-radius: 5px;
+			width: 30px;
+			height: 40px;
+			font-size: 20px;
+			color: white;
+			background-color: #2a91f7c0;
+			margin: 0px 3px;
+		}
 	</style>
 </head>
 <body>
 <jsp:include page="../../common/header.jsp"/>
-<jsp:include page="../../common/side.jsp"/>
 
 <div class="wrap">
 	
@@ -189,40 +208,33 @@
 	
 	</div>
 	<br>
-	<div id="pagingArea">
-		<ul class="pagination">
+	<div id="pagingArea" align="center">
 			<c:choose>
 				<c:when test="${ requestScope.pi.currentPage eq 1 }">
-					<li class="page-item disabled">
-						<a class="page-link" href="#">Previous</a>
-					</li>
+					<button class="pagingBtn" onclick="location.href='#'">&lt;</button>
 				</c:when>
 				<c:otherwise>
-					<li class="page-item">
-						<a class="page-link"
-						   href="noticeList.bo?cpage=${ requestScope.pi.currentPage - 1 }">Previous</a>
-					</li>
+					<button class="pagingBtn" onclick="location.href='noticeList.bo?cpage=${requestScope.pi.currentPage - 1}'">&lt;</button>
 				</c:otherwise>
 			</c:choose>
-			
 			<c:forEach var="p" begin="${ requestScope.pi.startPage }"
 					   end="${ requestScope.pi.endPage }"
 					   step="1">
-				<li class="page-item">
-					<a class="page-link" href="noticeList.bo?cpage=${ p }">${ p }</a>
-				</li>
+				<c:choose>
+					<c:when test="${ requestScope.pi.currentPage eq p }">
+						<button class="pageBtn" style="color: black" disabled onclick="location.href='noticeList.bo?cpage=${p}'">${ p }</button>
+					</c:when>
+					<c:otherwise>
+						<button class="pageBtn" onclick="location.href='noticeList.bo?cpage=${p}'">${ p }</button>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
-			
 			<c:choose>
 				<c:when test="${ requestScope.pi.currentPage eq requestScope.pi.maxPage }">
-					<li class="page-item disabled">
-						<a class="page-link" href="#">Next</a>
-					</li>
+					<button class="pagingBtn" href="#">&gt;</button>
 				</c:when>
 				<c:otherwise>
-					<li class="page-item">
-						<a class="page-link" href="noticeList.bo?cpage=${ requestScope.pi.currentPage + 1 }">Next</a>
-					</li>
+					<button class="pagingBtn" onclick="location.href='noticeList.bo?cpage=${requestScope.pi.currentPage + 1}'">&gt;</button>
 				</c:otherwise>
 			</c:choose>
 		

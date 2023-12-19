@@ -181,8 +181,7 @@ public class BoardController {
 		
 	
 		ArrayList<BoardFileDto> dtoList = boardService.selectTipList(pi);
-		
-		
+
 		mv.addObject("dtoList", dtoList)
 		  .addObject("pi", pi)
 		  .setViewName("board/tip/tipList");

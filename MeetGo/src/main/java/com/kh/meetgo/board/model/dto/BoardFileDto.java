@@ -16,5 +16,4 @@ public class BoardFileDto {
     private int userNo;
     private String userNickname;
     private String userProfile;
-    
 }

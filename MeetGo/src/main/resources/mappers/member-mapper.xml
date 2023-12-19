@@ -350,7 +350,7 @@
         SET STATUS = '5'
         WHERE EST_NO = #{eno}
     </update>
-    <insert id="insertKakaoMember" parameterType="member">
+    <insert id="insertKakaoMember" parameterType="member" useGeneratedKeys="true" keyColumn="USER_NO" keyProperty="userNo">
         insert into MEMBER (USER_NO, USER_NAME, USER_ID,
         USER_PWD, USER_NICKNAME, USER_GENDER,
         USER_EMAIL, USER_PHONE,
