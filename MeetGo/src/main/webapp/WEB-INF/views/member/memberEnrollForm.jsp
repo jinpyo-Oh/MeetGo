@@ -245,13 +245,17 @@
 			
 	        <div class="tq">
 	            <button type="submit" class="wqq">가입완료</button>
-	            <button class="wqq1">가입취소</button>
+	            <button class="wqq1" onclick="goBack()">가입취소</button>
 	        </div>
-	        <a class="ee" href="" style="color:#737373;">고수로 가입하시나요?</a>
     	</div>
 </form>
-
 <script>
+function goBack() {
+  window.history.back();
+}
+</script>
+<script>
+
      $(document).ready(function() {
         $("#manualEmailInput").prop("disabled", true);
 
