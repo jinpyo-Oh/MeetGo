@@ -97,11 +97,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="m" items="${requestScope.list}">
-                        <tr onclick="redirectToDetail(${m.boardNo})">
-                            <td>${m.boardNo}</td>
-                            <td>${m.boardTitle}</td>
-                            <td>${m.createDate}</td>
+                    <c:forEach var="b" items="${requestScope.list}">
+                        <tr onclick="redirectToDetail(${b.boardNo})">
+                            <td>${b.boardNo}</td>
+                            <td>${b.boardTitle}</td>
+                            <td>${b.createDate}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

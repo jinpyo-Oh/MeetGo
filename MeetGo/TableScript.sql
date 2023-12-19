@@ -243,7 +243,7 @@ CREATE TABLE "POFOL"
 (
     "POFOL_NO"          NUMBER PRIMARY KEY,                               -- 포폴 번호
     "POFOL_SERVICE"     NUMBER         NOT NULL,                          -- 포폴 서비스
-    "POFOL_TITLE"       VARCHAR2(50)   NOT NULL,                          -- 포폴 제목
+    "POFOL_TITLE"       VARCHAR2(100)   NOT NULL,                          -- 포폴 제목
     "POFOL_INTRO"       VARCHAR2(1000) NOT NULL,                          -- 포폴 소개
     "POFOL_PRICE"       VARCHAR2(100)  NOT NULL,                          -- 가격
     "POFOL_CONTENT"     VARCHAR2(1000) NOT NULL,                          -- 포폴 내용

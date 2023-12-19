@@ -1,6 +1,8 @@
 package com.kh.meetgo.common.commonController;
 
 import com.google.gson.Gson;
+import com.kh.meetgo.board.model.vo.Board;
+import com.kh.meetgo.common.model.dto.BoardRequest;
 import com.kh.meetgo.common.model.dto.PoFolRequest;
 import com.kh.meetgo.common.model.service.CommonService;
 import com.kh.meetgo.common.model.vo.Report;
@@ -25,6 +27,12 @@ public class CommonController {
     @GetMapping(value = "selectMainPortfolio", produces = "text/json; charset=UTF-8")
     public String selectMainPortfolio(){
         ArrayList<PoFolRequest> list = commonService.selectMainPortfolio();
+        return new Gson().toJson(list);
+    }
+    @ResponseBody
+    @GetMapping(value = "selectMainTipList", produces = "text/json; charset=UTF-8")
+    public String selectMainTipList(){
+        ArrayList<BoardRequest> list = commonService.selectMainTipList();
         return new Gson().toJson(list);
     }
     @ResponseBody

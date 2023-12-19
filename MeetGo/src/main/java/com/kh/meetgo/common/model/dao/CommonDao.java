@@ -1,5 +1,7 @@
 package com.kh.meetgo.common.model.dao;
 
+import com.kh.meetgo.board.model.vo.Board;
+import com.kh.meetgo.common.model.dto.BoardRequest;
 import com.kh.meetgo.common.model.dto.PoFolRequest;
 import com.kh.meetgo.common.model.vo.Report;
 import com.kh.meetgo.member.model.vo.Gosu;
@@ -24,5 +26,9 @@ public class CommonDao {
 
     public int insertReport(SqlSessionTemplate sqlSession, Report report) {
         return sqlSession.insert("commonMapper.insertReport", report);
+    }
+
+    public ArrayList<BoardRequest> selectMainTipList(SqlSessionTemplate sqlSession) {
+        return (ArrayList) sqlSession.selectList("commonMapper.selectMainTipList");
     }
 }

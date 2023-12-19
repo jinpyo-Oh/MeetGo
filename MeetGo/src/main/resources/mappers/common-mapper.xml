@@ -3,6 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="commonMapper">
+    <resultMap id="boardResultSet" type="board">
+        <result column="BOARD_NO" property="boardNo" />
+        <result column="BOARD_TITLE" property="boardTitle" />
+        <result column="BOARD_CONTENT" property="boardContent" />
+        <result column="BOARD_CREATE_DATE" property="createDate" /> <!-- 별칭 -->
+        <result column="BOARD_UPDATE_DATE" property="boardUpdate" />
+        <result column="BOARD_COUNT" property="boardCount" />
+        <result column="BOARD_TYPE" property="boardType" />
+        <result column="USER_NO" property="userNo" />
+    </resultMap>
     <select id="selectMainPortfolio" resultType="com.kh.meetgo.common.model.dto.PoFolRequest">
         SELECT P.POFOL_NO            as "pofol.pofolNo",
             P.POFOL_TITLE         AS "pofol.pofolTitle",
@@ -40,4 +50,18 @@
         (REPORT_NO, REPORTED_USER, REPORT_CATEGORY, REPORT_CONTENT, REPORT_STATUS, REPORT_USER)
         values (SEQ_REPORT_NO.nextval, #{reportedUser}, #{reportCategory}, #{reportContent}, 0,#{reportUser} )
     </insert>
+    <select id="selectMainTipList" resultType="com.kh.meetgo.common.model.dto.BoardRequest">
+        select B.BOARD_NO as "board.boardNo",
+        B.BOARD_CONTENT as "board.boardContent",
+        B.USER_NO as "board.userNo",
+        M.USER_NO as "member.userNo",
+        M.USER_NAME as "member.userName",
+        M.USER_PROFILE  as "member.userProfile"
+        from board B
+        left join (
+        select *
+        from MEMBER
+        ) M on B.USER_NO = M.USER_NO
+        where BOARD_TYPE = 2
+    </select>
 </mapper>
