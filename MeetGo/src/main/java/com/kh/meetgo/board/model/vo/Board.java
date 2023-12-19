@@ -16,5 +16,6 @@ public class Board {
 	private int boardCount;	// BOARD_COUNT	NUMBER
 	private String boardType;	// BOARD_TYPE	VARCHAR2(1 BYTE)
 	private int userNo;	// USER_NO	NUMBER
+	private String boardStatus;
 
 }

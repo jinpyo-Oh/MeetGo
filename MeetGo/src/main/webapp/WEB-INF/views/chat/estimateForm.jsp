@@ -320,11 +320,12 @@
 			</script>
 		</div>
 		<div class="est-enroll-button">
-			<button class="meetgo-btn" onclick="insertEstimate()">작성하기</button>
-			<button class="meetgo-btn meetgo-red" onclick="displayNone()">취소하기</button>
+			<button class="meetgo-btn" onclick="insertEstimate();">작성하기</button>
+			<button class="meetgo-btn meetgo-red" onclick="displayNone();">취소하기</button>
 		</div>
 	</div>
 </div>
+
 
 <script>
 	function insertEstimate(){
@@ -367,7 +368,8 @@
 			}
 		});
 	}
-    
+</script>
+<script>
     function validateInputs(estTitle, estService, estPrice, startDate, endDate, estAddress, estContent) {
         if (!estTitle || !estService || !estPrice || !startDate || !endDate || !estAddress || !estContent) {
             alert('입력값을 모두 입력해주세요.');
@@ -381,17 +383,23 @@
         }
         return true;
     }
-    
+</script>
+<script>
+
     function displayNone() {
         $('#modalWrapDetail').css("display", "none");
         $('#modalWrapEstEnroll').css("display", "none");
     }
+</script>
+<script>
 
     let modal = document.getElementById('modalWrapEstEnroll');
 
     window.addEventListener('click', (e) => {
         e.target == modal ? $('#modalWrapEstEnroll').css("display", "none") : false;
     });
+</script>
+<script>
 
     function formatNumber() {
         // Get the input element
@@ -411,6 +419,7 @@
             inputElement.value += '원';
         }
     }
+    
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

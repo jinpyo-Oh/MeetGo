@@ -9,4 +9,8 @@ public interface AdminBoardService {
     int countAllBoard(String status);
 
     ArrayList<Board> selectAllBoard(PageInfo pi, String status);
+
+    int insertNotice(String url, Board board);
+
+    int deleteBoard(int i);
 }

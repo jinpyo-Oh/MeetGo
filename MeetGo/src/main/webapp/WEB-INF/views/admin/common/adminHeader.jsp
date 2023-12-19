@@ -207,9 +207,9 @@
         color : red;
     }
     .meetgo-red:hover {
-        background-color: red;
+        background-color: red!important;
         border: 1px solid black;
-        color: white;
+        color: white!important;
     }
     .w-100 {
         width: 100%;
@@ -246,7 +246,7 @@
 					<a href="#">공지사항 관리 <i class="fa fa-angle-down" aria-hidden="true"></i></a>
 					<ul class="submenu">
 						<li><a href="adminNoticeList.ad">공지사항 관리</a></li>
-						<li><a href="#">공지사항 등록</a></li>
+						<li><a href="adminInsertNotice.ad">공지사항 등록</a></li>
 					</ul>
 				</li>
 				<li class="navItem">

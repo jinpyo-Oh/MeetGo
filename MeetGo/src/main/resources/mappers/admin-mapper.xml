@@ -26,6 +26,7 @@
 		<result column="BOARD_COUNT" property="boardCount" />
 		<result column="BOARD_TYPE" property="boardType" />
 		<result column="USER_NO" property="userNo" />
+		<result column="BOARD_STATUS" property="boardStatus" />
 	</resultMap>
 
     <resultMap id="reviewImgResultSet" type="reviewImg">
@@ -538,9 +539,25 @@
 		from BOARD
 		where BOARD_TYPE = ${type}
 	</select>
+
 	<select id="selectAllBoard" parameterType="_int" resultMap="boardResultSet">
 		select *
 		from BOARD
 		where BOARD_TYPE = ${type}
 	</select>
+
+	<insert id="insertNotice" parameterType="board" useGeneratedKeys="true" keyColumn="BOARD_NO" keyProperty="boardNo">
+		insert into BOARD (BOARD_NO, BOARD_TITLE, BOARD_CONTENT, BOARD_CREATE_DATE, BOARD_UPDATE_DATE, BOARD_COUNT, BOARD_TYPE, USER_NO)
+		values (SEQ_BOARD_NO.nextval, #{boardTitle}, #{boardContent}, sysdate, sysdate, 0, 3, #{userNo})
+	</insert>
+
+	<insert id="insertNoticeImg" parameterType="hashmap">
+		INSERT INTO BOARD_FILE( BFILE_NO, BFILE_URL, BOARD_NO, BFILE_STATUS)
+					VALUES (SEQ_BOARD_FILE_NO.NEXTVAL, #{url}, #{boardNo}, 1)
+	</insert>
+	<update id="deleteBoard" parameterType="_int">
+		update BOARD
+		set BOARD_STATUS = 2
+		WHERE BOARD_NO = #{boardNo}
+	</update>
 </mapper>

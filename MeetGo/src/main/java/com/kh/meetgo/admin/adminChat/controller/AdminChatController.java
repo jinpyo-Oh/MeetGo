@@ -34,6 +34,7 @@ public class AdminChatController {
         int listCount = adminChatService.countAllChatRoom();
         PageInfo pi = Pagination.getPageInfo(listCount, cPage, pageLimit, boardLimit);
         ArrayList<AdminChatRequest> list = adminChatService.selectAllChatRoom(pi);
+        System.out.println("list.size() = " + list.size());
         Map<String, Object> map = new HashMap<>();
         map.put("chatList", list);
         map.put("pi", pi);

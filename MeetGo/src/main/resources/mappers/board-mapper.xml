@@ -26,7 +26,8 @@
 		<result column="BOARD_UPDATE_DATE" property="boardUpdate" /> 		
 		<result column="BOARD_COUNT" property="boardCount" />	
 		<result column="BOARD_TYPE" property="boardType" />	
-		<result column="USER_NO" property="userNo" />		
+		<result column="USER_NO" property="userNo" />
+		<result column="BOARD_STATUS" property="boardStatus" />
 	</resultMap>
 	
 	<resultMap id="boardFileResultSet" type="BoardFileDto">
