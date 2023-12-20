@@ -387,7 +387,7 @@
 	</select>
 	
 	<select id="selectAdminPofolList" parameterType="string" resultType="pofolOpt">
-		SELECT P.POFOL_NO AS "pofol.pofolNo",
+		SELECT DISTINCT P.POFOL_NO AS "pofol.pofolNo",
 				   P.POFOL_TITLE AS "pofol.pofolTitle",
 				   P.POFOL_VISITED AS "pofol.pofolVisited",
 				   P.POFOL_STATUS AS "pofol.pofolStatus",
