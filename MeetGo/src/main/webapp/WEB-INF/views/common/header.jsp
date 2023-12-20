@@ -39,8 +39,7 @@
 </head>
 <style>
 	* {
-		font-family: 'Noto Sans KR', sans-serif !important;
-
+        font-family: 'Noto Sans KR', serif;
 	}
     html, body {
         margin: 0;
@@ -491,11 +490,11 @@
 
         inputField.addEventListener("focus", function() {
             searchBar.style.backgroundColor = "white";
-            searchBar.style.border = "1px solid #1673d1"; 
+            searchBar.style.border = "1px solid #1673d1";
         });
 
         inputField.addEventListener("blur", function() {
-            searchBar.style.backgroundColor = "#f4f4f4"; 
+            searchBar.style.backgroundColor = "#f4f4f4";
             searchBar.style.border = "none";
         });
         function reportAlert(targetUserNo){

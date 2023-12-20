@@ -270,17 +270,17 @@
 		
 		<c:choose>
 			<c:when test="${ requestScope.pi.currentPage eq 1 }">
-				<button class="pagingBtn" href="#">&lt;</button>
+				<button class="pagingBtn" onclick="location.href='#'">&lt;</button>
 			</c:when>
 			<c:otherwise>
-				<button class="pagingBtn" href="gosuList.bo?cpage=${ requestScope.pi.currentPage - 1 }">&lt;</button>
+				<button class="pagingBtn" onclick="location.href='gosuList.bo?cpage=${ requestScope.pi.currentPage - 1 }'">&lt;</button>
 			</c:otherwise>
 		</c:choose>
 		
 		<c:forEach var="p" begin="${ requestScope.pi.startPage }"
 				   end="${ requestScope.pi.endPage }"
 				   step="1">
-			<button class="pageBtn" href="gosuList.bo?cpage=${ p }">${ p }</button>
+			<button class="pageBtn" onclick="location.href='gosuList.bo?cpage=${ p }'">${ p }</button>
 		</c:forEach>
 		
 		<c:choose>
@@ -288,7 +288,7 @@
 				<button class="pagingBtn" href="#">&gt;</button>
 			</c:when>
 			<c:otherwise>
-				<button class="pagingBtn" href="gosuList.bo?cpage=${ requestScope.pi.currentPage + 1 }">&gt;</button>
+				<button class="pagingBtn" onclick="location.href='gosuList.bo?cpage=${ requestScope.pi.currentPage + 1 }'">&gt;</button>
 			</c:otherwise>
 		</c:choose>
 	

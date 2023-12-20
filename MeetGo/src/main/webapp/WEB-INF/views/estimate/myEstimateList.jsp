@@ -277,7 +277,7 @@
 		                    		content += '<td>' + '<a type="button" class="btn btn-secondary btn-sm">'
 		                    				 + '작성완료' + '</a>' + '</td>';
 		                    	} else {
-		                    		content += '<td>' + '<a type="button" class="btn btn-success btn-sm">'
+		                    		content += '<td id="review">' + '<a type="button" class="btn btn-success btn-sm">'
 		                    				 + '작성하기' + '</a>' 
 		                    				 + '<input type="hidden" id="estNo" value="' 
 		                    				 + list[i].estimate.estNo + '">' + '</td>';
