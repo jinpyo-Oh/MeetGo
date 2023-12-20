@@ -36,6 +36,7 @@ drop sequence SEQ_REPLY_NO;
 drop sequence SEQ_EMAIL_NO;
 
 -- 회원 테이블
+
 CREATE TABLE MEMBER
 (
     USER_NO          NUMBER PRIMARY KEY,                                                                   -- 유저 번호
@@ -61,7 +62,7 @@ CREATE TABLE REPORT
     REPORT_NO       NUMBER PRIMARY KEY,                          -- 신고 번호
     REPORTED_USER   NUMBER        NOT NULL,                      -- 신고 받은 사람 번호
     REPORT_CATEGORY VARCHAR2(200) NOT NULL,                      -- 신고 카테고리
-    REPORT_CONTENT  VARCHAR2(300) NOT NULL,                      -- 신고 내용
+    REPORT_CONTENT  VARCHAR2(500) NULL,                      -- 신고 내용
     REPORT_STATUS   NUMBER CHECK ( REPORT_STATUS IN (0, 1, 2) ), -- 신고 상태 0:미확인, 1:처리대기, 2:처리완료
     REPORT_USER     NUMBER,                                      -- 신고자 번호
     FOREIGN KEY (REPORT_USER) REFERENCES MEMBER (USER_NO)
@@ -237,7 +238,7 @@ CREATE TABLE "POFOL"
     "POFOL_TITLE"       VARCHAR2(100)  NOT NULL,                          -- 포폴 제목
     "POFOL_INTRO"       VARCHAR2(1000) NOT NULL,                          -- 포폴 소개
     "POFOL_PRICE"       VARCHAR2(100)  NOT NULL,                          -- 가격
-    "POFOL_CONTENT"     VARCHAR2(1000) NOT NULL,                          -- 포폴 내용
+    "POFOL_CONTENT"     VARCHAR2(2000) NOT NULL,                          -- 포폴 내용
     "POFOL_VISITED"     NUMBER DEFAULT 0,                                 -- 포폴 조회수
     "POFOL_CREATE_DATE" DATE   DEFAULT SYSDATE,                           -- 포폴 작성일
     "POFOL_STATUS"      NUMBER DEFAULT 1 CHECK (POFOL_STATUS IN (1, 2) ), -- 1 : 정상 2 : 삭제
@@ -308,7 +309,7 @@ CREATE SEQUENCE SEQ_ESTIMATE_NO NOCACHE;
 CREATE TABLE "REVIEW"
 (
     "REV_NO"      NUMBER PRIMARY KEY,                         -- 리뷰 번호
-    "REV_CONTENT" VARCHAR2(300) NOT NULL,                     -- 리뷰 내용
+    "REV_CONTENT" VARCHAR2(2000) NOT NULL,                     -- 리뷰 내용
     "REV_POINT"   NUMBER        NOT NULL,                     -- 별점
     "REV_DATE"    DATE DEFAULT SYSDATE,                       -- 작성일
     "REV_STATUS"  VARCHAR2(1) CHECK ( REV_STATUS IN (1, 2) ), -- 1: 정상 2:비활성화(삭제)
@@ -336,7 +337,7 @@ CREATE TABLE "BOARD"
 (
     "BOARD_NO"          NUMBER PRIMARY KEY,                                         -- 게시글 번호
     "BOARD_TITLE"       VARCHAR2(100)  NOT NULL,                                    -- 제목
-    "BOARD_CONTENT"     VARCHAR2(1200) NOT NULL,                                    -- 내용
+    "BOARD_CONTENT"     VARCHAR2(2000) NOT NULL,                                    -- 내용
     "BOARD_CREATE_DATE" DATE        DEFAULT SYSDATE,                                -- 생성일
     "BOARD_UPDATE_DATE" DATE        DEFAULT SYSDATE,                                -- 수정일
     "BOARD_COUNT"       NUMBER      DEFAULT 0,                                      -- 조회수

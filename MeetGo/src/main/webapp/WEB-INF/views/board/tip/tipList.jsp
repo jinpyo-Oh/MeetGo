@@ -10,6 +10,9 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<style>
+		a{
+			text-decoration: none!important;
+		}
         @font-face {
             font-family: 'Pretendard-Regular';
             src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
@@ -31,7 +34,9 @@
             padding-left: 40px;
             padding-right: 40px;
         }
-
+        .tipList tbody > tr:hover{
+			background-color: lightgray;
+		}
         #tipListTable th {
             height: 100px;
             padding-left: 40px;
@@ -187,8 +192,8 @@
 				</thead>
 				<tbody>
 				<c:forEach var="m" items="${requestScope.dtoList}">
-					<tr id="concon">
-						<td class="bno">
+					<tr id="concon" onclick="location.href='tipDetail.bo?bno=' + ${m.boardNo}">
+						<td class="bno" >
 							<p style="font-size:20px;"> ${m.boardNo}</p>
 						</td>
 						<td>
