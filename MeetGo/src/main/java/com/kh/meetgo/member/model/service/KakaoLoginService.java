@@ -45,7 +45,7 @@ public class KakaoLoginService {
             sb.append("grant_type=authorization_code");
 
             sb.append("&client_id=d43939779978e5373136817cf1d4cc5d"); // REST_API키 본인이 발급받은 key 넣어주기
-            sb.append("&redirect_uri=http://localhost:8006/meetgo/kakao-login"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
+            sb.append("&redirect_uri=http://192.168.40.33:8006/meetgo/kakao-login"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
 
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());

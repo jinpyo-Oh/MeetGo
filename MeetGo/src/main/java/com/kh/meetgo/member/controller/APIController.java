@@ -49,7 +49,7 @@ public class APIController {
 		estPrice = estPrice.replaceAll(",", "");
 		estPrice = estPrice.replaceAll("원", "");
 		// System.out.println(kakaoKey);
-		String link = "http://localhost:8006/meetgo";
+		String link = "http://192.168.40.33:8006/meetgo";
 		try {
 			// URL 설정
 			url = new URL("https://kapi.kakao.com/v1/payment/ready");
@@ -125,7 +125,7 @@ public class APIController {
 		
 		URL url;
 
-		String link = "http://localhost:8006/meetgo";
+		String link = "http://192.168.40.33:8006/meetgo";
 		
 		int estNo = Integer.parseInt(eno);
 		

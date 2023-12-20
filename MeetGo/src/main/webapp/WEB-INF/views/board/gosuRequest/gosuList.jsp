@@ -71,11 +71,8 @@
         }
 
         .gosu_main {
-
             width: 1000px;
             box-sizing: border-box;
-            height: 530px;
-
         }
 
         table, th, td {
