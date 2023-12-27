@@ -3,17 +3,16 @@
 <br><br><br><br>
 
 ## 🔭 목차 | Contents
-### 1️⃣ [프로젝트 소개](#-프로젝트-소개--Project-Introduction) <br/>
-### 2️⃣ [개발 기간](#-개발-기간--Project-Period) <br/>
-### 3️⃣ [ERD & UML](#-ERD-&-UML--ERD-UML) <br/>
-### 3️⃣ [주요 기능](#-주요-기능--Main-Function) <br/>
+### 1️⃣ [프로젝트 소개](#-프로젝트-소개--project-introduction) <br/>
+### 2️⃣ [개발 기간](#-개발-기간--project-period) <br/>
+### 3️⃣ [ERD & UML](#-erd--uml--erd-uml) <br/>
+### 3️⃣ [주요 기능](#-주요-기능--main-function) <br/>
 ### 4️⃣ [기술 스택](#-기술-스택--technology-stack) <br/>
-### 5️⃣ [기술적 의사결정](#-기술적-의사결정--technical-decision-making) <br/>
-### 6️⃣ [트러블 슈팅](#-트러블-슈팅--trouble-shooting) <br/>
-### 7️⃣ [팀원](#-팀원--member)
+### 5️⃣ [시연 GIF](#-시연-gif--testing) <br/>
+### 6️⃣ [팀원](#-팀원--member)
 <br><br><br><br>
 
-## 프로젝트 소개 | Project Introduction
+## 📘 프로젝트 소개 | Project Introduction
 ### MeetGo
 ✅ 고수(Gosu)를 만나다(Meet)의 합성어
 - 회원은 간단한 일을 대신 해주거나 도와줄 고수를 만나볼 수 있어요 📈
@@ -21,7 +20,7 @@
 - 고수는 본인의 재능을 활용하여 보수를 받고 주변 사람들을 도와줄 수 있어요 🦸‍♂️
 - 채팅을 통해 실시간으로 회원과 고수가 대화할 수 있어요 💬
 <br>
- 👉 MeetGo 개발 노션 [바로가기](https://thoughtful-router-094.notion.site/Meet-Go-d5a81634759946948650ab97569dfeac?pvs=4)
+👉[MeetGo 개발 노션 바로가기](https://thoughtful-router-094.notion.site/Meet-Go-d5a81634759946948650ab97569dfeac?pvs=4)
 <br><br><br><br>
 
 ## ⏰ 개발 기간 | Project Period
@@ -34,6 +33,7 @@
 ### UML
 ![Untitled](https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fce817064-49d9-49dd-be45-83b7a211b79b%2Faf67d12c-1378-4342-b27c-a228f79d1a82%2FUntitled.png?table=block&id=478bfeaf-d3be-4775-b91c-a5ee6fdf05e6&spaceId=ce817064-49d9-49dd-be45-83b7a211b79b&width=2000&userId=9ab21f2b-0184-4f4a-b5d0-daec64f227c6&cache=v2)
 <br><br><br><br>
+
 ## 🌱 주요 기능 | Main Function
 ### ✔️ 고수 등록
   - 내 재능을 서비스로 등록하기
