@@ -1,4 +1,4 @@
-# <img width="175px" alt="KakaoTalk_20230124_062552666" src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fce817064-49d9-49dd-be45-83b7a211b79b%2F98e53bf9-4f4d-456a-9373-983350bd4678%2F%25EC%25A0%259C%25EB%25AA%25A9_%25EC%2597%2586%25EC%259D%258C-removebg-preview.png?table=block&id=c121dad9-14f5-4061-a21c-9070e07f2910&spaceId=ce817064-49d9-49dd-be45-83b7a211b79b&width=2000&userId=9ab21f2b-0184-4f4a-b5d0-daec64f227c6&cache=v2">
+# MeetGo
 ![image](https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Fce817064-49d9-49dd-be45-83b7a211b79b%2Fe7ba5e5d-f990-41a4-8721-d9637c9ff8b2%2FUntitled.png?table=block&id=52c5d1a4-f525-4e78-a4f2-eb2aa6f2832b&spaceId=ce817064-49d9-49dd-be45-83b7a211b79b&width=2000&userId=9ab21f2b-0184-4f4a-b5d0-daec64f227c6&cache=v2)
 <br><br><br><br>
 
