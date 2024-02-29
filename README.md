@@ -21,7 +21,6 @@
 - 채팅을 통해 실시간으로 회원과 고수가 대화할 수 있어요 💬
 <br>
 
-👉MeetGo 개발 노션 [바로가기](https://thoughtful-router-094.notion.site/Meet-Go-d5a81634759946948650ab97569dfeac?pvs=4)
 <br><br><br><br>
 
 ## ⏰ 개발 기간 | Project Period
