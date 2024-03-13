@@ -92,12 +92,11 @@
 <br><br><br><br>
 
 ## 🎥 시연 GIF | Testing
-
 |홈|일반회원 마이페이지|
 |:---:|:---:|
 |<img src="https://ifh.cc/g/G0OGDp.gif" width="400px" height="220px">|<img src="https://ifh.cc/g/yAayFm.gif" width="400px" height="220px">|
 |결제 |ㅋㅋ|
-|<img src="https://drive.google.com/uc?export=view&id=1THroNMBE1XU-54mLHoLuJJ5pcsBNmgwc" width="400px" height="220px">||
+|<img src="https://drive.google.com/uc?export=view&id=1-F7qDAPRWsvhqjPfBteS46cq-I2hLS3n" width="400px" height="220px">||
 |고수 찾기|고수회원 마이페이지|
 |<img src="https://ifh.cc/g/VBcKOt.gif" width="400px" height="220px">|<img src="https://ifh.cc/g/LjCwFw.gif" width="400px" height="220px">|
 |커뮤니티|채팅|
