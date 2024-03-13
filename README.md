@@ -97,8 +97,8 @@
 |<img src="https://ifh.cc/g/G0OGDp.gif" width="400px" height="220px">|<img src="https://ifh.cc/g/yAayFm.gif" width="400px" height="220px">|
 |결제 |리뷰 작성|https://drive.google.com/file/d//view?usp=drive_link
 |<img src="https://drive.google.com/uc?export=view&id=1-F7qDAPRWsvhqjPfBteS46cq-I2hLS3n" width="400px" height="220px">|<img src="https://drive.google.com/uc?export=view&id=16ruHWHeGoEsUJZHexf6GHYHKGLUQ7J1q" width="400px" height="220px">|
-|고수 찾기|고수회원 마이페이지|
-|<img src="https://ifh.cc/g/VBcKOt.gif" width="400px" height="220px">|<img src="https://ifh.cc/g/LjCwFw.gif" width="400px" height="220px">|
+|고수 등록|내 리뷰 보기|
+|<img src="https://drive.google.com/uc?export=view&id=1GgrfqRW8nk2ObZ04K58mBNIpu4OA8wxH" width="400px" height="220px">|<img src="https://ifh.cc/g/LjCwFw.gif" width="400px" height="220px">|
 |커뮤니티|채팅|
 |<img src="https://ifh.cc/g/mRCM5L.gif" width="400px" height="220px">|<img src="https://ifh.cc/g/byBjtz.gif" width="400px" height="220px">|
 <br><br><br><br>
