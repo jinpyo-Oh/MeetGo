@@ -97,7 +97,7 @@
 |:---:|:---:|
 |<img src="https://ifh.cc/g/G0OGDp.gif" width="400px" height="220px">|<img src="https://ifh.cc/g/yAayFm.gif" width="400px" height="220px">|
 |결제 |ㅋㅋ|
-|<img src="https://drive.google.com/uc?export=view&id=1THroNMBE1XU-54mLHoLuJJ5pcsBNmgwc/view?usp=sharing" width="400px" height="220px">||
+|<img src="https://drive.google.com/uc?export=view&id=1THroNMBE1XU-54mLHoLuJJ5pcsBNmgwc" width="400px" height="220px">||
 |고수 찾기|고수회원 마이페이지|
 |<img src="https://ifh.cc/g/VBcKOt.gif" width="400px" height="220px">|<img src="https://ifh.cc/g/LjCwFw.gif" width="400px" height="220px">|
 |커뮤니티|채팅|
